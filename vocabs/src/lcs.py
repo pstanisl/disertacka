@@ -1,8 +1,31 @@
+# Based on https://github.com/man1/Python-LCS
 from __future__ import print_function
 
 
 def lcs_mat(seq1, seq2):
-    """Create LCS table (stored as matrix) with lengths of subsequences."""
+    """Create LCS table (stored as matrix) with lengths of subsequences.
+
+    Args:
+        seq1: first sequence (e.q. list, string, etc.)
+        seq2: second sequence (e.q. list, string, etc.)
+
+    Returns:
+        A list of lists with lengtht of all common subsequences. For example:
+
+        [
+            [0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 1],
+            [0, 1, 2, 2, 2],
+            [0, 1, 2, 3, 3],
+            [0, 1, 2, 3, 4]
+        ]
+
+        If the `seq1='abcd'` and `seq2='acbd'`.
+
+    Examples:
+        >>> lcs_mat('ac', 'ac')
+        [[0, 0, 0], [0, 1, 1], [0, 1, 2]]
+    """
     m = len(seq1)
     n = len(seq2)
     # Construct the matrix, of all zeroes.
@@ -24,7 +47,31 @@ def lcs_mat(seq1, seq2):
 
 
 def all_lcs(lcs_dict, mat, seq1, seq2, index1, index2):
-    """Find all longest common subsequences."""
+    """Find all longest common subsequences. Method is using recursiveness.
+
+    Args:
+        lcs_dict: dictionary with subsequences
+        mat: matrix with lengthts of subsequences (fron `lcs_mat`)
+        seq1: first sequence (e.q. list, string, etc.)
+        seq2: second sequence (e.q. list, string, etc.)
+        index1: length of the first sequence
+        index2: length of the second sequence
+
+    Returns:
+        A list of lists with lengtht of all common subsequences. For example:
+
+        [['a', 'c', 'd'], ['a', 'b', 'd']]
+
+        If the `seq1='abcd'` and `seq2='acbd'`.
+
+    Examples:
+        >>> all_lcs({}, lcs_mat('ac', 'ac'), 'ac', 'ac', 2, 2)
+        [['a', 'c']]
+        >>> all_lcs({}, lcs_mat('abcd', 'acbd'), 'abcd', 'acbd', 4, 4)
+        [['a', 'c', 'd'], ['a', 'b', 'd']]
+        >>> all_lcs({}, lcs_mat('ac', 'bd'), 'ac', 'bd', 2, 2)
+        [[]]
+    """
     # If we've calculated it already, just return that
     if (index1, index2) in lcs_dict:
         return lcs_dict[(index1, index2)]
@@ -58,8 +105,26 @@ def all_lcs(lcs_dict, mat, seq1, seq2, index1, index2):
 
 
 def lcs(seq1, seq2):
-    """
-    Get all longest common subsequences of two sequences.
+    """Get all longest common subsequences of two sequences.
+
+    Args:
+        seq1: first sequence (e.q. list, string, etc.)
+        seq2: second sequence (e.q. list, string, etc.)
+
+    Returns:
+        A list of lists with lengtht of all common subsequences. For example:
+
+        [['a', 'c', 'd'], ['a', 'b', 'd']]
+
+        If the `seq1='abcd'` and `seq2='acbd'`.
+
+    Examples:
+        >>> lcs('ac', 'ac')
+        [['a', 'c']]
+        >>> lcs('abcd', 'acbd')
+        [['a', 'c', 'd'], ['a', 'b', 'd']]
+        >>> lcs('ac', 'bd')
+        [[]]
     """
     # Mapping of indices to list of LCSs, so we can cut down recursive
     # calls enormously
