@@ -8,6 +8,7 @@ import re
 from os.path import splitext
 
 from lcs import lcs
+from tools import fn_timer
 
 try:
     from progressbar import ProgressBar
@@ -107,7 +108,9 @@ def combine(clusters):
             if SHOW_PROGRESS:
                 pbar.update(cycles)
     # Finish progressbar
-    pbar.finish()
+    if SHOW_PROGRESS:
+        pbar.finish()
+
 
 def get_index(l, x):
     """Get index of an item `x` in the list `l`. If the
@@ -120,10 +123,7 @@ def get_index(l, x):
         >>> get_index(l, 5)
         -1
     """
-    try:
-        return l.index(x)
-    except:
-        return -1
+    return l.index(x) if x in l else -1
 
 
 def get_interesting(combinations, phoneme_pairs):
@@ -140,9 +140,9 @@ def get_interesting(combinations, phoneme_pairs):
     # Unzip list with phoneme pairs.
     pair_left, pair_right = zip(*phoneme_pairs)
     # Concatenate left and right part of phoneme pairs.
-    phonemes = pair_left + pair_right
+    phonemes = [ord(char) for char in pair_left + pair_right]
     # Concatenate right and left part of phoneme pairs.
-    phonemes_reverse = pair_right + pair_left
+    phonemes_reverse = [ord(char) for char in pair_right + pair_left]
     # Go through all word combinations.
     for first, second in combinations:
         # Check if the differences between words corresond to
@@ -216,18 +216,16 @@ def is_voicing(first, second, phonemes, phonemes_reverse):
     if (first == second):
         return False
 
-    zipped = zip(first, second)
-
     ret = True
 
-    for char1, char2 in zipped:
+    for char1, char2 in zip(first, second):
         # Skip if the chars are the same.
         if (char1 == char2):
             continue
         # Get index of the char in the list with 'interestiong' phonemes. If
         # the char is not in the list methods return -1.
-        index1 = get_index(phonemes, char1)
-        index2 = get_index(phonemes_reverse, char2)
+        index1 = get_index(phonemes, ord(char1))
+        index2 = get_index(phonemes_reverse, ord(char2))
         # One of the char is not in a list.
         if (index1 == -1 or index2 == -1):
             ret &= False
@@ -314,6 +312,7 @@ def save_interesting(vocabs_path, words, encoding='utf-8',
             interesting.write(u'{}\n'.format(word))
 
 
+@fn_timer
 def main(args):
     phoneme_pairs = load_pairs(args.phonemes, args.delimiter, args.pairs)
     vocabs = load_vocabs(args.path, args.pattern, args.input)
@@ -327,6 +326,7 @@ def main(args):
     words = get_words(clusters, interesting)
 
     save_interesting(args.path, words, args.output, args.suffix)
+
 
 if __name__ == "__main__":
     from sys import exit
