@@ -49,7 +49,13 @@ parser.set_defaults(suffix='_interersing')
 
 
 def clustering(vocabs):
-    """Cluster all the words with the same transcription"""
+    """Cluster all the words with the same transcription.
+
+    Examples:
+        >>> vocabs = [('b', 'a'), ('c', 'a'), ('B', 'a'), ('a', 'b')]
+        >>> clustering(vocabs)
+        {'a': set(['c', 'b']), 'b': set(['a'])}
+    """
     clusters = {}
 
     for n, (word, transcript) in enumerate(vocabs):
@@ -62,32 +68,57 @@ def clustering(vocabs):
     return clusters
 
 
-def diff(clusters):
-    content = list(clusters.iteritems())
-    count = len(content)
+def combine(clusters):
+    """Create all combinations of cluster keys.
 
+    Note:
+        Nomber of generated item is equal to
+
+            count * (count - 1) / 2,
+
+        if `count` is equal to number of keys in clusters.
+
+
+    Args:
+        clusters: dictionary with `key` equal to transcription and `value` to
+            set of all words corresponding to the transcription
+    Yields:
+        tuple: combination of two keys from the cluster
+    """
+    # Get all keys from clusters.
+    content = clusters.keys()
+    # Get number of keys in the clusters.
+    count = len(content)
+    # Show progress if it's available.
     if (SHOW_PROGRESS):
         maxval = count * (count - 1) / 2
         pbar = ProgressBar(maxval=maxval).start()
 
+    cycles = 0
+    # Create all combinations.
     for x in xrange(count):
-        x_transcript = content[x][0]
+        x_transcript = content[x]
 
         for y in xrange(x + 1, count):
-            y_transcript = content[y][0]
+            yield x_transcript, content[y]
 
-            alcs = lcs(x_transcript, y_transcript)
-
-            yield (x_transcript, y_transcript), alcs
-
+            cycles += 1
+            # Update progressbar on the screen
             if SHOW_PROGRESS:
-                pbar.update(x + y)
-
+                pbar.update(cycles)
+    # Finish progressbar
     pbar.finish()
 
 def get_index(l, x):
     """Get index of an item `x` in the list `l`. If the
     item is not in the list return `-1`.
+
+    Examples:
+        >>> l = [1, 2, 3, 4]
+        >>> get_index(l, 1)
+        0
+        >>> get_index(l, 5)
+        -1
     """
     try:
         return l.index(x)
@@ -95,14 +126,29 @@ def get_index(l, x):
         return -1
 
 
-def get_interesting(diffs, phoneme_pairs):
+def get_interesting(combinations, phoneme_pairs):
+    """Find all `interesting` words pairs.
+
+    Args:
+        combinations: iterator with all word combinations,
+        phoneme_pairs: list of all `interestiong` phoneme paisr,
+            e.g. voicing + voiceless
+
+    Yields:
+        tuple: pair of two `interesting words`
+    """
     # Unzip list with phoneme pairs.
     pair_left, pair_right = zip(*phoneme_pairs)
-
-    for (first, second), diff in diffs:
-
+    # Concatenate left and right part of phoneme pairs.
+    phonemes = pair_left + pair_right
+    # Concatenate right and left part of phoneme pairs.
+    phonemes_reverse = pair_right + pair_left
+    # Go through all word combinations.
+    for first, second in combinations:
+        # Check if the differences between words corresond to
+        # some phoneme pair.
         if (len(first) == len(second) and
-                is_voicing(first, second, pair_left, pair_right)):
+                is_voicing(first, second, phonemes, phonemes_reverse)):
             yield (first, second)
 
 
@@ -144,38 +190,52 @@ def get_words(clusters, interesting):
             yield word
 
 
-def is_voicing(first, second, pair_left, pair_right):
+def is_voicing(first, second, phonemes, phonemes_reverse):
     """Check if the difference in two words corresponds to some phoneme pair.
 
     Args:
         first: fisrt word,
         second: second word,
-        pair_left: list with all the left parts of all phoneme pairs,
-        pair_right: list with all the right parts of all phoneme pairs
+        phonemes: list with concatenated left and parts of all phoneme pairs,
+        phonemes_reverse: list with concatenated right and left parts all
+            phoneme pairs
+
+    Note:
+        `phonemes` and `phonemes_reverse` are lists created from phoneme pair
+        list (e.g. [('p', 'b'), ('s', 'z')]). So `phonemes` is concatenated left
+        and right parts of the pairs (e.g ['p', 's', 'b', 'z']) and
+        `phonemes_reverse` on the other hand is rigth + left part
+        (e.g ['b', 'z', 'p', 's']), i.e. an item on index in `phoneme`
+        corresponds to the opposite item in `phoneme_reverse` and vice versa.
 
     Returns:
         bool: True if all the differences correscpons to some pair,
-            otherwise False
+            otherwise False. False is also returned if `first` and `second`
+            are the same.
     """
+    if (first == second):
+        return False
+
     zipped = zip(first, second)
-    # Concate phonemes.
-    phonemes = pair_left + pair_right
-    phonemes_reverse = pair_right + pair_left
-    # Get list with indexes matching chars. List contains
-    # `-1` if the chars are the same, otherwise `index`.
-    indexes = map(
-        lambda (index, x): -1 if x[0] == x[1] else index, enumerate(zipped))
-    # Remove `-1` values.
-    filtered = filter(lambda item: item > -1, indexes)
-    # Exchange `index` for the pair of different chars.
-    mapped = map(lambda index: zipped[index], filtered)
-    # Get list with bool values, True if diff chars are `voice - voiceless`
-    # pair, otherwise False.
-    match = map(
-        lambda (char1, char2): get_index(phonemes, char1) == get_index(
-            phonemes_reverse, char2), mapped)
-    # Reduce list into single value (AND logic operator).
-    return reduce(lambda a, b: a and b, match)
+
+    ret = True
+
+    for char1, char2 in zipped:
+        # Skip if the chars are the same.
+        if (char1 == char2):
+            continue
+        # Get index of the char in the list with 'interestiong' phonemes. If
+        # the char is not in the list methods return -1.
+        index1 = get_index(phonemes, char1)
+        index2 = get_index(phonemes_reverse, char2)
+        # One of the char is not in a list.
+        if (index1 == -1 or index2 == -1):
+            ret &= False
+            continue
+        # Check if the char difference coresponds to a phoneme pair.
+        ret &= index1 == index2
+
+    return ret
 
 
 def load_pairs(path, delimiter=',', encoding='utf-8'):
@@ -260,9 +320,9 @@ def main(args):
 
     clusters = clustering(vocabs)
 
-    diffs = diff(clusters)
+    combinations = combine(clusters)
 
-    interesting = get_interesting(diffs, phoneme_pairs)
+    interesting = get_interesting(combinations, phoneme_pairs)
 
     words = get_words(clusters, interesting)
 
