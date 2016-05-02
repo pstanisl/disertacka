@@ -1,0 +1,6 @@
+name: phd-thesis-env
+dependencies:
+- python=3
+- pip
+- pip:
+    - pypi-package-name
