@@ -87,7 +87,7 @@ def combine(clusters):
         tuple: combination of two keys from the cluster
     """
     # Get all keys from clusters.
-    content = clusters.keys()
+    content = list(clusters.keys())
     # Get number of keys in the clusters.
     count = len(content)
     # Show progress if it's available.
@@ -97,10 +97,10 @@ def combine(clusters):
 
     cycles = 0
     # Create all combinations.
-    for x in xrange(count):
+    for x in range(count):
         x_transcript = content[x]
 
-        for y in xrange(x + 1, count):
+        for y in range(x + 1, count):
             yield x_transcript, content[y]
 
             cycles += 1
