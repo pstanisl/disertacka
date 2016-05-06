@@ -2,6 +2,7 @@ import unittest
 
 import interesting
 
+
 class InterestingTestCase(unittest.TestCase):
 
     def test_clustering(self):
@@ -19,7 +20,7 @@ class InterestingTestCase(unittest.TestCase):
         self.assertEqual(list(interesting.combine(clusters)), result)
 
     def test_get_index(self):
-        l = [1, 2 , 3, 4]
+        l = [1, 2, 3, 4]
         # Test existing item
         self.assertEqual(interesting.get_index(l, 2), 1)
         # Test non-exiting item
