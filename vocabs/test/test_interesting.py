@@ -15,9 +15,12 @@ class InterestingTestCase(unittest.TestCase):
     def test_combine(self):
         clusters = {'a': 'a', 'b': 'b', 'c': 'c'}
 
-        result = [('a', 'c'), ('a', 'b'), ('c', 'b')]
+        result = sorted([('a', 'c'), ('a', 'b'), ('b', 'c')])
+        # Eliminate error if the data are not well sorted.
+        combined = sorted(
+            map(lambda x: tuple(sorted(x)), interesting.combine(clusters)))
 
-        self.assertEqual(list(interesting.combine(clusters)), result)
+        self.assertEqual(combined, result)
 
     def test_get_index(self):
         l = [1, 2, 3, 4]
@@ -54,24 +57,27 @@ class InterestingTestCase(unittest.TestCase):
         }
         interes = [('a', 'c'), ('a', 'd'), ('a', 'e')]
 
-        result = ['aa', 'ca', 'ab', 'da']
+        result = sorted(['aa', 'ca', 'ab', 'da'])
+        # result = [('aa', 'ca'), ('ab', 'ca'), ('aa', 'da'), ('ab', 'da')]
         words = interesting.get_words(clusters, interes)
 
-        self.assertEqual(list(words), result)
+        self.assertEqual(sorted(words), result)
 
     def test_is_voicing(self):
         first = 'abcd'
         second = 'acbd'
 
-        phoneme = ['a', 'b', 'e', 'c']
-        phoneme_reverse = ['e', 'c', 'a', 'b']
+        phoneme = [ord('a'), ord('b'), ord('e'), ord('c')]
+        phoneme_reverse = [ord('e'), ord('c'), ord('a'), ord('b')]
 
-        self.assertTrue(interesting.is_voicing(first, second, phoneme, phoneme_reverse))
+        self.assertTrue(interesting.is_voicing(
+            first, second, phoneme, phoneme_reverse))
 
-        phoneme = ['a', 'e', 'c', 'd']
-        phoneme_reverse = ['c', 'd', 'a', 'e']
+        phoneme = [ord('a'), ord('e'), ord('c'), ord('d')]
+        phoneme_reverse = [ord('c'), ord('d'), ord('a'), ord('e')]
 
-        self.assertFalse(interesting.is_voicing(first, second, phoneme, phoneme_reverse))
+        self.assertFalse(interesting.is_voicing(
+            first, second, phoneme, phoneme_reverse))
 
 if __name__ == "__main__":
     unittest.main()

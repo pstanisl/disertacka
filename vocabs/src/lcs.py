@@ -31,8 +31,8 @@ def lcs_mat(seq1, seq2):
     # Construct the matrix, of all zeroes.
     mat = [[0] * (n+1) for row in range(m+1)]
     # Populate the matrix, iteratively
-    for row in xrange(1, m+1):
-        for col in xrange(1, n+1):
+    for row in range(1, m+1):
+        for col in range(1, n+1):
             if seq1[row - 1] == seq2[col - 1]:
                 # If it's the same element, it's one longer than the LCS of
                 # the truncated lists.

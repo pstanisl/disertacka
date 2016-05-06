@@ -196,14 +196,15 @@ def is_voicing(first, second, phonemes, phonemes_reverse):
     Args:
         first: fisrt word,
         second: second word,
-        phonemes: list with concatenated left and parts of all phoneme pairs,
+        phonemes: list with concatenated left and right parts of all
+            phoneme pairs,
         phonemes_reverse: list with concatenated right and left parts all
             phoneme pairs
 
     Note:
         `phonemes` and `phonemes_reverse` are lists created from phoneme pair
-        list (e.g. [('p', 'b'), ('s', 'z')]). So `phonemes` is concatenated left
-        and right parts of the pairs (e.g ['p', 's', 'b', 'z']) and
+        list (e.g. [('p', 'b'), ('s', 'z')]). So `phonemes` is concatenated
+        left and right parts of the pairs (e.g ['p', 's', 'b', 'z']) and
         `phonemes_reverse` on the other hand is rigth + left part
         (e.g ['b', 'z', 'p', 's']), i.e. an item on index in `phoneme`
         corresponds to the opposite item in `phoneme_reverse` and vice versa.
