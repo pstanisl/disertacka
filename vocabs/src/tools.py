@@ -30,6 +30,6 @@ def fn_timer(function):
         result = function(*args, **kwargs)
         t1 = time.time()
         print('Total time running {}: {:.4f} seconds'.format(
-            function.__name__, t1 - t0 ))
+            function.__name__, t1 - t0))
         return result
     return function_timer
