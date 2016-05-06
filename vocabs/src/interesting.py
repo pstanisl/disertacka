@@ -5,9 +5,9 @@ import codecs
 import csv
 import re
 
+from itertools import product
 from os.path import splitext
-
-from lcs import lcs
+# from lcs import lcs
 from tools import fn_timer
 
 try:
@@ -178,16 +178,24 @@ def get_words(clusters, interesting):
         # Check if the transcriptions are not from the same words.
         if (clusters[transcript1] == clusters[transcript2]):
             continue
-        # Go through all words for both transcriptions, operator
-        # `|` concatenate two sets.
-        for word in clusters[transcript1] | clusters[transcript2]:
-            # Skip the world if the it was already seen.
-            if (word in words):
+        # Get product of two sets,
+        # e.q (1, 2), (3, 4) -> (1, 3), (1, 4), (2, 3), (2, 4).
+        c_product = product(clusters[transcript1], clusters[transcript2])
+        # Go through all word combinations from both transcriptions.
+        for word1, word2 in c_product:
+            # Skip the same words.
+            if (word1 == word2):
                 continue
-            # Add world into set.
-            words.update([word])
+            # Put both words into sorted tuple - sorting eliminating
+            # problems with order.
+            together = tuple(sorted((word1, word2)))
+            # Skip if the words combination was already used.
+            if (together in words):
+                continue
+            # Store words in set (used during checking).
+            words.update([together])
 
-            yield word
+            yield together
 
 
 def is_voicing(first, second, phonemes, phonemes_reverse):
@@ -309,8 +317,8 @@ def save_interesting(vocabs_path, words, encoding='utf-8',
     path = get_output_path(vocabs_path, suffix)
     # Save words into file on the disk.
     with codecs.open(path, 'w', encoding) as interesting:
-        for word in words:
-            interesting.write(u'{}\n'.format(word))
+        for word1, word2 in words:
+            interesting.write(u'{} - {}\n'.format(word1, word2))
 
 
 @fn_timer

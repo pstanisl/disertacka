@@ -57,8 +57,7 @@ class InterestingTestCase(unittest.TestCase):
         }
         interes = [('a', 'c'), ('a', 'd'), ('a', 'e')]
 
-        result = sorted(['aa', 'ca', 'ab', 'da'])
-        # result = [('aa', 'ca'), ('ab', 'ca'), ('aa', 'da'), ('ab', 'da')]
+        result = [('aa', 'ca'), ('aa', 'da'), ('ab', 'ca'), ('ab', 'da')]
         words = interesting.get_words(clusters, interes)
 
         self.assertEqual(sorted(words), result)
