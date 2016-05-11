@@ -52,7 +52,7 @@ def get_vocabs(path, *, encoding='utf-8'):
         encoding: encoding of the content in the file (default=utf-8)
 
     Yields:
-        vocav: string with loaded vocabs pair
+        vocab: string with loaded vocabs pair
     """
     with codecs.open(path, encoding=encoding) as vocabs:
         for vocab in vocabs.readlines():
@@ -66,6 +66,15 @@ def get_vocabs(path, *, encoding='utf-8'):
 
 
 def find_sentences(vocabs, sentences):
+    """Find all sentences for vocab1 and vocab2.
+
+    Args:
+        vocabs: iterable with vocab pairs,
+        sentences: iterable with sentences.
+
+    Yields:
+        tuple: vocab pair + sentences1 + sentences2
+    """
     for vocab in vocabs:
         vocab1, vocab2 = vocab.lower().split(' - ')
         # Find all sentences with the vocab. It is not optimal but
@@ -79,6 +88,21 @@ def find_sentences(vocabs, sentences):
 
 
 def save_senteces(path, combined, *, encoding='utf-8'):
+    """Save found senteces for vocabs. Data are saved with vocab paisr in format:
+        '## vobab1 - vocab2'
+        '# - 1'
+        'sentences for the vocab1'
+        '# - 2'
+        'sentences for the vocab2'
+
+    Note:
+        If there is no sentences for a vocab the pair is skipped.
+
+    Args:
+        path: path to the output file,
+        combined: iterable with vocab pair, sentences for vocab1, sentences for vocab2,
+        encoding: encoding of the output file
+    """
     with codecs.open(path, 'w', encoding=encoding) as output:
         for vocab, sentences1, sentences2 in combined:
             sentences1 = list(sentences1)
