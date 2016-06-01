@@ -29,6 +29,9 @@ class UtilsTestCase(unittest.TestCase):
         # Test path without file extension.
         cleaned = utils.clean_mlf_key('"*/klic"')
         self.assertEqual('klic', cleaned)
+        # Test windows path with file extension.
+        cleaned = utils.clean_mlf_key('"*\\klic.rec"')
+        self.assertEqual('klic', cleaned)
 
     def test_load_mlf(self):
         test_mlf = join(dirname(__file__), 'test.mlf')
@@ -38,6 +41,17 @@ class UtilsTestCase(unittest.TestCase):
             ('klic1', ['A', 'B', 'C', 'D', 'E']),
             ('klic2', ['F', 'G'])
         ]
+
+        self.assertEqual(mlf, control_content)
+
+    def test_load_mlf_to_dict(self):
+        test_mlf = join(dirname(__file__), 'test.mlf')
+
+        mlf = utils.load_mlf_to_dict(test_mlf)
+        control_content = {
+            'klic1': ['A', 'B', 'C', 'D', 'E'],
+            'klic2': ['F', 'G']
+        }
 
         self.assertEqual(mlf, control_content)
 

@@ -5,12 +5,41 @@ from os.path import basename, splitext
 
 
 def clean_mlf_content(content):
+    """Clean mlf content line from useless values. Only
+    the last value is not useless.
+
+    Args:
+        content: string with a part of the mlf content.
+
+    Returns:
+        string: cleaned content.
+
+    Examples:
+        >>> clean_mlf_content('00 01 A')
+        'A'
+        >>> clean_mlf_content('B')
+        'B'
+        >>> clean_mlf_content('')
+        ''
+    """
     return content.split()[-1] if content else ''
 
 
 def clean_mlf_key(key):
+    """Clean mlf key. In the most cases it is file path in quotes. Method
+    returns basename without file extension.
+
+    Args:
+        key: string with file path in quotes
+
+    Examples:
+        >>> clean_mlf_key('"*/name.ext"')
+        'name'
+        >>> clean_mlf_key('"*\\\\name"')
+        'name'
+    """
     # Remove all quotation marks.
-    key = loads(key)
+    key = loads(key.replace('\\', '/'))
     # Get only end of the path.
     key = basename(key)
     # Remove file extension.
@@ -54,3 +83,26 @@ def load_mlf(path, *, encoding='utf-8'):
             line = clean_mlf_content(line)
             # Add content line into the list.
             content.append(line)
+
+
+def load_mlf_to_dict(path, *, encoding='utf-8'):
+    """Load mlf and transform content into dictionary, where
+    'key' is and filename from mlf segment and dict values is
+    a list with mlf segment content.
+
+    Args:
+        path: path to the mlf file
+        encoding: encoding of the content in the file (default=utf-8)
+
+    Returns:
+        dict: mlf segments
+    """
+    ret = {}
+
+    for key, content in load_mlf(path, encoding=encoding):
+        if (key not in ret):
+            ret[key] = []
+
+        ret[key] += content
+
+    return ret
