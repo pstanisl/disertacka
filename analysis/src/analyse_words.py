@@ -109,6 +109,12 @@ def compare(reference, recognized):
 
         matrix = lcs_mat(ref_values, rec_values)
 
+        # Diffs - iterator
+        diffs = list(get_diffs(matrix, ref_values, rec_values))
+
+        if (not diffs):
+            continue
+
         yield (
             # Source file key
             rec_key,
@@ -116,8 +122,8 @@ def compare(reference, recognized):
             ref_values,
             # Second sequence (recognized)
             rec_values,
-            # Diffs - iterator
-            get_diffs(matrix, ref_values, rec_values)
+            # reversed(diffs)
+            diffs[::-1]
         )
 
 
