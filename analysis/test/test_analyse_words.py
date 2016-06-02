@@ -65,6 +65,15 @@ class AnalyseWordsTetstCase(unittest.TestCase):
         diffs = list(analyse_words.get_diffs(matrix, rec, ref))
         # Compare
         self.assertEqual([(['G'], ['E']), (['C1', 'C2'], ['C'])], diffs)
+        # ex7 - 'ABCD' vs. 'FBCD'
+        ref = 'ABCD'
+        rec = 'FBCD'
+        # Get LCS matrix.
+        matrix = lcs_mat(ref, rec)
+        # Find all differences.
+        diffs = list(analyse_words.get_diffs(matrix, ref, rec))
+        # Compare
+        self.assertEqual([(['A'], ['F'])], diffs)
 
 
 if __name__ == '__main__':

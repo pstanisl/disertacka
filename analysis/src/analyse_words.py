@@ -1,4 +1,5 @@
 import argparse
+import codecs
 
 from pprint import pprint
 
@@ -19,6 +20,22 @@ parser.add_argument('-o', '--output', action='store',
 
 parser.set_defaults(encoding='utf-8')
 parser.set_defaults(output='./output.txt')
+
+
+def save_diffs(path, compare_iterable, *, encoding='utf-8'):
+    with codecs.open(path, 'w', encoding=encoding) as output:
+        for key, seq1, seq2, diffs in compare_iterable:
+            output.write('"{}"\n'.format(key))
+
+            output.write('# s1: "{}"\n'.format(' '.join(seq1)))
+            output.write('# s2: "{}"\n'.format(' '.join(seq2)))
+
+            for diff_seq1, diff_seq2 in diffs:
+                diff_seq1 = ' '.join(diff_seq1)
+                diff_seq2 = ' '.join(diff_seq2)
+                output.write('- "{}" - "{}"\n'.format(diff_seq1, diff_seq2))
+
+            output.write('.\n'.format(key))
 
 
 def get_diffs(matrix, seq1, seq2):
@@ -76,6 +93,9 @@ def get_diffs(matrix, seq1, seq2):
         # Move diagonally in the matrix.
         cols -= 1
         rows -= 1
+    # Yield last differences.
+    if (len(diff_seq1 + diff_seq2)):
+        yield diff_seq1, diff_seq2
 
 
 def compare(reference, recognized):
@@ -87,24 +107,27 @@ def compare(reference, recognized):
         # Get values from reference.
         ref_values = reference[rec_key]
 
-        print(rec_key)
-        print(len(rec_values), '-', rec_values)
-        print(len(ref_values), '-', ref_values)
-        print('\n')
+        matrix = lcs_mat(ref_values, rec_values)
 
-        lcs_sequence = lcs(ref_values, rec_values)
-        lcs_matrix = lcs_mat(ref_values, rec_values)
-
-        print(lcs_sequence)
-        pprint(lcs_matrix)
+        yield (
+            # Source file key
+            rec_key,
+            # First sequence (reference)
+            ref_values,
+            # Second sequence (recognized)
+            rec_values,
+            # Diffs - iterator
+            get_diffs(matrix, ref_values, rec_values)
+        )
 
 
 def main(args):
     reference = load_mlf_to_dict(args.reference, encoding=args.encoding)
     recognized = load_mlf_to_dict(args.recognized, encoding=args.encoding)
 
-    compare(reference, recognized)
+    compare_iterable = compare(reference, recognized)
 
+    save_diffs(args.output, compare_iterable, encoding=args.encoding)
 
 if __name__ == '__main__':
     from sys import exit
