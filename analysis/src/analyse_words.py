@@ -21,6 +21,63 @@ parser.set_defaults(encoding='utf-8')
 parser.set_defaults(output='./output.txt')
 
 
+def get_diffs(matrix, seq1, seq2):
+    """ Get all diferences between sequences. Insertion and deletation
+    are grouped.
+
+    Args:
+        matrix: list of lists representing LCS between seq1 and seq2.
+        seq1: iterable representing first sequence (rows in the matrix).
+        seq2: iterable representing second sequence (columns in the matrix).
+
+    Yields:
+        tuple: with diferences between seq1 and seq2.
+
+    NOTE:
+        Algorithm yields diffs in different order (first are the
+        last diferences).
+    """
+    rows = len(seq1)
+    cols = len(seq2)
+    # Initialize list with diferences.
+    diff_seq1 = []
+    diff_seq2 = []
+
+    while (rows > 0 and cols > 0):
+        # Get submatrix around current element.
+        elem_left, elem_curr = matrix[rows][cols-1: cols+1]
+        elem_diag, elem_top = matrix[rows - 1][cols-1: cols+1]
+        # Diff elements in the matrix on the same position.
+        if (elem_curr == elem_diag):
+            diff_seq1.insert(0, seq1[rows - 1])
+            diff_seq2.insert(0, seq2[cols - 1])
+            # Move diagonally in the matrix.
+            cols -= 1
+            rows -= 1
+            # Continue in processing.
+            continue
+        # Diff elements - missing element in seq1.
+        if (elem_left > elem_diag):
+            diff_seq2.insert(0, seq2[cols - 1])
+            cols -= 1
+            continue
+        # Diff elements - missing element in seq2.
+        if (elem_top > elem_diag):
+            diff_seq1.insert(0, seq1[rows - 1])
+            rows -= 1
+            continue
+        # -- Same elements in sequences -- #
+        # Yield current differences in sequences.
+        if (len(diff_seq1 + diff_seq2)):
+            yield diff_seq1, diff_seq2
+        # Reset list with diferences.
+        diff_seq1 = []
+        diff_seq2 = []
+        # Move diagonally in the matrix.
+        cols -= 1
+        rows -= 1
+
+
 def compare(reference, recognized):
     for rec_key, rec_values in recognized.items():
         if (rec_key not in reference):
@@ -36,10 +93,10 @@ def compare(reference, recognized):
         print('\n')
 
         lcs_sequence = lcs(ref_values, rec_values)
-        lcs_mats = lcs_mat(ref_values, rec_values)
+        lcs_matrix = lcs_mat(ref_values, rec_values)
 
         print(lcs_sequence)
-        pprint(lcs_mats)
+        pprint(lcs_matrix)
 
 
 def main(args):
