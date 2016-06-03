@@ -1,6 +1,8 @@
 import argparse
 import codecs
 
+from collections import Counter
+from os.path import splitext
 from pprint import pprint
 
 from lcs import lcs, lcs_mat
@@ -23,6 +25,9 @@ parser.set_defaults(output='./output.txt')
 
 
 def save_diffs(path, compare_iterable, *, encoding='utf-8'):
+    c_diff_seq1 = Counter()
+    c_diff_seq2 = Counter()
+
     with codecs.open(path, 'w', encoding=encoding) as output:
         for key, seq1, seq2, diffs in compare_iterable:
             output.write('"{}"\n'.format(key))
@@ -31,11 +36,28 @@ def save_diffs(path, compare_iterable, *, encoding='utf-8'):
             output.write('# s2: "{}"\n'.format(' '.join(seq2)))
 
             for diff_seq1, diff_seq2 in diffs:
+                # Update counters with errors.
+                c_diff_seq1.update(diff_seq1)
+                c_diff_seq2.update(diff_seq2)
+                # Create 'readable' texts.
                 diff_seq1 = ' '.join(diff_seq1)
                 diff_seq2 = ' '.join(diff_seq2)
+                # Save into the file.
                 output.write('- "{}" - "{}"\n'.format(diff_seq1, diff_seq2))
 
             output.write('.\n'.format(key))
+    # Save counters.
+    filename, ext = splitext(path)
+
+    with codecs.open('{}.ref_counter{}'.format(filename, ext),
+                     'w', encoding=encoding) as c_output:
+        for k, v in c_diff_seq1.most_common():
+            c_output.write('{} {}\n'.format(k, v))
+
+    with codecs.open('{}.rec_counter{}'.format(filename, ext),
+                     'w', encoding=encoding) as c_output:
+        for k, v in c_diff_seq2.most_common():
+            c_output.write('{} {}\n'.format(k, v))
 
 
 def get_diffs(matrix, seq1, seq2):
