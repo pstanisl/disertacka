@@ -121,7 +121,11 @@ def get_diffs(matrix, seq1, seq2):
 
 
 def compare(reference, recognized):
-    for rec_key, rec_values in recognized.items():
+    # Sort by keys -> better for later.
+    for rec_key in sorted(recognized.keys()):
+        # Get recognized data.
+        rec_values = recognized[rec_key]
+        # Check key in reference -> only precaution.
         if (rec_key not in reference):
             print('[WARNING] - key', rec_key, 'is not in reference mlf.')
             # TODO: Add to the statistics.
