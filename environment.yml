@@ -4,3 +4,5 @@ dependencies:
 - pip
 - pip:
     - pypi-package-name
+- jupyter
+- pandas
