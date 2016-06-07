@@ -83,6 +83,12 @@ class AnalyseTetstCase(unittest.TestCase):
         diffs = list(analyse.get_diffs(matrix, ref, rec))
         # Compare
         self.assertEqual([(['A', 'G', 'D'], ['F'])], diffs)
+        # Get LCS matrix.
+        matrix = lcs_mat(rec, ref)
+        # Find all differences.
+        diffs = list(analyse.get_diffs(matrix, rec, ref))
+        # Compare
+        self.assertEqual([(['F'], ['A', 'G', 'D'])], diffs)
 
 
 if __name__ == '__main__':

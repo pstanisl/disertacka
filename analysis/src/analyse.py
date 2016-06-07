@@ -82,17 +82,25 @@ def get_diffs(matrix, seq1, seq2):
     diff_seq1 = []
     diff_seq2 = []
 
-    while (rows > 0 and cols > 0):
+    while (rows > 0 or cols > 0):
         # Get submatrix around current element.
-        elem_left, elem_curr = matrix[rows][cols-1: cols+1]
-        elem_diag, elem_top = matrix[rows - 1][cols-1: cols+1]
+        if cols > 0:
+            elem_left, elem_curr = matrix[rows][cols-1: cols+1]
+            elem_diag, elem_top = matrix[rows - 1][cols-1: cols+1]
+        else:
+            elem_left = 0
+            elem_curr = matrix[rows][cols]
+            elem_diag = 0
+            elem_top = matrix[rows - 1][cols]
         # Diff elements in the matrix on the same position.
         if (elem_curr == elem_diag):
-            diff_seq1.insert(0, seq1[rows - 1])
-            diff_seq2.insert(0, seq2[cols - 1])
+            if (rows > 0):
+                diff_seq1.insert(0, seq1[rows - 1])
+            if (cols > 0):
+                diff_seq2.insert(0, seq2[cols - 1])
             # Move diagonally in the matrix.
-            cols -= 1
-            rows -= 1
+            cols = max(cols - 1, 0)
+            rows = max(rows - 1, 0)
             # Continue in processing.
             continue
         # Diff elements - missing element in seq1.
@@ -134,7 +142,6 @@ def compare(reference, recognized):
         ref_values = reference[rec_key]
 
         matrix = lcs_mat(ref_values, rec_values)
-
         # Diffs - iterator
         diffs = list(get_diffs(matrix, ref_values, rec_values))
 
