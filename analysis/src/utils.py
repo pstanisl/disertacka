@@ -46,6 +46,27 @@ def clean_mlf_key(key):
     return splitext(key)[0]
 
 
+def load_file(path, *, encoding='utf-8'):
+    """Load raw text content of the file.
+
+    Args:
+        path: path to the file
+        encoding: encoding of the content in the file (default=utf-8)
+
+    Yields:
+        str: non empty lines
+    """
+    with codecs.open(path, encoding=encoding) as input_file:
+        for line in input_file.readlines():
+            # Remove whitechars, line endings, etc. from the
+            # beginning and the end of a line.
+            line = line.strip()
+            # Skip empty lines.
+            if not line:
+                continue
+            yield line
+
+
 def load_mlf(path, *, encoding='utf-8'):
     """Load and clean mlf file.
 
@@ -59,30 +80,28 @@ def load_mlf(path, *, encoding='utf-8'):
     key = None
     content = []
 
-    with codecs.open(path, encoding=encoding) as mlf_file:
-        for line in mlf_file.readlines():
-            # Remove white space from the beginning and the end.
-            line = line.strip()
-            # Skip empty line or comments.
-            if not line or line.startswith('#'):
-                continue
-            # Get key -> line with file path
-            if line.startswith('"'):
-                key = clean_mlf_key(line)
-                # Skip adding key into content list.
-                continue
-            # End of a content block in the file.
-            if line.startswith('.'):
-                yield key, content
-                # Reset loaded values.
-                content = []
-                key = None
-                # Continue with next path of the mlf.
-                continue
-            # Remove useless content.
-            line = clean_mlf_content(line)
-            # Add content line into the list.
-            content.append(line)
+    # with codecs.open(path, encoding=encoding) as mlf_file:
+    for line in load_file(path, encoding=encoding):
+        # Skip comments in mlf file
+        if line.startswith('#'):
+            continue
+        # Get key -> line with file path
+        if line.startswith('"'):
+            key = clean_mlf_key(line)
+            # Skip adding key into content list.
+            continue
+        # End of a content block in the file.
+        if line.startswith('.'):
+            yield key, content
+            # Reset loaded values.
+            content = []
+            key = None
+            # Continue with next path of the mlf.
+            continue
+        # Remove useless content.
+        line = clean_mlf_content(line)
+        # Add content line into the list.
+        content.append(line)
 
 
 def load_mlf_to_dict(path, *, encoding='utf-8'):
