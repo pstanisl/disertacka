@@ -8,8 +8,9 @@ parser = argparse.ArgumentParser(
     description='Clean dictionary with transcription from unwanted items.')
 parser.add_argument('input', action='store',
                     help='path to a dictionary with the transcription ')
-parser.add_argument('pattern', action='store',
-                    help='regular expression pattern describing unwanted items')
+parser.add_argument(
+    'pattern', action='store',
+    help='regular expression pattern describing unwanted items')
 parser.add_argument('-e', '--encoding', action='store',
                     help='encoding of the files')
 parser.add_argument('-o', '--output', action='store',
