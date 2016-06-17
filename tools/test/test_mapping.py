@@ -5,11 +5,27 @@ import mapping
 
 class MappingTestCast(unittest.TestCase):
 
+    def test_map_transcription(self):
+        rules = {
+            'A': ['B', {'B B': ['B']}],
+            'B': ['C'],
+            'C': ['D', {'D D': ['A']}],
+        }
+
+        transcription = 'A B C D E'
+
+        mapped = mapping.map_transcription(transcription, rules)
+
+        expected = 'A D E'
+
+        self.assertEqual(expected, mapped)
+
     def test_parse(self):
         input = [
             '+- A --> B',
             '|  +- AA --> BB',
             '|  |  +- AAA --> BBB',
+            '|  +- BB --> A',
             '+- B --> C',
             '+- C --> D',
             '|  +- CC --> DD',
@@ -18,7 +34,10 @@ class MappingTestCast(unittest.TestCase):
         parsed = mapping.parse(input)
 
         expected = {
-            'A': ['B', {'AA': ['BB', {'AAA': ['BBB']}]}],
+            'A': ['B', {
+                'AA': ['BB', {'AAA': ['BBB']}],
+                'BB': ['A']
+                }],
             'B': ['C'],
             'C': ['D', {'CC': ['DD']}],
         }

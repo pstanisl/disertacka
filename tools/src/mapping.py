@@ -19,7 +19,7 @@ parser.set_defaults(encoding='utf-8')
 parser.set_defaults(output='./output.txt')
 
 
-def parse(content, replace=''):
+def parse(content, replace=0):
     """Parse loaded content from the file with rules. Method can
     be called recursively, because the rules can be in tree structure.
 
@@ -41,6 +41,7 @@ def parse(content, replace=''):
         +- rule3_from --> rule3_to
         |  +- sub_rule3_from --> sub_rule3_to
     """
+    # Regular expression for parsing rule.
     re_rule = re.compile(r'\b([\w|\s]+) --> ([\w|\s]+)\b')
     # Dictionary with all parsed rule (some pseudo tree structure).
     rules = {}
@@ -48,18 +49,22 @@ def parse(content, replace=''):
     current = {}
     # Key representing key of the current rule.
     current_key = None
+    # Regular expression for child rules.
+    re_replace = re.compile(r'\|\s+' * replace)
     # Go through all loaded lines from the file with the rule.
     while content:
         rule = content.pop(0)
         # Previous rule was su-brule and the current rule is a 'parent'
         # rule. Return from recursion call.
-        if replace and not rule.startswith(replace):
+        # print(replace, re_replace.search(rule))
+        if replace and not re_replace.search(rule):
             content.insert(0, rule)
             return rules
         # Remove sub-rule mark from the start.
-        rule = rule.replace(replace, '', 1).strip()
+        cleaned_rule = re_replace.sub('', rule, 1)
         # Add rule into a dictionary.
-        if (rule.startswith('+-')):
+        if (cleaned_rule.startswith('+-')):
+            # Parse rule.
             parsed = re_rule.search(rule)
             current_key = parsed.group(1)
             # Create dictionary representing the rule.
@@ -70,9 +75,15 @@ def parse(content, replace=''):
             continue
         # Insert sub-rule back into a list and call 'parse' again (recursion).
         content.insert(0, rule)
-        subtree = parse(content, '|')
+        # Parse sub-rules.
+        subtree = parse(content, replace + 1)
         # Add result of sub-rule parsing into current rule.
-        current[current_key].append(subtree)
+        if len(current[current_key]) == 1:
+            # Add
+            current[current_key].append(subtree)
+        else:
+            # Update dictionary with previous rule.
+            current[current_key][1].update(subtree)
 
     return rules
 
@@ -105,10 +116,33 @@ def load_rules(path, *, encoding='utf-8'):
     return parse(list(raw_rules))
 
 
+def map_transcription(transcription, rules):
+    """
+    NOTE:
+        The rules are applied in the alphabetical order.
+    """
+    for key in sorted(rules.keys()):
+        # print(key)
+        break
+
+    return transcription
+
+
+def do_mapping(content, rules):
+    for item in content:
+        word, transcription = re.split('\s\s+', item)
+
+        yield word, map_transcription(transcription, rules)
+
+
 def main(args):
-    # transcript = load_file(args.transcript, encoding=args.encoding)
+    content_generator = load_file(args.transcript, encoding=args.encoding)
     rules = load_rules(args.rules, encoding=args.encoding)
-    print(rules)
+
+    mapped = do_mapping(content_generator, rules)
+
+    print(list(mapped))
+
 
 if __name__ == '__main__':
     from sys import exit
