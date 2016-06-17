@@ -150,7 +150,7 @@ def do_mapping(content, rules):
     for item in content:
         word, transcription = re.split('\s\s+', item)
 
-        yield word, map_transcription(transcription, rules)
+        yield word, map_text(transcription, rules)
 
 
 def main(args):
