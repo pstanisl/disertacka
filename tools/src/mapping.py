@@ -35,8 +35,9 @@ def parse(content, replace=0):
     Note: Example of expected tree format.
 
         +- rule1_from --> rule1_to
-        |  +- sub_rule1_from --> sub_rule1_to
+        |  +- sub_rule11_from --> sub_rule11_to
         |  |  +- sub_sub_rule1_from --> sub_sub_rule1_to
+        |  +- sub_rule12_from --> sub_rule12_to
         +- rule2_from --> rule2_to
         +- rule3_from --> rule3_to
         |  +- sub_rule3_from --> sub_rule3_to
