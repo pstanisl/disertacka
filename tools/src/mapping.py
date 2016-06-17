@@ -117,16 +117,33 @@ def load_rules(path, *, encoding='utf-8'):
     return parse(list(raw_rules))
 
 
-def map_transcription(transcription, rules):
-    """
+def map_text(text, rules):
+    """Change text based on the rules.
+
+    Args:
+        text: string with the original text,
+        rules: dictionary ('pseudo tree') with rules.
+
+    Returns:
+        string: 'transformed' string based on rules
+
     NOTE:
         The rules are applied in the alphabetical order.
     """
-    for key in sorted(rules.keys()):
-        # print(key)
-        break
-
-    return transcription
+    # Go through all the rules (alphabetically). The algorithm is
+    # equivalent to 'depth first traversal'.
+    for rule_from in sorted(rules.keys()):
+        # Get 'to' part of the rule and sub-rules.
+        values = rules[rule_from]
+        # Get 'to'
+        rule_to = values[0]
+        # 'Apply' the rule.
+        text = text.replace(rule_from, rule_to)
+        # Use sub-rules if there are some.
+        if len(values) > 1:
+            text = map_text(text, values[1])
+    # Return transformed text.
+    return text
 
 
 def do_mapping(content, rules):

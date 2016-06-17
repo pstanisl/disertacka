@@ -5,16 +5,16 @@ import mapping
 
 class MappingTestCast(unittest.TestCase):
 
-    def test_map_transcription(self):
+    def test_map_text(self):
         rules = {
             'A': ['B', {'B B': ['B']}],
             'B': ['C'],
             'C': ['D', {'D D': ['A']}],
         }
 
-        transcription = 'A B C D E'
+        text = 'A B C D E'
 
-        mapped = mapping.map_transcription(transcription, rules)
+        mapped = mapping.map_text(text, rules)
 
         expected = 'A D E'
 
