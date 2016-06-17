@@ -1,7 +1,7 @@
 import argparse
 import re
 
-from utils import load_file
+from utils import load_file, save_file
 
 # Define script input arguments
 parser = argparse.ArgumentParser(
@@ -17,6 +17,9 @@ parser.add_argument('-o', '--output', action='store',
 
 parser.set_defaults(encoding='utf-8')
 parser.set_defaults(output='./output.txt')
+
+
+# -- Rules loading and parsing -- #
 
 
 def parse(content, replace=0):
@@ -117,6 +120,9 @@ def load_rules(path, *, encoding='utf-8'):
     return parse(list(raw_rules))
 
 
+# -- Text transforming based on rules -- #
+
+
 def map_text(text, rules):
     """Change text based on the rules.
 
@@ -147,10 +153,35 @@ def map_text(text, rules):
 
 
 def do_mapping(content, rules):
+    """Apply rules on all items in the iterator.
+
+    Args:
+        content: iterator with loaded data,
+        rules: dictionary ('pseudo' tree) with rules.
+
+    Yield:
+        tuple: (0) - not changed word from loaded data, (1) transformed part
+    """
     for item in content:
         word, transcription = re.split('\s\s+', item)
 
         yield word, map_text(transcription, rules)
+
+
+# -- Saving new transcription -- #
+
+
+def format_data(data):
+    """Transform data into format in output file.
+
+    Args:
+        data: iterator with transformed data.
+
+    Yield:
+        string: date items in required format, e.q. word\t\ttranscription
+    """
+    for word, transcription in data:
+        yield '{}\t\t{}'.format(word, transcription)
 
 
 def main(args):
@@ -159,7 +190,9 @@ def main(args):
 
     mapped = do_mapping(content_generator, rules)
 
-    print(list(mapped))
+    formatted = format_data(mapped)
+
+    save_file(args.output, formatted, encoding=args.encoding)
 
 
 if __name__ == '__main__':
