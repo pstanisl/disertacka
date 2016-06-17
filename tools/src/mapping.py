@@ -135,7 +135,7 @@ def map_text(text, rules):
     for rule_from in sorted(rules.keys()):
         # Get 'to' part of the rule and sub-rules.
         values = rules[rule_from]
-        # Get 'to'
+        # Get 'to' part.
         rule_to = values[0]
         # 'Apply' the rule.
         text = text.replace(rule_from, rule_to)
