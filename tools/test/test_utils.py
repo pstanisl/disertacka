@@ -27,7 +27,32 @@ class UtilsTestCase(unittest.TestCase):
         ]
 
         self.assertEqual(mlf, control_content)
+    
+    
+    def test_parse_rules(self):
+        input = [
+            '+- A --> B',
+            '|  +- AA --> BB',
+            '|  |  +- AAA --> BBB',
+            '|  +- BB --> A',
+            '+- B --> C',
+            '+- C --> D',
+            '|  +- CC --> DD',
+        ]
 
+        parsed = utils.parse_rules(input)
+
+        expected = {
+            'A': ['B', {
+                'AA': ['BB', {'AAA': ['BBB']}],
+                'BB': ['A']
+                }],
+            'B': ['C'],
+            'C': ['D', {'CC': ['DD']}],
+        }
+
+        self.assertEqual(expected, parsed)
+    
 
 if __name__ == '__main__':
     unittest.main()
