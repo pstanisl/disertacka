@@ -4,24 +4,28 @@ Repozitář obsahuje zdrojové kódy, které jsem použil při práci na mé dis
 
 ## Instalace závislostí
 
-Pro instalaci všech závislostí je doporučen balíčkovací systém [Miniconda](http://conda.pydata.org/miniconda.html).
+Pro instalaci závislostí je doporučen balíčkovací systém [Miniconda](http://conda.pydata.org/miniconda.html).
 V repozitáři je připraven soubor `environment.yml`, který obsahuje závislosti a
-nastavení.
+potřebná nastavení.
 
-Vytvoření `conda environmentu`:
+Po instalaci Minicondy se je potřeba vytvořit tzv. `conda environment`, k instalaci
+k instalaci se použije následující příkaz:
 
 ```bash
+$ cd path/to/disertacka/repository
 $ conda env create -f environment.yml
 ```
 
-Aktivace na Mac OS X:
+Po nainstalování je nutné jej aktivovat:
 
 ```bash
+# Linux or Mac OS X
 $ source activate phd-thesis-env
 ```
 
 Activate na Windows:
 
-```bash
+```cmd
+rem Windows
 activate phd-thesis-env
 ```
