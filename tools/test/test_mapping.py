@@ -48,11 +48,11 @@ class MappingTestCast(unittest.TestCase):
             'C': ['D', {'D D': ['A']}],
         }
 
-        text = 'A B C D E'
+        text = 'A B C D E AB'
 
         mapped = mapping.map_text(text, rules)
 
-        expected = 'A D E'
+        expected = 'A D E AB'
 
         self.assertEqual(expected, mapped)
 

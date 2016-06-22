@@ -144,7 +144,8 @@ def map_text(text, rules):
         # Get 'to' part.
         rule_to = values[0]
         # 'Apply' the rule.
-        text = text.replace(rule_from, rule_to)
+        text = re.sub(
+            r'(\s*){}(\s)'.format(rule_from), r'\1{}\2'.format(rule_to), text)
         # Use sub-rules if there are some.
         if len(values) > 1:
             text = map_text(text, values[1])
