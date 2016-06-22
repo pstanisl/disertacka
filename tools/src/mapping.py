@@ -163,7 +163,7 @@ def do_mapping(content, rules):
         tuple: (0) - not changed word from loaded data, (1) transformed part
     """
     for item in content:
-        word, transcription = re.split('\s\s+', item)
+        word, transcription = re.split('\t+', item)
 
         yield word, map_text(transcription, rules)
 
