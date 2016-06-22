@@ -48,8 +48,26 @@ def load_rules(path, *, encoding='utf-8'):
     return parse_rules(list(raw_rules))
 
 
+def apply_rules(text, rules):
+    # TODO: Create permutation of rules
+    for rule_from in sorted(rules.keys()):
+        # Get 'to' part of the rule and sub-rules.
+        values = rules[rule_from]
+        # Get 'to' part.
+        rule_to = values[0]
+        # Apply rule
+        yield re.sub(
+            r'(\s*){}(\s)'.format(rule_from), r'\1{}\2'.format(rule_to), text)
+
+
 def duplicate(content, rules):
-    pass
+    for item in content:
+        word, transcription = re.split('\t+', item)
+        # Return original unchanged item.
+        yield word, transcription
+
+        for new_transcription in apply_rules(transcription, rules):
+            yield word, new_transcription
 
 
 def main(args):
