@@ -5,7 +5,8 @@ import re
 from functools import reduce
 from itertools import combinations, chain
 
-from utils import load_file, mlf_format_data, save_file
+from utils import load_file, mlf_format_data
+from utils import parse_rules, save_file
 
 # Define script input arguments
 parser = argparse.ArgumentParser(
@@ -142,7 +143,7 @@ def main(args):
     cleaned = clean(duplicated)
     formatted = mlf_format_data(cleaned)
 
-    # save_file(args.output, formatted, encoding=args.encoding)
+    save_file(args.output, formatted, encoding=args.encoding)
 
 
 if __name__ == '__main__':
