@@ -1,10 +1,11 @@
 import argparse
 import re
 
+# from sets import Set
 from functools import reduce
 from itertools import combinations, chain
 
-from utils import load_file, save_file
+from utils import load_file, mlf_format_data, save_file
 
 # Define script input arguments
 parser = argparse.ArgumentParser(
@@ -115,11 +116,33 @@ def duplicate(content, rules):
             yield word, new_transcription
 
 
+def clean(items):
+    """Remove duplication from items.
+
+    Args:
+        items: iterable with the items (word, transcription)
+
+    Yield:
+        tuple: only unique items
+    """
+    items_set = set()
+
+    for item in items:
+        # Yield only unique items.
+        if item not in items_set:
+            yield item
+        items_set.add(item)
+
+
 def main(args):
     content_generator = load_file(args.transcript, encoding=args.encoding)
     rules = load_rules(args.rules, encoding=args.encoding)
 
     duplicated = duplicate(content_generator, rules)
+    cleaned = clean(duplicated)
+    formatted = mlf_format_data(cleaned)
+
+    # save_file(args.output, formatted, encoding=args.encoding)
 
 
 if __name__ == '__main__':

@@ -35,6 +35,27 @@ class DuplicateTestCase(unittest.TestCase):
 
         self.assertEqual(expected, applied)
 
+    def test_clean(self):
+        items = [
+            ('A', 'A B C D'),
+            ('A', 'A B C D'),
+            ('A', 'A C B D'),
+            ('B', 'A B C D'),
+            ('B', 'A C B D'),
+            ('A', 'A C B D')
+        ]
+
+        expected = [
+            ('A', 'A B C D'),
+            ('A', 'A C B D'),
+            ('B', 'A B C D'),
+            ('B', 'A C B D')
+        ]
+
+        cleaned = list(duplicate.clean(items))
+
+        self.assertEqual(expected, cleaned)
+
     def test_duplicate(self):
         rules = {
             'A': ['B'],  # 1
