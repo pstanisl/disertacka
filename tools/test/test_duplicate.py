@@ -47,7 +47,7 @@ class DuplicateTestCase(unittest.TestCase):
             'B\t\tB C A B D E'
         ]
 
-        expected = [
+        expected = sorted([
             # O1
             ('A', 'A B C D E'),
             # O1 -> 1
@@ -66,8 +66,6 @@ class DuplicateTestCase(unittest.TestCase):
             ('A', 'A C D D E'),
             # O2
             ('B', 'B C A B D E'),
-            # O2
-            ('B', 'B C A B D E'),
             # 02 -> 1
             ('B', 'B C B B D E'),
             # 02 -> 2
@@ -79,10 +77,12 @@ class DuplicateTestCase(unittest.TestCase):
             # O2 -> 1 + 3
             ('B', 'B D B B D E'),
             # O2 -> 2 + 3
-            ('B', 'C D A C D E')
-        ]
+            ('B', 'C D A C D E'),
+            # O2 -> 1 + 2 + 3
+            ('B', 'C D B C D E')
+        ])
 
-        duplicated = list(duplicate.duplicate(content, rules))
+        duplicated = sorted(duplicate.duplicate(content, rules))
 
         self.assertEqual(expected, duplicated)
 
