@@ -106,3 +106,17 @@ def parse_rules(content, replace=0):
             current[current_key][1].update(subtree)
 
     return rules
+
+# -- Data formatting -- #
+
+def mlf_format_data(data):
+    """Transform data into format in output file.
+
+    Args:
+        data: iterator with transformed data.
+
+    Yield:
+        string: date items in required format, e.q. word\t\ttranscription
+    """
+    for word, transcription in data:
+        yield '{}\t\t{}'.format(word, transcription)
