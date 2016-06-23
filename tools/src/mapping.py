@@ -1,7 +1,7 @@
 import argparse
 import re
 
-from utils import load_file, parse_rules, save_file
+from utils import load_file, mlf_format_data, parse_rules, save_file
 
 # Define script input arguments
 parser = argparse.ArgumentParser(
@@ -99,29 +99,13 @@ def do_mapping(content, rules):
         yield word, map_text(transcription, rules)
 
 
-# -- Saving new transcription -- #
-
-
-def format_data(data):
-    """Transform data into format in output file.
-
-    Args:
-        data: iterator with transformed data.
-
-    Yield:
-        string: date items in required format, e.q. word\t\ttranscription
-    """
-    for word, transcription in data:
-        yield '{}\t\t{}'.format(word, transcription)
-
-
 def main(args):
     content_generator = load_file(args.transcript, encoding=args.encoding)
     rules = load_rules(args.rules, encoding=args.encoding)
 
     mapped = do_mapping(content_generator, rules)
 
-    formatted = format_data(mapped)
+    formatted = mlf_format_data(mapped)
 
     save_file(args.output, formatted, encoding=args.encoding)
 

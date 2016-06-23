@@ -26,21 +26,6 @@ class MappingTestCast(unittest.TestCase):
 
         self.assertEqual(expected, mapped)
 
-    def test_format_data(self):
-        data = [
-            ('A', 'F D E'),
-            ('B', 'A A E')
-        ]
-
-        expected = [
-            'A\t\tF D E',
-            'B\t\tA A E'
-        ]
-
-        formatted = list(mapping.format_data(data))
-
-        self.assertEqual(expected, formatted)
-
     def test_map_text(self):
         rules = {
             'A': ['B', {'B B': ['B']}],
