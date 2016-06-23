@@ -95,7 +95,7 @@ def apply_rules(text, rules):
     """
     # Create all posible rule combinations and applied them.
     for rule_keys in get_combinations(rules.keys()):
-        # Convert 'from' part of the every rule in combination and create
+        # Convert 'from' part of the every rule in a combination and create
         # regular expression pattern with all rules from combination.
         mapped = map(lambda item: r'(\s*){}(\s)'.format(item), rule_keys)
         rule_from = reduce(lambda x, y: r'{}|{}'.format(x, y), mapped)
