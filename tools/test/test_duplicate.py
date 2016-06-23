@@ -14,7 +14,7 @@ class DuplicateTestCase(unittest.TestCase):
 
         text = 'A B C D E'
 
-        expected = [
+        expected = sorted([
             # O1 -> 1
             'B B C D E',
             # O1 -> 2
@@ -29,9 +29,9 @@ class DuplicateTestCase(unittest.TestCase):
             'B C D D E',
             # O1 -> 2 + 3
             'A C D D E',
-        ]
+        ])
 
-        applied = list(duplicate.apply_rules(text, rules))
+        applied = sorted(duplicate.apply_rules(text, rules))
 
         self.assertEqual(expected, applied)
 
@@ -85,6 +85,29 @@ class DuplicateTestCase(unittest.TestCase):
         duplicated = list(duplicate.duplicate(content, rules))
 
         self.assertEqual(expected, duplicated)
+
+    def test_get_combinations(self):
+        rules = {
+            'A': ['B'],  # 1
+            'B': ['C'],  # 2
+            'C': ['D'],  # 3
+        }
+
+        expected = sorted([
+            ['A', ],
+            ['B', ],
+            ['C', ],
+            ['A', 'B'],
+            ['A', 'C'],
+            ['B', 'C'],
+            ['A', 'B', 'C']
+        ], key=lambda item: (len(item), item[0]))
+
+        combinations = sorted(duplicate.get_combinations(rules.keys()),
+                              key=lambda item: (len(item), item[0]))
+
+        self.assertEqual(expected, combinations)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,9 @@
 import argparse
 import re
 
+from functools import reduce
+from itertools import combinations, chain
+
 from utils import load_file, save_file
 
 # Define script input arguments
@@ -48,16 +51,58 @@ def load_rules(path, *, encoding='utf-8'):
     return parse_rules(list(raw_rules))
 
 
+def get_combinations(rules):
+    """Create posible combinations of rules keys.
+
+    Args:
+        rules: list of items to combine.
+
+    Yield:
+        list: single combination of rules.
+
+    Note:
+        Methods retunds all posible combinations, e.g.
+        'ABC' -> 'A', 'B', 'C', 'AB', 'AC', 'BC', 'ABC'
+    """
+    # Sort items -> to ensure determinism
+    items = sorted(rules)
+    # Create list of all combinations. It contains iterators.
+    all_combinations = [
+        combinations(items, r) for r in range(1, len(items) + 1)
+    ]
+    # Chain iterators and yield a single rule.
+    for rule in reduce(lambda x, y: chain(x, y), chain(all_combinations)):
+        yield sorted(rule)
+
+
+def get_rule_to(re_result, rules):
+    rule_from = re_result.group(0).strip()
+    rule_to = rules[rule_from][0]
+
+    return re_result.group(0).replace(rule_from, rule_to)
+
+
 def apply_rules(text, rules):
-    # TODO: Create permutation of rules
-    for rule_from in sorted(rules.keys()):
-        # Get 'to' part of the rule and sub-rules.
-        values = rules[rule_from]
-        # Get 'to' part.
-        rule_to = values[0]
-        # Apply rule
-        yield re.sub(
-            r'(\s*){}(\s)'.format(rule_from), r'\1{}\2'.format(rule_to), text)
+    """Apply all possible combinations of the rules. All result in combination
+    are applied at the same time.
+
+    Args:
+        text: text where the rules will be applied,
+        rules: dictionary ('pseudo' tree) with rules.
+
+    Yield:
+        string: text after application of a rule.
+    """
+    # Create all posible rule combinations and applied them.
+    for rule_keys in get_combinations(rules.keys()):
+        # Convert 'from' part of the every rule in combination and create
+        # regular expression pattern with all rules from combination.
+        mapped = map(lambda item: r'(\s*){}(\s)'.format(item), rule_keys)
+        rule_from = reduce(lambda x, y: r'{}|{}'.format(x, y), mapped)
+        # Apply rules. Because regular expression contains multiple rules
+        # so as a to pattern is used a function where is physically
+        # replaced substring corresponding to the rule in the pattern.
+        yield re.sub(rule_from, lambda m: get_rule_to(m, rules), text)
 
 
 def duplicate(content, rules):
