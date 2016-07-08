@@ -106,13 +106,31 @@ def do_mapping(content, rules):
         yield word, map_text(transcription, rules)
 
 
+def clean(items):
+    """Remove duplication from items.
+
+    Args:
+        items: iterable with the items (word, transcription)
+
+    Yield:
+        tuple: only unique items
+    """
+    items_set = set()
+
+    for item in items:
+        # Yield only unique items.
+        if item not in items_set:
+            yield item
+        items_set.add(item)
+
+
 def main(args):
     content_generator = load_file(args.transcript, encoding=args.encoding)
     rules = load_rules(args.rules, encoding=args.encoding)
 
     mapped = do_mapping(content_generator, rules)
-
-    formatted = mlf_format_data(mapped)
+    cleaned = clean(mapped)
+    formatted = mlf_format_data(cleaned)
 
     save_file(args.output, formatted, encoding=args.encoding)
 
