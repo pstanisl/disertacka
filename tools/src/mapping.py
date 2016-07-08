@@ -53,6 +53,13 @@ def load_rules(path, *, encoding='utf-8'):
 # -- Text transforming based on rules -- #
 
 
+def get_rule_to(re_result, rules):
+    rule_from = re_result.group(0).strip()
+    rule_to = rules[rule_from][0]
+
+    return re_result.group(0).replace(rule_from, rule_to)
+
+
 def map_text(text, rules):
     """Change text based on the rules.
 
@@ -75,7 +82,7 @@ def map_text(text, rules):
         rule_to = values[0]
         # 'Apply' the rule.
         text = re.sub(
-            r'(\s*){}(\s)'.format(rule_from), r'\1{}\2'.format(rule_to), text)
+            r'(^|\s){}(?=\s|$)'.format(rule_from), lambda m: get_rule_to(m, rules), text)
         # Use sub-rules if there are some.
         if len(values) > 1:
             text = map_text(text, values[1])

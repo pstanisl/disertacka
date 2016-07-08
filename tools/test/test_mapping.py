@@ -10,16 +10,21 @@ class MappingTestCast(unittest.TestCase):
             'A': ['B', {'B B': ['B', {'B C D': ['F C']}]}],
             'B': ['C'],
             'C': ['D', {'D D': ['A']}],
+            'Y': ['X']
         }
 
         content = [
             'A\t\tA B C D E',
-            'B\t\tB C A B D E'
+            'B\t\tB C A B D E',
+            'C\t\tA E Y',
+            'D\t\tC C C',
         ]
 
         expected = [
             ('A', 'F D E'),
-            ('B', 'A A E')
+            ('B', 'A A E'),
+            ('C', 'D E X'),
+            ('D', 'A D'),
         ]
 
         mapped = list(mapping.do_mapping(content, rules))
