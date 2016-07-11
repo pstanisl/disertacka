@@ -1,3 +1,4 @@
+#/usr/bin/python3
 import argparse
 import re
 
@@ -5,7 +6,7 @@ import re
 from functools import reduce
 from itertools import combinations, chain
 
-from utils import load_file, mlf_format_data
+from utils import clean, load_file, mlf_format_data
 from utils import parse_rules, save_file
 
 # Define script input arguments
@@ -115,24 +116,6 @@ def duplicate(content, rules):
 
         for new_transcription in apply_rules(transcription, rules):
             yield word, new_transcription
-
-
-def clean(items):
-    """Remove duplication from items.
-
-    Args:
-        items: iterable with the items (word, transcription)
-
-    Yield:
-        tuple: only unique items
-    """
-    items_set = set()
-
-    for item in items:
-        # Yield only unique items.
-        if item not in items_set:
-            yield item
-        items_set.add(item)
 
 
 def main(args):

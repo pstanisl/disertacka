@@ -7,6 +7,27 @@ from os.path import dirname, join
 
 class UtilsTestCase(unittest.TestCase):
 
+    def test_clean(self):
+        items = [
+            ('A', 'A B C D'),
+            ('A', 'A B C D'),
+            ('A', 'A C B D'),
+            ('B', 'A B C D'),
+            ('B', 'A C B D'),
+            ('A', 'A C B D')
+        ]
+
+        expected = [
+            ('A', 'A B C D'),
+            ('A', 'A C B D'),
+            ('B', 'A B C D'),
+            ('B', 'A C B D')
+        ]
+
+        cleaned = list(utils.clean(items))
+
+        self.assertEqual(expected, cleaned)
+
     def test_mlf_format_data(self):
         items = [
             ('A', 'A B C D'),

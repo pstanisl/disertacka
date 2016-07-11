@@ -120,3 +120,22 @@ def mlf_format_data(data):
     """
     for word, transcription in data:
         yield '{}\t\t{}'.format(word, transcription)
+
+# -- Clean data -- #
+
+def clean(items):
+    """Remove duplication from items.
+
+    Args:
+        items: iterable with the items (word, transcription)
+
+    Yield:
+        tuple: only unique items
+    """
+    items_set = set()
+
+    for item in items:
+        # Yield only unique items.
+        if item not in items_set:
+            yield item
+        items_set.add(item)

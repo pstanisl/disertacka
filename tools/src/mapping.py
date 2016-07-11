@@ -1,7 +1,7 @@
 import argparse
 import re
 
-from utils import load_file, mlf_format_data, parse_rules, save_file
+from utils import clean, load_file, mlf_format_data, parse_rules, save_file
 
 # Define script input arguments
 parser = argparse.ArgumentParser(
@@ -104,24 +104,6 @@ def do_mapping(content, rules):
         word, transcription = re.split('\t+', item)
 
         yield word, map_text(transcription, rules)
-
-
-def clean(items):
-    """Remove duplication from items.
-
-    Args:
-        items: iterable with the items (word, transcription)
-
-    Yield:
-        tuple: only unique items
-    """
-    items_set = set()
-
-    for item in items:
-        # Yield only unique items.
-        if item not in items_set:
-            yield item
-        items_set.add(item)
 
 
 def main(args):
