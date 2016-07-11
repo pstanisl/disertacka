@@ -2,6 +2,7 @@ import argparse
 import codecs
 
 from collections import Set
+from functools import reduce
 from numpy import int, zeros
 
 from utils import load_file
@@ -29,7 +30,12 @@ def load_pyeval(path, *, encoding='utf-8'):
 
 def create_confusion_matrix(data):
     # Get all 'legend' items for matrix.
-    content_legend = sorted(list(set([item[0] for item in data])))
+    mapped = map(lambda x: (x[0], x[1]), data)
+    # Flatten the array.
+    reduced = reduce(lambda x, y: x + y, mapped)
+    # content_legend = sorted(list(set([item[0] for item in data])))
+    # Get only unique items for legend.
+    content_legend = sorted(set(reduced))
     count = len(content_legend)
     # Initialize matrix with zeros.
     matrix = zeros((count, count), dtype=int)

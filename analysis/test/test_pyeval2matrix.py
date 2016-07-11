@@ -37,13 +37,15 @@ class Pyeval2MatrixTestCase(unittest.TestCase):
             ['c', 'a',  2],
             ['c', 'b',  1],
             ['c', 'c',  4],
+            ['a', 'd',  1],
         ]
 
         expected = [
-            ['a', 'b', 'c'],
-            [2, -1, -2],
-            [1,  3, -1],
-            [2,  1,  4],
+            ['a', 'b', 'c', 'd'],
+            [2, -1, -2, 1],
+            [1,  3, -1, 0],
+            [2,  1,  4, 0],
+            [0,  0,  0, 0],
         ]
         # Get matrix
         matrix = list(pe2mx.create_confusion_matrix(input))
