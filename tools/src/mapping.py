@@ -80,11 +80,13 @@ def map_text(text, rules):
         values = rules[rule_from]
         # Get 'to' part.
         rule_to = values[0]
+        # Store unchanged text.
+        original_text = text
         # 'Apply' the rule.
         text = re.sub(
             r'(^|\s){}(?=\s|$)'.format(rule_from), lambda m: get_rule_to(m, rules), text)
-        # Use sub-rules if there are some.
-        if len(values) > 1:
+        # Use sub-rules if there are some and parent rule was applied.
+        if len(values) > 1 and text != original_text:
             text = map_text(text, values[1])
     # Return transformed text.
     return text
