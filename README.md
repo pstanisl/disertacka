@@ -29,3 +29,21 @@ Activate na Windows:
 rem Windows
 activate phd-thesis-env
 ```
+
+## Testování
+
+Ke všem Python skriptům jsou připraveny unit testy. Testy je nutné spouštět ve složce modulu (podsložka).
+
+```bash
+$ cd path/to/disertacka/module
+$ python -m unittest discover
+```
+
+Pro spuštění konrétního testu je potřeba specifikovat cestu k metodě s testem, viz ukázka
+
+```bash
+$ cd path/to/disertacka/module
+$ python -m unittest test.jmeno_souboru_s_testy.TestCase.test
+```
+
+> Pokud cesta není specifikována až ke konrétní metodě jsou spuštěny všechny testy odpovídající této cestě.
