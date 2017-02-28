@@ -37,6 +37,11 @@ Ke všem Python skriptům jsou připraveny unit testy. Testy je nutné spouště
 ```bash
 $ cd path/to/disertacka/module
 $ python -m unittest discover
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.007s
+
+OK
 ```
 
 Pro spuštění konrétního testu je potřeba specifikovat cestu k metodě s testem, viz ukázka
@@ -44,6 +49,11 @@ Pro spuštění konrétního testu je potřeba specifikovat cestu k metodě s te
 ```bash
 $ cd path/to/disertacka/module
 $ python -m unittest test.jmeno_souboru_s_testy.TestCase.test
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
 ```
 
 > Pokud cesta není specifikována až ke konrétní metodě jsou spuštěny všechny testy odpovídající této cestě.
