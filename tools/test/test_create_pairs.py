@@ -5,7 +5,7 @@ import create_pairs
 
 class CratePairsTestCase(unittest.TestCase):
 
-    def test_get_pairs(self):
+    def test_reduce_pairs(self):
         pairs = [
             ('A', 'B', '1'),
             ('D', 'E', '2'),
@@ -21,7 +21,7 @@ class CratePairsTestCase(unittest.TestCase):
             'G;F;3;5'
         ]
 
-        reduced = list(create_pairs.get_pairs(pairs))
+        reduced = list(create_pairs.reduce_pairs(pairs))
 
         self.assertEqual(expected, reduced)
 

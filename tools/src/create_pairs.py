@@ -25,7 +25,7 @@ def load_pairs(path, encoding='utf-8'):
         yield w1, w2, f1
 
 
-def get_pairs(pairs):
+def reduce_pairs(pairs):
     while len(pairs) > 0:
         # Get pair from the top of the list, it contains word pair and on filename
         w1, w2, f1 = pairs.pop(0)
@@ -44,7 +44,7 @@ def main(args):
     # Load content of the file with all pairs.
     loaded_pairs = list(load_pairs(args.list, encoding=encoding))
     # Reduce pairs -> concatenate pair + complement
-    new_pairs_gen = get_pairs(loaded_pairs)
+    new_pairs_gen = reduce_pairs(loaded_pairs)
     # Save into output file
     save_file(args.output, new_pairs_gen, encoding=encoding)
 
