@@ -72,6 +72,7 @@ def load_mlf(path, *, clean=True, encoding='utf-8'):
 
     Args:
         path: path to the mlf file
+        clean: do mlf cleaning
         encoding: encoding of the content in the file (default=utf-8)
 
     Yields:
