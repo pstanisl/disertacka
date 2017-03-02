@@ -72,6 +72,7 @@ def main(args):
 
     save_confusion_matrix(args.output, matrix, encoding=args.encoding)
 
+
 if __name__ == '__main__':
     from sys import exit
 
