@@ -1,6 +1,7 @@
 import codecs
 import re
 
+
 def load_file(path, *, encoding='utf-8'):
     """Load raw text content of the file.
 
@@ -107,6 +108,7 @@ def parse_rules(content, replace=0):
 
     return rules
 
+
 # -- Data formatting -- #
 
 def mlf_format_data(data):
@@ -120,6 +122,7 @@ def mlf_format_data(data):
     """
     for word, transcription in data:
         yield '{}\t\t{}'.format(word, transcription)
+
 
 # -- Clean data -- #
 
