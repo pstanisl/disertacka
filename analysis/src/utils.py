@@ -67,7 +67,7 @@ def load_file(path, *, encoding='utf-8'):
             yield line
 
 
-def load_mlf(path, *, encoding='utf-8'):
+def load_mlf(path, *, clean=True, encoding='utf-8'):
     """Load and clean mlf file.
 
     Args:
@@ -99,7 +99,8 @@ def load_mlf(path, *, encoding='utf-8'):
             # Continue with next path of the mlf.
             continue
         # Remove useless content.
-        line = clean_mlf_content(line)
+        if (clean):
+            line = clean_mlf_content(line)
         # Add content line into the list.
         content.append(line)
 
