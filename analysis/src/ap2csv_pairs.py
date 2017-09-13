@@ -48,7 +48,8 @@ def process(mlf_content):
                 filename, r=res_acc)
         except IndexError:
             # In the results only combination of word1: 'word1_word1'
-            print(f'WARNING: unable to get proper result format for file: {filename}')
+            print('WARNING: unable to get proper result format for file:' +
+                f'{filename} - f{keys_product}')
             yield '{};;;;{r[0]};-1;-1;-1;'.format(filename, r=res_acc)
 
 
