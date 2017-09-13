@@ -45,17 +45,17 @@ def load_csv(path, encoding='utf-8'):
 def process(mlf_content, csv_content, isolated=False):
     for filename, content in mlf_content:
         try:
-            res_recepie = next(filter(lambda x: filename in x, csv_content))
+            res_recipe = next(filter(lambda x: filename in x, csv_content))
         except:
             yield '{};;;;;;;'.format(filename)
             continue
 
-        word_index = res_recepie.index(filename) - 1
+        word_index = res_recipe.index(filename) - 1
 
         best_acc = float(max(map(partial(get_acc, -1), content)))
 
         res_content = sorted(filter(
-            partial(get_word, res_recepie[:2]), content))
+            partial(get_word, res_recipe[:2]), content))
 
         if (isolated):
             res_word = list(map(partial(get_acc, 0), res_content))
@@ -67,7 +67,7 @@ def process(mlf_content, csv_content, isolated=False):
                 res_acc = [0.] * 2
             elif len(res_acc) < 2:
                 # Add missing probability value
-                index = res_recepie.index(res_word[0])
+                index = res_recipe.index(res_word[0])
                 res_acc = [0.] + res_acc if index == 1 else res_acc + [0.]
             # Get best accuracy of filtered words (important words)
             best_word_acc = float(max(res_acc))
