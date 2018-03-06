@@ -129,7 +129,7 @@ def load_mlf_to_dict(path, *, encoding='utf-8'):
     return ret
 
 
-def save_file(path, data, *, encoding='uft-8'):
+def save_file(path, data, *, encoding='utf-8'):
     """Save items from an iterator into a file. On the end of the
     file is empty line.
 
