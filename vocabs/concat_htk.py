@@ -5,7 +5,7 @@ from os import system
 from os.path import abspath, dirname, join
 from subprocess import call
 # Get SRC directory path of TOOLS modul.
-TOOLS_SRC_DIR = abspath(join(dirname(__file__), '../../tools', 'src'))
+TOOLS_SRC_DIR = abspath(join(dirname(__file__), '../tools', 'src'))
 # Add src dir into PATHs.
 sys.path.append(TOOLS_SRC_DIR)
 from utils import load_file
