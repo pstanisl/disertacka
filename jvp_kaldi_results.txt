@@ -1,0 +1,88 @@
+CMN Lubos
+
+%WER 46.11 [ 13479 / 29233, 441 ins, 6732 del, 6306 sub ] exp/mono/test/wer_9_0.0
+
+%WER 28.47 [ 8323 / 29233,  805 ins, 2717 del, 4801 sub ] exp/tri1/test/wer_9_0.0
+1024
+%WER 27.65 [ 8082 / 29233, 1122 ins, 2153 del, 4807 sub ] exp/tri2/test/wer_9_0.0
+2048
+%WER 27.53 [ 8049 / 29233, 1199 ins, 1965 del, 4885 sub ] exp/tri3/test/wer_9_0.0
+4096
+
+%WER 26.38 [ 7712 / 29233, 1029 ins, 2092 del, 4591 sub ] exp/tri4a/test.si/wer_9_0.0
+2048
+%WER 27.67 [ 8090 / 29233, 1162 ins, 2078 del, 4850 sub ] exp/tri4b/test.si/wer_9_0.0
+2048
+
+%WER 26.98 [ 7888 / 29233, 1139 ins, 2001 del, 4748 sub ] exp/tri4d/test.si/wer_9_0.0
+4096
+%WER 26.43 [ 7726 / 29233, 1063 ins, 1976 del, 4687 sub ] exp/tri4c/test.si/wer_9_0.0
+4096
+
+%WER 23.67 [ 6920 / 29233, 1087 ins, 1640 del, 4193 sub ] exp/tri4b/test/wer_10_0.0
+2048
+%WER 21.95 [ 6418 / 29233,  911 ins, 1537 del, 3970 sub ] exp/tri4a/test/wer_11_0.0
+2048
+
+%WER 23.35 [ 6827 / 29233, 1067 ins, 1588 del, 4172 sub ] exp/tri4d/test/wer_10_0.0
+4096
+%WER 22.06 [ 6448 / 29233, 1063 ins, 1344 del, 4041 sub ] exp/tri4c/test/wer_10_0.0
+4096
+
+------------------------------------------------------------------------------------------------------
+
+CMN Lubos + MLLT + LDA
+
+%WER 20.19 [ 5903 / 29233,  977 ins, 1352 del, 3574 sub ] exp/tri5a/test.si/wer_12_0.5
+2048
+%WER 20.06 [ 5864 / 29233, 1119 ins, 1239 del, 3506 sub ] exp/tri5b/test.si/wer_10_1.0
+2048
+%WER 20.04 [ 5858 / 29233, 1137 ins, 1214 del, 3507 sub ] exp/tri5d/test.si/wer_11_1.0
+4096
+%WER 20.00 [ 5847 / 29233, 1081 ins, 1268 del, 3498 sub ] exp/tri5c/test.si/wer_14_0.0
+4096
+
+%WER 19.42 [ 5677 / 29233,  951 ins, 1190 del, 3536 sub ] exp/tri5a/test/wer_11_0.5
+2048
+%WER 19.41 [ 5675 / 29233, 1003 ins, 1201 del, 3471 sub ] exp/tri5b/test/wer_12_0.0
+2048
+
+%WER 19.43 [ 5679 / 29233,  993 ins, 1187 del, 3499 sub ] exp/tri5c/test/wer_14_0.0
+4096
+%WER 19.05 [ 5569 / 29233, 1078 ins, 1049 del, 3442 sub ] exp/tri5d/test/wer_12_0.0
+4096
+
+------------------------------------------------------------------------------------------------------
+
+CMN JVP
+
+%WER 39.99 [ 11691 / 29233, 516 ins, 5001 del, 6174 sub ] exp/mono/test/wer_9_0.0
+
+%WER 24.68 [ 7215 / 29233,  939 ins, 1850 del, 4426 sub ] exp/tri1/test/wer_9_0.0
+1024
+%WER 24.47 [ 7152 / 29233, 1214 ins, 1479 del, 4459 sub ] exp/tri2/test/wer_9_0.0
+2048
+%WER 24.92 [ 7286 / 29233, 1053 ins, 1700 del, 4533 sub ] exp/tri3/test/wer_9_1.0
+4096
+
+%WER 24.20 [ 7074 / 29233, 1140 ins, 1495 del, 4439 sub ] exp/tri4b/test.si/wer_9_0.0
+2048
+%WER 23.85 [ 6973 / 29233, 1041 ins, 1551 del, 4381 sub ] exp/tri4a/test.si/wer_9_0.0
+2048
+
+%WER 24.41 [ 7137 / 29233, 1160 ins, 1567 del, 4410 sub ] exp/tri4d/test.si/wer_10_0.0
+4096
+%WER 24.07 [ 7035 / 29233, 1041 ins, 1624 del, 4370 sub ] exp/tri4c/test.si/wer_10_0.0
+4096
+
+%WER 21.95 [ 6417 / 29233, 1027 ins, 1434 del, 3956 sub ] exp/tri4b/test/wer_11_0.0
+2048
+%WER 21.56 [ 6303 / 29233, 1027 ins, 1372 del, 3904 sub ] exp/tri4a/test/wer_11_0.0
+2048
+
+%WER 21.98 [ 6426 / 29233, 1103 ins, 1370 del, 3953 sub ] exp/tri4d/test/wer_11_0.0
+4096
+%WER 21.56 [ 6303 / 29233,  933 ins, 1465 del, 3905 sub ] exp/tri4c/test/wer_13_0.0
+4096
+
+------------------------------------------------------------------------------------------------------
