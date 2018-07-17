@@ -1,0 +1,429 @@
+% ******************************************************************************************
+% Dissertation template and document class for Princeton University
+% Author  : Jeffrey Scott Dwoskin <jdwoskin@princeton.edu>
+% Adapted from: http://www.math.princeton.edu/graduate/tex/puthesis.html
+% ****************************************************************************************** %
+
+
+%% For print copies
+% set 'singlespace' option to set entire thesis to single space, and define "\printmode" to remove all hyperlinks for printed copies of the thesis. Delete all output files before changing this mode -- it will turn hyperref package on and off
+%\documentclass[12pt,lot, lof, singlespace]{puthesis}
+%\newcommand{\printmode}{}
+
+%%% For the electronic copy, use doublespacing, define "\proquestmode" to use outlined links, instead of colored links.
+% \documentclass[12pt,lot, lof]{puthesis}
+% \newcommand{\proquestmode}{}
+% I prefer proquestmode to be off for electronic copies for normal use, since the colored links are less distracting. However when printed in black and white, the colored links are difficult to read.
+
+%%% For early drafts without some of the frontmatter
+% Also see the "ifodd" command below to disable more frontmatter
+\documentclass[12pt]{puthesis}
+
+\usepackage{t1enc} % as usual
+\usepackage[utf8]{inputenc}
+\usepackage[english, czech]{babel}
+%\usepackage[style=czech]{csquotes}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%% Author & title page info
+
+\title{TBD}
+
+\papertype{Dizertační práce}
+
+\submitted{Říjen 2018}  % degree conferral date (January, April, June, September, or November)
+\copyrightyear{2018}  % year in which the copyright is secured by publication of the dissertation.
+% \authorcaption{Autor:}
+\author{Ing. Petr Stanislav}
+\advisercaption{Školitel:}
+\adviser{Prof. Ing. Josef Psutka, CSc.}  %replace with the full name of your adviser
+% \department{Katedra mechaniky}
+% \departmentfieldcaption{Obor:}
+% \departmentfield{Kybernetika}
+% \departmentprefix{Aplikovaná mechanika}  % defaults to "Department of", but programs need to change this.
+\university{Západočeská univerzita v Plzni}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%% Tweak float placements
+% From: http://mintaka.sdsu.edu/GF/bibliog/latex/floats.html "Controlling LaTeX Floats"
+% and based on: http://www.tex.ac.uk/cgi-bin/texfaq2html?label=floats
+% LaTeX defaults listed at: http://people.cs.uu.nl/piet/floats/node1.html
+
+% Alter some LaTeX defaults for better treatment of figures:
+    % See p.105 of "TeX Unbound" for suggested values.
+    % See pp. 199-200 of Lamport's "LaTeX" book for details.
+    %   General parameters, for ALL pages:
+    \renewcommand{\topfraction}{0.85}	% max fraction of floats at top
+    \renewcommand{\bottomfraction}{0.6}	% max fraction of floats at bottom
+    %   Parameters for TEXT pages (not float pages):
+    \setcounter{topnumber}{2}
+    \setcounter{bottomnumber}{2}
+    \setcounter{totalnumber}{4}     % 2 may work better
+    \setcounter{dbltopnumber}{2}    % for 2-column pages
+    \renewcommand{\dbltopfraction}{0.66}	% fit big float above 2-col. text
+    \renewcommand{\textfraction}{0.15}	% allow minimal text w. figs
+    %   Parameters for FLOAT pages (not text pages):
+    \renewcommand{\floatpagefraction}{0.66}	% require fuller float pages
+	% N.B.: floatpagefraction MUST be less than topfraction !!
+    \renewcommand{\dblfloatpagefraction}{0.66}	% require fuller float pages
+    \renewcommand{\baselinestretch}{1.2}
+
+% The documentclass already sets parameters to make a high penalty for widows and orphans.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%% Use packages
+%\usepackage{amsfonts}
+
+% \usepackage[
+%     backend=biber,
+%     sorting=anyt,
+%     url=false,defernumbers=true]{biblatex}
+
+\usepackage[
+  backend=biber,
+  % firstinits=true,
+  % style=iso-numeric, % iso-authoryear or iso-numeric for numeric citation method
+  sorting=none,
+  url=false,
+  defernumbers=true,
+  doi=true
+]{biblatex}
+
+\DeclareNameAlias{default}{last-first}
+
+%%% For figures
+\usepackage{graphicx}
+%\usepackage{subfig,rotate}
+
+%%% for comments
+\usepackage{verbatim}
+
+%%% For tables
+\usepackage{multirow}
+% Longtable lets you have tables that span multiple pages.
+\usepackage{longtable}
+
+% Booktabs produces far nicer tables than the standard LaTeX tables.
+%   see: http://en.wikibooks.org/wiki/LaTeX/Tables
+\usepackage{booktabs}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{nomencl}
+
+\usepackage{framed}
+\usepackage{rotating}
+\usepackage{pdflscape}
+
+
+%set parameters for longtable:
+% default caption width is 4in for longtable, but wider for normal tables
+\setlength{\LTcapwidth}{\textwidth}
+
+\usepackage{pstricks}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Printed vs. online formatting
+\ifdefined\printmode
+
+% Printed copy
+% url package understands urls (with proper line-breaks) without hyperlinking them
+\usepackage{url}
+
+
+\else
+
+\ifdefined\proquestmode
+%ProQuest copy -- http://www.princeton.edu/~mudd/thesis/Submissionguide.pdf
+
+% ProQuest requires a double spaced version (set previously). They will take an electronic copy, so we want links in the pdf, but also copies may be printed or made into microfilm in black and white, so we want outlined links instead of colored links.
+\usepackage{hyperref}
+\hypersetup{bookmarksnumbered}
+
+% copy the already-set title and author to use in the pdf properties
+\makeatletter
+\hypersetup{pdftitle=\@title,pdfauthor=\@author}
+\makeatother
+
+\else
+% Online copy
+
+% adds internal linked references, pdf bookmarks, etc
+
+% turn all references and citations into hyperlinks:
+%  -- not for printed copies
+% -- automatically includes url package
+% options:
+%   colorlinks makes links by coloring the text instead of putting a rectangle around the text.
+\usepackage{hyperref}
+\hypersetup{colorlinks,bookmarksnumbered}
+
+% copy the already-set title and author to use in the pdf properties
+\makeatletter
+\hypersetup{pdftitle=\@title,pdfauthor=\@author}
+\makeatother
+
+% make the page number rather than the text be the link for ToC entries
+%\hypersetup{linktocpage}
+\fi % proquest or online formatting
+\fi % printed or online formatting
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%% Define commands
+
+% Define any custom commands that you want to use.
+% For example, highlight notes for future edits to the thesis
+%\newcommand{\todo}[1]{\textbf{\emph{TODO:}#1}}
+
+
+% create an environment that will indent text
+% see: http://latex.computersci.org/Reference/ListEnvironments
+% 	\raggedright makes them left aligned instead of justified
+\newenvironment{indenttext}{
+    \begin{list}{}{ \itemsep 0in \itemindent 0in
+    \labelsep 0in \labelwidth 0in
+    \listparindent 0in
+    \topsep 0in \partopsep 0in \parskip 0in \parsep 0in
+    \leftmargin 1em \rightmargin 0in
+    \raggedright
+    }
+    \item
+  }
+  {\end{list}}
+
+% another environment that's an indented list, with no spaces between items -- if we want multiple items/lines. Useful in tables. Use \item inside the environment.
+% 	\raggedright makes them left aligned instead of justified
+\newenvironment{indentlist}{
+    \begin{list}{}{ \itemsep 0in \itemindent 0in
+    \labelsep 0in \labelwidth 0in
+    \listparindent 0in
+    \topsep 0in \partopsep 0in \parskip 0in \parsep 0in
+    \leftmargin 1em \rightmargin 0in
+    \raggedright
+    }
+  }
+  {\end{list}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%% Front-matter
+
+% For early drafts, you may want to disable some of the frontmatter. Simply change this to "\ifodd 1" to do so.
+\ifodd 0
+% front-matter disabled while writing chapters
+\renewcommand{\maketitlepage}{}
+\renewcommand*{\makecopyrightpage}{}
+\renewcommand*{\makeabstract}{}
+
+
+
+% you can just skip the \acknowledgements and \dedication commands to leave out these sections.
+
+\else
+
+
+\abstract{
+% Abstract can be any length, but should be max 350 words for a Dissertation for ProQuest's print indicies (150 words for a Master's Thesis) or it will be truncated for those uses.
+\input{abstract}
+}
+
+\acknowledgements{
+%I would like to thank...
+\input{acknowledgements}
+}
+
+\dedication{To my parents.}
+
+\fi  % disable frontmatter
+
+
+% \addbibresource{thesis.bib}
+
+% \addbibresource{chaps/literatura/lit_turba.bib}
+
+% definice dvou zpusobu citace literatury
+
+%\DeclareSourcemap{
+%  \maps[datatype=bibtex]{
+%    \map{
+%      \perdatasource{chaps/literatura/lit_rotory.bib}
+%      \step[fieldset=keywords, fieldvalue={, primary}, append]
+%    }
+%    \map{
+%      \perdatasource{chaps/literatura/lit_turba.bib}
+%      \step[fieldset=keywords, fieldvalue={, secondary}, append]
+%    }
+%  }
+%}
+
+%\newcounter{bbx:primcount}
+%\setcounter{bbx:primcount}{0}
+%
+%% Count number of  primary entries; expand labelnumberwidth
+%% to accommodate suffixes (NB: this might need tweaking when there
+%% are relatively many more secondary entries)
+%\makeatletter
+%\AtDataInput{%
+%  \ifkeyword{secondary}
+%    {}
+%    {\addtocounter{bbx:primcount}{1}%
+%     \blx@setlabwidth{\labelnumberwidth}{%
+%       \csuse{abx@ffd@*@labelnumberwidth}{\thefield{labelnumber}a}}}}
+%\makeatother
+%
+%% Print labelnumbers with suffixes, adjust secondary labelnumber
+%\DeclareFieldFormat{labelnumber}{%
+%  \ifkeyword{secondary}
+%    {{\number\numexpr#1-\value{bbx:primcount}}b}
+%    {#1a}}
+
+%\addbibresource{thesis_literatura.bib}
+
+
+%\newcommand*{\appendixname}{Dodatek}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%% Hide some chapters
+
+%%% If you want to produce a pdf that includes only certain chapters, specify them with includeonly, in addition to including all chapters below.
+%\includeonly{ch-intro/chapter-intro}
+%%% You can also specify multiple chapters.
+%\includeonly{ch-intro/chapter-intro,ch-usage/chapter-usage}
+%\includeonly{chap1,chap2,chap3}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Notes:
+
+% Footnotes should be placed after punctuation.\footnote{place here.}
+% Generally, place citations before the period~\cite{anotherauthor}.
+% The proper usage for i.e., and e.g., include commas ``(e.g., option A, option B)''
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Import chapters
+
+% definice dodatky
+ \renewcommand{\appendixname}{Dodatek}
+
+% rozcleneni literatury
+
+% \DeclareBibliographyCategory{lit_obecne}
+% \DeclareBibliographyCategory{lit_autor}
+
+% \addtocategory{lit_obecne}{Brepta:1994,Byrtus:2010,Nguyen:2012,Nguyen:2013,Slavik:1997,Zapomel:2007,Gasch:1980,Genta:2005,Kramer:1993,Tuma:2009,Szeri:2010,Nayfeh:1995,Brandlein:1999,Vins:1971,Rieger:1986,Kakoty:2000_HB_01,Hili:2010_HB_02,Sinhasan:1996_HB_03,Bannwart:2010_HB_04,Ju:1994_HB_05,JianPing:2004_HB_06,Stahl:2001_HB_07,Rho:2003_HB_08,Adiletta:1996_HB_09,Khonsari:1993_HB_10,Jang:2004_HB_11,Chen:1998_HB_12,Jiang:1999_HB_13,Lahmar:2000_HB_16,Lin:2001_HB_17,wu1995new, cavalca2005investigation, wang2010new, chooi2008design, jiang2000identification,lin2001linear,lahmar2000optimised,Genta:1999_ROT_01,Liu:2002_ROT_02,Rui:2005_ROT_03,Nelson:1976_ROT_04,Wu:2002_ROT_05,Bachschmid:2009_ROT_06,Heng:2009_TD_07,Lee:1993_ROT_08,Loparo:2000_ROT_09,Balda:1998_ROT_10,Chu:2001_ROT_11,Shad:2011_ROT_12,Dupal:1999_ROT_13,Lees:2009_ROT_14,Wang:2010_ROT_16,Lazarus:2010_ROT_17,Friswell:2000_ROT_18,Shaw:2013_ROT_19,Fox:XXXX,Fusek:2012,Bandstra:1983_TLUM_01,Adhikari:2001_TLUM_02,Adhikari:2006_TLUM_03,Adhikari:2001_TLUM_04,Adhikari:2001_TLUM_05,Adhikari:2003_TLUM_06,Bert:1973_TLUM_07,Sieber:2008_TLUM_08,Adhikari:2009_TLUM_09,Genta:2010_TLUM_10,Harsha:2003_REB_01,Kappaganthu:2011_REB_02,Lioulios:2006_REB_03,Tiwari:2006_REB_04,Wu:2011_REB_05,Adamkiewicz:2013_TD_14,Ashterkar:XXXX_TD_27,Bayomi:2012_TD_15,Boyaci:2007_TD_02,Busch:2011_TD_26,Dakel:2014_TD_31,Daniel:2013_TD_30,Deligant:2012_TD_01,Fryscok:2012_TD_11,Kirk:2011_TD_17,Chen:2012_TD_05,Li:1982_TD_06,Li:1981_TD_20,Robin:XXXX_TD_12,Rohde:1980_TD_08,Romagnoli:2012_TD_27Serrano:2013_TD_03,Schilder:2008_TD_24,Schweizer:2009_TD_04,Schweizer:2009_TD_23,Schweizer:2009_TD_18,Tian:2012_TD_19,Tian:2011_TD_13,Tian:2013_TD_25,Wang:2015_TD_30,Ying:2008_TD_07,Zhao:2008_TD_21,Zhao:2009_TD_16,Bonello:2009_TD_09,Andres:2007_TD_10,Ashtekar:XXXX_TD_28,Hajzman:diz,MTK:2007,VMM:1998,DSO:,Polach:2012}
+% \addtocategory{lit_autor}{ZR:Wisla2011,Rendlova:teze,zprava:2013,zprava:2013a,zprava:2015}
+
+
+\begin{document}
+
+\makefrontmatter
+
+% \include{chaps/ch0_uvodni/titulka}
+
+%\newpage
+
+
+
+\tableofcontents
+
+% \addcontentsline{toc}{chapter}{Seznam použitých symbolů}
+% \include{chaps/ch0_uvodni/nomenklatura}
+
+%
+%
+%%-----teoreticka cast
+%
+%
+
+
+%\addcontentsline{toc}{chapter}{Úvod}
+% \include{chaps/ch1_uvod/uvod}
+%
+% \include{chaps/ch2_modelovani/modelovani}
+%
+% \include{chaps/ch3_mod_kon/modelovani_kon}
+%
+% \include{chaps/ch4_citlivost/cit}
+%
+%
+%%----- praktická část
+%
+%
+% \include{chaps/ch4a_exp/exp_mereni}
+%
+% \input{chaps/ap_test}
+%
+
+
+
+%
+%\chapter{Využití odvozeného matematického modelu pro analýzu turbodmychadla}
+%
+%\input{chaps/ch7_aplikace_test}
+%
+%%\chapter{Výhled dizertační práce}
+%\input{chaps/ch4_vyhled/vyhled}
+%
+%\addcontentsline{toc}{chapter}{Závěr}
+
+% \include{chaps/zaver}
+
+%
+%
+%% seznamy literatury
+%
+%
+
+\addcontentsline{toc}{chapter}{Seznam použité literatury}
+
+% \printbibliography[heading=bibliography,category=lit_obecne,title={Seznam použité literatury}]
+
+\addcontentsline{toc}{chapter}{Publikace autora }
+
+% \printbibliography[heading=bibliography,category=lit_autor,title={Publikace autora spojené s tématem práce},prefixnumbers={A}]
+
+% seznamy obrazku, tabulek
+
+\listoffigures
+%
+\listoftables
+%
+
+%dodatky
+
+\appendix
+
+\renewcommand{\appendixname}{Dodatek}
+
+\addcontentsline{toc}{chapter}{Dodatky}
+%
+% pomocne integralni matice I pro hridelove prvky
+% \include{chaps/ch6_app/app1_mat}
+%
+% matice tlumeni- prechod z rotujiciho do pevneho systemu souradnic
+% \include{chaps/ch6_app/app_dukaz_tlum}
+%
+% odvozeni koeficientu lozisek - linearizovany model
+% \include{chaps/ch6_app/app_koef_LP}
+%
+% odvozeni koeficientu pro citl. analyzu
+%\include{chaps/ch6_app/app_citl}
+%
+% parametry modelovaneho rotoru- mikrometraz
+% \include{chaps/ch6_app/app_rot_par}
+%
+% zahrnuti vystuze
+%\include{chaps/ch6_app/app_vyz}
+% provozni stavy
+
+%
+%\include{chaps/ch6_app/app2_Re_rov}
+
+\end{document}
+
