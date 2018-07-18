@@ -12,8 +12,11 @@
   \else June\fi\fi}
 \def\copyrightyear#1{\gdef\@copyrightyear{#1}}
 \def\@copyrightyear{\number\year}
+\def\authorcaption#1{\gdef\@authorcaption{#1}}
 \def\advisercaption#1{\gdef\@advisercaption{#1}}
 \def\adviser#1{\gdef\@adviser{#1}}
+\def\departmentfieldcaption#1{\gdef\@departmentfieldcaption{#1}}
+\def\departmentfield#1{\gdef\@departmentfield{#1}}
 \long\def\@abstract{\@latex@error{No \noexpand\abstract given}\@ehc}
 \newcommand*{\frontmatter}{
   \pagenumbering{roman}
@@ -57,50 +60,54 @@
 }
 \def\@submitted{\@submittedmonth~\@submittedyear}
 \def\@dept{Cybernetics}
+\def\@universitypref{}
 \def\@deptpref{Katedra}
 \def\departmentprefix#1{\gdef\@deptpref{#1}}
+\def\university#1{\gdef\@univ{#1}}
+\def\faculty#1{\gdef\@faculty{#1}}
 \def\department#1{\gdef\@dept{#1}}
 \long\def\acknowledgements#1{\gdef\@acknowledgements{#1}}
+\long\def\listofshorcuts#1{\gdef\@listofshorcuts{#1}}
 \def\dedication#1{\gdef\@dedication{#1}}
 \newcommand{\maketitlepage}{{
   \thispagestyle{empty}
   \sc
-  \vspace*{0in}
+  \vspace*{0cm}
+  \begin{center}
+    \@univ \\
+    \@faculty \\
+    \@dept \\
+  \end{center}
+  \vspace*{5cm}
+  % \extravspace{5cm}
   \begin{center}
     \LARGE \@title
-    \@univ
-    % \@faculty \\
-    % \@dept \\
   \end{center}
-  \vspace{.6in}
-  \extravspace{.6in}
-  \begin{center}
-    \@author
-  \end{center}
-  \vspace{.6in}
-  \extravspace{.6in}
+  \vspace*{3cm}
+  % \extravspace{3cm}
   \begin{center}
     %A Dissertation \\
     %Presented to the Faculty \\
     %of Princeton University \\
     %in Candidacy for the Degree \\
     %of Doctor of Philosophy
-    \@papertype
-  \end{center}
-  \vspace{.3in}
-  \extravspace{.3in}
-  \begin{center}
-    %Recommended for Acceptance \\
-    %by the
-    \@deptpref \
-    \@dept \\
-    \@advisercaption \  \@adviser
-  \end{center}
-  \vspace{.3in}
-  \extravspace{.3in}
-  \begin{center}
+    \@papertype \\
     \@submitted
   \end{center}
+  \vspace{.3in}
+  \extravspace{.3in}
+  \begin{flushleft}
+    %Recommended for Acceptance \\
+    %by the
+    \@authorcaption \  \@author \\
+    \@advisercaption \  \@adviser \\
+    \@departmentfieldcaption \  \@departmentfield
+  \end{flushleft}
+  % \vspace{.3in}
+  % \extravspace{.3in}
+  % \begin{center}
+  %   \@submitted
+  % \end{center}
   \clearpage
   }}
 \newcommand*{\makecopyrightpage}{

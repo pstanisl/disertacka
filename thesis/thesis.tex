@@ -7,11 +7,11 @@
 
 %% For print copies
 % set 'singlespace' option to set entire thesis to single space, and define "\printmode" to remove all hyperlinks for printed copies of the thesis. Delete all output files before changing this mode -- it will turn hyperref package on and off
-%\documentclass[12pt,lot, lof, singlespace]{puthesis}
+%\documentclass[12pt,lot, los, lof, singlespace]{puthesis}
 %\newcommand{\printmode}{}
 
 %%% For the electronic copy, use doublespacing, define "\proquestmode" to use outlined links, instead of colored links.
-% \documentclass[12pt,lot, lof]{puthesis}
+% \documentclass[12pt,lot, los, lof]{puthesis}
 % \newcommand{\proquestmode}{}
 % I prefer proquestmode to be off for electronic copies for normal use, since the colored links are less distracting. However when printed in black and white, the colored links are difficult to read.
 
@@ -22,7 +22,7 @@
 \usepackage{t1enc} % as usual
 \usepackage[utf8]{inputenc}
 \usepackage[english, czech]{babel}
-%\usepackage[style=czech]{csquotes}
+\usepackage[style=czech]{csquotes}
 
 
 
@@ -35,14 +35,14 @@
 
 \submitted{Říjen 2018}  % degree conferral date (January, April, June, September, or November)
 \copyrightyear{2018}  % year in which the copyright is secured by publication of the dissertation.
-% \authorcaption{Autor:}
+\authorcaption{Autor:}
 \author{Ing. Petr Stanislav}
 \advisercaption{Školitel:}
 \adviser{Prof. Ing. Josef Psutka, CSc.}  %replace with the full name of your adviser
-% \department{Katedra mechaniky}
-% \departmentfieldcaption{Obor:}
-% \departmentfield{Kybernetika}
-% \departmentprefix{Aplikovaná mechanika}  % defaults to "Department of", but programs need to change this.
+\department{Katedra kybernetiky}
+\departmentfieldcaption{Obor:}
+\departmentfield{Kybernetika}
+\faculty{Fakulta aplikovaných věd}
 \university{Západočeská univerzita v Plzni}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
@@ -60,26 +60,24 @@
     %   Parameters for TEXT pages (not float pages):
     \setcounter{topnumber}{2}
     \setcounter{bottomnumber}{2}
-    \setcounter{totalnumber}{4}     % 2 may work better
-    \setcounter{dbltopnumber}{2}    % for 2-column pages
-    \renewcommand{\dbltopfraction}{0.66}	% fit big float above 2-col. text
-    \renewcommand{\textfraction}{0.15}	% allow minimal text w. figs
-    %   Parameters for FLOAT pages (not text pages):
-    \renewcommand{\floatpagefraction}{0.66}	% require fuller float pages
-	% N.B.: floatpagefraction MUST be less than topfraction !!
-    \renewcommand{\dblfloatpagefraction}{0.66}	% require fuller float pages
-    \renewcommand{\baselinestretch}{1.2}
+    \setcounter{totalnumber}{4} % 2 may work better
+    \setcounter{dbltopnumber}{2} % for 2-column pages
+    \renewcommand{\dbltopfraction}{0.66} % fit big float above 2-col. text
+    \renewcommand{\textfraction}{0.15} % allow minimal text w. figs
+    % Parameters for FLOAT pages (not text pages):
+    \renewcommand{\floatpagefraction}{0.66} % require fuller float pages
+    % N.B.: floatpagefraction MUST be less than topfraction !!
+    \renewcommand{\dblfloatpagefraction}{0.66} % require fuller float pages
+    % \renewcommand{\baselinestretch}{1.2}
 
 % The documentclass already sets parameters to make a high penalty for widows and orphans.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Use packages
 %\usepackage{amsfonts}
-
-% \usepackage[
-%     backend=biber,
-%     sorting=anyt,
-%     url=false,defernumbers=true]{biblatex}
+\usepackage{pifont}  % http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
 
 \usepackage[
   backend=biber,
@@ -161,7 +159,7 @@
 % options:
 %   colorlinks makes links by coloring the text instead of putting a rectangle around the text.
 \usepackage{hyperref}
-\hypersetup{colorlinks,bookmarksnumbered}
+\hypersetup{colorlinks,bookmarksnumbered,unicode}
 
 % copy the already-set title and author to use in the pdf properties
 \makeatletter
@@ -216,18 +214,15 @@
 %%%% Front-matter
 
 % For early drafts, you may want to disable some of the frontmatter. Simply change this to "\ifodd 1" to do so.
-\ifodd 0
+\ifodd 1
 % front-matter disabled while writing chapters
-\renewcommand{\maketitlepage}{}
+% \renewcommand{\maketitlepage}{}
 \renewcommand*{\makecopyrightpage}{}
 \renewcommand*{\makeabstract}{}
-
-
 
 % you can just skip the \acknowledgements and \dedication commands to leave out these sections.
 
 \else
-
 
 \abstract{
 % Abstract can be any length, but should be max 350 words for a Dissertation for ProQuest's print indicies (150 words for a Master's Thesis) or it will be truncated for those uses.
@@ -305,6 +300,9 @@
 % Generally, place citations before the period~\cite{anotherauthor}.
 % The proper usage for i.e., and e.g., include commas ``(e.g., option A, option B)''
 
+\usepackage[colorinlistoftodos,textsize=small]{todonotes}
+\usepackage[footnote,draft,silent,margin=false]{fixme}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Import chapters
 
@@ -324,106 +322,46 @@
 
 \makefrontmatter
 
+% If you've disabled frontmatter, you can insert the toc manually
+% \tableofcontents\clearpage
+
+% ----- Seznamy obrazku, tabulek ----- %
+% \listoffigures
+% \listoftables
 % \include{chaps/ch0_uvodni/titulka}
-
-%\newpage
-
-
-
-\tableofcontents
-
+% \newpage
 % \addcontentsline{toc}{chapter}{Seznam použitých symbolů}
 % \include{chaps/ch0_uvodni/nomenklatura}
 
-%
-%
-%%-----teoreticka cast
-%
-%
-
-
-%\addcontentsline{toc}{chapter}{Úvod}
+% ----- Teoreticka cast ----- %
+% \addcontentsline{toc}{chapter}{Úvod}
 % \include{chaps/ch1_uvod/uvod}
-%
 % \include{chaps/ch2_modelovani/modelovani}
-%
 % \include{chaps/ch3_mod_kon/modelovani_kon}
-%
 % \include{chaps/ch4_citlivost/cit}
-%
-%
-%%----- praktická část
-%
-%
+
+% ----- Prakticka cast ----- %
 % \include{chaps/ch4a_exp/exp_mereni}
-%
-% \input{chaps/ap_test}
-%
 
-
-
-%
-%\chapter{Využití odvozeného matematického modelu pro analýzu turbodmychadla}
-%
-%\input{chaps/ch7_aplikace_test}
-%
-%%\chapter{Výhled dizertační práce}
-%\input{chaps/ch4_vyhled/vyhled}
-%
-%\addcontentsline{toc}{chapter}{Závěr}
-
+% ---- Ostatni ----- %
+% \chapter{Využití odvozeného matematického modelu pro analýzu turbodmychadla}
+% \input{chaps/ch7_aplikace_test}
+% \chapter{Výhled dizertační práce}
+% \input{chaps/ch4_vyhled/vyhled}
+% \addcontentsline{toc}{chapter}{Závěr}
 % \include{chaps/zaver}
 
-%
-%
-%% seznamy literatury
-%
-%
-
-\addcontentsline{toc}{chapter}{Seznam použité literatury}
-
+% ----- Seznamy literatury ----- %
+% \addcontentsline{toc}{chapter}{Seznam použité literatury}
 % \printbibliography[heading=bibliography,category=lit_obecne,title={Seznam použité literatury}]
-
-\addcontentsline{toc}{chapter}{Publikace autora }
-
+%
+% \addcontentsline{toc}{chapter}{Publikace autora }
 % \printbibliography[heading=bibliography,category=lit_autor,title={Publikace autora spojené s tématem práce},prefixnumbers={A}]
 
-% seznamy obrazku, tabulek
-
-\listoffigures
-%
-\listoftables
-%
-
-%dodatky
-
+% ----- Dodatky ----- %
 \appendix
-
 \renewcommand{\appendixname}{Dodatek}
-
 \addcontentsline{toc}{chapter}{Dodatky}
-%
-% pomocne integralni matice I pro hridelove prvky
-% \include{chaps/ch6_app/app1_mat}
-%
-% matice tlumeni- prechod z rotujiciho do pevneho systemu souradnic
-% \include{chaps/ch6_app/app_dukaz_tlum}
-%
-% odvozeni koeficientu lozisek - linearizovany model
-% \include{chaps/ch6_app/app_koef_LP}
-%
-% odvozeni koeficientu pro citl. analyzu
-%\include{chaps/ch6_app/app_citl}
-%
-% parametry modelovaneho rotoru- mikrometraz
-% \include{chaps/ch6_app/app_rot_par}
-%
-% zahrnuti vystuze
-%\include{chaps/ch6_app/app_vyz}
-% provozni stavy
-
-%
-%\include{chaps/ch6_app/app2_Re_rov}
 
 \end{document}
 
