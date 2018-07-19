@@ -15,13 +15,16 @@ parser.set_defaults(output='./')
 
 def get_phrases(phrases):
     for phrase in phrases:
-        yield phrase.get('ID'), phrase.find('ortho').text
+        text = phrase.find('ortho').text
+        for file in phrase.findall('RecordedFiles/File'):
+            yield file.get('Name'), text
 
 
 def save_into_txt(output, phrases, encoding='utf-8'):
     for id, phrase in phrases:
         print(id, phrase)
-        with io.open(join(output, f'{id}_00.txt'), 'w', encoding=encoding) as fw:
+        filepath = join(output, f'{id}.txt')
+        with io.open(filepath, 'w', encoding=encoding) as fw:
             fw.write(phrase)
 
 
