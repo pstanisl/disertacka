@@ -240,44 +240,42 @@
 
 
 % \addbibresource{thesis.bib}
-
 % \addbibresource{chaps/literatura/lit_turba.bib}
 
-% definice dvou zpusobu citace literatury
+% ----- Definice dvou zpusobu citace literatury ----- %
+% \DeclareSourcemap{
+%   \maps[datatype=bibtex]{
+%     \map{
+%       \perdatasource{chaps/literatura/lit_rotory.bib}
+%       \step[fieldset=keywords, fieldvalue={, primary}, append]
+%     }
+%     \map{
+%       \perdatasource{chaps/literatura/lit_turba.bib}
+%       \step[fieldset=keywords, fieldvalue={, secondary}, append]
+%     }
+%   }
+% }
 
-%\DeclareSourcemap{
-%  \maps[datatype=bibtex]{
-%    \map{
-%      \perdatasource{chaps/literatura/lit_rotory.bib}
-%      \step[fieldset=keywords, fieldvalue={, primary}, append]
-%    }
-%    \map{
-%      \perdatasource{chaps/literatura/lit_turba.bib}
-%      \step[fieldset=keywords, fieldvalue={, secondary}, append]
-%    }
-%  }
-%}
+% \newcounter{bbx:primcount}
+% \setcounter{bbx:primcount}{0}
 
-%\newcounter{bbx:primcount}
-%\setcounter{bbx:primcount}{0}
-%
 %% Count number of  primary entries; expand labelnumberwidth
 %% to accommodate suffixes (NB: this might need tweaking when there
 %% are relatively many more secondary entries)
-%\makeatletter
-%\AtDataInput{%
-%  \ifkeyword{secondary}
-%    {}
-%    {\addtocounter{bbx:primcount}{1}%
-%     \blx@setlabwidth{\labelnumberwidth}{%
-%       \csuse{abx@ffd@*@labelnumberwidth}{\thefield{labelnumber}a}}}}
-%\makeatother
-%
+% \makeatletter
+% \AtDataInput{%
+%   \ifkeyword{secondary}
+%     {}
+%     {\addtocounter{bbx:primcount}{1}%
+%      \blx@setlabwidth{\labelnumberwidth}{%
+%        \csuse{abx@ffd@*@labelnumberwidth}{\thefield{labelnumber}a}}}}
+% \makeatother
+
 %% Print labelnumbers with suffixes, adjust secondary labelnumber
-%\DeclareFieldFormat{labelnumber}{%
-%  \ifkeyword{secondary}
-%    {{\number\numexpr#1-\value{bbx:primcount}}b}
-%    {#1a}}
+% \DeclareFieldFormat{labelnumber}{%
+%   \ifkeyword{secondary}
+%     {{\number\numexpr#1-\value{bbx:primcount}}b}
+%     {#1a}}
 
 %\addbibresource{thesis_literatura.bib}
 
