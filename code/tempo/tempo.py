@@ -22,6 +22,9 @@ parser.add_argument('-o', '--output', action='store',
 parser.add_argument('-a', action='store_true',
                     help='output is from AP recognizer')
 
+parser.add_argument('-s', '--skip', action='store_true',
+                    help='skip missing')
+
 parser.set_defaults(output='./')
 parser.set_defaults(tempo=100)
 
@@ -180,7 +183,7 @@ def get_wave(paths):
         yield name, wavext.WavRead(path)
 
 
-def process(waves, alignemnt, output_dir, tempo):
+def process(waves, alignemnt, output_dir, tempo, skip=False):
     # Check existence of the output directory
     if not exists(output_dir):
         print('[INFO] - creating output directory: {}'.format(output_dir))
@@ -206,6 +209,9 @@ def process(waves, alignemnt, output_dir, tempo):
         # Skip file that is not in the alignemt
         if name not in alignemnt:
             print('[WARNING] - missing alignemt for file', name)
+            if skip:
+                print('[INFO] - skipping processing file', name)
+                continue
         # Initialize variable used in data read and write calbacks.
         params = {
             # Index of applied effect (used in writer)
@@ -255,7 +261,7 @@ def main(args):
     # Load WAV files
     waves = get_wave(paths)
     # Use Noiser library to the changing of the tempo
-    process(waves, alignment, args.output, int(args.tempo))
+    process(waves, alignment, args.output, int(args.tempo), args.skip)
 
 
 if __name__ == '__main__':
