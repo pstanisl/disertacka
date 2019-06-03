@@ -8,3 +8,23 @@
   \item prvotní experimenty k určení parametrů modelu
   \item popsat výsledky, výsledky převážně na HTK (HMM + GMM)
 \end{itemize}
+
+% \csvautotabular{./ch4-experiments/test.csv}
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/8k/.style={column name=8 kHz $[\%]$, column type={|r}},
+    columns/16k/.style={column name=16 kHz $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+      & \multicolumn{2}{c|}{Frekvence} \\
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/01-frequency.csv}
+  \caption{Vliv frekvence na kvalitu modelu.}
+\end{table}
