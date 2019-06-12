@@ -48,20 +48,31 @@ Výsledný korpus představuje $5040$ unikátních vět rozdělených do $6385$ 
 
 \subsection{Analýza získaných dat}
 
-\begin{figure}
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.8\textwidth]{./ch4-experiments/img/speaker1.png}
+  \caption{Průběh a spektrogram promluvy \uv{Akcie komerční banky}.}
+  \label{fig:experiments:analysis:speech}
+\end{figure}
+
+\begin{figure}[htpb]
   \centering
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{./ch4-experiments/img/spectrogram_normal.png}
-    \caption{Picture 1}
-    \label{fig:1}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/spectrogram0.png}
+    \caption{Zdravý řečník}
+    \label{fig:experiments:analysis:spectrogram:normal}
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{./ch4-experiments/img/spectrogram_el.png}
-    \caption{Picture 2}
-    \label{fig:2}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/spectrogram1.png}
+    \caption{EL řečník}
+    \label{fig:experiments:analysis:spectrogram:el}
   \end{subfigure}
+  \caption{Spektrogram promluvy \uv{Akcie Komerční banky} dvou řečníků.}
+  \label{fig:experiments:analysis:spectrogram}
 \end{figure}
+
+test \ref{fig:experiments:analysis:spectrogram} \ref{fig:experiments:analysis:spectrogram:el} \ref{fig:experiments:analysis:spectrogram:normal}
 
 % \begin{figure}[]
 %   \centering
