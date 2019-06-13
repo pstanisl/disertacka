@@ -14,7 +14,7 @@ V části \ref{sec:cause:desease} bylo zmíněno, že ročně se objevý více n
 
 Při libovolné práci s pacienty po TL, dřív nebo později dojde k určité formě spolupráce s oddělením ORL, které má nastarosti péči o tyto pacienty. V našem připadě nejprve s ORL klinikou při Fakultní nemocnici v Plzni a poté i s ORL klinikou Fakultní nemocnice v Motole. S jejich pomocí jsme získali ke spolupráci jednoho řečníka. Konkrétně se jedná o dámu v duchodovém věku, která podstoupila TL před více než 15 lety. Po překonání ostychu\footnote{Podle jejích vlastních slov nebyla schopna několik let po operaci ani zvednout nečekaný telefonní hovor, natož mluvit na veřejnosti.} se byla schopna naplno vrátit do běžného života a dokonce v určité formě opět přednášet o stomatologii na Lekařské fakultě v Plzni Univerzity Karlovy.
 
-S její pomocí jsem, v 1. etapě nahrávání, byli schopni pořídit přes 10 hodin promluv, viz tabulka \ref{tab:experiments:analysis:recording}. Nahrávání probíhala v relativně spartánských podmínkách za plného běžného provozu katedry. Přesto získaná data neosahují žádný nežadoucí ruch, kromě toho produkovaného samotným EL.
+S její pomocí jsem, v 1. etapě nahrávání, byli schopni pořídit přes 10 hodin promluv, viz tab. \ref{tab:experiments:analysis:recording}. Nahrávání probíhala v relativně spartánských podmínkách za plného běžného provozu katedry. Přesto získaná data neosahují žádný nežadoucí ruch, kromě toho produkovaného samotným EL.
 
 Nahravací aparatůra sestávala z profesionálního mikrofonu (\todo{typ mikrofonu}{TBD}), předzesilovačem (TBD), externí zvukovou kartou a běžného notebooku. Mikrofon byl pomocí bezpolštářkové náplasti přilepen poblíž pravého koutku úst, abychom zaznamenaná řeč měla co možná nejvyšší kvalitu.
 
@@ -36,20 +36,20 @@ Ještě před samotným anotováním byly nahrávky, podle úseků s tichem, roz
   E_{RMS}(n) = \sqrt{\frac{1}{N} \sum_{n=1}^{N} \left| x(n) \right|^2},
 \end{equation}
 
-\noindent kde $N$ představuje počet vzorků v nahrávce a $x(n)$ představuje pravoúhlé okénko vzorku $n$. Pro tento případ se ukázalo jako vhodnější volit root-mean-square energy ($E_{RMS}$) a empericky se ukázalo, že vhodná délka okénka je v rozmezí $10 - 100$ ms. Na obrázku \ref{fig:experiments:analysis:speech} je zobrazena podoba audio signálu a spektrogram promluvy \textit{\uv{Akcie Komerční banky}}. Zároveň je zde vypočtené hodnoty energie a celková průměrná energie. Tyto hodntoty slouží pro určení míst kde začíná a končí věta. Na začátku a konci každé věty je dobré mít minimálně $0.5$ s ticha. Tím pádem, pokud energie nějakého úseku $x$ je $E_{RMS}(x) < avg(E_{RMS})$ a zároveň délka tohoto úseku $dur(x) \geq 1\ [s]$, tak nahrávku můžeme v tomto úseku rozdělit.
+\noindent kde $N$ představuje počet vzorků v nahrávce a $x(n)$ představuje pravoúhlé okénko vzorku $n$. Pro tento případ se ukázalo jako vhodnější volit root-mean-square energy ($E_{RMS}$) a empericky se ukázalo, že vhodná délka okénka je v rozmezí $10 - 100$ ms. Na obr. \ref{fig:experiments:analysis:speech} je zobrazena podoba audio signálu a spektrogram promluvy \textit{\uv{Akcie Komerční banky}}. Zároveň je zde vypočtené hodnoty energie a celková průměrná energie. Tyto hodntoty slouží pro určení míst kde začíná a končí věta. Na začátku a konci každé věty je dobré mít minimálně $0.5$ s ticha. Tím pádem, pokud energie nějakého úseku $x$ je $E_{RMS}(x) < avg(E_{RMS})$ a zároveň délka tohoto úseku $dur(x) \geq 1\ [s]$, tak nahrávku můžeme v tomto úseku rozdělit.
 
 \begin{figure}[hbpt]
   \centering
-  \includegraphics[width=0.8\textwidth]{./ch4-experiments/img/el_energy_spec.png}
+  \includegraphics[width=0.9\textwidth]{./ch4-experiments/img/el_energy_spec.png}
   \caption{Průběh a spektrogram promluvy a vyznačenou energií promluvy.}
   \label{fig:experiments:analysis:speech}
 \end{figure}
 
-Samozřejmě pokud řečník v průbehu věty z libovolného důvodu udělal větší pauzu než $1$ s, tak tato věta byla rozdělena. Jelikož jsou výsledné kratší useky promluv následně anotovány, tak to nepředstavuje problém. Pro budoucí zpracování není podstatné zda promluva je opravdu celá věta, ale to jestli je tento úsek správně přepsán. Fakt, že některé věty jsou rozděleny je důvodem proč v tabulce \ref{tab:experiments:analysis:recording} více souborů než vět.
+Samozřejmě pokud řečník v průbehu věty z libovolného důvodu udělal větší pauzu než $1$ s, tak tato věta byla rozdělena. Jelikož jsou výsledné kratší useky promluv následně anotovány, tak to nepředstavuje problém. Pro budoucí zpracování není podstatné zda promluva je opravdu celá věta, ale to jestli je tento úsek správně přepsán. Fakt, že některé věty jsou rozděleny je důvodem proč v tab. \ref{tab:experiments:analysis:recording} více souborů než vět.
 
 K anotaci posloužil interní nástroj určený k tomuto účelu a podíleli se na něm celkem 3 anotátoři z řad studentů, kteří si vzájemně kontrolovali své anotace. Ačkoli bylo potřeba anotovat relativně malé množství dat (cca 10 hodin audio záznamu), tak anotace zabrala přibližně 2 měsice. Hlavním důvodem byla relativně dlouhá doba, po kterou se anotátoři adaptovali na specificka EL řeči. Problémem bylo to, že nejprve nebyli vůbec schopni poruzumnět obsahu promluvy a tím pádem jej správně přepsat.
 
-Výsledný korpus tedy představuje $5040$ unikátních vět rozdělených do $6385$ souborů (viz tabulka \ref{tab:experiments:analysis:recording}), které v průměru obsahují $7$ slov o průmerné délce $5$ znaků. Tento korpus slouží jako základ pro všechny budoucí experimenty.
+Výsledný korpus tedy představuje $5040$ unikátních vět rozdělených do $6385$ souborů (viz tab. \ref{tab:experiments:analysis:recording}), které v průměru obsahují $7$ slov o průmerné délce $5$ znaků. Tento korpus slouží jako základ pro všechny budoucí experimenty.
 
 \begin{table}[htpb]
   \centering
