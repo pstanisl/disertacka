@@ -36,18 +36,20 @@ Ještě před samotným anotováním byly nahrávky, podle úseků s tichem, roz
   E_{RMS}(n) = \sqrt{\frac{1}{N} \sum_{n=1}^{N} \left| x(n) \right|^2},
 \end{equation}
 
-\noindent kde $N$ představuje počet vzorků v nahrávce a $x(n)$ představuje pravoúhlé okénko vzorku $n$. Pro tento případ se ukázalo jako vhodnější volit root-mean-square energy ($E_{RMS}$) a empericky se ukázalo, že vhodná délka okénka je v rozmezí $10 - 100$ ms. Na obr. \ref{fig:experiments:analysis:speech} je zobrazena podoba audio signálu a spektrogram promluvy \textit{\uv{Akcie Komerční banky}}. Zároveň je zde vypočtené hodnoty energie a celková průměrná energie. Tyto hodntoty slouží pro určení míst kde začíná a končí věta. Na začátku a konci každé věty je dobré mít minimálně $0.5$ s ticha. Tím pádem, pokud energie nějakého úseku $x$ je $E_{RMS}(x) < avg(E_{RMS})$ a zároveň délka tohoto úseku $dur(x) \geq 1\ [s]$, tak nahrávku můžeme v tomto úseku rozdělit.
+\noindent kde $N$ představuje počet vzorků v nahrávce a $x(n)$ představuje pravoúhlé okénko vzorku $n$. Pro tento případ se ukázalo jako vhodnější volit root-mean-square energy ($E_{RMS}$) a empericky se ukázalo, že vhodná délka okénka je v rozmezí $10 - 100$ ms. Na obr. \ref{fig:experiments:analysis:el_speech} je zobrazena podoba audio signálu a spektrogram promluvy \textit{\uv{Akcie Komerční banky}}. Zároveň je zde vypočtené hodnoty energie a celková průměrná energie. Tyto hodntoty slouží pro určení míst kde začíná a končí věta. Na začátku a konci každé věty je dobré mít minimálně $0.5$ s ticha. Tím pádem, pokud energie nějakého úseku $x$ je $E_{RMS}(x) < avg(E_{RMS})$ a zároveň délka tohoto úseku $dur(x) \geq 1\ [s]$, tak nahrávku můžeme v tomto úseku rozdělit.
 
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.9\textwidth]{./ch4-experiments/img/energy_spec_el.png}
-  \caption{Průběh a spektrogram promluvy a vyznačenou energií promluvy.}
-  \label{fig:experiments:analysis:speech}
+  \caption{Průběh a spektrogram promluvy a vyznačenou energií EL promluvy.}
+  \label{fig:experiments:analysis:el_speech}
 \end{figure}
 
 Samozřejmě pokud řečník v průbehu věty z libovolného důvodu udělal větší pauzu než $1$ s, tak tato věta byla rozdělena. Jelikož jsou výsledné kratší useky promluv následně anotovány, tak to nepředstavuje problém. Pro budoucí zpracování není podstatné zda promluva je opravdu celá věta, ale to jestli je tento úsek správně přepsán. Fakt, že některé věty jsou rozděleny je důvodem proč v tab. \ref{tab:experiments:analysis:recording} více souborů než vět.
 
 K anotaci posloužil interní nástroj určený k tomuto účelu a podíleli se na něm celkem 3 anotátoři z řad studentů, kteří si vzájemně kontrolovali své anotace. Ačkoli bylo potřeba anotovat relativně malé množství dat (cca 10 hodin audio záznamu), tak anotace zabrala přibližně 2 měsice. Hlavním důvodem byla relativně dlouhá doba, po kterou se anotátoři adaptovali na specificka EL řeči. Problémem bylo to, že nejprve nebyli vůbec schopni poruzumnět obsahu promluvy a tím pádem jej správně přepsat.
+
+Pokud je pro produkci řeči použit elektrolarynx, tak vedlejším produktem je nezanedbatelný ruch způsobený samotným zařízením \ref{sub:cause:treatment:foniatric}. Přeci jen jeho jedinout funkcí je vybudit vzduch v dutině ústní a tím umožnit produkci slyšitelné řeči. Z tohoto důvodu byly v průběhu anotace ignorovány v podstatě všechny skupiny neřečových událostí, protože vetšinu obsahu nahrávek by bylo nezbytné anotovat jako, že obsahují šum.
 
 Výsledný korpus tedy představuje $5040$ unikátních vět rozdělených do $6385$ souborů (viz tab. \ref{tab:experiments:analysis:recording}), které v průměru obsahují $7$ slov o průmerné délce $5$ znaků. Tento korpus slouží jako základ pro všechny budoucí experimenty.
 
@@ -70,7 +72,20 @@ Výsledný korpus tedy představuje $5040$ unikátních vět rozdělených do $6
 
 \subsection{Analýza získaných dat}
 
-test test
+Po dokončení anotace obsahuje korpus přes 10 hodin akustických záznamů promluv a více či méně přesných přepisů\footnote{I přes nemalou snahu a několikastupňovou kontrolu, je téměř jisté, že by nebylo obtížné najít přepis, který obsahuje chybu například ve formě překlepu.}. Když jsou k dispozici data je možné se podívat na specifika EL řeči a případně porovnat se zdravým řečníkem.
+
+Pro potřeby porovnání byl použit začátek promluvy \textit{\uv{Akcie Komerční banky...}}. Tuta promluva je součástí standardní množiny vět používaných při vytváření řečových korpusů na KKY při ZČU. Tím pádem je k dispozici v relativně velkém množství příkladů pro zdravé řečníky a také je součástí korpusu EL řeči.
+
+Na obr. \ref{fig:experiments:analysis:el_speech} a \ref{fig:experiments:analysis:normal_speech} je zobrazen průběh signálu a spektrogram vybrané promluvy. Už na první pohled je možné zaznamenat určité rozdíly. Prvním takovým je délka promluvy, v případě zdravého řečníka je o celou 1 vteřinu kratší než v případě EL řeči. Tempo řeči je samozřejmě velmi individuální, ale z principu je EL řeč pomalejší. Z průbehu signálu na obr. \ref{fig:experiments:analysis:el_speech} je patrné, že řečník dělá výraznější pauzy mezi jednotlivými slovy promluvy. To může být způsobené například potřebou naplnit jícen vzduchem. Po TL je dýchání realizováno přes tracheu a pokud nebyl voperován shunt (více v \ref{sub:cause:treatment:tracheo}), tak je trvale oddělen hrtan a hltan. Přesto, pro produkci některých neznělých fonémů je potřeba exhalovat vzduch z dutiny ústní. Zkušený EL řečník to dělá naprosto automaticky, nicméně \uv{polykání} vzduchu zabere nějaký čas. Nevyhnutelným důsledkem je pak velmi častý výskyt samovolného říhání v průběhu promluvy\footnote{Fakt, že je říhání jako neřečová událost běžnou součástí téměř každé promluvy, vedl k ignorování těchto událostí během anotace.}.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-experiments/img/energy_spec_normal.png}
+  \caption{Průběh a spektrogram promluvy a vyznačenou energií promluvy.}
+  \label{fig:experiments:analysis:normal_speech}
+\end{figure}
+
+Dalším možným vysvětlením je nutnost správné artikulace. Při používání EL je nezbytné dobře artikulovat, aby bylo produkované řeči alespoň trochu dobře rozumnět. A pokud se dobře artikuluje, tak není snadné mluvit rychle.
 
 \begin{figure}[htpb]
   \centering
