@@ -89,9 +89,11 @@ Dalším důvodem může být je nutnost správné artikulace. Při používán�
 
 Dalším způsobem jak ukázat rozdíly mezi promluvou zdravého řečníka a řečníka s EL je srovnání ve frekvenční oblasti. Pro větší názornost jsou na obr. \ref{fig:experiments:analysis:spectrogram} vedle sebe zobrazeno spektrum ukázková promluva zdravého řečníka (\ref{fig:experiments:analysis:spectrogram:normal}) a toho s EL (\ref{fig:experiments:analysis:spectrogram:el}). Obsah obou promluv je identický a přesto jsou obě spektra odlišná.
 
-Prvním markantním rozdílem je mnohem větší zastoupení šumu v úsecích \uv{ticha}na obr. \ref{fig:experiments:analysis:spectrogram:el}. To je nepochyně způsobnemo samotným EL, který řečník nevypíná mezi jednotlivými slovy. Zajímavá je přítomnost šumu v célém frekvenčním spektru, přestože EL produkuje konstantní buzení. Přítomnost tohoto buzení je ve spektru na obr. \ref{fig:experiments:analysis:spectrogram:el} viditelná jako výrazná souvislá linie v nízkých frekvencích. Přitomnost šumu ve vyšších frekvencích je způsobené umístěním mikrofonu, který je nalepen na pokožku a tím pádem snímal namodulované vibrace, přenášené měkkou tkání. Tento fakt se potvrdil v dalších etapách nahrávání (viz \todo{přidat zmínku o tom, že v dalších etapách to je krapet jinak}{porovnání}), kde byl použit studiový mikrofon, který byl od úst vzdálen minimálně 15 cm. Nicméně z pohledu použitelnosti nějakého budoucího systému je potřeba počítat i se situací kdy mikrofon bude zaznamenávat i vibrace přenášené tkání.
+Prvním markantním rozdílem je mnohem větší zastoupení šumu v úsecích \uv{ticha} na obr. \ref{fig:experiments:analysis:spectrogram:el}. To je nepochyně způsobnemo samotným EL, který řečník nevypíná mezi jednotlivými slovy. Na obr. \ref{fig:experiments:analysis:el_speech} je to také zřetelně patrný, zejména na průběhu energie, šum zejména před prvním a druhým slovem promluvy. Zajímavá je přítomnost šumu v célém frekvenčním spektru, přestože EL produkuje konstantní buzení. Toto buzení je ve spektru, na obr. \ref{fig:experiments:analysis:spectrogram:el}, viditelná jako výrazná souvislá linie v nízkých frekvencích. Přitomnost šumu ve vyšších frekvencích je způsobena umístěním mikrofonu, který je nalepen na pokožku a tím pádem snímá namodulované vibrace, přenášené měkkou tkání. Tento fakt se potvrdil v dalších etapách nahrávání (viz \todo{přidat zmínku o tom, že v dalších etapách to je krapet jinak}{porovnání}), kde byl použit studiový mikrofon vzdálený od úst minimálně 15 cm. Nicméně z pohledu použitelnosti nějakého budoucího systému je nezbytné počítat i se situací, kdy mikrofon bude zaznamenávat i vibrace přenášené tkání.
 
-Dalším markantním rozdílem je absence vyšších frekvencí u většiny produkovaných fonémů. Vyjímku tvoří ploziva \textit{c} a \textit{č}, u kterých jsou hlasivky (u zdravého jedince) v klidu a vznikají uvolnění nahromaděného vzduchu v dutině ústní\footnote{Nahromadění vzduchu je realizováno přitisknutím jazyka k přední části horního patra.}. V tomto případě není principiálně ovlivněn mechanizmus produkce těchto fonému. Problémem teoreticky může být zdroj vzduch, jelikož vzduch z plic není možné dostat do dutiny ústní, ale jak už bylo zmíněno (a spektrogram to potvrzuje) zkušený uživatel EL se dokáže adaptovat.
+Dalším markantním rozdílem je absence vyšších frekvencí u většiny produkovaných fonémů. Vyjímku tvoří afrikáty $/c/$ a $/\check{c}/$, u kterých jsou hlasivky (u zdravého jedince) v klidu a vznikají uvolněním nahromaděného vzduchu v dutině ústní\footnote{Nahromadění vzduchu je realizováno přitisknutím jazyka k přední/zadní části horního patra.} \cite{Psutka2006}. V tomto případě není, u řečníka po TL, principiálně tento mechanizmus produkce těchto fonému ovlivněn. Problémem teoreticky může být zdroj vzduchu, jelikož jej z plic není možné dostat do dutiny ústní, ale jak už bylo zmíněno (a spektrogram to potvrzuje) zkušený uživatel EL se dokáže adaptovat.
+
+Absence vyšších frekcencí se dá vysvětlit použitím EL, kde samotný EL má vždy konstantní frekvenci buzení a dále tím, že nedochází k modulaci v ve všech dutinách vokálního traktu. Nicméně nejdůležitější složky, zajišťující srozumitelnost, se vyskytují ve frekvenčním pásmu od 1 kHz do 3 kHz. Vyšší frekvence se a priory podílejí na zabarvení hlasu.
 
 \begin{figure}[htpb]
   \centering
@@ -110,14 +112,51 @@ Dalším markantním rozdílem je absence vyšších frekvencí u většiny prod
   \label{fig:experiments:analysis:spectrogram}
 \end{figure}
 
-test \ref{fig:experiments:analysis:spectrogram} \ref{fig:experiments:analysis:spectrogram:el} \ref{fig:experiments:analysis:spectrogram:normal}
+Dalším způsobem jak porovnat řeč zdravého řečníka a tím s EL je pomocí analýzy jednotlivých fonémů. Na obr. \ref{fig:experiments:analysis:phonemes} jsou zobrazeny průběhy amplitudy v čase\footnote{Hodnoty času, na obr. \ref{fig:experiments:analysis:phonemes}, odpovídají časům výskytu v původní promluvě.} pro fonémy $/k/$, $/m/$ a $/\check{c}/$. V případě $/k/$ a $/m/$ (1. a 2. průběh) se jedná o okluzivy, kde v prvním případě se jedná o neznělou plozivu a druhém o znělou plozivu. Tyto fonémy obecně vznikají uzavřením vydechovaného proudu vzduchu, pomocí artikulačních orgánů, což se projeví jako krátká pauza (tzv. okluze). Po té následuje náhlé jednorázové překážky a únik nahromaděného vzduchu, tzv. exploze \cite{Psutka2006}. Takto popsáno to samozřejmě funguje u zdravého jedince, ale u EL řečníka jde principiálně o stejný mechanizmus. S tím rozdílem, že vzduch nepochází z plic, ale z hltanu. Dalším rozdílem je samozřejmě absence hlasivek.
 
-% \begin{figure}[]
-%   \centering
-%   \includegraphics[width=\textwidth]{./ch4-experiments/img/spectrogram_subplot.png}
-%   \caption{}
-%   \label{}
-% \end{figure}
+\begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.42\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/phonemes_normal.png}
+    \caption{Zdravý řečník}
+    \label{fig:experiments:analysis:phonemes:normal}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.42\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/phonemes_el.png}
+    \caption{EL řečník}
+    \label{fig:experiments:analysis:phonemes:el}
+  \end{subfigure}
+  \caption{Ukázky průběhů amplitudy pro fonémy $/k/$, $/m/$ a $/\check{c}/$.}
+  \label{fig:experiments:analysis:phonemes}
+\end{figure}
+
+Foném $/k/$ představuje zástupce neznělých fonémů, ty se vyznačují tím, že do jejich produkce nezasahují hlasivky, které jsou v klidu. Zdrojem buzení je tedy šum. Pokud se podíváme na průběh amplitudy v čase u zdravého řečníka (obr. \ref{fig:experiments:analysis:phonemes:normal}), tak zde není vidět žádný periodický signál. Hlasivky jsou tedy opravdu v klidu. Oproti tomu u EL řečníka (obr. \ref{fig:experiments:analysis:phonemes:el}) je jasně patrné, že je zde přítomno aktivní buzení vytvořené EL. Na obr. \ref{fig:experiments:analysis:freq:k} je pak zobrazeno tzv. amplitudové spektrum, které znázorňuje vývoj amplitudy signálu ve frekcenci pro oba řečníky. V případě zdravého řečníka odpovídá vývoj očekávání tedy, že zde není žádná výrazná frekvence a také, že nedochází k výraznému útlumu. Přestože se v obou případech jedná o stejný foném, tak z časového i frekvešního průběhu amplitudy je zřejmé, že parametry signálu se u obou řečníku diametrálně liší.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-experiments/img/freq_analysis_(k).png}
+  \caption{Vývoj amplitudy fonému $/k/$ ve frekvenci zdravého (horní) a EL (dolní) řečníka.}
+  \label{fig:experiments:analysis:freq:k}
+\end{figure}
+
+Jako druhý ukázkový foném slouží $/m/$. Opět se jedná o plozivu, ale v tomto případě o znělou. U těchto fonémů hrají velký vliv hlasivky, protože jsou zdrojem buzení. Z obr. \ref{fig:experiments:analysis:phonemes:normal} je krásně zřetelné buzení ve formě perodického průběhu amplitudy. Narozdíl tomu, u EL řečníka (obr. \ref{fig:experiments:analysis:phonemes:el}) je také vidět periodický signál, ale úplně jiného průběhu. Svým způsoběm dost podobný tomu, který je zřetelný u fonému $/k/$. Rozdíl je zřetelný i ve frekvenční oblasti (obr. \ref{fig:experiments:analysis:freq:m}), kdy u EL řečnía nedochází útlumu ve střední oblasti frekvenčního spektra.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-experiments/img/freq_analysis_(m).png}
+  \caption{Vývoj amplitudy fonému $/m/$ ve frekvenci zdravého (horní) a EL (dolní) řečníka.}
+  \label{fig:experiments:analysis:freq:m}
+\end{figure}
+
+Posledním úkázkovým fonémem je již zmiňované $/\check{c}/$. Jedná se o neznělý foném, který vzniká přiložením jazyku k zadní části horního patra. Tím je zadržen vzduch v dutině ústní a vzniká krátká pauza. Uvolněním pak dochází k explozi a vytvoření zvuku. Do produkce se nezapojují hlasivky a produkovaný zvuk by měl být dostatečně intenzivní, aby jej (v případě EL řečníka) tolik neovlivňoval EL. Tím pádem by měl být průběh signálu, u obou řečníků podobný, a to jak v časové, tak i ve frekvenční oblasti. Na obr. \ref{fig:experiments:analysis:phonemes} a \ref{fig:experiments:analysis:freq:c} je pak jasně vidět, že se jedná o platný předpoklad.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-experiments/img/freq_analysis_(c).png}
+  \caption{Vývoj amplitudy fonému $/\check{c}/$ ve frekvenci zdravého (horní) a EL (dolní) řečníka.}
+  \label{fig:experiments:analysis:freq:c}
+\end{figure}
 
 % \csvautotabular{./ch4-experiments/test.csv}
 
