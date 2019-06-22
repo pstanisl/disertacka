@@ -195,11 +195,61 @@ Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách 
     columns/el/.style={column name=EL $[\%]$, column type={|r|}},
     every head row/.style={before row={
       \hline
-      & \multicolumn{2}{c|}{WER} \\
     },after row=\hline},
     every last row/.style={after row=\hline},
   ]{./ch4-experiments/tabs/reduction_01.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s monofóním akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
+\end{table}
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
+    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/reduction_02.csv}
+  \caption{Vliv redukce fonetické sady na přesnost ASR systému s monofóním akustickým a trigramovým jazykovým modelem obsahujícím 360k slov pro zdravého a EL řečníka.}
+\end{table}
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
+    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/reduction_03.csv}
+  \caption{Vliv redukce fonetické sady na přesnost ASR systému s trifónovým akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
+\end{table}
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
+    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/reduction_04.csv}
+  \caption{Vliv redukce fonetické sady na přesnost ASR systému s trifónovým akustickým a trigramovým jazykovým modelem s 360k slov pro zdravého a EL řečníka.}
 \end{table}
 
 \begin{itemize}
