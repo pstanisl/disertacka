@@ -7,6 +7,7 @@ Rozpoznávání řeči se věnuje nemalé usílí již od 50. let 2O. století a
 Tyto korpusy však obsahují ve většině případů pouze \uv{standardní}\footnote{Slovením spojením \uv{standardní řeč} je myšlena řeč neobsahující vyrazné řečové vady, případně jiné formy produkce a často v nepřílíš akusticky náročném prostředí.} řeč. Pokud je snaha vytvořit nebo ověřit funkčnost systému za specifických podmínek (ať už se jedná o rušné prostředí či speciální typy promluv), tak je nezbytné získat potřebná data.
 
 \subsection{Vytvoření korpusu EL promluv}
+\label{chap:experiments:analysis:corpus}
 
 Na začátku byla idea o pomoci skupině lidí mající problémy s přirozenou řečí. Vůbec prvním předpokladem, na cestě k úspěšnému dosažení vůbec nějakého cíle, jsou data. Jelikož se jedná o velmi spefická data, tak je potřeba zajistit co možná největší množství kvalitních\footnote{Kvalitou je myšlena věrnost dat dané doméně, dále se mluví o přesnosti ve smyslu bezchybnosti přepisů.} a přesných dat.
 
@@ -24,7 +25,7 @@ Ještě před samotným nahrávánám byly pečlivě vybrány a vytvořeny 2 sad
 
 \begin{enumerate}
   \item sada obsahující všechny možné české fonémy - \textit{40 vět}.
-  \item sada obsahující věty s reálnou četností fonémů - \textit{5000 vět}.
+  \item sada obsahující věty s reálnou četností fonémů - \textit{5000 vět} \cite{Radova2000}.
 \end{enumerate}
 
 \noindent Pořízené nahrávky vždy odpovídají 10 - 20 minutovému úseku nepřerušovaného nahrávání a soubory tak vždy obsahují několik vět. Ty jsou od sebe odděleny minimálně 5 sekundovým úsekem ticha. Nahrávky dále mouhou obsahovat opakování chybně vyslovené věty, přeřeknutí, kýchnutí a další neřečové události. Z tohoto důvodu bylo nezbytné pořízené nahrávky anotovat, přestože byly pořízené na základě připravené sady vět.
@@ -71,6 +72,7 @@ Výsledný korpus tedy představuje $5040$ unikátních vět rozdělených do $6
 \end{table}
 
 \subsection{Analýza získaných dat}
+\label{chap:experiments:analysis:data}
 
 Po dokončení anotace obsahuje korpus přes 10 hodin akustických záznamů promluv a více či méně přesných přepisů\footnote{I přes nemalou snahu a několikastupňovou kontrolu, je téměř jisté, že by nebylo obtížné najít přepis, který obsahuje chybu například ve formě překlepu.}. Když jsou k dispozici data je možné se podívat na specifika EL řeči a případně porovnat se zdravým řečníkem.
 
@@ -163,6 +165,7 @@ Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách 
 % \csvautotabular{./ch4-experiments/test.csv}
 
 \subsection{Prvotní experimenty}
+\label{chap:experiments:analysis:experiment}
 
 \begin{table}[htpb]
   \centering
@@ -183,6 +186,56 @@ Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách 
 \end{table}
 
 \subsection{Redukce fonetické sady}
+\label{chap:experiments:analysis:reduction}
+
+Při používání EL je přístroj v průběhu promluvy permanentně zapnutý a to i v případě neznělých fonémů. Rozdílný průběh těch neznělých je patrný na obr. \ref{fig:experiments:analysis:phonemes}. Nabízí se tak předpoklad, že všechny neznělé fonémy mají podobu znělých fonémů a tím pádem je možné redukovat fonetickou sadu. Teoreticky, pokud jsou všechny neznělé fonémy produkovány jako znělé, a je redukována fonetická sada, tak je snížena perplexita modelu a ten by měl být schopen pracovat s vyšší přesností.
+
+K ověření tohoto předpokladu je potřeba experimentální ověření. Myšlenka experimentu je jednoduchá. Je potřeba natrénovat několik modelů, ty se liší pouze tím, jaký fonetický pár (viz tab. \ref{tab:experiments:analysis:reduction:pairs}) byl použit pro redukci fonetické sady. V rámci experimentu je jsou uvažovány tyto případy:
+
+\begin{itemize}
+  \item \textit{Baseline} - standardní model s plnou fonetickou sadou.
+  \item $/f/ \rightarrow /v/$ - foném $/f/$ je nahrazen fonémem $/v/$.
+  \item $/k/ \rightarrow /g/$ - foném $/k/$ je nahrazen fonémem $/g/$.
+  \item $/s/+/\check{s}/ \rightarrow /z/+/\check{z}/$ - foném $/s/$ $\left(/\check{s}/\right)$ je nahrazen fonémem $/z/$ $\left(/\check{z}/\right)$.
+  \item $/t/+/\text{\textit{ť}}/ \rightarrow /d/+/\text{\textit{ď}}/$ - foném $/t/$ $\left(/\text{\textit{ť}}/\right)$ je nahrazen fonémem $/d/$ $\left(/\text{\textit{ď}}/\right)$.
+  \item \textit{Náhrada všech} - všechny neznělé fonémy jsou nahrazeny znělým ekvivalentem.
+\end{itemize}
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    string type,
+    columns/unvoiced/.style={column name=Neznělé fonémy, column type={|c}},
+    columns/voiced/.style={column name=Znělé fonémy, column type={|c|}},
+    every head row/.style={before row={
+      \hline
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/phonemes_pairs.csv}
+  \caption{Korespondující páry fonémů.}
+  \label{tab:experiments:analysis:reduction:pairs}
+\end{table}
+
+\noindent Pro porovnání jsou stejné modely vytvořeny i pro zdravého řečníka, protože v tomto případě by měl být, při libovolné redukci fonetické sady, horší než \textit{baseline}.
+
+K natrénování akustických modelů byly použity korpusy čítající 5000 vět\footnote{Pro oba řečníky byly použity stejné věty pocházející z databáze popsané v \cite{Radova2000}.} což představuje více než 10 hodin řeči pro každého řečníka. Akustická data byla parametrizována pomocí MFCC s 26 filtry a 12 kepstrálními koeficienty a energií. Dále vektor parametrů obsahoval delta a delta-delta příznaky. To dohromady dává vektor 39 příznaků pro každých 10 ms náhrávky \cite{Psutka2007}.
+
+V rámci experimentu byly otestovány dva přístupy vzájemně se lišící řečovou jednotkou. V prvním případě se jednalo o monofónový akustický model a v druhém trifónový. V obou případech byla řečová jednotka reprezentována třístavovým HMM modelem se spojitou výstupní pravděpodobnostní funkcí pro každý stav. Jelikož je pro češtinu množství trifónů opravdu velké, jsou využity fonetické rozhodovací stromy pro určení trifónů a korespujících stavů. Pro určení optimálních parametrů modelu pro EL byly použity znalosti z části \ref{chap:experiments:analysis:experiment}. Pro zdravého řečníka bylo pro každou část experimentu vytvořeno několik modelů lišící se počtem stavů a gaussovkých směsí. Všechny akustické modely byly natrénovány pomocí HTK-Toolkitu v3.4. Celkem bylo vytvořeno 24 akustických modelů, 12 pro EL řečníka (6 monofónových a 6 trifónových) a 12 pro zdravého řečníka.
+
+Pro otestování modelů byla vytvořena testovací sada čítající 500 vět náhodně vybraných z původních korpusů (pro oba řečníky stejná). Testovací sada tak představuje přibližně 1 hodinu řeči pro každého řečníka. Pro fungování ASR systému je potřeba, kromě akustického, i jazykový model. Ten určuje pravděpodobnost písmene/slova na základě předchozích pozorování. V rámci tohoto experimentu jsou uvažovány dva jazykové modely
+
+\begin{enumerate}
+  \item \textit{zerogramový jazykový model} - v tomto případě mají všechny slova v modelu stejnou pravděpodobnost $P_r(w_n|w_1,\dots,w_{n-1}) = \frac{1}{W}$, kde $W$ je počet slov ve slovníku. V tomto případě $W = 2885$, jinýmy slovy perplexita modelu je $2885$. Model naobsahuje OOV\footnote{Out-of-vocabulary (OOV) - slova, která nejsou obsažena ve slovníku jazykového modelu.}.
+  \item \textit{trigramový jazykový model} - u tohoto modelu odpovídá pravděpodobnost následujícího slova $P_r(w_n|w_1,\dots,w_{n-1})~=~p(w_n|w_{n-2}, w_{n-1})$. K získání $p(w_n|w_{n-2}, w_{n-1})$ posloužil SRILM Toolkit s Kneser-Ney vyhlazováním \cite{Stolcke2002}, které se podle \cite{Prazak2008} ukázalo jako optimální pro tyto typy modelů. Jako trénovací data byly použity texty z novinových článků, webových stránek a přepisů televizních pořadů. Celkem model obsahuje 360K nejvíce frekventovaných slov. OOV bylo $3.8 \%$ a perplexita $3380$.
+\end{enumerate}
+
+\noindent V kombinaci s vytvořenými akustickými modely to představuje 4 dílčí experimenty.
+
+Tab. \ref{tab:experiments:analysis:reduction:01} a \ref{tab:experiments:analysis:reduction:02} zobrazují výsledky pro monofónový akustický model a zerogramový jazykový model, resp. trigramový jazykový model. V obou případech je vidět očekávané chování přesnosti modelu u zdravého řečníka. Ke konečné podobě fonetické sady se dospělo po dlouholetém výzkumu a počet fonémů je tak optimální. Redukcí fonetické sady je omezena komplexita modelu a tím pádem dochází ke zhoršení přesnosti. Překvapující může být horší výsledky u zdravého řečníka v tab. \ref{tab:experiments:analysis:reduction:02}. Toto chování může být vysvětleno vyšší perplexitou trigramového jazykového modelu v kombinaci s relativně jednoduchým monofónovým akustickým modelem.
+
+U EL řečníka je vidět dílčí zlepšení u 2 modelů (tab. \ref{tab:experiments:analysis:reduction:01}), resp. 1 modelu v případě trigramového modelu (tab. \ref{tab:experiments:analysis:reduction:02}). Ve většině případech však redukce fonetické sady vedla ke zhoršení přesnoti. U EL řečníka došlo ke zlepšení při použití trigramového jazykového modelu, to nasvědčuje tomu, že monofónový akustický model není úplně ideální pro odhad sekvence fonémů.
 
 \begin{table}[htpb]
   \centering
@@ -199,6 +252,7 @@ Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách 
     every last row/.style={after row=\hline},
   ]{./ch4-experiments/tabs/reduction_01.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s monofóním akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
+  \label{tab:experiments:analysis:reduction:01}
 \end{table}
 
 \begin{table}[htpb]
@@ -216,7 +270,12 @@ Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách 
     every last row/.style={after row=\hline},
   ]{./ch4-experiments/tabs/reduction_02.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s monofóním akustickým a trigramovým jazykovým modelem obsahujícím 360k slov pro zdravého a EL řečníka.}
+  \label{tab:experiments:analysis:reduction:02}
 \end{table}
+
+V tab. \ref{tab:experiments:analysis:reduction:03} a \ref{tab:experiments:analysis:reduction:04} jsou pak vypsány výsledky pro trifónový akustický model se zerogramovým resp. trigramovým jazykovým modelem. Stejně jako u předchozích dvou experimentů, tak i zde je vidět, že redukce fonetické sady vede u zdravého řečníka vždy ke zhoršní přesnosti modelu. Také je tu možné vydedukovat, že trifónový akustický model dosahuje výrazně lepších výsledků než monofónní model. Zhoršení u EL řečníka v tab. \ref{tab:experiments:analysis:reduction:03} je s největší pravděpodobností způsobeno fonetickými stromy, protože není dostatek dat pro všechny možné varianty trifónů. Tím pádem model pro určité akustické trifóny vrací špatné sekvence znaků. Zerogramového jazykový model to pak nedokáže zachránit, protože všechny slova mají stejnou pravděpodobnost $P_r(w_n|w_1,\dots,w_{n-1}) = \frac{1}{2885}$. Tím pádem může dojít k rozpoznávání špatného slova a nižší celkové přesnosti. Tuto domněnku potvrzuje rapidní zlepšení v případš trigramového jazykového modelu (tab. \ref{tab:experiments:analysis:reduction:04}) kde již jazykový model významně přispívá k přesnosti modelu.
+
+U obou experimentů s trifónovým jazykovým modelem došlo ke zlepšení u dvou modelů (tab. \ref{tab:experiments:analysis:reduction:03} a \ref{tab:experiments:analysis:reduction:04}), ale stejně jako v případě monofónového modelu vedla ve většině případů redukce fonetické sady ke zhoršení.
 
 \begin{table}[htpb]
   \centering
@@ -233,6 +292,7 @@ Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách 
     every last row/.style={after row=\hline},
   ]{./ch4-experiments/tabs/reduction_03.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s trifónovým akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
+  \label{tab:experiments:analysis:reduction:03}
 \end{table}
 
 \begin{table}[htpb]
@@ -250,11 +310,17 @@ Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách 
     every last row/.style={after row=\hline},
   ]{./ch4-experiments/tabs/reduction_04.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s trifónovým akustickým a trigramovým jazykovým modelem s 360k slov pro zdravého a EL řečníka.}
+  \label{tab:experiments:analysis:reduction:04}
 \end{table}
+
+Ze získaných výsledků je možné usoudit, že redukce fonetické sady může vést ke zlepšení přesnosti. Nicméně předpoklad, že všechny neznělé fonémy jsou shodné se svými znělými ekvivalenty se nepotvrdila. Zároveň není možné úplně říci, že je možné např. dvojici $/s/$ a $\check{s}$ za každých okolností převést na znělou variantu a dosáhnout tím lepších výsledků. Při hlubší analýze výsledků se ukázalo, že velmi záleží na kontextu daného fónemu, protože jeho podubu velmi ovlivňují fonémy v bezprostředním okolí. Řeč představuje spojitou formu signálu a při vyslovování různých slov obsahujícím stejný foném s odlišným okolím dochází i třeba k odchylkám v artikulaci, např. \textit{hrad} vs. \textit{hod}.
+
+Naopak očekávaným výsledkem bylo zhoršená přesnosti pro zdravého řečníka ve všech případech redukce fonetické sady. Dále se potvrdilo, že komplexnější trifónový model dosahuje ve většině případů lepších výsledků. To je nepochybně způsobeno tím, že pro jeden foném máme přesnější pravděpodobnosti přechodu, protože se bere v potaz i jeho okolí, kdežto pro monofónový model nikoli.
 
 \begin{itemize}
   \item popis jak byla data získána
   \item informace o datech (frakvenční rozsah, atp.)
   \item prvotní experimenty k určení parametrů modelu
   \item popsat výsledky, výsledky převážně na HTK (HMM + GMM)
+  \item konfúzní tabulka (20160607) a nové mapování
 \end{itemize}
