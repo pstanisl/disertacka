@@ -53,6 +53,27 @@ Celkem se v 2. etapě pořídila přibližně 1 hodina řečových dat. Celý ko
 
 TBD
 
+
+
+
+\begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/gmm-hmm.pdf}
+    \caption{GMM-HMM}
+    \label{fig:experiments:analysis:spectrogram:normal}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/dnn-hmm.pdf}
+    \caption{DNN-HMM}
+    \label{fig:experiments:analysis:spectrogram:el}
+  \end{subfigure}
+  \caption{Znázornění odlišného principu \textit{GMM-HMM} a \textit{DNN-HMM}.}
+  \label{fig:experiments:analysis:spectrogram}
+\end{figure}
+
+
 Z dosažených výsledků vyplývá, že nová data jsou příliš odlišná od původních dat. Zároveň je těchto dat relativně malé množství, aby se mohly modely adaptovat. Na rozdíl v datech se můžeme koukat jako na změnu kanálu, která je příčinou změn v datech, protože řečník je stejný. V předchozím textu bylo zmíněno, že v rámci druhé etapy došlo ke změné nahrávací procedury. Tím byl pozměněn kanál a logicky výsledná zaznamenaná řeč má jiné parametry než ta v 1. etapě. Mezi další prvky, které mohou způsobit změnu kanálu může být prostředí, tedy jestli je řeč produkována uvnitř nějaké místnosti, či venku, jestli je na pozadí přítomen šum atp. K tomu, aby bylo možné použít všechna dostupná data, je potřeba eliminovat vliv kanálu. K jeho eliminaci je možné využít CMN, což je zkratka anglických slov Cepstral Mean Normalisation.
 
 Zaznamenaný signál je možné popsat jako
