@@ -69,9 +69,9 @@ Tab. \ref{tab:experiments:normalization:recording} přibližuje souhrnné parame
 \subsection{Vliv nových dat na kvalitě modelů}
 \label{chap:experiments:normalization:corpus}
 
-Mezi lety 2012 a 2015 zaznamenalo rozpoznávání řeči překotný vývoj používaných technologií. Do té doby byly state-of-the-art modely postaveny na kombinaci HMM a \uv{gaussovských směsí} GMM. U těchto modelů má každý HMM stav určitou gaussovskou směs, viz obr. \ref{fig:experiments:normalization:hmm:gmm}. Pravděpodobnost přechodu mezi stavy HMM pak určují tyto směsi. Jejich parametry jsou získány na základě trénování. S příchodem open source frameworku Kaldi \cite{Kaldi2011} a rozmachem GPU výpočtů se začaly objevovat modely využívající hluboké neuronové sítě (DNN).
+Mezi lety 2012 a 2016 zaznamenalo rozpoznávání řeči překotný vývoj používaných technologií. Do té doby byly state-of-the-art modely postaveny na kombinaci HMM a \uv{gaussovských směsí} GMM. U těchto modelů má každý HMM stav jinou směs, viz obr. \ref{fig:experiments:normalization:hmm:gmm}. Pravděpodobnost přechodu mezi stavy HMM pak určují tyto směsi. Jejich parametry jsou získány na základě trénování. S příchodem open source frameworku Kaldi \cite{Kaldi2011} a rozmachem GPU výpočtů se začaly objevovat modely využívající hluboké neuronové sítě (DNN).
 
-Rozpoznávání řeči je možné si představit jako převod jedné sekvence (akustických parametrů) do jiné sekvence (znaků). Pro tento typ úloh se a priory hodí rekurentní neuronové sítě (RNN), ale jejich slabinou je enormní výpočetní náročnost i mimo trénovací fázi a pak potřeba enormního množství dat pokud má být vytvořen end-to-end systém \cite{Hannun2014}. Vytvoření čistě RNN end-to-end ASR systému je nesmírně nákladné (data, HW, atd.), tak se v současné době využívá kombinace HMM modelu, který je také zástupcem rodiny sequence-to-sequence modelů, a DNN. Hlavním rozdílem oproti modelům s GMM je v tom, že se pro všechny stavy HMM trénuje pouze jedna neuronová síť, pomocí které jsou určovány přechody mezi stavy, viz obr. \ref{fig:experiments:normalization:hmm:dnn}.
+Rozpoznávání řeči je možné si představit jako převod jedné sekvence (akustických parametrů) do jiné sekvence (znaků). Pro tento typ úloh se a priory hodí rekurentní neuronové sítě (RNN), ale jejich slabinou je enormní výpočetní náročnost i mimo trénovací fázi a také potřeba enormního množství dat pokud má být vytvořen end-to-end\footnote{End-to-end systémem je ve většině případů myšlen systém, do kterého vstupuje audio (audio příznaky) a vystupuje z něj sekvence znaků.} systém \cite{Hannun2014}. Vytvoření čistě RNN end-to-end ASR systému je nesmírně nákladné (data, HW, atd.), tak se v současné době převážně využívá kombinace HMM modelu, který je také zástupcem rodiny sequence-to-sequence modelů, a DNN. Hlavním rozdílem oproti modelům s GMM je v tom, že pro všechny stavy HMM se trénuje pouze jedna neuronová síť, pomocí které jsou určovány přechody mezi stavy, viz obr. \ref{fig:experiments:normalization:hmm:dnn}. Navíc tím, že tato neuronová síť určuje \uv{pouze} přechody mezi jednitlivými stavy HMM, tak může být tato síť řádově menší a jednodušší, než kdyby se jednalo o end-to-end neuronovou síť.
 
 
 \begin{figure}[htpb]
@@ -91,11 +91,45 @@ Rozpoznávání řeči je možné si představit jako převod jedné sekvence (a
   \label{fig:experiments:normalization:hmm}
 \end{figure}
 
+S novými daty je možné natrénovat modely a ověřit, zda je s nimi systém schopen pracovat. Oproti \ref{chap:experiments:analysis:experiment} je použit framework Kaldi, který se stal standardem pro vytváření akustikých modelů. Samotný framework se skládá z velkého množství utilit, která každá plní určitý \uv{jednoduchý} úkol v procesu vytváření modelu. Kompletní proces vytváření modelu se tak sestává v postupném spouštění těchto utilit v přesně definovaném pořadí. Autoři frameworku připravili nepřeberné množství skriptů, které slouží k vytvoření různých modelů. Všechny modely pro EL řeč vycházejí ze skriptů pro natrénování modelů z Wall Street Journal (WSJ) korpusu, který nejčastěji jako jakýsi benchmark ASR systémů. Skripty jsou jen drobně upraveny, aby výsledný model odpovídal EL doméně a bylo jej vůbec možné vytvořit.
+
+Přestože DNN nahradily GMM v HMM, tak k jejich natrénování je nezbytné nejprve natrénovat \textit{GMM-HMM} model, který slouží k prvotnímu zarovnání (určení hranic jednotlivých fonémů v rámci audio náhrávky). Toto zarovnání slouží jako startovní bod pro neuronovou síť. Tím, že je trénována pouze jedna síť, tak je k dispozici řádově více dat\footnote{V případě \textit{GMM-HMM} má každý stav své GMM a tím pádem, čím více stavů, tím méně trénovacích dat pro každou směs.} k jejímu natrénování, na druhou stranu má tato síť mnohem více parametrů než všechny GMM směsi dohromady a tak je potřeba dbát na velikost sítě. Nicméně pro standardní WSJ DNN (6 vrstev, každá s 2048 nebo 4096 neurony) je dat dostatek.
+
+Přestože vývoj výpočetních GPU postupuje závratnou rychlostí, tak natrénování standardního \textit{DNN-HMM} modelu trvá o poznání déle než \textit{GMM-HMM}. Pro ověření zda je možné vytvořit model ze všech dat, která jsou k dispozici poslouží i \textit{GMM-HMM} model, protože ten slouží jako startovní bod pro \textit{DNN-HMM}. Pokud tyto modely neposkytnou DNN, alespoň trochu \uv{dobré} počáteční podmínky, tak sofistikovanější DNN nemusí pomoci.
+
+Pro potřeby ověřovacího experimentu posloužily jako základ Kaldi WSJ skripty. Jako první je vytvořen monofónový akustický model používající Perceptual Linear Prediction (PLP) s 12 kepstrálními, delta a delta-delta koeficienty. Tento monofónový model je speciální případ kontextově závislých modelů, bez levého a pravého (fonémového) kontextu. Následně jsou natrénovány trifónové modely. Stejně jako v experimentech provedených v části \ref{chap:experiments:analysis:experiment}, tak i zde jsou použity rozhodovací stromy, protože počet všech variant trifónů je příliš velký.
+
+V části \ref{chap:experiments:analysis:experiment} byl korpus rozdělen na trénovací a testovací sadu. Po rozšíření korpusu bylo rozdělení dat z 1. etapy ponecháno a nová data rozdělena mezi trénovací a testovací sadu. Všechny nahrané věty v 2. etapě jsou použity v trénovací a všechna slova naopak v testovací sadě. Toto rozdělení je logické, protože důvodem rozšíření korpusu byla snaha ověřit funkčnost ASR systémů na slovech, která mají odlišný význam, ale liší se pouze znělostí jednoho fonému. Jelikož z výsledku v části \ref{chap:experiments:analysis:reduction} vyplývá, že určité spektrum trifónů je možné reprezentovat pouze pomocí znělých variant, tak při použití nahraných slov bude teoreticky možné lépe prozkoumat tuto otázku.
+
+Po otestování výše popsaného modelu byl opět použit monofónový zerogramový jazykový model tak, aby co nejméně ovlivňoval dosažené výsledky. Na kompletní testovací sadě bylo dosaženo přesnosti $54,96\ \%$ a v případě, že testovací sada obsahovala pouze nově nahraná slova, tak dokonce jen $42,97\ \%$. Což je významné zhoršení oproti výsledkům dosažených v \ref{chap:experiments:analysis:experiment}, kde bylo dosaženo více něž $80\ \%$ přesnosti.
+
+Pro ověření, že není chyba v procesu trénování (přeci jen se změnil framework) poslouží křížový test, kdy pomocí stejného procesu jsou natrénovány modely z původních (1. etapa) a nových (2. etapa) dat a křížově otestovány na kompletní, původní a jen nové části testovací sady. Výsledky tohoto testu jsou v tab. \ref{tab:experiments:normalization:cross}. Z tabulky je jasně patrné, že pokud je model natrénován a otestován pomocí dat ze stejné etapy, tak je dosaženo podobných výsledků jako v \ref{chap:experiments:analysis:experiment}.
+
+%model;orig;new
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
+    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+      & \multicolumn{2}{c|}{Accuracy} \\
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/0202-cross_test.csv}
+  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy.}
+  \label{tab:experiments:normalization:cross}
+\end{table}
 
 % - 20161208_param -> porovnani n vs o, vzit hodnoty z toho
 % - 20170111_together -> CMN FULL vysledky na HMM, pak tam dat i vysledky z
 
-Z dosažených výsledků vyplývá, že nová data jsou příliš odlišná od původních dat. Zároveň je těchto dat relativně malé množství, aby se mohly modely adaptovat. Na rozdíl v datech se můžeme koukat jako na změnu kanálu, která je příčinou změn v datech, protože řečník je stejný. V předchozím textu bylo zmíněno, že v rámci druhé etapy došlo ke změné nahrávací procedury. Tím byl pozměněn kanál a logicky výsledná zaznamenaná řeč má jiné parametry než ta v 1. etapě. Mezi další prvky, které mohou způsobit změnu kanálu může být prostředí, tedy jestli je řeč produkována uvnitř nějaké místnosti, či venku, jestli je na pozadí přítomen šum atp. K tomu, aby bylo možné použít všechna dostupná data, je potřeba eliminovat vliv kanálu. K jeho eliminaci je možné využít CMN, což je zkratka anglických slov Cepstral Mean Normalisation.
+Z dosažených výsledků tedy vyplývá, že nová data jsou příliš odlišná od původních dat a v parametrickém prostoru příliš vzdálena těm původním. Zároveň je těchto dat relativně malé množství, aby se mohly modely plně adaptovat. Na rozdíl v datech se můžeme koukat jako na změnu kanálu, která je příčinou těchto změn, protože řečník je stejný. V předchozím textu bylo zmíněno, že v rámci 2. etapy došlo ke změné nahrávací procedury a také elektrolarynxu. Tím byl pozměněn kanál a logicky výsledná zaznamenaná řeč má jiné parametry než ta v 1. etapě. Mezi další prvky, které mohou způsobit změnu kanálu může být prostředí, tedy jestli je řeč produkována uvnitř nějaké místnosti, či venku, jestli je na pozadí přítomen šum atd. K tomu, aby bylo možné použít všechna dostupná data, je potřeba eliminovat tento vliv kanálu. K jeho eliminaci je možné využít CMN, což je zkratka anglických slov Cepstral Mean Normalisation. Principem této metody je odstranení vlivu kanálu na základě střední hodnoty kepstrálních koeficientů, viz dále.
 
 Zaznamenaný signál je možné popsat jako
 
@@ -104,13 +138,13 @@ Zaznamenaný signál je možné popsat jako
   \label{eq:experiments:normalization:convolution}
 \end{equation}
 
-\noindent kde $x\left[n\right]$ představuje vstupní signál, tedy řeč, a $h\left[n\right]$ odezva kanálu na jednotkový impulz. Zaznamenaný signál je pak jejich lineární konvolucí. Ve frekvenční oblasti pak rovnice \ref{q:experiments:normalization:convolution} zapsaná nýsledovně:
+\noindent kde $x\left[n\right]$ představuje vstupní signál, tedy řeč, a $h\left[n\right]$ odezva kanálu na jednotkový impulz. Zaznamenaný signál je jejich lineární konvolucí. Ve frekvenční oblasti je pak rovnice \ref{eq:experiments:normalization:convolution} zapsaná následovně:
 
 \begin{equation}
   Y\left[f\right] = X\left[f\right] \cdot H\left[f\right]
 \end{equation}
 
-\noindent Ve frekvenční oblasti se z konvuluce stalo násobění což značně zjednodušuje situaci. K odstranění vlivu kanálu je, ale ještě potřeba převést hodnoty do kepstrálná oblasti. To je realizováno pomocí logaritmu spektra
+\noindent V této oblasti se z konvuluce stalo násobění, což značně zjednodušuje situaci. K odstranění vlivu kanálu je, ale ještě potřeba převést hodnoty do kepstrálná oblasti. To je realizováno pomocí logaritmu spektra
 
 \begin{equation}
   Y\left[q\right] = \log\left(Y\left[f\right]\right) = \log\left(X\left[f\right] \cdot H\left[f\right]\right) = X\left[q\right] + H\left[q\right],
@@ -122,7 +156,7 @@ Zaznamenaný signál je možné popsat jako
   Y_i\left[q\right] = H\left[q\right] + X_i\left[q\right],
 \end{equation}
 
-\noindent kde $Y_i\left[q\right]$ představuje $i-\text{tý}$ frame kepstra $q$ nahrávky a $X_i\left[q\right]$ představuje $i-\text{tý}$ frame kepstra $q$ neovlivněné řeči. Z této rovnice je pak možné vypočítat střední hodnotu
+\noindent kde $Y_i\left[q\right]$ představuje $i$ frame kepstra $q$ nahrávky a $X_i\left[q\right]$ představuje $i$ frame kepstra $q$ neovlivněné řeči. Z této rovnice je pak možné vypočítat střední hodnotu
 
 \begin{equation}
   \frac{1}{N} \sum_i Y_i\left[q\right] = H\left[q\right] + \frac{1}{N} \sum_i X_i\left[q\right].
@@ -137,7 +171,7 @@ Zaznamenaný signál je možné popsat jako
   \label{eq:experiments:normalization:cmn}
 \end{align}
 
-\noindent S pomocí rovnice \ref{eq:experiments:normalization:cmn} je možné odfiltrovat vliv kanálu a teoreticky by tak získat hodnoty kepstrálních koeficientů odpovídající nezkreslené řeči.
+\noindent S pomocí rovnice \ref{eq:experiments:normalization:cmn} je možné odfiltrovat vliv kanálu a teoreticky tak získat hodnoty kepstrálních koeficientů odpovídající nezkreslené řeči. Otázkou je přes jaký úsek počítat střední hodnotu. Je možné ji počítat přes posuvné okénko fixní délky, přes jednotlivé nahrávky, nebo dokonce přes všechny nahrávky konkrétní etapy. Pokud totiž bude úsek, přes který je počítána průměrná hodnota krátký, tak se může stát, že vypočtená střední hodnota nebude odpovídat skutečné střední hodnotě umožňující eliminaci vlivu kanálu. V tomto případě, kdy nahrávky dělí velký časový úsek a i proces nahrávání byl změněn, je toto potřeba odexperimentovat.
 
 \subsection{Poslechový test}
 
