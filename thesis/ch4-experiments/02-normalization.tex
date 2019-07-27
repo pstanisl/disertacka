@@ -2,9 +2,9 @@
 \section{Porovnání člověk vs. stroj}
 \label{chap:experiments:normalization}
 
-Z experimentů provedených v části \ref{chap:experiments:analysis} vyplynula potřeba rozšířit korpus řečových dat. V části \ref{chap:experiments:analysis:reduction} se ukázalo, že v určitých případech jsou neznělé fonémy produkovány jako znělé. Pro lepší porozumnění tohoto jevu je nezbytné, aby řecový korpus obsahoval co možná nejvíce promluv obsahující slova slova s odlišným významem, ale lišící se pouze ve znělosti jedonho fonému.
+Z experimentů provedených v části \ref{chap:experiments:analysis} vyplynula potřeba rozšířit korpus řečových dat. V části \ref{chap:experiments:analysis:reduction} se ukázalo, že v určitých případech jsou neznělé fonémy produkovány jako znělé. Pro lepší porozumnění tohoto jevu je nezbytné, aby řecový korpus obsahoval co možná nejvíce promluv obsahující slova s odlišným významem, ale lišící se pouze ve znělosti jedonho fonému.
 
-Tato část se zaměřuje na získání takových to slov a experimentů s těmito slovy. Hlavním experimentem je porovnání schopností člověka tato slova od sebe odlišit a stroje. Na základě poznatků z tohoto experimentu jsou nabrženy úpravy, které mají sloužit k zlepšení systémů rozpoznávání řeči.
+Tato část se zaměřuje na získání takovýchto slov a experimentů s nimi. Hlavním experimentem je porovnání schopností člověka a stroje tato slova od sebe odlišit. Na základě poznatků z tohoto experimentu jsou navrženy úpravy, které mají sloužit k zlepšení systémů rozpoznávání řeči.
 
 \subsection{Rozšíření řečového korpusu}
 \label{chap:experiments:normalization:corpus}
@@ -26,11 +26,11 @@ Vstupem je tedy slovník obsahující slova a jejich fonetický přepis, dále p
   Do basy nemusí, vlk žere, koza žije.
 \end{verbatim}
 
-Vybraná slova a věty jsou základem pro druhou etapu nahrávání. Nahrávání se zhostil stejný řečník jako v případě té první (viz část \ref{chap:experiments:analysis:corpus}). Samotné nahrávání bylo rozděleno do dvou samostatných sezení, mající mezi sebou týdenní rozestup. Oproti první etapě probíhalo nahrávání v odhlučněné nahrávácí komoře za pomocí profesionálního nahrávacího zařízení. Mikrofon byl od úst řečníka vzdálen přibližně 15 cm, protože byl použit studiový mikrofon, který kvůli své velikosti už z podstaty není možné přiložit přímo na tvář jako v případě první série nahrávání. K nahrávání byl použit speciální software, který kontroloval zda každá nahrávka splňuje určité parametry. Každá nahrávka musí mít na svém začátku a konci minimálně $0,5\ s$ ticha a zároveň celá nahrávka nesmí být příliš tichá a zároveň přebuzená (kontrolováno pomocí energie). Pokud nahrávka nesplňovala definované parametry, tak byla zamítnuta a řečník musel promluvu zopakovat.
+Vybraná slova a věty jsou základem pro druhou etapu nahrávání, které se uskutečnilo během dvou sezení v červenci roku 2016. Jedná se tedy o relativně velký časový odstup od 1. etapy. Nahrávání se zhostil stejný řečník jako v případě té první (viz část \ref{chap:experiments:analysis:corpus}). Samotné nahrávání bylo rozděleno do dvou samostatných sezení, mající mezi sebou týdenní rozestup. Oproti první etapě probíhalo nahrávání v odhlučněné nahrávácí komoře za pomocí profesionálního nahrávacího zařízení. Mikrofon byl od úst řečníka vzdálen přibližně 15 cm, protože byl použit studiový mikrofon, který kvůli své velikosti už z podstaty není možné přiložit přímo na tvář jako v případě první série nahrávání. K nahrávání byl použit speciální software, který kontroloval zda každá nahrávka splňuje určité parametry. Každá nahrávka musí mít na svém začátku a konci minimálně $0,5\ s$ ticha a zároveň celá nahrávka nesmí být příliš tichá a zároveň přebuzená (kontrolováno pomocí energie). Pokud nahrávka nesplňovala definované parametry, tak byla zamítnuta a řečník musel promluvu zopakovat.
 
-V částu \ref{chap:experiments:analysis:corpus} je zmíněno, že je nezbytné provést anotaci nahrávek, aby mohl být korpus kompletní. Samotná anotace je navíc relativně zdlouhavý proces, a proto je dobré pořídit přesné promluvy vybraných slov a vět. K tomu slouží další z funkcí nahrávacího softwaru, který řečníkovi vždy ukáže text, který je potřeba vyslovit. Společně s audio záznamem je pak uložen i tento text. K dispozici je tedy nahrávka a její \uv{přepis}. Nicméně samotný řečník často může udělat chybu aniž by si toho všiml (např. záměna podobných slov apod.) a software nijak nekontroluje co bylo ve skutečnosti vysloveno. Z tohoto důvodu je nahrávání přítomen operátor, který poslouchá co bylo řečeno a v případě potřeby zamítné nahrávku. Řečník následně musí promluvu opakovat dokud nahrávka neodpovídá požadovaným parametrům a zároveň je její obsah správný.
+V části \ref{chap:experiments:analysis:corpus} je zmíněno, že je nezbytné provést anotaci nahrávek, aby mohl být korpus kompletní. Samotná anotace je navíc relativně zdlouhavý proces, a proto je dobré pořídit přesné promluvy vybraných slov a vět. K tomu slouží další z funkcí nahrávacího softwaru, který řečníkovi vždy ukáže text, který je potřeba vyslovit. Společně s audio záznamem je pak uložen i tento text. K dispozici je tedy nahrávka a její \uv{přepis}. Nicméně samotný řečník často může udělat chybu aniž by si toho všiml (např. záměna podobných slov apod.) a software nijak nekontroluje co bylo ve skutečnosti vysloveno. Z tohoto důvodu je nahrávání přítomen operátor, který poslouchá co bylo řečeno a v případě potřeby zamítné nahrávku. Řečník následně musí promluvu opakovat dokud nahrávka neodpovídá požadovaným parametrům a zároveň je její obsah správný.
 
-Na obr. \ref{fig:experiments:normalization:word} a \ref{fig:experiments:normalization:sentence} jsou ukázky audio záznamu slova \uv{kosa} a věty \uv{Zkoušel jsem to několikrát, ale pokaždé padla kosa na kámen.}. Pokud se nahrávky porovnají s daty získanými v první etapě (obr. \ref{fig:experiments:analysis:el_speech}), tak hlavním rozdílem je vyšší kvalita nahrávek, zejména vyšší amplituda nahrávek. Ze zobrazených spektrogramů je zřejmé, že šum je přítomen v podobném spektru a intenzitě jako u předchozích nahrávek. Rozdíl je zejména v nižších frekvencích řeči, které jsou na spektrogramu výraznější. Přestože se jedná o stejného řečníka, tak zaznamenaná řeč nemá úplně identické parametry. Hlavním důvodem bude nepochybně změna nahrávací aparatury a procesu nahrávání. Nezanedbatelný vliv bude mít i relativní nestálost prametrů EL řeči, zvlášť v delším časovém období. Kvalita a parametry EL řeči je totiž velmi závisle na typu a pozici elektrolarynxu.
+Na obr. \ref{fig:experiments:normalization:word} a \ref{fig:experiments:normalization:sentence} jsou ukázky audio záznamu slova \uv{kosa} a věty \uv{Zkoušel jsem to několikrát, ale pokaždé padla kosa na kámen.}. Pokud se nahrávky porovnají s daty získanými v první etapě (obr. \ref{fig:experiments:analysis:el_speech}), tak hlavním rozdílem je vyšší kvalita nahrávek, zejména vyšší amplituda. Ze zobrazených spektrogramů je zřejmé, že šum je přítomen v podobném spektru a intenzitě jako u předchozích nahrávek. Rozdíl je zejména v nižších frekvencích řeči, které jsou na spektrogramu výraznější. Přestože se jedná o stejného řečníka, tak zaznamenaná řeč nemá úplně identické parametry. Hlavním důvodem bude nepochybně změna nahrávací aparatury a procesu nahrávání. Nezanedbatelný vliv bude mít i relativní nestálost prametrů EL řeči, zvlášť v delším časovém období. Kvalita a parametry EL řeči jsou totiž velmi závisl0 na typu a pozici elektrolarynxu, ten se v době mezi nahráváními změnil.
 
 \begin{figure}[hbpt]
   \centering
@@ -46,14 +46,32 @@ Na obr. \ref{fig:experiments:normalization:word} a \ref{fig:experiments:normaliz
   \label{fig:experiments:normalization:sentence}
 \end{figure}
 
-Celkem se v 2. etapě pořídila přibližně 1 hodina řečových dat. Celý korpus po 2. etapě tak obsahuje 11 hodin řečových dat, sestávajích z více než $5400$ vět a $320$ izolovaných slov.
+Tab. \ref{tab:experiments:normalization:recording} přibližuje souhrnné parametry nahrávek pořízených v 2. etapě nahrávání. Celkem se pořídilo přibližně 2 hodiny řeči (každá nahrávka obsahuje $0,5\ s$ ticha na začátku a konci). Z toho přibližně jen $10\ \%$ představují slova. Společně s novými daty tak korpus obsahuje téměř $14$ hodin audio záznamů.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    string type,
+    columns/phase/.style={column name=Nahrávání, column type={|l}},
+    columns/length/.style={column name=Délka \textit{[HH:MM:SS]}, column type={|r}},
+    columns/words/.style={column name=Počet slov, column type={|r}},
+    columns/sentences/.style={column name=Počet vět, column type={|r}},
+    columns/files/.style={column name=Počet souborů, column type={|r|}},
+    every head row/.style={after row=\hline, before row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/0201-recording-stats.csv}
+  \caption{Informace o korpusu nahrávek z 2. etapy nahravání.}
+  \label{tab:experiments:normalization:recording}
+\end{table}
 
 \subsection{Vliv nových dat na kvalitě modelů}
 \label{chap:experiments:normalization:corpus}
 
-TBD
+Mezi lety 2012 a 2015 zaznamenalo rozpoznávání řeči překotný vývoj používaných technologií. Do té doby byly state-of-the-art modely postaveny na kombinaci HMM a \uv{gaussovských směsí} GMM. U těchto modelů má každý HMM stav určitou gaussovskou směs, viz obr. \ref{fig:experiments:normalization:hmm:gmm}. Pravděpodobnost přechodu mezi stavy HMM pak určují tyto směsi. Jejich parametry jsou získány na základě trénování. S příchodem open source frameworku Kaldi \cite{Kaldi2011} a rozmachem GPU výpočtů se začaly objevovat modely využívající hluboké neuronové sítě (DNN).
 
-
+Rozpoznávání řeči je možné si představit jako převod jedné sekvence (akustických parametrů) do jiné sekvence (znaků). Pro tento typ úloh se a priory hodí rekurentní neuronové sítě (RNN), ale jejich slabinou je enormní výpočetní náročnost i mimo trénovací fázi a pak potřeba enormního množství dat pokud má být vytvořen end-to-end systém \cite{Hannun2014}. Vytvoření čistě RNN end-to-end ASR systému je nesmírně nákladné (data, HW, atd.), tak se v současné době využívá kombinace HMM modelu, který je také zástupcem rodiny sequence-to-sequence modelů, a DNN. Hlavním rozdílem oproti modelům s GMM je v tom, že se pro všechny stavy HMM trénuje pouze jedna neuronová síť, pomocí které jsou určovány přechody mezi stavy, viz obr. \ref{fig:experiments:normalization:hmm:dnn}.
 
 
 \begin{figure}[htpb]
@@ -61,18 +79,21 @@ TBD
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{./ch4-experiments/img/gmm-hmm.pdf}
     \caption{GMM-HMM}
-    \label{fig:experiments:analysis:spectrogram:normal}
+    \label{fig:experiments:normalization:hmm:gmm}
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{./ch4-experiments/img/dnn-hmm.pdf}
     \caption{DNN-HMM}
-    \label{fig:experiments:analysis:spectrogram:el}
+    \label{fig:experiments:normalization:hmm:dnn}
   \end{subfigure}
   \caption{Znázornění odlišného principu \textit{GMM-HMM} a \textit{DNN-HMM}.}
-  \label{fig:experiments:analysis:spectrogram}
+  \label{fig:experiments:normalization:hmm}
 \end{figure}
 
+
+% - 20161208_param -> porovnani n vs o, vzit hodnoty z toho
+% - 20170111_together -> CMN FULL vysledky na HMM, pak tam dat i vysledky z
 
 Z dosažených výsledků vyplývá, že nová data jsou příliš odlišná od původních dat. Zároveň je těchto dat relativně malé množství, aby se mohly modely adaptovat. Na rozdíl v datech se můžeme koukat jako na změnu kanálu, která je příčinou změn v datech, protože řečník je stejný. V předchozím textu bylo zmíněno, že v rámci druhé etapy došlo ke změné nahrávací procedury. Tím byl pozměněn kanál a logicky výsledná zaznamenaná řeč má jiné parametry než ta v 1. etapě. Mezi další prvky, které mohou způsobit změnu kanálu může být prostředí, tedy jestli je řeč produkována uvnitř nějaké místnosti, či venku, jestli je na pozadí přítomen šum atp. K tomu, aby bylo možné použít všechna dostupná data, je potřeba eliminovat vliv kanálu. K jeho eliminaci je možné využít CMN, což je zkratka anglických slov Cepstral Mean Normalisation.
 
