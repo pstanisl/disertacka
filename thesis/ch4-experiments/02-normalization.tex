@@ -103,7 +103,7 @@ V části \ref{chap:experiments:analysis:experiment} byl korpus rozdělen na tr�
 
 Po otestování výše popsaného modelu byl opět použit monofónový zerogramový jazykový model tak, aby co nejméně ovlivňoval dosažené výsledky. Na kompletní testovací sadě bylo dosaženo přesnosti $54,96\ \%$ a v případě, že testovací sada obsahovala pouze nově nahraná slova, tak dokonce jen $42,97\ \%$. Což je významné zhoršení oproti výsledkům dosažených v \ref{chap:experiments:analysis:experiment}, kde bylo dosaženo více něž $80\ \%$ přesnosti.
 
-Pro ověření, že není chyba v procesu trénování (přeci jen se změnil framework) poslouží křížový test, kdy pomocí stejného procesu jsou natrénovány modely z původních (1. etapa) a nových (2. etapa) dat a křížově otestovány na kompletní, původní a jen nové části testovací sady. Výsledky tohoto testu jsou v tab. \ref{tab:experiments:normalization:cross}. Z tabulky je jasně patrné, že pokud je model natrénován a otestován pomocí dat ze stejné etapy, tak je dosaženo podobných výsledků jako v \ref{chap:experiments:analysis:experiment}.
+Pro ověření, že není chyba v procesu trénování (přeci jen se změnil framework) poslouží křížový test, kdy pomocí stejného procesu jsou natrénovány modely z původních (1. etapa) a nových (2. etapa) dat a křížově otestovány na kompletní, původní a jen nové části testovací sady. Výsledky tohoto testu jsou v tab. \ref{tab:experiments:normalization:cross}. Z tabulky je jasně patrné, že pokud je model natrénován a otestován pomocí dat ze stejné etapy, tak je dosaženo podobných výsledků jako v \ref{chap:experiments:analysis:experiment}. Trénovcací proces je tedy \uv{správný}.
 
 %model;orig;new
 
@@ -171,7 +171,60 @@ Zaznamenaný signál je možné popsat jako
   \label{eq:experiments:normalization:cmn}
 \end{align}
 
-\noindent S pomocí rovnice \ref{eq:experiments:normalization:cmn} je možné odfiltrovat vliv kanálu a teoreticky tak získat hodnoty kepstrálních koeficientů odpovídající nezkreslené řeči. Otázkou je přes jaký úsek počítat střední hodnotu. Je možné ji počítat přes posuvné okénko fixní délky, přes jednotlivé nahrávky, nebo dokonce přes všechny nahrávky konkrétní etapy. Pokud totiž bude úsek, přes který je počítána průměrná hodnota krátký, tak se může stát, že vypočtená střední hodnota nebude odpovídat skutečné střední hodnotě umožňující eliminaci vlivu kanálu. V tomto případě, kdy nahrávky dělí velký časový úsek a i proces nahrávání byl změněn, je toto potřeba odexperimentovat.
+\noindent S pomocí rovnice \ref{eq:experiments:normalization:cmn} je možné odfiltrovat vliv kanálu a teoreticky tak získat hodnoty kepstrálních koeficientů odpovídající nezkreslené řeči. Otázkou je, přes jaký úsek počítat střední hodnotu. Je možné ji počítat přes posuvné okénko fixní délky, přes jednotlivé nahrávky, nebo dokonce přes všechny nahrávky konkrétní etapy. Pokud totiž bude úsek, přes který je počítána průměrná hodnota, krátký, tak se může stát, že vypočtená střední hodnota nebude odpovídat skutečné střední hodnotě umožňující eliminaci vlivu kanálu. V tomto případě, kdy nahrávky dělí velký časový úsek a i proces nahrávání byl změněn, je toto potřeba odexperimentovat.
+
+Pro zjištění jaká možnost je optimální je použit stejná trénovací procesdura jako v předešlých experimentech s novými daty. Jediný rozdíl je v datech na kterých bylo aplikováno CMN. Celkem byly uvažovány dva experimenty, a to
+
+\begin{itemize}
+  \item CMN počítáno pro každou nahrávku,
+  \item CMN počítáno pro celou etapu,
+\end{itemize}
+
+\noindent algoritmus CMN implementovaný na datech byl implementován na katedře kybernetiky Fakulty aplikovaných věd.
+
+V tab. \ref{tab:experiments:normalization:cmn:file} jsou výsledky experimentu s cmn počítaném přes jednotlivé nahrávky. Z dosažených výsledků je zřejmé, že pokud se CMN počítá přes jednotlivé nahrávky, tak je oproti výsledkům v tab. \ref{tab:experiments:normalization:cross} dosaženo určitého zlepšení, zvláště pokud je model natrénován na datech z 1. etapy a otestován na datech z 2. etapy, ale výsledky nejsou zdaleka tak dobré, jako v případě, že je model natrénován a otestován na datech ze stejné sady. Vliv tu také může hrát fakt, že zejména nahrávky izovlovaných slov jsou relativně krátké a vypočtené střední hodnoty, tak nabývají odličných hodnot.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
+    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+      & \multicolumn{2}{c|}{Accuracy} \\
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/0203-cmn_file.csv}
+  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s CMN přes jednotlivé soubory.}
+  \label{tab:experiments:normalization:cmn:file}
+\end{table}
+
+Dalším experimentem tedy je s daty, kde bylo CMN vypočteno ze všech nahrávek konkrétní etapy. V tab. \ref{tab:experiments:normalization:cmn:full} je vydět markantní zlepšení výsledků. Pokud byl model natrénován na datech z 1. etapy a test byl proveden na datech z libovolné etapy, tak dosažené výsledky jsou velmi podobné. Nejhoršího výsledku je dosaženo, pokud je model natrénován na datech z 2. etapy a otestován na těch z té 1. V tomto případě hraje velký vliv, že model je natrénován z relativně malého množství dat (pouhé 2 hodiny). Pokud je tedy CMN počítáno přes všechny nahrávky v etapě, tak je dosaženo významného zlepšení a vlivk kanálu je v podstatě eliminován. Pro doplnění je dobré zmínit, že pokud je model natrénován ze všech trénovacích dat (1. a 2. etapa) a otestován pomocí kompletní testovací sady, tak je dosažená přesnost s monofónovým zerogramovým jazykovým modelem rovna $77,69\ \%$, což je výsledek přibližující se hodnotám dosaženým v prvnotních experimentech v části \ref{chap:experiments:analysis:experiment}.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
+    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+      & \multicolumn{2}{c|}{Accuracy} \\
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/0204-cmn_full.csv}
+  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s CMN přes všechny nahrávky v etapě.}
+  \label{tab:experiments:normalization:cmn:full}
+\end{table}
+
+Z výsledků v tab. \ref{tab:experiments:normalization:cmn:file} je možné odvodit, že pokud se CMN počítá přes posuvné okénko fixní délky, tak dosažené výsledky nejsou zrovna dobré. Což se i experimentálně potvrdilo, když výsledná přesnost dosáhla hodnoty $56,51\ \%$, pokud jsou použita všechna data. Nicméně framefork Kaldi umožňuje aplikování CMVN, což je Cepstral mean and variance normalization. Oproti standardními CMN je uvažována i variance v kepstrální oblasti. Technicky je pravá část rovnice \ref{eq:experiments:normalization:cmn} ještě podělena vypočtenou variancí daného kepstrálního koeficientu $q$. Takže pokud je použito Kaldi CMVN, tak výsledná přesnost, na modelu trénovaném a testovaném na všech datech, dosáhla hodnoty $76,15\ \%$. Tento výsledek je srovnatelný s modelem využívající CMN přes všechny nahrávky v dané etapě.
 
 \subsection{Poslechový test}
 
