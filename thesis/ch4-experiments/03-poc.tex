@@ -1,6 +1,16 @@
 % !TEX root = ../thesis.tex
-\section{Protahování na příýnacích}
+\section{Protahování na příznacích}
 \label{chap:experiments:poc}
+
+Poslechový test jasně uázal, že správné rozpoznání pronesené EL promluvy není lehký úkol ani pro člověka. Naprosto markantní význam hraje kontext. Ten velmi významně pomáhá, pokud některá část promluvy nebyla dobře rozumnět nebo bylo těžké ji porozumnět. Navíc, ze zkušeností získaných při pořizování řečového korpusu (části \ref{chap:experiments:analysis:corpus} a \ref{chap:experiments:normalization:corpus}), plyne, že EL řečník má tendenci mluvit ve spíše kratších dávkách slov, mezi kterými dělá drobné pauzy. V tomto případě pro člověka není problém udržet v povědomí kontext, ale stroji to může někdy způsobovat problémy. Otázkou tedy je, jak \uv{vylepšit} stroj tak, aby poskytoval lepší výsledky?
+
+Ať se řečník snaží sebevíc, tak se současnými metodami rehabilitace hlasu (viz \ref{sec:cause:treatment}), se při ztrátě hlasivek část informace z produkované řeči ztrácí. Obnovit tuto informaci se snaží valná většina prezentovaných přístupů v části \textbf{TBD}. Ve valné většině případů se k tomu využívá obohacení modelu o artikulační data, nebo dokonce využití jen těchto artikulačních dat. \cite{Denby2010} \cite{Hofe2013} Problém s ní je ale v tom, že ne všechny akustické nuance mezi podobnými fonémy nejsou artikulací vůbec ovlivněny. Navíc její záznam s sebou nese používaní dalšího zařízení (kamery, ultrazvuku \cite{Hueber2010}), nebo dokonce nutnost podstoupení dalšího operačního zákroku (magnety \cite{Hofe2011}). Samozřejmě je férové říct, že většina těchto vyvíjených systémů si klade za cíl komletně nahradit současné metody rehabilitace. Na druhou stranu faktem je, že ani po dlouholetém vývoji se většina těchto systémů nedostala z raně vývojové fáze. Nepochybně hraje určitou roli i to, že je tato problematika přeci jen na okraji zájmu řečařské komunity.
+
+Pokud tedy není úplně reálné získat ztracenou informaci pomocí kompletní změny paradigmatu fungování rozpoznávání řeči, tak zbývá jen pracovat s informací, která je k dispozici a adaptovat současný model. Případně je možné nahradit ztracenou informaci určitou cílenou drobnou změnou produkované řeči tak, aby byl řečník co možná nejméně ovlivněn. Jako optimální se pak jeví změna produkované řeči, která je zohledněna modelem. Samozřejmě takovýto přístup nezbavý řečníka EL, ale může mu pomoci v situacích, které jsou pro něj stresující a v konečném důsledku mu velmi komplikují život.
+
+Asi jako nejjednodušší možnost augmentace promluvy se jeví protežení určitých fonémů. Člověk je naprosto bez problémů schopen měnit tempo promluvy. Dokonce velmi často se děje mimoděk, protože tempo řeči velmi významně závisí na emočním a fyzickém stavu jedince. Pokud by se řečník naučil automaticky protahovat určité fonémy, tak by to mohlo pomoci při rozpoznávání.
+
+
 
 \begin{itemize}
   \item problém se znělostí (systém moc nefunguje pokud je promluva krátká)

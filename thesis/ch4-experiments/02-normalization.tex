@@ -79,17 +79,17 @@ Rozpoznávání řeči je možné si představit sequence-to-sequence modely, te
 \begin{figure}[htpb]
   \centering
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{./ch4-experiments/img/gmm-hmm.pdf}
-    \caption{GMM-HMM}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/HMM-GMM.pdf}
+    \caption{HMM-GMM}
     \label{fig:experiments:normalization:hmm:gmm}
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{./ch4-experiments/img/dnn-hmm.pdf}
-    \caption{DNN-HMM}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/HMM-DNN.pdf}
+    \caption{HMM-DNN}
     \label{fig:experiments:normalization:hmm:dnn}
   \end{subfigure}
-  \caption{Znázornění odlišného principu \textit{GMM-HMM} a \textit{DNN-HMM}.}
+  \caption{Znázornění odlišného principu \textit{HMM-GMM} a \textit{HMM-DNN}.}
   \label{fig:experiments:normalization:hmm}
 \end{figure}
 
@@ -97,9 +97,9 @@ Rozpoznávání řeči je možné si představit sequence-to-sequence modely, te
 
 S novými daty je možné natrénovat modely a ověřit, zda je s nimi systém schopen pracovat. Oproti \ref{chap:experiments:analysis:experiment} je použit framework Kaldi, který se stal standardem pro vytváření akustikých modelů. Samotný framework se skládá z velkého množství utilit, která každá plní určitý \uv{jednoduchý} úkol v procesu vytváření/testování modelu. Kompletní proces vytváření modelu se tak sestává z postupného spouštění těchto utilit v přesně definovaném pořadí. Autoři frameworku připravili nepřeberné množství skriptů, které slouží k vytvoření různých typů modelů. Všechny modely pro EL řeč vycházejí ze skriptů pro natrénování modelů z Wall Street Journal (WSJ) korpusu, který je nejčastěji požíván jako jakýsi benchmark ASR systémů. Skripty jsou jen drobně upraveny, aby výsledný model odpovídal EL doméně a bylo jej vůbec možné vytvořit.
 
-Přestože DNN nahradily GMM v HMM, tak k jejich natrénování je nezbytné nejprve natrénovat \textit{GMM-HMM} model, který slouží k prvotnímu zarovnání (určení hranic jednotlivých fonémů v rámci audio náhrávky). To slouží jako startovní bod pro neuronovou síť. Tím, že je trénována pouze jedna síť, tak je k dispozici řádově více dat\footnote{V případě \textit{GMM-HMM} má každý stav své GMM a tím pádem, čím více stavů, tím méně trénovacích dat pro každou směs.} k jejímu natrénování, na druhou stranu má tato síť mnohem více parametrů než všechny GMM směsi dohromady a tak je potřeba dbát na velikost sítě. Nicméně pro standardní WSJ DNN (6 vrstev, každá s 1024, 2048 nebo 4096 neurony) je dat dostatek.
+Přestože DNN nahradily GMM v HMM, tak k jejich natrénování je nezbytné nejprve natrénovat \textit{HMM-GMM} model, který slouží k prvotnímu zarovnání (určení hranic jednotlivých fonémů v rámci audio náhrávky). To slouží jako startovní bod pro neuronovou síť. Tím, že je trénována pouze jedna síť, tak je k dispozici řádově více dat\footnote{V případě \textit{HMM-GMM} má každý stav své GMM a tím pádem, čím více stavů, tím méně trénovacích dat pro každou směs.} k jejímu natrénování, na druhou stranu má tato síť mnohem více parametrů než všechny GMM směsi dohromady a tak je potřeba dbát na velikost sítě. Nicméně pro standardní WSJ DNN (6 vrstev, každá s 1024, 2048 nebo 4096 neurony) je dat dostatek.
 
-Přestože vývoj výpočetních GPU postupuje závratnou rychlostí, tak natrénování standardního \textit{DNN-HMM} modelu trvá o poznání déle než \textit{GMM-HMM}. Pro ověření zda je možné vytvořit model ze všech dat, která jsou k dispozici, poslouží dobře i \textit{GMM-HMM} model, který stejně slouží jako startovní bod pro \textit{DNN-HMM}, tak by se vytvářel tak jako tak. Pokud tyto modely neposkytnou DNN, alespoň trochu \uv{dobré} počáteční podmínky, tak sofistikovanější DNN nemusí pomoci.
+Přestože vývoj výpočetních GPU postupuje závratnou rychlostí, tak natrénování standardního \textit{HMM-DNN} modelu trvá o poznání déle než \textit{HMM-GMM}. Pro ověření zda je možné vytvořit model ze všech dat, která jsou k dispozici, poslouží dobře i \textit{HMM-GMM} model, který stejně slouží jako startovní bod pro \textit{HMM-DNN}, tak by se vytvářel tak jako tak. Pokud tyto modely neposkytnou DNN, alespoň trochu \uv{dobré} počáteční podmínky, tak sofistikovanější DNN nemusí pomoci.
 
 Základem procesu vytvoření modelu jsou tedy Kaldi WSJ skripty. Jako první se vytvoří monofónový akustický model. Data jsou zparametrizována pomocí Perceptual Linear Prediction (PLP) s 12 kepstrálními, delta a delta-delta koeficienty. Tento monofónový model je speciální případ kontextově závislých modelů, bez levého a pravého (fonémového) kontextu. Následně jsou natrénovány trifónové modely. Stejně jako v experimentech provedených v části \ref{chap:experiments:analysis:experiment}, tak i zde jsou použity rozhodovací stromy, protože počet všech variant trifónů je příliš velký a dat nedostatek.
 

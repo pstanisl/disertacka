@@ -167,7 +167,7 @@ Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách 
 \subsection{Prvotní experimenty}
 \label{chap:experiments:analysis:experiment}
 
-Z provedené analýzy plyne, že EL data jsou od těch \uv{standardních} řečových relativně odlišná. Otazkou však je jak moc. Odpovědět může pomoci state-of-the-art obecný český ASR systém nezávislý na řečníkovi. V době psaní práce byl tento systém postaven na kombinaci neuronové sítě a skrytých makrovových modelů, tedy \textit{DNN-HMM}, více o těchto modelech v části \ref{chap:experiments:normalization}. K natrénováni modelu posloužil řečový korpus obsahující stovky hodin anotované řeči od velkého počtu řečníků. Pokud se jako vstup použily data ze získaného korpusu, tak byla dosažena přesnost slovní $18,49\ \%$\footnote{Pro potřeby této práce byl experiment zopakován v době psaní práce, protože od získání dat a první realizace tohoto experimentu uplynulo několik let a technologie pokročly. U původního experimentu byl výsledek obdobný.}. Toto číslo je vypočteno pomocí následujícího vzorce
+Z provedené analýzy plyne, že EL data jsou od těch \uv{standardních} řečových relativně odlišná. Otazkou však je jak moc. Odpovědět může pomoci state-of-the-art obecný český ASR systém nezávislý na řečníkovi. V době psaní práce byl tento systém postaven na kombinaci neuronové sítě a skrytých makrovových modelů, tedy \textit{HMM-DNN}, více o těchto modelech v části \ref{chap:experiments:normalization}. K natrénováni modelu posloužil řečový korpus obsahující stovky hodin anotované řeči od velkého počtu řečníků. Pokud se jako vstup použily data ze získaného korpusu, tak byla dosažena přesnost slovní $18,49\ \%$\footnote{Pro potřeby této práce byl experiment zopakován v době psaní práce, protože od získání dat a první realizace tohoto experimentu uplynulo několik let a technologie pokročly. U původního experimentu byl výsledek obdobný.}. Toto číslo je vypočteno pomocí následujícího vzorce
 
 \begin{equation}
   Acc = \frac{N - S - D - I}{N} * 100
@@ -213,7 +213,7 @@ Počet stavů již pak nehraje, tak zásádní roli na kvalitu akustického mode
   \label{tab:experiments:analysis:experiment:gmm}
 \end{table}
 
-Jelikož tento experiment byl realizován na přelomu let $2013$ a $2014$, kdy ještě $ASR$ modelům dominovaly \textit{GMM-HMM} modely, byl později zopakován s \textit{DNN-HMM} modely, které dosahují ještě vyšších přesností. Více o \textit{DNN-GMM} v části \ref{chap:experiments:normalization:corpus}. Výsledky těchto modelů jsou v tab. \ref{tab:experiments:analysis:experiment:dnn}, z nich je vidět, že i v této oblasti neuronové sítě jasně dominují.
+Jelikož tento experiment byl realizován na přelomu let $2013$ a $2014$, kdy ještě $ASR$ modelům dominovaly \textit{HMM-GMM} modely, byl později zopakován s \textit{HMM-DNN} modely, které dosahují ještě vyšších přesností. Více o \textit{DNN-GMM} v části \ref{chap:experiments:normalization:corpus}. Výsledky těchto modelů jsou v tab. \ref{tab:experiments:analysis:experiment:dnn}, z nich je vidět, že i v této oblasti neuronové sítě jasně dominují.
 
 \begin{table}[htpb]
   \centering
