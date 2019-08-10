@@ -78,6 +78,63 @@ Zhoršení přesnosti dozajista souvísí s faktem, že výsledná augmentovaná
 \subsection{Protažení na zvuku}
 \label{chap:experiments:augmentation:audio}
 
+Protažení na příznacích vedlo ke významnému zlepšení, ale tento přístup není bohužel reálně použitelný. Tím může být až model pracující s fonémy protaženými přímo v audiu. Tato data budou totiž mnohem více odpovídat případným reálným datům získaným od řečníka.
+
+Stejně jako v předchozím případě je k protažení potřeba zarovnání. To s určitou mírou přesnosti určuje počáteční a koncové hranice jednotlivých fonémů. Na základě je možné určitý úsek protáhnout například pomocí:
+
+\begin{itemize}
+  \item převzorkování signálu,
+  \item PSOLA algoritmu,
+  \item fázového vokodéru.
+\end{itemize}
+
+\noindent Asi nejednodušší je převzorkování dat, stačí načíst všechny vzorky odpovídající vybranému fonému a změnit vzorkovací frekcenci. Pokud je cílem úsek protáhnout, tak je výsledná nová vzorkovací frekvence menší než originální. Hlavním problémem této metody je tonální posun\footnote{Mění se fundamentální frekvence $F_0$. Pokud došlo ke zrychlení, tak je vyšší. Při zpomalení naopak nižší.}. Cílem je protáhnout jeden foném, který z celkové délky nahrávky zabírá jen malou část, a proto by se dal tento nepříznivý jev ignorovat. Snaha je však vygenerovat co možná nejreálnější protažené nahrávky, a proto není protažení pomocí převzorkování nejvhodnější metodou.
+
+
+\begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.42\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/energy_spec_word-normal.png}
+    \caption{Originální}
+    \label{fig:experiments:augmentation:compare:original}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.42\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/energy_spec_word-augmented.png}
+    \caption{Protažené}
+    \label{fig:experiments:augmentation:compare:augmented}
+  \end{subfigure}
+  \caption{Amplituda a spektrogram původního (protaženého) slova \uv{kosa}.}
+  \label{fig:experiments:analysis:compare}
+\end{figure}
+
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/extension/.style={column name=, column type={|l}},
+    columns/100/.style={column name={1,00x}, column type={|r}},
+    columns/150/.style={column name={1,50x}, column type={|r}},
+    columns/125/.style={column name={1,25x}, column type={|r}},
+    columns/175/.style={column name={1,75x}, column type={|r}},
+    columns/200/.style={column name={2,00x}, column type={|r}},
+    columns/225/.style={column name={2,25x}, column type={|r}},
+    columns/250/.style={column name={2,50x}, column type={|r}},
+    columns/275/.style={column name={2,75x}, column type={|r}},
+    columns/300/.style={column name={3,00x}, column type={|r|}},
+    every head row/.style={after row=\hline, before row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/0302-audio.csv}
+  \caption{Vliv míry protažení fonému na přesnost modelu.}
+  \label{tab:experiments:augmentation:influence}
+\end{table}
+
+\subsection{Reálně protažená data}
+\label{chap:experiments:augmentation:real}
+
 \begin{itemize}
   \item problém se znělostí (systém moc nefunguje pokud je promluva krátká)
   \item popsat důvody pro protažení
