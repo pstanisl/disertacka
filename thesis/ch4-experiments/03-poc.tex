@@ -84,12 +84,19 @@ Stejně jako v předchozím případě je k protažení potřeba zarovnání. To
 
 \begin{itemize}
   \item převzorkování signálu,
-  \item PSOLA algoritmu,
+  \item TD-PSOLA algoritmu,
   \item fázového vokodéru.
 \end{itemize}
 
 \noindent Asi nejednodušší je převzorkování dat, stačí načíst všechny vzorky odpovídající vybranému fonému a změnit vzorkovací frekcenci. Pokud je cílem úsek protáhnout, tak je výsledná nová vzorkovací frekvence menší než originální. Hlavním problémem této metody je tonální posun\footnote{Mění se fundamentální frekvence $F_0$. Pokud došlo ke zrychlení, tak je vyšší. Při zpomalení naopak nižší.}. Cílem je protáhnout jeden foném, který z celkové délky nahrávky zabírá jen malou část, a proto by se dal tento nepříznivý jev ignorovat. Snaha je však vygenerovat co možná nejreálnější protažené nahrávky, a proto není protažení pomocí převzorkování nejvhodnější metodou.
 
+Zbylé dva uvažované přístupy umožňují sofistikovanější úpravy signálu. Snahou je upravit časové vlastnosti signálu aniž by byl nepříznivě ovlivněn tón.  Obě metody využívají \textit{analýzy} signálu,  následováné \textit{zpracováním} a zakončené \textit{syntézou}. Rozdíl je hlavně ve způsobu. Metody z rodiny \textit{PSOLA} pracují s hlasivkovými pulsy, které jsou nejprve v analytické části nalezeny\footnote{Výsledkem analýzy jsou periodicky se opakující značky, angl. pitch marks. Úpravou jejich parametrů dochází ke změnám parametrů řeči.}, aby pak v části zpracování došlo k jejich transformaci na základě požadavků na výslednou řeč. V posledním kroku dochází k syntéze signálu na základě upravených analytických krátkodobých signálů, tedy hlasivkových pulsů. Více detailnějí se o této metodě hovoří v \cite{Psutka2006}.
+
+Fázový vokodér pracuje na podobném principu, s tím rozdílem, že v analytické části dochází k převodu signálu do frekveční oblasti pomocí FFT. Ve fázi zpracování je potom signál upraven, aby ve fázi syntézy byl opět převeden do časové oblasti pomocí inverzní FFT.
+
+Pomocí těchto dvou zmíněných metod je možné upravit nejen délku, ale i $F_0$ signálu. Stejně jako u převzorkování mají neblahý vliv na signál, ale ten není tak výrazný jako v případě převzorkování. U \textit{TD-PSOLA} mohou například vznikat artefakty způsobnené nespojitostmi mezi sousedními upravenými úseky řeči. U fázového vokodér nevznikají artefakty vlivem nespojitostí, ale vlivem fázového posunu. Jelikož se signál upravuje ve frekveční oblasti, kde dochází ke změnám jednotlivých komponent, může dojít k fázovému posunu mezi jednotlivými komponentami. Při syntéze pak mohou vznikat zaznamenatelné artefakty připomínající tupý zvuk.
+
+Obě metody však poskytují velmi dobré výsledky protažená na jednotlivých fonémech. Výsledné protažení je téměř identické. Interně vyvinutý nástroj umožňující ovlivnění délky řeči (a priory používaný při syntéze řeči) poskytuje obě sofistikované metody. Pro výsledné protažení je pak použita metoda \textit{TD-PSOLA}. Ukázka původního a protaženého slova \uv{kosa} je pak na obr. \ref{fig:experiments:augmentation:compare}. Protahován byl foném $/s/$, který je v signálu vidět jako šum mezi dvěmi výraznými častmi signálu. Inkriminovaný foném byl protažen na přibližně dvojnásobek. Na obr. \ref{fig:experiments:augmentation:compare:augmented} je pak zřetelně vidět protažení úseku odpovídající $/s/$. Zároveň v signálu a ani ve spektru není vidět, žádný významný artefakt.
 
 \begin{figure}[htpb]
   \centering
@@ -105,7 +112,85 @@ Stejně jako v předchozím případě je k protažení potřeba zarovnání. To
     \label{fig:experiments:augmentation:compare:augmented}
   \end{subfigure}
   \caption{Amplituda a spektrogram původního (protaženého) slova \uv{kosa}.}
-  \label{fig:experiments:analysis:compare}
+  \label{fig:experiments:augmentation:compare}
+\end{figure}
+
+\subsubsection{Dosažené výsledky s DNN}
+
+K ověření schopností modelu pracovat s uměle protaženými daty je použit stejný \textit{HMM-DNN} model jako v předchozích případech. Neuronová síť má $5$ skrytých vrstev, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů. V datech jsou protaženy všechny výskyty fonémů $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$. Uvažováno je protažení $1,25x$, $1,50x$, $1,75x$ a $2,00x$. Jazykový model je stejně jako v případě protažení na příznacích monofónový zerogramový. Dosažené výsledky jsou vypsány v tab. \ref{tab:experiments:augmentation:influence:dnn}. Nejlepšího výsledku dosáhl \textit{baseline} model s hodnotou $84,66\ \%$. S libovolným protažením dochází k poklesu přesnosti, což je nepochyně zklamáním.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/extension/.style={column name=, column type={|l}},
+    columns/100/.style={column name={1,00x}, column type={|r}},
+    columns/125/.style={column name={1,25x}, column type={|r}},
+    columns/150/.style={column name={1,50x}, column type={|r}},
+    columns/175/.style={column name={1,75x}, column type={|r}},
+    columns/200/.style={column name={2,00x}, column type={|r|}},
+    every head row/.style={after row=\hline, before row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/0302-audio_1.csv}
+  \caption{Vliv míry protažení fonému na přesnost DNN modelu.}
+  \label{tab:experiments:augmentation:influence:dnn}
+\end{table}
+
+\subsubsection{Upravené zarovnání a time delay neural network}
+
+Při analýze výsledků se ukázalo, že zarovnání v mnoha případech není zrovna nejpřesnější a to zvláště u inkriminovaných neznělých fonémů. Na obr. \ref{fig:experiments:augmentation:alignemnt:wrong} je získané zarovnání slova \uv{kosa} a také vyznačené hranice v audiu a spektru. Z obr. \ref{fig:experiments:augmentation:alignemnt:wrong:audio} je zřejmé, že počáteční hranice $/s/$ zasahuje ještě do předchozího fonému $/o/$. Tím pádem dochází k protažení nevhodné části signálu a model se tak učí na špatných datech. Pokud by samozřejmě všechny fonémy $/s/$ následovaly po $/o/$, tak by to víceméně nebyl problém, ale to samozřejmě neplatí.
+
+\begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.26\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/alignment_text.pdf}
+    \caption{Zarovnání}
+    \label{fig:experiments:augmentation:alignemnt:wrong:text}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.55\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/energy_spec_word-segment.png}
+    \caption{V signálu}
+    \label{fig:experiments:augmentation:alignemnt:wrong:audio}
+  \end{subfigure}
+  \caption{Špatně zarovnaný foném $/s/$ ve slově \uv{kosa}.}
+  \label{fig:experiments:augmentation:alignemnt:wrong}
+\end{figure}
+
+%Pro lepší zarovnání je potřeba upravit model, který se o zarovnání stará. \todo{TBD}{Doplnit vysvětlení od Pepika.}
+
+V době experimentů s protažením konkrétních fonémů se začaly stále více prosazovat time delay neural networks (TDNN). Ty se oproti DNN snaží vzít v potaz i dynamickou složku řeči\footnote{DNN berou v úvahu pouze statické vlastnosti řeči, protože síť v každém okamžiku zpracovává vektor příznaků odpovídající určitému času $t_c$ a jeho okolí. V čase $t_{c+1}$ není nijak zohledněn předchozí výsledek v čase $t_c$.}. U DNN jsou všechny neurony v jednotlivých vrstvách propojeny a tedy vstupní vektor je zpracováván všemi neurony v následující vrstvě. U TDNN toto neplatí, neurony v určité vrtvě jsou propojeny vždy jen s určitým počtem neuronů ve vrstvě následující, viz obr. \ref{fig:experiments:augmentation:tdnn}. To v důsledku znamená, že části sítě vykonávájí rozhodnutí na základě jiných podmnožin vstupních dat. V dalších vrstvách se pak tyto lokální rozhodnotí integrují, aby na výstupu sítě došlo ke globálnímu rozhodnutí. Tedy, aby byl výstupem sítě foném odpovídající času $t_c$ a jeho okolí $\langle t_{c-n}; t_{c+m} \rangle$.
+
+S posunem okénka velikosti $m + n + 1$ postupně jednotlivé části sítě zpracují všechny části vstupního zparametrizovaného signálu. Dynamika je zohledněna další množinou vah, která se mění podle toho jakou část vstupního vektoru ta část sítě zpracovává \cite{Waibel1989}. Tento přístup by se dal přirovnat k konvoluční neuronové síti (CNN), kde se také vstupní data (většinou obrázky) nezpracovájí najednou, ale pomocí filtrů vždy jen malá podmnožina. A v dalších vrstvách dochází ke spojování výsledků z těchto podmnožin. Hlavní rozdíl mezi TDNN a CMN je v tom, že CMN nepracuje s konceptem času. Více množin vah lze považovat za určitý ekvivalent paměti u RNN sítí.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.5\textwidth]{./ch4-experiments/img/tdnn.pdf}
+  \caption{Time delay neural network (TDNN).}
+  \label{fig:experiments:augmentation:tdnn}
+\end{figure}
+
+Stejně jako u DNN je na počátku trénování nutné mít k dispozici zarovnání. To, ale nemusí být naprosto přesné, protože je vstupní vektor zpracováván jiným způsobem než u DNN a pomocí více množin vah je brán v potaz i dynamický charakter řeči \cite{Peddinti2015}. Model založený na TDNN by tak měl ve výsledku generovat přesnější zarovnání a tím zlepšit výsledky modelu pracující s uměle protaženými daty.
+
+Jako startovní bod trénování je použito DNN zarovnání z předchozího experimentu. Topologie sítě vychází z hodnot prezentovaných v \cite{Peddinti2015}, tedy síť má $4$ skryte vrstvy. Velikost jednotlivých vrstev závisí na uvažovaném kontextu v jednotlivých vrstvách. První vrstava uvažuje kontext $m=2$ a $n=2$, ostatní vrstvy pak odpovídají nejlepší sítí z \cite{Peddinti2015}. Ukázka zarovnání získané touto sítí je pak znázorněnno na obr. \ref{fig:experiments:augmentation:alignemnt:correct}. Z vyznačených hranic fonému $/s/$ (obr. \ref{fig:experiments:augmentation:alignemnt:correct:audio}) ,ve slově \uv{kosa}, je patrné přesné určení počáteční a koncová hranice fonému.
+
+\begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.26\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/alignment_text-2.pdf}
+    \caption{Zarovnání}
+    \label{fig:experiments:augmentation:alignemnt:correct:text}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.55\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-experiments/img/energy_spec_word-segment-2.png}
+    \caption{V signálu}
+    \label{fig:experiments:augmentation:alignemnt:correct:audio}
+  \end{subfigure}
+  \caption{Správně zarovnaný foném $/s/$ ve slově \uv{kosa}.}
+  \label{fig:experiments:augmentation:alignemnt:correct}
 \end{figure}
 
 
@@ -127,9 +212,9 @@ Stejně jako v předchozím případě je k protažení potřeba zarovnání. To
     columns/300/.style={column name={3,00x}, column type={|r|}},
     every head row/.style={after row=\hline, before row=\hline},
     every last row/.style={after row=\hline},
-  ]{./ch4-experiments/tabs/0302-audio.csv}
-  \caption{Vliv míry protažení fonému na přesnost modelu.}
-  \label{tab:experiments:augmentation:influence}
+  ]{./ch4-experiments/tabs/0303-audio_2.csv}
+  \caption{Vliv míry protažení fonému na přesnost TDNN modelu.}
+  \label{tab:experiments:augmentation:influence:tdnn}
 \end{table}
 
 \subsection{Reálně protažená data}
