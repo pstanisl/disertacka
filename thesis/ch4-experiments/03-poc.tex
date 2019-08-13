@@ -8,7 +8,7 @@ Ať se řečník snaží sebevíc, tak se současnými metodami rehabilitace hla
 
 Pokud tedy není úplně reálné získat ztracenou informaci pomocí kompletní změny paradigmatu fungování rozpoznávání řeči, tak zbývá jen pracovat s informací, která je k dispozici a adaptovat současný model. Případně je možné nahradit ztracenou informaci určitou cílenou drobnou změnou produkované řeči tak, aby byl řečník co možná nejméně ovlivněn. Jako optimální se pak jeví změna produkované řeči, která je zohledněna modelem. Samozřejmě takovýto přístup nezbavý řečníka EL, ale může mu pomoci v situacích, které jsou pro něj stresující a v konečném důsledku mu velmi komplikují život.
 
-Asi jako nejjednodušší možnost augmentace promluvy se jeví protežení určitých fonémů. Člověk je naprosto bez problémů schopen měnit tempo promluvy. Dokonce velmi často se děje mimoděk, protože tempo řeči velmi významně závisí na emočním a fyzickém stavu jedince. Pokud by se řečník naučil automaticky protahovat určité fonémy, tak by to mohlo pomoci při rozpoznávání. U HMM modelů se délka fonému modeluje pomocí přechodu ze stavu $s_x$ do stejného stavu $s_x$. Z \uv{bigrams} experimentu v části \ref{chap:experiments:normalization:comparison} se dá usuzovat, že modely fonémových párů lišících se znělostí jsou si velmi podobné. Protažení jednoho fonému z inkriminovaného páru může vést k situaci, že modely si nebudou tolik podobné, protože se změní pravděpodonost přechodu ze stavu $s_x$ opět do stavu $s_x$. Tím pádem by mělo dojít k vyšší přesnosti modelu. Teorie je jedna věc, ale praxe je věc druhá.
+Asi jako nejjednodušší možnost augmentace promluvy se jeví protežení určitých fonémů. Člověk je naprosto bez problémů schopen měnit tempo promluvy. Dokonce velmi často se děje mimoděk, protože tempo řeči velmi významně závisí na emočním a fyzickém stavu jedince. Pokud by se řečník naučil automaticky protahovat určité fonémy, tak by to mohlo pomoci při rozpoznávání. U \textit{HMM} modelů se délka fonému modeluje pomocí přechodu ze stavu $s_x$ do stejného stavu $s_x$. Z \uv{bigrams} experimentu v části \ref{chap:experiments:normalization:comparison} se dá usuzovat, že modely fonémových párů lišících se znělostí jsou si velmi podobné. Protažení jednoho fonému z inkriminovaného páru může vést k situaci, že modely si nebudou tolik podobné, protože se změní pravděpodonost přechodu ze stavu $s_x$ opět do stavu $s_x$. Tím pádem by mělo dojít k vyšší přesnosti modelu. Teorie je jedna věc, ale praxe je věc druhá.
 
 K ověření teoreie je samozřejmě zapotřebí experiment a k němu jsou potřeba data. Bohužel získání reálných dat je zdlouhavý proces (viz \ref{chap:experiments:analysis:corpus} a \ref{chap:experiments:normalization:corpus}), navíc tady není zřejmé jestli se vůbec vyplatí je pořizovat, protože se jedná o hypotézu. Mnohem prozaičtější se jeví možnost uměle data protáhnout v místech výskytu zajmových fonémů. Toto protažení je teoreticky možné realizovat dvěma způsoby:
 
@@ -46,7 +46,7 @@ Protažení na příznacích je, ale spíše hypotetická možnost. V reálné s
 
 \subsubsection{Dosažené výsledky}
 
-Prvním bodem výše zmíněného algoritmu je získání standardního modelu, který je použit k zarovnání dat. K tomu je možné použít již natrénovaný model z části \ref{chap:experiments:normalization:quality}. Jde tedy o \textit{HMM-DNN} model s $5$ skrytými vrstvami, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů. Tento model dosáhl s monofónovým zerogramovým LM přesnoti $84,66\ \%$. S jeho pomocí je získáno zarovnání, tedy hranice jednotlivých fónému v trénovací i testovací sadě. Díky zarovnání je možné protáhnout zájmové fonémy.
+Prvním bodem výše zmíněného algoritmu je získání standardního modelu, který je použit k zarovnání dat. K tomu je možné použít již natrénovaný model z části \ref{chap:experiments:normalization:quality}. Jde tedy o \textit{HMM-DNN} model s $5$ skrytými vrstvami, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu \textit{HMM} stavů. Tento model dosáhl s monofónovým zerogramovým LM přesnoti $84,66\ \%$. S jeho pomocí je získáno zarovnání, tedy hranice jednotlivých fónému v trénovací i testovací sadě. Díky zarovnání je možné protáhnout zájmové fonémy.
 
 V rámci testování celého procesu je jako prvotní ověřovací experiment zvoleno dvojnásoné protažení fonému $/s/$. Jinými slovy, všechny vektory odpovídající $/s/$ jsou zduplikovány. Následně je standardním způsobem natrénován \textit{HMM-DNN} model. Neuronová síť má tedy $5$ skrytých vrstev s $4096$. Výstupní vrstva je typu softmax. Otestování je pak jako v předchozích případech realizováno na testovací sadě s monofónovým zerogramovým jazykovým modelem. Tento nový model dosáhl přesnosti $85,11\ \%$, což je sice malé, ale přesto zlepšení.
 
@@ -117,7 +117,7 @@ Obě metody však poskytují velmi dobré výsledky protažená na jednotlivých
 
 \subsubsection{Dosažené výsledky s DNN}
 
-K ověření schopností modelu pracovat s uměle protaženými daty je použit stejný \textit{HMM-DNN} model jako v předchozích případech. Neuronová síť má $5$ skrytých vrstev, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů. V datech jsou protaženy všechny výskyty fonémů $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$. Uvažováno je protažení $1,25x$, $1,50x$, $1,75x$ a $2,00x$. Jazykový model je stejně jako v případě protažení na příznacích monofónový zerogramový. Dosažené výsledky jsou vypsány v tab. \ref{tab:experiments:augmentation:influence:dnn}. Nejlepšího výsledku dosáhl \textit{baseline} model s hodnotou $84,66\ \%$. S libovolným protažením dochází k poklesu přesnosti, což je nepochyně zklamáním.
+K ověření schopností modelu pracovat s uměle protaženými daty je použit stejný \textit{HMM-DNN} model jako v předchozích případech. Neuronová síť má $5$ skrytých vrstev, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu \textit{HMM} stavů. V datech jsou protaženy všechny výskyty fonémů $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$. Uvažováno je protažení $1,25x$, $1,50x$, $1,75x$ a $2,00x$. Jazykový model je stejně jako v případě protažení na příznacích monofónový zerogramový. Dosažené výsledky jsou vypsány v tab. \ref{tab:experiments:augmentation:influence:dnn}. Nejlepšího výsledku dosáhl \textit{baseline} model s hodnotou $84,66\ \%$. S libovolným protažením dochází k poklesu přesnosti, což je nepochyně zklamáním.
 
 \begin{table}[htpb]
   \centering
@@ -134,7 +134,7 @@ K ověření schopností modelu pracovat s uměle protaženými daty je použit 
     every head row/.style={after row=\hline, before row=\hline},
     every last row/.style={after row=\hline},
   ]{./ch4-experiments/tabs/0302-audio_1.csv}
-  \caption{Vliv míry protažení fonému na přesnost DNN modelu.}
+  \caption{Vliv míry protažení fonému na přesnost \textit{DNN} modelu.}
   \label{tab:experiments:augmentation:influence:dnn}
 \end{table}
 
@@ -161,20 +161,20 @@ Při analýze výsledků se ukázalo, že zarovnání v mnoha případech není 
 
 %Pro lepší zarovnání je potřeba upravit model, který se o zarovnání stará. \todo{TBD}{Doplnit vysvětlení od Pepika.}
 
-V době experimentů s protažením konkrétních fonémů se začaly stále více prosazovat time delay neural networks (TDNN). Přestože patří do rodiny feed-forward sítí jako DNN, tak se oproti nim snaží vzít v potaz i dynamickou složku řeči\footnote{DNN berou v úvahu pouze statické vlastnosti řeči, protože síť v každém okamžiku zpracovává vektor příznaků odpovídající určitému času $t_c$ a jeho okolí. V čase $t_{c+1}$ není nijak zohledněn předchozí výsledek v čase $t_c$.}. U DNN jsou všechny neurony v jednotlivých vrstvách propojeny a tedy vstupní vektor je zpracováván všemi neurony v následující vrstvě. U TDNN toto neplatí, neurony v určité vrtvě jsou propojeny vždy jen s určitým počtem neuronů ve vrstvě následující, viz obr. \ref{fig:experiments:augmentation:tdnn}. To v důsledku znamená, že části sítě vykonávájí rozhodnutí na základě jiných podmnožin vstupních dat. V dalších vrstvách se pak tyto lokální rozhodnotí integrují, aby na výstupu sítě došlo ke globálnímu rozhodnutí. Tedy, aby byl výstupem sítě foném odpovídající času $t_c$ a jeho okolí $\langle t_{c-n}; t_{c+m} \rangle$.
+V době experimentů s protažením konkrétních fonémů se začaly stále více prosazovat time delay neural networks (\textit{TDNN}) . Přestože patří do rodiny feed-forward sítí jako \textit{DNN},  tak se oproti nim snaží vzít v potaz i dynamickou složku řeči\footnote{DNN berou v úvahu pouze statické vlastnosti řeči, protože síť v každém okamžiku zpracovává vektor příznaků odpovídající určitému času $t_c$ a jeho okolí. V čase $t_{c+1}$ není nijak zohledněn předchozí výsledek v čase $t_c$.}. U \textit{DNN} jsou všechny neurony v jednotlivých vrstvách propojeny a tedy vstupní vektor je zpracováván všemi neurony v následující vrstvě. U \textit{TDNN} toto neplatí, neurony v určité vrtvě jsou propojeny vždy jen s určitým počtem neuronů ve vrstvě následující, viz obr. \ref{fig:experiments:augmentation:tdnn}. To v důsledku znamená, že části sítě vykonávájí rozhodnutí na základě jiných podmnožin vstupních dat. V dalších vrstvách se pak tyto lokální rozhodnotí integrují, aby na výstupu sítě došlo ke globálnímu rozhodnutí. Tedy, aby byl výstupem sítě foném odpovídající času $t_c$ a jeho okolí $\langle t_{c-n}; t_{c+m} \rangle$.
 
-S posunem okénka velikosti $m + n + 1$ postupně jednotlivé části sítě zpracují všechny části vstupního zparametrizovaného signálu. Dynamika je zohledněna další množinou vah, která se mění podle toho jakou část vstupního vektoru ta část sítě zpracovává \cite{Waibel1989}. Tento přístup by se dal přirovnat k konvoluční neuronové síti (CNN), kde se také vstupní data (většinou obrázky) nezpracovájí najednou, ale pomocí filtrů vždy jen malá podmnožina. A v dalších vrstvách dochází ke spojování výsledků z těchto podmnožin. Hlavní rozdíl mezi TDNN a CMN je v tom, že CMN nepracuje s konceptem času. Více množin vah lze považovat za určitý ekvivalent paměti u RNN sítí.
+S posunem okénka velikosti $m + n + 1$ postupně jednotlivé části sítě zpracují všechny části vstupního zparametrizovaného signálu. Dynamika je zohledněna další množinou vah, která se mění podle toho jakou část vstupního vektoru ta část sítě zpracovává \cite{Waibel1989}. Tento přístup by se dal přirovnat ke konvoluční neuronové síti (\textit{CNN}), kde se také vstupní data (většinou obrázky) nezpracovájí najednou, ale pomocí filtrů vždy jen malá podmnožina. A v dalších vrstvách dochází ke spojování výsledků z těchto podmnožin. Hlavní rozdíl mezi \textit{TDNN} a \textit{CMN}  je v tom, že \textit{CMN}  nepracuje s konceptem času. Více množin vah lze považovat za určitý ekvivalent paměti u RNN sítí.
 
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.5\textwidth]{./ch4-experiments/img/tdnn.pdf}
-  \caption{Time delay neural network (TDNN).}
+  \caption{Time delay neural network (\textit{TDNN}) .}
   \label{fig:experiments:augmentation:tdnn}
 \end{figure}
 
-Stejně jako u DNN je na počátku trénování nutné mít k dispozici zarovnání. To, ale nemusí být naprosto přesné, protože je vstupní vektor zpracováván jiným způsobem než u DNN a pomocí více množin vah je brán v potaz i dynamický charakter řeči \cite{Peddinti2015}. Model založený na TDNN by tak měl ve výsledku generovat přesnější zarovnání a tím zlepšit výsledky modelu pracující s uměle protaženými daty.
+Stejně jako u \textit{DNN} je na počátku trénování nutné mít k dispozici zarovnání. To, ale nemusí být naprosto přesné, protože je vstupní vektor zpracováván jiným způsobem než u \textit{DNN} a pomocí více množin vah je brán v potaz i dynamický charakter řeči \cite{Peddinti2015}. Model založený na \textit{TDNN} by tak měl ve výsledku generovat přesnější zarovnání a tím zlepšit výsledky modelu pracující s uměle protaženými daty.
 
-Jako startovní bod trénování je použito DNN zarovnání z předchozího experimentu. Topologie sítě vychází z hodnot prezentovaných v \cite{Peddinti2015}, tedy síť má $4$ skryte vrstvy. Velikost jednotlivých vrstev závisí na uvažovaném kontextu v jednotlivých vrstvách. První vrstava uvažuje kontext $m=2$ a $n=2$, ostatní vrstvy pak odpovídají nejlepší sítí z \cite{Peddinti2015}. Ukázka zarovnání získané touto sítí je znázorněna na obr. \ref{fig:experiments:augmentation:alignemnt:correct}. Z vyznačených hranic fonému $/s/$ (obr. \ref{fig:experiments:augmentation:alignemnt:correct:audio}) ,ve slově \uv{kosa}, je patrné v podstatě přesné určení počáteční a koncové hranice fonému. Lepší zarovnání naznačuje i lepší vlastnosti modelu. Pro ověření této hypotézy opět poslouží standardní experiment s monofonovým zerogramovým LM, v něm TDNN síť dosáhla přesnosti $85,41$. Síť tedy dosáhla nepatrně lepšího výsledku než DNN síť.
+Jako startovní bod trénování je použito \textit{DNN} zarovnání z předchozího experimentu. Topologie sítě vychází z hodnot prezentovaných v \cite{Peddinti2015}, tedy síť má $4$ skryté vrstvy. Velikost jednotlivých vrstev závisí na uvažovaném kontextu v jednotlivých vrstvách. První vrstav pracuje s kontextem $m=2$ a $n=2$, ostatní vrstvy pak odpovídají nejlepší sítí z \cite{Peddinti2015}. Ukázka zarovnání získané touto sítí je zobrazena na obr. \ref{fig:experiments:augmentation:alignemnt:correct}. Z vyznačených hranic fonému $/s/$ (obr. \ref{fig:experiments:augmentation:alignemnt:correct:audio}) ,ve slově \uv{kosa}, je patrné v podstatě přesné zarovnání. To předznamenává i lepší vlastnosti \textit{TDNN} modelu. Pro ověření této hypotézy opět poslouží standardní experiment s monofonovým zerogramovým LM. Výsledná přesnost má hodnotu $85,41\ \%$. Síť tedy dosáhla nepatrně lepšího výsledku než \textit{DNN} síť.
 
 \begin{figure}[htpb]
   \centering
@@ -193,7 +193,7 @@ Jako startovní bod trénování je použito DNN zarovnání z předchozího exp
   \label{fig:experiments:augmentation:alignemnt:correct}
 \end{figure}
 
-Poté co je k dispozici relativně přesné zarovnání, je možné přistoupit k protažení fonémů $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$ a natrénování modelu pracující s těmito daty. Na začátku je nutné natrénovat \textit{HMM-GMM} model, který poskytne prvotní zarovnání. V předchozích experimentech následovalo natrénování DNN modelu, ale aplikace TDNN na zarovnání ukázala lepší vlastnosti tohoto modelu. Jako další model je tedy natrénována TDNN síť. K otestování modelu je použit standarní monofónový zerogramová jazykový model. Uvažováno je protažení $1,25x$ do $3,00x$ s krokem $0,25$. Výsledky experimentu jsou pak vypsány v tab. \ref{tab:experiments:augmentation:influence:tdnn}. Oproti výsledkům v tab. \ref{tab:experiments:augmentation:influence:dnn} je vidět výrazné zlepšení přesnoti modelu oproti baselinu s $85,41\ \%$. Nejvyšší přesnosti $87,90\ \%$ dosáhl model pracující s $2,5x$ protaženými daty. Navíc modely pracující s protažením od $1,75x$ do $2,75x$ dosahují velmi podovných výsledků, což poskytuje relativně široký pracovní interval pro případné skutečně protažená data řečníkem.
+Když je k dispozici relativně přesné zarovnání, je možné přistoupit k protažení fonémů $/k/$, $/p/$, $/s/$, $/t/$, $/v/$ a vytvoření nového modelu pracujícího s těmito daty. Nejprve je ale nutné natrénovat \textit{HMM-GMM} model, který poskytne prvotní zarovnání. V předchozích experimentech následovalo trénování \textit{DNN} modelu, ale \textit{TDNN} zarovnání ukázalo lepší vlastnosti tohoto modelu. Jako další model je použita \textit{TDNN} síť. K otestování modelu je využit standarní monofónový zerogramová jazykový model. Uvažováno je protažení od $1,25x$ do $3,00x$ s krokem $0,25$. Výsledky experimentu jsou vypsány v tab. \ref{tab:experiments:augmentation:influence:tdnn}. Oproti těm v tab. \ref{tab:experiments:augmentation:influence:dnn} je vidět výrazné zlepšení přesnoti  oproti baselinu modelu s $85,41\ \%$. Nejvyšší přesnosti $87,90\ \%$ dosáhl model pracující s $2,5x$ protaženými daty. Navíc modely pracující s protažením od $1,75x$ do $2,75x$ dosahují velmi podovných výsledků, což poskytuje relativně široký pracovní interval pro případné skutečně protažená data řečníkem.
 
 \begin{table}[htpb]
   \centering
@@ -214,12 +214,48 @@ Poté co je k dispozici relativně přesné zarovnání, je možné přistoupit 
     every head row/.style={after row=\hline, before row=\hline},
     every last row/.style={after row=\hline},
   ]{./ch4-experiments/tabs/0303-audio_2.csv}
-  \caption{Vliv míry protažení fonému na přesnost TDNN modelu.}
+  \caption{Vliv míry protažení fonému na přesnost \textit{TDNN} modelu.}
   \label{tab:experiments:augmentation:influence:tdnn}
 \end{table}
 
+Experimenty s uměle protaženými daty potvrdily správnost uvažované hypotézy, že protažením jednoho z párových fonému dojde k dostatečnému odlišení velmi podobných zvukových reprezentací. Tím dojde k natrénování odlišných reprezentací fonémů v \textit{HMM}. Model pracující s fonémy protaženými přímo ve zvuku nakonec dosáhl lepších výsledků než model s uměle protaženými daty na příznacích. Svůj díl na tom má i použití \textit{TDNN} modelu. Model pracující s duplikovanými příznaky naznačoval, že optimální hodnota protažení bude v intervalu $\left(1,\ 3\right)x$, což druhý typ modelu potvrdil.
+
+\subsection{Aktualizace výsledů porovnání}
+\label{chap:experiments:augmentation:comparison}
+
+V části \ref{chap:experiments:normalization:listening} je prezentováno srovnání schopnistí člověka a stroje. Posloužily k tomu dva poslechové testy a celkem $3$ ASR experimenty \uv{onemil}, \uv{reduced} a \uv{bigrams}. S novým modelem je možné aktualizovat hypotetické výsledky stroje. Hypotetické z toho důvodu, že použitá data jsou uměle protažena. Nicméně to nebrání tomu tento experiment, protože získané hodnoty mohou být brány jako jakési teroretická maxima ASR systému. Uměle upravená data jsou přeci jen relativně přesně a konzistentně protažena. U reálných dat toto nelze a priory očekávat.
+
+K aktualizaci výsledků je použit nejlepší model z části \ref{chap:experiments:augmentation:audio}, tedy ten s $2,5x$ protaženými daty. Parametry experimentů jsou totožné s těmi v části \ref{chap:experiments:normalization:listening}. V případě \uv{onemil} je použit zerogramový jazykový model s 1 milionem slov, \uv{reduced} experiment pak poue zerogramový LM se slovy obsaženými v poslechovém testu. Speciální LM, obsahující 4 kombinace slov, je vygenerován pro každou položku \uv{bigrams} experimentu.
+
+Dosažené výsledky jsou v \ref{tab:experiments:augmentation:comparison}. Ve všech třech experimentech došlo k významnému zlepšení. U \uv{onemil} to je $23\ \%$ absolutně, u \uv{reduced} pak $24\ \%$. K nejmarkatnějšímu zlepšení zlepšení došlu u experimentu \uv{bigrams}, dokonce $44\ \%$. Výsledky člověka jsou stejné, protože realizace poslechového testu je zdlouhavý proces a je obtížné získat dostatečný počet respondentů. Nicméně se dá očekávat, že i člověk by se zlepšil, pokud by měl znalost o tom, které fonémy jsou protaženy. V opačném případě by ke zlepšení nutně nemuselo dojít, protože kromě protažení nebyl zvuk nijak pozměněn. Dosažené výsledky ASR systému lze brát jako teoretická maxima systému.
+
+Velmi zajímavé je porovnání zvýšení přesnosti \textit{TDNN} modelu s monofónovým zerogramovým LM ($2,49\ \%$ absolutně mezi baseline a $2,5x$ modelem) a výsledky dosaženými v porovnávacím experimentu. Oproti nim je $2,49\ \%$ absolutně relativně zanedbatelné, přesto velmi významné zlepšení. Jasně to ukazuje ideu experimentů s monofónovým zerogramovým jazykovým modelem. I drobné zlepšení u akustického modelu může vést k rapidnímu zlepšení sofistikovanějšího systému.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/type/.style={column name= , column type={|l}},
+    columns/onemil/.style={column name=onemil \textit{[\%]}, column type={|r}},
+    columns/reduced/.style={column name=reduced \textit{[\%]}, column type={|r}},
+    columns/bigrams/.style={column name=bigrams \textit{[\%]}, column type={|r|}},
+    every head row/.style={after row=\hline, before row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch4-experiments/tabs/0304-comparison.csv}
+  \caption{Aktualizované porovnání dosažených výsledků člověka a stroje.}
+  \label{tab:experiments:augmentation:comparison}
+\end{table}
+
+\todo{Tabulky}{Přidat tabulky porovnávající výsledky původního a aktualizovaného testu.}
+
 \subsection{Reálně protažená data}
 \label{chap:experiments:augmentation:real}
+
+Získané výsledky s uměle protaženými daty potvrdily hypotézu, že model pracující s těmito daty může dosahovat lepších výsledků. Dalším krokem je logicky získání reálně protažených dat. Nahrávání je relativně zdlouhavý proces jak ukázala 1. a 2. etapa nahrávání (části \ref{chap:experiments:analysis:corpus} a \ref{chap:experiments:normalization:corpus}), proto je nezbytné dobře vybrat promluvy. Novým problémem je navíc samotné protažení. Pokud by bylo cílem získat protažené celé slovo, tak lze řečníka instruovat, aby vlastně mluvil pomaleji. To, ale cílem není. Výsledné promluvy mají mít protažené pouze určité fonémy a to přibližně na dvojnásobek. Jako nejjednodušší, a svým způsobem i elegantní, se ukázal zápis se zdvojenými písmeny, které mají být protaženým fonémem, např. \uv{kossa}. Řečník je obeznámen, že pokud slovo v promluvě obsahuje tento dvojitý zápis, měl by se pokusit toto slovo patřičným způsobem protáhnout. Tento zápis navíc řečníka podvědomě \uv{nutí} vyslovit slovo jinak než pokud by bylo zapsáno normálně.
+
+Nahrávání se zhostil stejný řečník jako v 1. a 2. etapě. Jedná se o ženu v důchodovém věku, která používá EL v běžném životě již více než 15 let. Nahrávání se uskutečnilo
 
 \begin{itemize}
   \item problém se znělostí (systém moc nefunguje pokud je promluva krátká)
