@@ -1,6 +1,6 @@
 % !TEX root = ../thesis.tex
 \section{Augmentace dat}
-\label{chap:experiments:augmentation}
+\label{chap:realisation:augmentation}
 
 Poslechový test jasně uázal, že správné rozpoznání pronesené EL promluvy není lehký úkol ani pro člověka. Naprosto markantní význam hraje kontext. Ten velmi významně pomáhá, pokud některá část promluvy nebyla dobře rozumnět nebo bylo těžké ji porozumnět. Navíc, ze zkušeností získaných při pořizování řečového korpusu (části \ref{chap:experiments:analysis:corpus} a \ref{chap:experiments:normalization:corpus}), plyne, že EL řečník má tendenci mluvit ve spíše kratších dávkách slov, mezi kterými dělá drobné pauzy. V tomto případě pro člověka není problém udržet v povědomí kontext, ale stroji to může někdy způsobovat problémy. Otázkou tedy je, jak \uv{vylepšit} stroj tak, aby poskytoval lepší výsledky?
 
@@ -28,10 +28,10 @@ K ověření teoreie je samozřejmě zapotřebí experiment a k němu jsou potř
 
 \noindent Nově natrénovaný model pak může být otestován a výsledky porovnány s dosavadními výsledky. Nejenže tyto experimenty ověří zda je hypotéza pravdivá, ale zároveň pomohou určit vhodné parametry pro případné skutečné protažení dat.
 
-V následujícím textu je nejprve v části \ref{chap:experiments:augmentation:features} popsáno jakým způsobem je realizováno protažení na příznacích a následně je vytvořena sada modelů, která je otestována. V části \ref{chap:experiments:augmentation:audio} je stejným způsobem popsáno protažení na audio nahrávkách, ze kterých jsou natrénovány a otestovány modely.
+V následujícím textu je nejprve v části \ref{chap:realisation:augmentation:features} popsáno jakým způsobem je realizováno protažení na příznacích a následně je vytvořena sada modelů, která je otestována. V části \ref{chap:realisation:augmentation:audio} je stejným způsobem popsáno protažení na audio nahrávkách, ze kterých jsou natrénovány a otestovány modely.
 
 \subsection{Protažení na příznacích}
-\label{chap:experiments:augmentation:features}
+\label{chap:realisation:augmentation:features}
 
 Protažení na příznacích vychází z jednoduché myšlenky, že pokud je určitá část promluvy (např. foném) protažen, tak po parametrizaci, oproti neprotaženémé promluve, po sobě následují velmi podobné příznakové vektory. Tzn. změna příznakových vektorů není tak markatní. Teoreticky v krajním případě by mohlo dojít i k tomu, že část po sobě jdoucích příznakových vektorů je idenckých. Pokud je tedy cílem zjistit, zda protožení může pomoci při rozpoznávání EL řeči, tak je teoreticky možné toto ověřit zkopírováním určitých příznakových vektorů a tím docílit \uv{protažení}. Lépe to ilustruje obr. \ref{fig:experiments:augmentation:features}. Nejprve je standardně zparametrizována nahrávka. Barevně jsou vyznačeny případné vektory odpovídající zájmovému úseku (tedy fonému), které jsou získány ze zarovnání. Tyto vektory jsou pak zduplikovány a tím je \uv{dosaženo} dvojnásobného protažení.
 
@@ -76,7 +76,7 @@ Doposud se uvažovalo pouze o dvojnásobném protažení, v další fázi je ted
 Zhoršení přesnosti dozajista souvísí s faktem, že výsledná augmentovaná data neodpovídají realitě. Čím vícekrat je vektor zkopírován, tím více je vnášena chyba způsobená ignorováním dynamické povahy signálu. Nicméně jako proof-of-concept myšlenky posloužil tento experiment velmi dobře. Protažení na příznacích vede ke zvýšení přesnosti a má smysl tuto cestu více prozkoumat.
 
 \subsection{Protažení na zvuku}
-\label{chap:experiments:augmentation:audio}
+\label{chap:realisation:augmentation:audio}
 
 Protažení na příznacích vedlo ke významnému zlepšení, ale tento přístup není bohužel reálně použitelný. Tím může být až model pracující s fonémy protaženými přímo v audiu. Tato data budou totiž mnohem více odpovídat případným reálným datům získaným od řečníka.
 
@@ -221,11 +221,11 @@ Když je k dispozici relativně přesné zarovnání, je možné přistoupit k p
 Experimenty s uměle protaženými daty potvrdily správnost uvažované hypotézy, že protažením jednoho z párových fonému dojde k dostatečnému odlišení velmi podobných zvukových reprezentací. Tím dojde k natrénování odlišných reprezentací fonémů v \textit{HMM}. Model pracující s fonémy protaženými přímo ve zvuku nakonec dosáhl lepších výsledků než model s uměle protaženými daty na příznacích. Svůj díl na tom má i použití \textit{TDNN} modelu. Model pracující s duplikovanými příznaky naznačoval, že optimální hodnota protažení bude v intervalu $\left(1,\ 3\right)x$, což druhý typ modelu potvrdil.
 
 \subsection{Aktualizace výsledů porovnání}
-\label{chap:experiments:augmentation:comparison}
+\label{chap:realisation:augmentation:comparison}
 
 V části \ref{chap:experiments:normalization:listening} je prezentováno srovnání schopnistí člověka a stroje. Posloužily k tomu dva poslechové testy a celkem $3$ ASR experimenty \uv{onemil}, \uv{reduced} a \uv{bigrams}. S novým modelem je možné aktualizovat hypotetické výsledky stroje. Hypotetické z toho důvodu, že použitá data jsou uměle protažena. Nicméně to nebrání tomu tento experiment, protože získané hodnoty mohou být brány jako jakési teroretická maxima ASR systému. Uměle upravená data jsou přeci jen relativně přesně a konzistentně protažena. U reálných dat toto nelze a priory očekávat.
 
-K aktualizaci výsledků je použit nejlepší model z části \ref{chap:experiments:augmentation:audio}, tedy ten s $2,5x$ protaženými daty. Parametry experimentů jsou totožné s těmi v části \ref{chap:experiments:normalization:listening}. V případě \uv{onemil} je použit zerogramový jazykový model s 1 milionem slov, \uv{reduced} experiment pak poue zerogramový LM se slovy obsaženými v poslechovém testu. Speciální LM, obsahující 4 kombinace slov, je vygenerován pro každou položku \uv{bigrams} experimentu.
+K aktualizaci výsledků je použit nejlepší model z části \ref{chap:realisation:augmentation:audio}, tedy ten s $2,5x$ protaženými daty. Parametry experimentů jsou totožné s těmi v části \ref{chap:experiments:normalization:listening}. V případě \uv{onemil} je použit zerogramový jazykový model s 1 milionem slov, \uv{reduced} experiment pak poue zerogramový LM se slovy obsaženými v poslechovém testu. Speciální LM, obsahující 4 kombinace slov, je vygenerován pro každou položku \uv{bigrams} experimentu.
 
 Dosažené výsledky jsou v \ref{tab:experiments:augmentation:comparison}. Ve všech třech experimentech došlo k významnému zlepšení. U \uv{onemil} to je $23\ \%$ absolutně, u \uv{reduced} pak $24\ \%$. K nejmarkatnějšímu zlepšení zlepšení došlu u experimentu \uv{bigrams}, dokonce $44\ \%$. Výsledky člověka jsou stejné, protože realizace poslechového testu je zdlouhavý proces a je obtížné získat dostatečný počet respondentů. Nicméně se dá očekávat, že i člověk by se zlepšil, pokud by měl znalost o tom, které fonémy jsou protaženy. V opačném případě by ke zlepšení nutně nemuselo dojít, protože kromě protažení nebyl zvuk nijak pozměněn. Dosažené výsledky ASR systému lze brát jako teoretická maxima systému.
 
@@ -251,7 +251,7 @@ Velmi zajímavé je porovnání zvýšení přesnosti \textit{TDNN} modelu s mon
 \todo{Tabulky}{Přidat tabulky porovnávající výsledky původního a aktualizovaného testu.}
 
 \subsection{Reálně protažená data}
-\label{chap:experiments:augmentation:real}
+\label{chap:realisation:augmentation:real}
 
 Získané výsledky s uměle protaženými daty potvrdily hypotézu, že model pracující s těmito daty může dosahovat lepších výsledků. Dalším krokem je logicky získání reálně protažených dat. Nahrávání je relativně zdlouhavý proces jak ukázala 1. a 2. etapa nahrávání (části \ref{chap:experiments:analysis:corpus} a \ref{chap:experiments:normalization:corpus}), proto je nezbytné dobře vybrat promluvy. Novým problémem je navíc samotné protažení. Pokud by bylo cílem získat protažené celé slovo, tak lze řečníka instruovat, aby vlastně mluvil pomaleji. To, ale cílem není. Výsledné promluvy mají mít protažené pouze určité fonémy a to přibližně na dvojnásobek. Jako nejjednodušší, a svým způsobem i elegantní, se ukázal zápis se zdvojenými písmeny, které mají být protaženým fonémem, např. \uv{kossa}. Řečník je obeznámen, že pokud slovo v promluvě obsahuje tento dvojitý zápis, měl by se pokusit toto slovo patřičným způsobem protáhnout. Tento zápis navíc řečníka podvědomě \uv{nutí} vyslovit slovo jinak než pokud by bylo zapsáno normálně.
 
