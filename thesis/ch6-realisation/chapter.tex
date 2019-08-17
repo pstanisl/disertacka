@@ -2,7 +2,12 @@
 \chapter{Návrh a realizace úprav ASR}
 \label{chap:realisation}
 
-TBD
+Z experimentů provedených v části \ref{chap:construction:results} vyplynula
+potřeba rozšířit řečový korpus. V části \ref{chap:construction:results:reduction} se ukázalo, že v určitých případech jsou neznělé fonémy produkovány jako znělé. Pro lepší porozumnění tohoto jevu je nezbytné, aby řecový korpus obsahoval co možná nejvíce promluv zahrnující slova s odlišným významem, ale lišící se pouze ve znělosti právě jedonho fonému.
+
+Tato část se zaměřuje na získání takovýchto slov a experimentů s nimi. Hlavním experimentem je porovnání schopností člověka a stroje tato slova od sebe odlišit. Na základě poznatků z tohoto experimentu jsou navrženy úpravy, které mají sloužit k zlepšení systémů rozpoznávání řeči.
+
+% Nejprve je v částu \ref{chap:realisation:corpus} popsán proces výběru a získání inkriminovaných slov a následně jsou tato nová data analyzována. V následující části \ref{chap:realisation:test:quality} jsou provedeny kontrolní experimenty, při kterých je zjištěn problém s přenosovým kanálem a na základě těchto zjištění je navrženo řešení. Zbylé dvě části (\ref{chap:realisation:test:listening} a \ref{chap:realisation:test:comparison}) se pak zabývají porovnáním výsledků člověka a stroje na nových datech.
 
 \input{ch6-realisation/01-corpus}
 \input{ch6-realisation/02-listening_test}

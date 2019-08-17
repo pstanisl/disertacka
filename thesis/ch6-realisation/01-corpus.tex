@@ -2,4 +2,240 @@
 \section{Doplnění řečového korpusu o specifická data - vliv nových dat na kvalitu AM}
 \label{chap:realisation:corpus}
 
-TBD
+Před samotným nahráváním je nezbytné vybrat co možná nejvíce dvojic slov, které se liší významem a znělostí právě jednoho fonému. Příkladem může být dvojice slov \textit{kosa} + \textit{koza} nebo \textit{přibít} + \textit{přibít}. Pro tento účel je použit algoritmus výběru slov, který je následující:
+
+\begin{enumerate}
+  \item načtení dat (slovník, párové fonémy)
+  \item shluknutí všech slov vedoucích ke stejné transkripci
+  \item vytvoření všech možných kombinací dvojic slovních transkripcí
+  \item nalezení dvojic transkripcí, které se liší právě ve znělosti jednoho fonému\footnote{Konkrétně algoritmus vzájemně porovná obě slova a najde rozdílné fonémy. Pokud tyto rozdíly odpovídají některé z dvojic párových fonémů, tak je dvojice přijata.}
+  \item výběr dvojic slov na základě vybraných transkripcí
+\end{enumerate}
+
+Vstupem algoritmu je \uv{slovník} obsahující slova a jejich fonetický přepis, dále pak dvojice fonémů (znělý + neznělý). Jako slovník posloužil, v tomto konktérním případě, seznam slov s fonetickými přepisy pocházející z jazykového modelu obsahující 1,2 milionu slov. Pomocí výše zmíněného algoritmu se podařilo nalézt $160$ párů slov lišících se znělostí právě jednoho fonému, celkem tedy $320$ slov. Ke každému nalezenému slovu je následně vybrána minimálně jedna věta obsahující toto slovo (ale nikoli druhé slovo z dvojice), těchto vět je pak $418$. Příklad takto vybraných vět je uveden níže:
+
+\begin{verbatim}
+  Zkoušel jsem to několikrát, ale pokaždé padla kosa na kámen.
+  Do basy nemusí, vlk žere, koza žije.
+\end{verbatim}
+
+Vybraná slova a věty jsou základem pro 2. etapu nahrávání, která se uskutečnila během dvou sezení v červenci roku 2016. Jedná se tedy o relativně velký časový odstup od 1. etapy. Nahrávání se zhostil stejný řečník jako v případě té první (viz část \ref{chap:realisation:analysis:corpus}). Samotné nahrávání bylo rozděleno do dvou samostatných sezení, mající mezi sebou týdenní rozestup. Oproti 1. etapě probíhalo nahrávání v odhlučněné nahrávácí komoře za pomocí profesionálního nahrávacího zařízení. Mikrofon byl od úst řečníka vzdálen přibližně 15 cm, protože byl použit studiový mikrofon, který kvůli své velikosti, už z podstaty, není možné přiložit přímo na tvář jako v případě 1. série nahrávání. K nahrávání byl použit speciální software, který kontroloval zda každá nahrávka splňuje určité parametry. Každá nahrávka musí mít na svém začátku a konci minimálně $0,5\ s$ ticha a zároveň celá nahrávka nesmí být příliš tichá a zároveň přebuzená (kontrolováno pomocí energie). Pokud nahrávka nesplňuje definované parametry, je zamítnuta a řečník musí promluvu zopakovat.
+
+V části \ref{chap:realisation:analysis:corpus} je zmíněno, že je nezbytné provádět anotaci nahrávek, aby mohl být korpus kompletní. Samotná anotace je  relativně zdlouhavý proces, a proto je dobré pořídit přesné promluvy vybraných slov a vět již v průběhu nahrávání. K tomu slouží další z funkcí nahrávacího softwaru, který řečníkovi vždy ukáže text, který je potřeba vyslovit. Společně s audio záznamem je pak uložen i tento text. K dispozici je tedy nahrávka a její \uv{přepis}. Nicméně samotný řečník často může udělat chybu aniž by si toho všiml (např. záměna podobných slov apod.) a software nijak nekontroluje co je ve skutečnosti vysloveno. Z tohoto důvodu je nahrávání přítomen operátor, který poslouchá co bylo řečeno a v případě potřeby zamítné nahrávku. Řečník následně musí promluvu opakovat, dokud nahrávka neodpovídá požadovaným parametrům a zároveň je její obsah správný.
+
+Na obr. \ref{fig:realisation:corpus:word} a \ref{fig:realisation:corpus:sentence} jsou ukázky audio záznamu slova \uv{kosa} a věty \uv{Zkoušel jsem to několikrát, ale pokaždé padla kosa na kámen.}. Pokud se nahrávky porovnají s daty získanými v 1. etapě (obr. \ref{fig:construction:el_speech}), tak hlavním rozdílem je vyšší kvalita nahrávek, zejména vyšší amplituda. Ze zobrazených spektrogramů je zřejmé, že šum je přítomen v menším množství a intenzitě než v předchozích nahrákách. To je vlivem změny mikrofonu, který již není přilepen ke tváři řečníka a nezaznamenává, tak vibrace přenášené měkkou tkání. Daůší rozdíl je vidět v nižších frekvencích řeči, které jsou na spektrogramu výraznější. Přestože se jedná o stejného řečníka, tak zaznamenaná řeč nemá úplně identické parametry. Hlavním důvodem bude nepochybně změna nahrávací aparatury a procesu nahrávání. Nezanedbatelný vliv bude mít i relativní nestálost prametrů EL řeči, zvlášť v delším časovém období. Kvalita a parametry EL řeči jsou totiž velmi závislé na typu a pozici elektrolarynxu, ten se v době mezi nahráváními navíc změnil.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch5-construction/img/energy_spec_word.png}
+  \caption{Průběh a spektrogram slova \uv{kosa} s společně s vyznačenou energií EL promluvy.}
+  \label{fig:realisation:corpus:word}
+\end{figure}
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch5-construction/img/energy_spec_sentence.png}
+  \caption{Průběh a spektrogram promluvy obsahující slovo \uv{kosa} a vyznačenou energií EL promluvy.}
+  \label{fig:realisation:corpus:sentence}
+\end{figure}
+
+Tab. \ref{tab:realisation:corpus:recording} přibližuje souhrnné parametry nahrávek pořízených v 2. etapě nahrávání. Celkem se pořídilo získat přibližně 2 hodiny řeči (každá nahrávka obsahuje $0,5\ s$ ticha na začátku a konci). Z toho přibližně jen $10\ \%$ představují izolovaná slova. Společně s novými daty tak korpus obsahuje téměř $14$ hodin audio záznamů a k nim příslušných přepisů.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=comma,
+    string type,
+    columns/phase/.style={column name=Nahrávání, column type={|l}},
+    columns/length/.style={column name=Délka \textit{[HH:MM:SS]}, column type={|r}},
+    columns/words/.style={column name=Počet slov, column type={|r}},
+    columns/sentences/.style={column name=Počet vět, column type={|r}},
+    columns/files/.style={column name=Počet souborů, column type={|r|}},
+    every head row/.style={after row=\hline, before row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch5-construction/tabs/0201-recording-stats.csv}
+  \caption{Informace o korpusu nahrávek z 2. etapy nahravání.}
+  \label{tab:realisation:corpus:recording}
+\end{table}
+
+\subsection{Vliv nových dat na kvalitu modelů}
+\label{chap:realisation:test:quality}
+
+Mezi lety 2012 a 2016 zaznamenalo rozpoznávání řeči překotný vývoj používaných technologií. Do té doby state-of-the-art modely stavěly na kombinaci \textit{HMM} a \uv{gaussovských směsí} \textit{GMM}  U těchto modelů má každý \textit{HMM} stav svou směs, viz obr. \ref{fig:realisation:corpus:hmm:gmm}. Pravděpodobnost přechodu mezi stavy \textit{HMM} pak určují tyto směsi. Jejich parametry jsou získány na základě trénování. S příchodem open source frameworku Kaldi \cite{Kaldi2011} a rozmachem GPU výpočtů se začaly objevovat modely využívající hluboké neuronové sítě (\textit{DNN}) .
+
+Rozpoznávání řeči je možné si představit sequence-to-sequence modely, tedy jako převod sekvence akustických parametrů do sekvence znaků/slov. Pro tento typ úloh se a priory hodí rekurentní neuronové sítě (RNN), ale jejich slabinou je enormní výpočetní náročnost i mimo trénovací fázi a také potřeba enormního množství dat, pokud má být vytvořen end-to-end\footnote{End-to-end systémem je ve valné většině případů myšlen systém, do kterého vstupuje audio framů a  vystupuje z něj sekvence znaků. Vyvojář takového systému často nepoužívá parametrizované audio.} systém \cite{Hannun2014}. Vytvoření čistě RNN end-to-end ASR systému je tak nesmírně nákladné (data, HW, atd.). V současné době se převážně využívá kombinace \textit{HMM} modelu, který je také zástupcem rodiny sequence-to-sequence modelů, a \textit{DNN}  Hlavním rozdílem oproti těm s \textit{GMM} spočívá v tom, že pro všechny \textit{HMM} stavy se trénuje pouze jedna neuronová síť, pomocí které jsou určovány přechody mezi stavy, viz obr. \ref{fig:realisation:corpus:hmm:dnn}. Navíc tím, že tato neuronová síť určuje \uv{pouze} přechody mezi jednitlivými stavy HMM, tak může být řádově menší a jednodušší, než kdyby se jednalo o end-to-end model. Tím pádem je rychleji natrénovaná a je potřeba řádově méně dat.
+
+
+\begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{./ch5-construction/img/HMM-GMM.pdf}
+    \caption{HMM-GMM}
+    \label{fig:realisation:corpus:hmm:gmm}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{./ch5-construction/img/HMM-DNN.pdf}
+    \caption{HMM-DNN}
+    \label{fig:realisation:corpus:hmm:dnn}
+  \end{subfigure}
+  \caption{Znázornění odlišného principu \textit{HMM-GMM} a \textit{HMM-DNN}.}
+  \label{fig:realisation:corpus:hmm}
+\end{figure}
+
+\subsubsection{Ověření přínosu nových dat}
+
+S novými daty je možné natrénovat modely a ověřit, zda je s nimi systém schopen pracovat. Oproti \ref{chap:realisation:analysis:experiment} je použit framework Kaldi, který se stal standardem pro vytváření akustikých modelů. Samotný framework se skládá z velkého množství utilit, která každá plní určitý \uv{jednoduchý} úkol v procesu vytváření/testování modelu. Kompletní proces vytváření modelu se tak sestává z postupného spouštění těchto utilit v přesně definovaném pořadí. Autoři frameworku připravili nepřeberné množství skriptů, které slouží k vytvoření různých typů modelů. Všechny modely pro EL řeč vycházejí ze skriptů pro natrénování modelů z Wall Street Journal (WSJ) korpusu, který je nejčastěji požíván jako jakýsi benchmark ASR systémů. Skripty jsou jen drobně upraveny, aby výsledný model odpovídal EL doméně a bylo jej vůbec možné vytvořit.
+
+Přestože \textit{DNN} nahradily \textit{GMM} v HMM, tak k jejich natrénování je nezbytné nejprve natrénovat \textit{HMM-GMM} model, který slouží k prvotnímu zarovnání (určení hranic jednotlivých fonémů v rámci audio náhrávky). To slouží jako startovní bod pro neuronovou síť. Tím, že je trénována pouze jedna síť, tak je k dispozici řádově více dat\footnote{V případě \textit{HMM-GMM} má každý stav své \textit{GMM} a tím pádem, čím více stavů, tím méně trénovacích dat pro každou směs.} k jejímu natrénování, na druhou stranu má tato síť mnohem více parametrů než všechny \textit{GMM} směsi dohromady a tak je potřeba dbát na velikost sítě. Nicméně pro standardní WSJ \textit{DNN} (6 vrstev, každá s 1024, 2048 nebo 4096 neurony) je dat dostatek.
+
+Přestože vývoj výpočetních GPU postupuje závratnou rychlostí, tak natrénování standardního \textit{HMM-DNN} modelu trvá o poznání déle než \textit{HMM-GMM}. Pro ověření zda je možné vytvořit model ze všech dat, která jsou k dispozici, poslouží dobře i \textit{HMM-GMM} model, který stejně slouží jako startovní bod pro \textit{HMM-DNN}, tak by se vytvářel tak jako tak. Pokud tyto modely neposkytnou \textit{DNN}  alespoň trochu \uv{dobré} počáteční podmínky, tak sofistikovanější \textit{DNN} nemusí pomoci.
+
+Základem procesu vytvoření modelu jsou tedy Kaldi WSJ skripty. Jako první se vytvoří monofónový akustický model. Data jsou zparametrizována pomocí Perceptual Linear Prediction (PLP) s 12 kepstrálními, delta a delta-delta koeficienty. Tento monofónový model je speciální případ kontextově závislých modelů, bez levého a pravého (fonémového) kontextu. Následně jsou natrénovány trifónové modely. Stejně jako v experimentech provedených v části \ref{chap:realisation:analysis:experiment}, tak i zde jsou použity rozhodovací stromy, protože počet všech variant trifónů je příliš velký a dat nedostatek.
+
+V předchozí části \ref{chap:realisation:analysis:experiment} byl korpus rozdělen na trénovací a testovací sadu. Po rozšíření korpusu je rozdělení dat z 1. etapy ponecháno a nová data rozdělena mezi trénovací a testovací sadu. Všechny nahrané věty v 2. etapě jsou použity v trénovací a všechna slova naopak v testovací sadě. Toto rozdělení je logické, protože důvodem rozšíření korpusu je snaha ověřit funkčnost ASR systémů na slovech, která mají rozdílný význam, ale liší se pouze znělostí jednoho fonému. Jelikož z výsledků v části \ref{chap:realisation:analysis:reduction} vyplývá, že určité spektrum trifónů je možné reprezentovat pouze pomocí znělých variant, tak při použití nahraných slov bude teoreticky možné lépe prozkoumat tuto otázku.
+
+Pro otestování výše popsaného modelu je opět použit monofónový zerogramový jazykový model tak, aby co nejméně ovlivňoval dosažené výsledky. Na kompletní testovací sadě byla dosažena přesnost $54,96\ \%$. V případě, že testovací sada obsahovuje pouze nově nahraná slova, tak dokonce jen $42,97\ \%$. Což je významné zhoršení oproti výsledkům dosažených v \ref{chap:realisation:analysis:experiment}, kde bylo dosaženo více něž $80\ \%$ přesnosti. Pro výpočet přesnosti je ve všech případech použita rovnice (\ref{eq:construction:accuracy}).
+
+Pro ověření, že není chyba v procesu trénování (přeci jen se změnil framework) poslouží křížový test, kdy pomocí stejného procesu jsou natrénovány modely z původních (1. etapa) a nových (2. etapa) dat a křížově otestovány na kompletní, původní a jen nové části testovací sady. Výsledky tohoto testu jsou v tab. \ref{tab:experiments:normalization:cross}. Z té je jasně patrné, že pokud je model natrénován a otestován pomocí dat pocházející ze stejné etapy, tak je dosaženo podobných výsledků jako v \ref{chap:realisation:analysis:experiment}. Trénovcací proces je tedy \uv{správný}.
+
+%model;orig;new
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
+    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+      & \multicolumn{2}{c|}{Accuracy} \\
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch5-construction/tabs/0202-cross_test.csv}
+  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy.}
+  \label{tab:experiments:normalization:cross}
+\end{table}
+
+% - 20161208_param -> porovnani n vs o, vzit hodnoty z toho
+% - 20170111_together -> \textit{CMN}  FULL vysledky na HMM, pak tam dat i vysledky z
+
+\subsubsection{Eliminace vlivu kanálu}
+
+Z prezentovaných výsledků tedy plyne, že nová data jsou příliš odlišná od původních a v parametrickém prostoru příliš vzdálena těm původním. Zároveň je těchto dat relativně malé množství, aby se mohly modely plně adaptovat. Na zmíněný rozdíl v datech je možné se koukat jako na změnu kanálu, která je příčinou těchto změn. Řečník je přeci stejný. V předchozím textu bylo zmíněno, že v rámci 2. etapy došlo ke změné nahrávací procedury a také elektrolarynxu. Tím byl pozměněn kanál a logicky výsledná zaznamenaná řeč má jiné parametry než ta v 1. etapě. Mezi další prvky, které mohou způsobit změnu kanálu může být prostředí, tedy jestli je řeč produkována uvnitř nějaké místnosti, či venku, jestli je na pozadí přítomen šum atd. K tomu, aby bylo možné použít všechna dostupná data, je potřeba eliminovat tento vliv kanálu. K jeho eliminaci se standardně používá \textit{CMN},  což je zkratka anglických slov Cepstral Mean Normalisation. Principem této metody je odstranení vlivu kanálu na základě střední hodnoty kepstrálních koeficientů, viz dále.
+
+Zaznamenaný signál je možné popsat jako konvoluci promluvy a vlivu kanálu, matematicky zapsáno jako
+
+\begin{equation}
+  y\left[n\right] = x\left[n\right] \circledast h\left[n\right],
+  \label{eq:experiments:normalization:convolution}
+\end{equation}
+
+\noindent kde $x\left[n\right]$ představuje vstupní signál, tedy řeč, a $h\left[n\right]$ odezvu kanálu na jednotkový impulz. Zaznamenaný signál je jejich již zmíněnou lineární konvolucí. Ve frekvenční oblasti je pak rovnice (\ref{eq:experiments:normalization:convolution}) zapsaná následovně:
+
+\begin{equation}
+  Y\left[f\right] = X\left[f\right] \cdot H\left[f\right]
+\end{equation}
+
+\noindent V této oblasti se z konvuluce stalo násobění, což značně zjednodušuje situaci. K odstranění vlivu kanálu je, ale ještě potřeba převést hodnoty do kepstrálná oblasti. To je realizováno pomocí logaritmu spektra
+
+\begin{equation}
+  Y\left[q\right] = \log\left(Y\left[f\right]\right) = \log\left(X\left[f\right] \cdot H\left[f\right]\right) = X\left[q\right] + H\left[q\right],
+\end{equation}
+
+\noindent kde $q$ představuje kepstrální koeficient. V kepstrální oblasti je vliv kanálu aditivní složkou výsledného záznamu. Problémem však je, že konkrétní hodnota vlivu kanálu je neznáma, protože k dispozici je pouze výsledný ovlivněný signál. Předpokládejme však, že vliv kanálu je stacionární\footnote{Jedná se sice o silný, ale logický předpoklad. Pokud se vztáhne k pořízenému řečovému korpusu, tak v rámci jedné etapy nahrávání, je proces nahrávání neměnný, tzn. je použita stejná aparatura a k nahrávání dochází vždy ve stejné místnosti.}, tak poté je možné každý frame nahrávky $i$ zapsat jako
+
+\begin{equation}
+  Y_i\left[q\right] = H\left[q\right] + X_i\left[q\right],
+\end{equation}
+
+\noindent kde $Y_i\left[q\right]$ představuje $i$ frame kepstra $q$ nahrávky a $X_i\left[q\right]$ představuje $i$ frame kepstra $q$ neovlivněné řeči. Z této rovnice je pak možné vypočítat střední hodnotu
+
+\begin{equation}
+  \frac{1}{N} \sum_i Y_i\left[q\right] = H\left[q\right] + \frac{1}{N} \sum_i X_i\left[q\right].
+\end{equation}
+
+\noindent Vliv kanálu je následně možné eliminovat odečtením střední hodnoty kepstra $q$ od aktuální hodnoty kepstra $Y_i\left[q\right]$
+
+\begin{align}
+  R_i\left[q\right] &= Y_i\left[q\right] - \dfrac{1}{N}\sum_{j} Y_j\left[q\right] \nonumber  \\
+  &= H\left[q\right] + X_i\left[q\right] - \left( H\left[q\right] + \frac{1}{N} \sum_j X_j\left[q\right] \right) \nonumber  \\
+  &= X_i\left[q\right] - \frac{1}{N} \sum_j X_j\left[q\right]
+  \label{eq:experiments:normalization:cmn}
+\end{align}
+
+\noindent S pomocí rovnice (\ref{eq:experiments:normalization:cmn}) je možné odfiltrovat vliv kanálu a teoreticky tak získat hodnoty kepstrálních koeficientů odpovídající nezkreslené řeči. Otázkou je, přes jaký úsek počítat střední hodnotu. Je možné ji počítat přes posuvné okénko fixní délky, přes jednotlivé nahrávky, nebo dokonce přes všechny nahrávky konkrétní etapy. Pokud totiž bude úsek, přes který je počítána průměrná hodnota, krátký, tak se může stát, že vypočtená střední hodnota nebude odpovídat skutečné střední hodnotě umožňující eliminaci vlivu kanálu. V tomto případě, kdy nahrávky dělí velký časový úsek a i proces nahrávání byl změněn, je toto potřeba odexperimentovat.
+
+Pro zjištění jaká možnost je optimální je použit stejná trénovací procesdura jako v předešlých experimentech s novými daty. Jediný rozdíl je v datech, na kterých bylo aplikováno \textit{CMN}.  Celkem byly uvažovány dva experimenty, a to
+
+\begin{itemize}
+  \item \textit{CMN}  počítáno pro každou nahrávku,
+  \item \textit{CMN}  počítáno pro celou etapu,
+\end{itemize}
+
+\noindent algoritmus \textit{CMN}  aplikovaný na datech byl implementován na katedře kybernetiky Fakulty aplikovaných věd.
+
+V tab. \ref{tab:experiments:normalization:cmn:file} jsou výsledky experimentu s \textit{CMN}  počítaném přes jednotlivé nahrávky. Z dosažených výsledků je zřejmé, že pokud se \textit{CMN}  počítá přes jednotlivé nahrávky, tak je oproti výsledkům v tab. \ref{tab:experiments:normalization:cross} dosaženo určitého zlepšení, zvláště pokud je model natrénován na datech z 1. etapy a otestován na datech z 2. etapy, ale výsledky nejsou zdaleka tak dobré, jako v případě, že je model natrénován a otestován na datech ze stejné sady. Vliv tu může hrát fakt, že zejména nahrávky izovlovaných slov jsou relativně krátké a vypočtené střední hodnoty, tak nabývají odličných hodnot.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
+    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+      & \multicolumn{2}{c|}{Accuracy} \\
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch5-construction/tabs/0203-cmn_file.csv}
+  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s \textit{CMN}  přes jednotlivé soubory.}
+  \label{tab:experiments:normalization:cmn:file}
+\end{table}
+
+Další experiment je tedy s daty, kde bylo \textit{CMN}  vypočteno ze všech nahrávek konkrétní etapy. V tab. \ref{tab:experiments:normalization:cmn:full} je vidět markantní zlepšení výsledků. Pokud je model natrénován na datech z 1. etapy a otestován na datech z libovolné etapy, tak jsou dosažené výsledky velmi podobné. Nejhoršího výsledku je dosaženo, pokud je model natrénován na datech z 2. etapy a otestován na těch z té 1. V tomto případě hraje velký vliv, že model je natrénován z relativně malého množství dat (pouhé 2 hodiny). Pokud je tedy \textit{CMN}  počítáno přes všechny nahrávky v etapě, tak je dosaženo významného zlepšení a vliv kanálu je v podstatě eliminován. Pro doplnění je dobré zmínit, že pokud je model natrénován ze všech trénovacích dat (1. a 2. etapa) a otestován pomocí kompletní testovací sady, tak je dosažená přesnost s monofónovým zerogramovým jazykovým modelem rovna $77,69\ \%$, což je výsledek přibližující se hodnotám dosaženým v prvnotních experimentech v části \ref{chap:realisation:analysis:experiment}.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={|c}},
+    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
+    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+      & \multicolumn{2}{c|}{Accuracy} \\
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch5-construction/tabs/0204-cmn_full.csv}
+  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s \textit{CMN}  přes všechny nahrávky v etapě.}
+  \label{tab:experiments:normalization:cmn:full}
+\end{table}
+
+Z výsledků v tab. \ref{tab:experiments:normalization:cmn:file} je možné odvodit, že pokud se \textit{CMN}  počítá přes posuvné okénko fixní délky, tak dosažené výsledky nejsou zrovna dobré. Což se i experimentálně potvrdilo, když výsledná přesnost dosáhla hodnoty $56,51\ \%$, pokud jsou použita všechna data. Nicméně framework Kaldi umožňuje aplikování CMVN, což je Cepstral mean and variance normalization. Oproti standardními \textit{CMN}  je uvažována i variance v kepstrální oblasti. Technicky je pravá část rovnice (\ref{eq:experiments:normalization:cmn}) ještě podělena vypočtenou variancí daného kepstrálního koeficientu $q$. Takže pokud je použito Kaldi CMVN, tak výsledná přesnost, na modelu trénovaném a testovaném na všech datech, dosáhla hodnoty $76,15\ \%$. Tento výsledek je srovnatelný s modelem využívající \textit{CMN}  přes všechny nahrávky v dané etapě.
+
+Po zjištění vhodného nastavení \textit{CMN},  pro odfiltrování vlivu kanálu, je dalším krokem natrénování neuronové sítě. V předchozím textu bylo zmíněno, že neuronová síť jako počáteční podmínky používá zarovnání získané pomocí \textit{GMM}  To je získáno díky natrénovaným modelům s \textit{CMN}  přes všechny nahrávky. Trénovaná neuronová síť je typu fully connected feedforward s 6 vrstvami (5 skrytých vrstev). Postupně je natrénována síť s 1024, 2048 a 4096 neurony v každé vrstvě, výstupní vsrva je typu softmax s dimenzí rovnou počtu \textit{HMM} stavů. Jazykový model je stejně jako u všech předchozím experimentů monofónový zerogramový. Tab. \ref{tab:experiments:normalization:dnn} ukazuje dosažené výsledky všech natrénovaných variant. Nejvyšší přesnosti dosahuje model s 4096 neurony v každé vrstvě, ale rozdíl od ostatních variant není velký. Oproti nejlepšímu \textit{GMM} modelu \textit{DNN} síť přidala dalších $6,97\ \%$ absolutně.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/neurons/.style={column name=Počet neuronů, column type={|c}},
+    columns/accuracy/.style={column name=Accuracy $[\%]$, column type={|r|}},
+    every head row/.style={before row=\hline,after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch5-construction/tabs/0205-dnn.csv}
+  \caption{Dosažená přesnost neuronové sítě s monofónovým zerogramovým jazykovám modelem.}
+  \label{tab:experiments:normalization:dnn}
+\end{table}

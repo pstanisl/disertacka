@@ -1,15 +1,13 @@
 % !TEX root = ../thesis.tex
-\section{Analýza dat a první modely}
-\label{chap:experiments:analysis}
+\section{Analýza akustického signálu a jeho parametrizace}
+\label{chap:construction:analysis}
 
 Rozpoznávání řeči se věnuje nemalé usílí již od 50. let 2O. století a v současné době nikoho nepřekvapí téměř bezchybně fungující obecný rozpoznávač v mobilních zařízeních. Pro obecné systémy dokonce existují korpusy s desítkami či stovkami a více hodin promluv, které je možné využít při vytváření těchto systémů.
 
 Tyto korpusy však obsahují ve většině případů pouze \uv{standardní}\footnote{Slovením spojením \uv{standardní řeč} je myšlena řeč neobsahující vyrazné řečové vady, případně jiné formy produkce a často v nepřílíš akusticky náročném prostředí.} řeč. Pokud je snaha vytvořit nebo ověřit funkčnost systému za specifických podmínek (ať už se jedná o rušné prostředí či speciální typy promluv), tak je nezbytné získat potřebná data.
 
-
-
 \subsection{Analýza získaných dat}
-\label{chap:experiments:analysis:data}
+\label{chap:construction:analysis:data}
 
 Po dokončení anotace obsahuje korpus přes 10 hodin akustických záznamů promluv a více či méně přesných přepisů\footnote{I přes nemalou snahu a několikastupňovou kontrolu, je téměř jisté, že by nebylo obtížné najít přepis, který obsahuje chybu například ve formě překlepu.}. Když jsou k dispozici data je možné se podívat na specifika EL řeči a případně porovnat se zdravým řečníkem.
 
@@ -28,7 +26,7 @@ Dalším důvodem může být je nutnost správné artikulace. Při používán�
 
 Dalším způsobem jak ukázat rozdíly mezi promluvou zdravého řečníka a řečníka s EL je srovnání ve frekvenční oblasti. Pro větší názornost jsou na obr. \ref{fig:construction:spectrogram} vedle sebe zobrazeno spektrum ukázková promluva zdravého řečníka (\ref{fig:construction:spectrogram:normal}) a toho s EL (\ref{fig:construction:spectrogram:el}). Obsah obou promluv je identický a přesto jsou obě spektra odlišná.
 
-Prvním markantním rozdílem je mnohem větší zastoupení šumu v úsecích \uv{ticha} na obr. \ref{fig:construction:spectrogram:el}. To je nepochyně způsobnemo samotným EL, který řečník nevypíná mezi jednotlivými slovy. Na obr. \ref{fig:construction:el_speech} je to také zřetelně patrný, zejména na průběhu energie, šum zejména před prvním a druhým slovem promluvy. Zajímavá je přítomnost šumu v célém frekvenčním spektru, přestože EL produkuje konstantní buzení. Toto buzení je ve spektru, na obr. \ref{fig:construction:spectrogram:el}, viditelná jako výrazná souvislá linie v nízkých frekvencích. Přitomnost šumu ve vyšších frekvencích je způsobena umístěním mikrofonu, který je nalepen na pokožku a tím pádem snímá namodulované vibrace, přenášené měkkou tkání. Tento fakt se potvrdil v dalších etapách nahrávání (viz část \ref{chap:experiments:normalization:corpus}), kde je použit studiový mikrofon vzdálený od úst minimálně 15 cm a tyto vibrace již nezaznamenává. Nicméně z pohledu použitelnosti nějakého budoucího systému je nezbytné počítat i se situací, kdy mikrofon bude zaznamenávat i vibrace přenášené tkání.
+Prvním markantním rozdílem je mnohem větší zastoupení šumu v úsecích \uv{ticha} na obr. \ref{fig:construction:spectrogram:el}. To je nepochyně způsobnemo samotným EL, který řečník nevypíná mezi jednotlivými slovy. Na obr. \ref{fig:construction:el_speech} je to také zřetelně patrný, zejména na průběhu energie, šum zejména před prvním a druhým slovem promluvy. Zajímavá je přítomnost šumu v célém frekvenčním spektru, přestože EL produkuje konstantní buzení. Toto buzení je ve spektru, na obr. \ref{fig:construction:spectrogram:el}, viditelná jako výrazná souvislá linie v nízkých frekvencích. Přitomnost šumu ve vyšších frekvencích je způsobena umístěním mikrofonu, který je nalepen na pokožku a tím pádem snímá namodulované vibrace, přenášené měkkou tkání. Tento fakt se potvrdil v dalších etapách nahrávání (viz část \ref{chap:construction:normalization:corpus}), kde je použit studiový mikrofon vzdálený od úst minimálně 15 cm a tyto vibrace již nezaznamenává. Nicméně z pohledu použitelnosti nějakého budoucího systému je nezbytné počítat i se situací, kdy mikrofon bude zaznamenávat i vibrace přenášené tkání.
 
 Dalším markantním rozdílem je absence vyšších frekvencí u většiny produkovaných fonémů. Vyjímku tvoří afrikáty $/c/$ a $/\check{c}/$, u kterých jsou hlasivky (u zdravého jedince) v klidu a vznikají uvolněním nahromaděného vzduchu v dutině ústní\footnote{Nahromadění vzduchu je realizováno přitisknutím jazyka k přední/zadní části horního patra.} \cite{Psutka2006}. V tomto případě není, u řečníka po TL, principiálně tento mechanizmus produkce těchto fonému ovlivněn. Problémem teoreticky může být zdroj vzduchu, jelikož jej z plic není možné dostat do dutiny ústní, ale jak už bylo zmíněno (a spektrogram to potvrzuje) zkušený uživatel EL se dokáže adaptovat.
 
@@ -100,207 +98,3 @@ Posledním úkázkovým fonémem je již zmiňované $/\check{c}/$. Jedná se o 
 Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách odlišná od té produkované zdravým řečníkem. Zejména u porovnání ve frekvenční oblasti (obr. \ref{fig:construction:freq:k} a \ref{fig:construction:freq:m}) je to nejvíce patrné. Tento fakt nepochyně přispívá k tomu, že standardní obecné modely rozpoznávání řeči nedosahují takové přesnosti jako v případě bežné promluvy.
 
 % \csvautotabular{./ch5-construction/test.csv}
-
-\subsection{Prvotní experimenty}
-\label{chap:experiments:analysis:experiment}
-
-Z provedené analýzy plyne, že EL data jsou od těch \uv{standardních} řečových relativně odlišná. Otazkou však je jak moc. Odpovědět může pomoci state-of-the-art obecný český ASR systém nezávislý na řečníkovi. V době psaní práce byl tento systém postaven na kombinaci neuronové sítě a skrytých makrovových modelů, tedy \textit{HMM-DNN}, více o těchto modelech v části \ref{chap:experiments:normalization}. K natrénováni modelu posloužil řečový korpus obsahující stovky hodin anotované řeči od velkého počtu řečníků. Pokud se jako vstup použily data ze získaného korpusu, tak byla dosažena přesnost slovní $18,49\ \%$\footnote{Pro potřeby této práce byl experiment zopakován v době psaní práce, protože od získání dat a první realizace tohoto experimentu uplynulo několik let a technologie pokročly. U původního experimentu byl výsledek obdobný.}. Toto číslo je vypočteno pomocí následujícího vzorce
-
-\begin{equation}
-  Acc = \frac{N - S - D - I}{N} * 100
-  \label{eq:experiments:analysis:experiment:accuracy},
-\end{equation}
-
-\noindent kde $N$ je počet položek ve slovníku, $S$ je počet substitucí, $D$ je počet deletací a $I$ je počet inzercí.
-
-Z dosaženého výsledku je patrné, že EL doména je diametrálně odlišná od bežné řeči, pro které jsou ASR systémy vytvářeny. Navíc, pokud se vezme v potaz náročnost získání potřebných dat pro natrénování obecného modelu, tak se jako jediná schůdná varianta jeví vytváření individuálních modelů pro každého řečníka. To znamená, že model je trénovaný pouze z dat odpovídající konkreténímu řečníkovi a často i účelu použití. K vytvoření takového modelu je zapotřebí řádově méně dat, při dosažení podobného výkonu. Stinnou stránkou je případná menší robustnost modelu. Čistě logicky tento model bude fungovat pouze s konkrétním řečníkem a ještě jen v situacích, které odpovídají trénovacím datům. U řečníků s EL může navíc hrát velký vliv samotný EL. Již při nahrávání se ukázalo, že jeho pozice může nepříznivě ovlivnit kvalitu řeči. Tento problém by však neměl významně ovlivňovat kvalitu modelu, protože tento fenomém je obsažen v datech. Co se však ukázalo jako potencionálně problematické, je stabilita parametrů produkované řeči v dlouhodobém časovém úseku. Více o tomto problému pak v části \ref{chap:experiments:normalization:quality}. K zodpovězení nejdůležitější otázky, jestli takový model vůbec může fungovat, stačí získaná data z první etapy nahrávání a ta obsahují řeč s relativně konzistentními parametry.
-
-V rámci ověřování funkčnosti infividuálního modelu je vhodné zkusit různé varianty, aby se určili optimální parametry modelu. Hlavními uvažovanými hyperparametry je vzorkovací frekvence audio nahrávek a počet \textit{HMM} stavů. Originální pořízené nahrávky mají vzorkovací frekvenci rovnu $44,1\ kHz$, pro úlohu rozpoznávání je to zbytečně moc, protože nejvíce informace je obsažena ve frekvenčním pásmu do $4\ kHz$, vyšší frekcence a priory ovlivňují zabarvení hlasu apod. \cite{Psutka2006} Otázkou je jestli stačí vzorkovací frekvence rovna $8\ kHz$ nebo lépe $16\ kHz$, kde je přeci jen více informací. Počet stavý modelu pak ovliňuje množsví modelovaných trifónů. Čím více stavů, tím více je modelovaných trifónů. Stinnou stránkou pak je fakt, že čím více stavů, tím více  je potřeba trénovacích dat. Množina uvažovaných možností obsahuje $1024,\ 2048$ a $4096$ stavů. Jen pro vysvětlení je dobré zmínit, že \textit{HMM} stav představuje model jedné uvažované akustické jednotky (nebo skupiny jednotek s podobnými parametry). Počet stavů nám tedy říká, kolik takových jednotek model dokáže rozlišit. Čím více stavů, tím více jednotek (menších skupin) je modelováno. Teoreticky tak model s více stavy je lepší. Nicméně k natrénování jednotky je potřeba určité množství dat a tím pádem je pro model s vyšším počtem stavů logicky potřeba větší množství trénovacích dat. Samozřejmě fonetická sada neobsahuje $4096$ fonémů, neobsahuje ani $1024$ fonémů\footnote{Ve skutečnosti obsahuje 42 českých fonémů.}. U těchto modelů se pak používá nějaký druh \textit{n-gramové} reprezentace fonémů, nejčastěji pak trifóny.
-
-Celkově je tak natrénováno $6$ modelů. K natrénování akustických modelů je použit HTK-Toolkitu v3.4., který je určen k vytváření \textit{HMM} modelů za pomocí k-means, Viterbiho a Baum-Welsch algoritmu.
-
-Funkce ASR systému lze popsat rovnící
-
-\begin{equation}
-  \argmax_W p\left(W | O\right) = \argmax_W p\left(O | W\right) p\left(W\right),
-\end{equation}
-
-\noindent kde $O$ reprezentuje sekvenci akustických příznaků a $W$ výstupní sekvenci znaků\footnote{Znakem tu může být myšleno písmeno, případně slovo.}. $P\left(O | W\right)$ je pravděpodobnost generování korektní pozorované sekvence, tedy korektní k akustickému modelu ASR systému. Pravděpodobnost $P\left(W\right)$ je a priorní pravděpodobnost konkrétní sekvence znaků $W$, jinými slovy jazykový model. K získání výsledků je tedy potřeba mít i tento model. Ten však není níjak ovlivněn řečníkem (pouze doménou použití systému) a není jej třeba upravovat pro potřeby řečníka s EL. Cílem experimentu je ověření funkčnosti ASR a nalezení optimálních parametrů akustického modelu. Z tohoto důvodu je potřeba co nejvíce eliminovat vliv jazykového modelu na celkovém výkonu ASR systému. Jak bylo zmíněno, funkcí $p\left(W\right)$ je určení nejpravděpodobnější sekvnce znaků. Pravděpodobnostní rozložení je získáno z velkého množství trénovacích textů. Toto natrénované rozložení by však velmi ovlivnilo výsledky experimentů, a proto je použít zerogramový monofónový model. Ten se vyznačuje tím, že všechny prvky slovníku mají stejnou pravděpodobnost rovnu $P(w_n) = \frac{1}{N}$, kde $N$ je počet položek ve slovníku. Monofónový model je navíc zvolen z toho důbodu, že fonetická sada je známa a obsahuje malý počet jednotek. Z pohledu jazykového modelu má libovolný výstup z akustického modelu stejnou pravděpodobnost výskytu a tím pádem se jazykový model nijak nepřispívá k celkové kvalitě ASR systému.
-
-Tab. \ref{tab:construction:experiment:gmm} znázorňuje dosažené výsledky. Hlavním poznatkem je fakt, že individuální ASR systém může fungovat. Pokud dosažené výsledky porovnáme s výsledky v \textbf{TBD}, tak je vidět rapidní nárůst výkonu, \todo{Doplnit}{$XX.XX$} obecného modelu oproti $78,63\ \%$ u nejhoršího individuálního modelu. Ze získaných dat je pak jasně patrné, že použití vzorkovací frekvence rovné $16\ kHz$ s sebou nese významné zlepšení přesnosti o $1,41\ \%$ absolutně, tedy téměř $7\ \%$ relativně. V dodatečných experimentech se pak ukázalo, že použití vyšší frekvence již přinese žádné nebo zanedbatelné zlepšení.
-
-Počet stavů již pak nehraje, tak zásádní roli na kvalitu akustického modelu jako vzorkovací frekvence. Z testované množiny maximálního počtu stavů dosáhl nejlepšího výsledku model, který měl maximálně $4096$ stavů, nicméne oproti modelu s $1024$ stavy je nárůst přesnosti pouze $0,4\ \%$ absolutně v případě $16\ kHz$ modelů, což není tak významné. Logicky se nabízí otázka, proč nezkusit ještě více stavů? Odpověď na tuto otázku se skrývá ve skutečném počtu stavů modelu s maximálním počtem $4096$ stavů. Slovíčko \uv{maximálním} je zde podstatné. Algoritmus trénování akustického modelu se snaží rozdistribuovat všechny možné akustické jednotky (v tomto případě trifóny) do maximálního počtu stavů. Pokud je méně stavů než jednotek, tak dochází k určité formě shlukování (často může posloužit \textit{k-means} algoritmus). Pokud je dostatek dat k natrénování konkrétního shluku, je tento shluk použit, pokud není dostatečné množství dat, je tento shluk spojen s jiným, který je svými parametry nejblíže. Tím pádem se mohou stát dvě věci. Je k dizpozici dostatek dat k natrénování maximálního počtu stavů a nebo není dostatek dat k natrénování maximálního počtu stavů. U modelu s maximálním počtem $4096$ stavů je skutečný počet stavů přibližně $3200$, i kdyby se natrénoval model s $8192$, tak by se tato hodnota nezměnila. Pro doplnění, monofónový akustický model dosáhl přesnosti $54,49\ \%$ pro $8\ kHz$ a $62,30\ \%$ pro $16\ kHz$.
-
-\begin{table}[htpb]
-  \centering
-  \def\arraystretch{1.5}
-  \pgfplotstabletypeset[
-    col sep=semicolon,
-    string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/8k/.style={column name=8 kHz $[\%]$, column type={|r}},
-    columns/16k/.style={column name=16 kHz $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-      & \multicolumn{2}{c|}{Accuracy} \\
-    },after row=\hline},
-    every last row/.style={after row=\hline},
-  ]{./ch5-construction/tabs/01-frequency.csv}
-  \caption{Vliv frekvence na kvalitu modelu.}
-  \label{tab:construction:experiment:gmm}
-\end{table}
-
-Jelikož tento experiment byl realizován na přelomu let $2013$ a $2014$, kdy ještě $ASR$ modelům dominovaly \textit{HMM-GMM} modely, byl později zopakován s \textit{HMM-DNN} modely, které dosahují ještě vyšších přesností. Více o \textit{HMM-DNN} v části \ref{chap:experiments:normalization:corpus}. Výsledky těchto modelů jsou v tab. \ref{tab:construction:experiment:dnn}, z nich je vidět, že i v této oblasti neuronové sítě jasně dominují.
-
-\begin{table}[htpb]
-  \centering
-  \def\arraystretch{1.5}
-  \pgfplotstabletypeset[
-    col sep=semicolon,
-    string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/8k/.style={column name=8 kHz $[\%]$, column type={|r}},
-    columns/16k/.style={column name=16 kHz $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-      & \multicolumn{2}{c|}{Accuracy} \\
-    },after row=\hline},
-    every last row/.style={after row=\hline},
-  ]{./ch5-construction/tabs/01-frequency_dnn.csv}
-  \caption{Vliv frekvence na kvalitu modelu využívajícího \textit{DNN} }
-  \label{tab:construction:experiment:dnn}
-\end{table}
-
-\subsection{Redukce fonetické sady}
-\label{chap:experiments:analysis:reduction}
-
-Při používání EL je přístroj v průběhu promluvy permanentně zapnutý a to i v případě neznělých fonémů. Jejich rozdílný průběh je patrný na obr. \ref{fig:construction:phonemes}. Nabízí se tak předpoklad, že všechny neznělé fonémy mají podobu znělých fonémů a tím pádem je možné redukovat fonetickou sadu. Teoreticky, pokud jsou všechny neznělé fonémy produkovány jako znělé, a je redukována fonetická sada, tak je snížena perplexita modelu a ten by měl být schopen pracovat s vyšší přesností.
-
-K ověření tohoto předpokladu je potřeba experimentálního ověření. Myšlenka experimentu je jednoduchá. Je potřeba natrénovat několik modelů lišících se pouze tím, jaký fonetický pár (viz tab. \ref{tab:construction:reduction:pairs}) byl použit pro redukci fonetické sady. V rámci experimentu jsou uvažovány tyto případy:
-
-\begin{itemize}
-  \item \textit{Baseline} - standardní model s plnou fonetickou sadou.
-  \item $/f/ \rightarrow /v/$ - foném $/f/$ je nahrazen fonémem $/v/$.
-  \item $/k/ \rightarrow /g/$ - foném $/k/$ je nahrazen fonémem $/g/$.
-  \item $/s/+/\check{s}/ \rightarrow /z/+/\check{z}/$ - foném $/s/$ $\left(/\check{s}/\right)$ je nahrazen fonémem $/z/$ $\left(/\check{z}/\right)$.
-  \item $/t/+/\text{\textit{ť}}/ \rightarrow /d/+/\text{\textit{ď}}/$ - foném $/t/$ $\left(/\text{\textit{ť}}/\right)$ je nahrazen fonémem $/d/$ $\left(/\text{\textit{ď}}/\right)$.
-  \item \textit{Náhrada všech} - všechny neznělé fonémy jsou nahrazeny znělým ekvivalentem.
-\end{itemize}
-
-\begin{table}[htpb]
-  \centering
-  \def\arraystretch{1.5}
-  \pgfplotstabletypeset[
-    col sep=comma,
-    string type,
-    columns/unvoiced/.style={column name=Neznělé fonémy, column type={|c}},
-    columns/voiced/.style={column name=Znělé fonémy, column type={|c|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
-  ]{./ch5-construction/tabs/phonemes_pairs.csv}
-  \caption{Korespondující páry fonémů.}
-  \label{tab:construction:reduction:pairs}
-\end{table}
-
-\noindent Pro porovnání jsou stejné modely vytvořeny i pro zdravého řečníka. U něj by, při libovolné redukci fonetické sady, mělo dojít ke zhoršení oproti \textit{baseline} modelu.
-
-K natrénování akustických modelů byly použity korpusy čítající 5000 vět\footnote{Pro oba řečníky jsou použity stejné věty pocházející z databáze popsané v \cite{Radova2000}.}, což představuje více než 10 hodin řeči pro každého řečníka. Akustická data byla parametrizována pomocí MFCC s 26 filtry a 12 kepstrálními koeficienty a energií. Dále vektor parametrů obsahuje delta a delta-delta příznaky. To dohromady dává vektor 40 příznaků pro každých 10 ms náhrávky \cite{Psutka2007}.
-
-V rámci experimentu byly otestovány dva přístupy vzájemně se lišící řečovou jednotkou. V prvním případě se jednalo o monofónový akustický model a v druhém trifónový. U obou přístupů je řečová jednotka reprezentována třístavovým \textit{HMM} modelem se spojitou výstupní pravděpodobnostní funkcí pro každý stav. Jelikož je pro češtinu množství trifónů opravdu velké, jsou využity fonetické rozhodovací stromy pro určení trifónů a korespujících stavů. Jednoduše řečeno jsou vytvořeny shluky trifónů, protože většinou není k dispozici dostatek dat pro natrénování všech variant trifónů. Pro určení optimálních parametrů modelu pro EL byly použity znalosti z části \ref{chap:experiments:analysis:experiment}. Pro zdravého řečníka je pro každou část experimentu vytvořeno několik modelů lišící se počtem stavů a gaussovkých směsí. Všechny akustické modely jsou natrénovány pomocí HTK-Toolkitu v3.4. Celkem bylo vytvořeno 24 akustických modelů, 12 pro EL řečníka (6 monofónových a 6 trifónových) a 12 pro zdravého řečníka.
-
-Pro otestování modelů byla vytvořena testovací sada čítající 500 vět náhodně vybraných z původních korpusů (pro oba řečníky stejná). Testovací sada tak představuje přibližně 1 hodinu řeči pro každého řečníka. Pro fungování ASR systému je potřeba, kromě akustického, i jazykový model. Ten určuje pravděpodobnost písmene/slova na základě předchozích pozorování. V rámci tohoto experimentu jsou uvažovány dva jazykové modely
-
-\begin{enumerate}
-  \item \textit{zerogramový jazykový model} - v tomto případě mají všechna slova v modelu stejnou pravděpodobnost $P_r(w_n|w_1,\dots,w_{n-1}) = \frac{1}{N}$, kde $N$ je počet slov ve slovníku. V tomto případě $N = 2885$, jinýmy slovy perplexita modelu je $2885$. Testovací slovník je vytvořen z testovací sady, model tedy naobsahuje OOV\footnote{Out-of-vocabulary (OOV) - slova, která nejsou obsažena ve slovníku jazykového modelu.}.
-  \item \textit{trigramový jazykový model} - u tohoto modelu odpovídá pravděpodobnost následujícího slova $P_r(w_n|w_1,\dots,w_{n-1})~=~p(w_n|w_{n-2}, w_{n-1})$. K získání $p(w_n|w_{n-2}, w_{n-1})$ posloužil SRILM Toolkit s Kneser-Ney vyhlazováním\footnote{Vyhlazování slouží k vyřešení problému s OOV, kdy trénovací data neobsahovala OOV, a proto není k dispozici $p(w_n|w_{n-2}, w_{n-1})$.} \cite{Stolcke2002}, které se podle \cite{Prazak2008} ukázalo jako optimální pro tyto typy modelů. Jako trénovací data byly použity texty z novinových článků, webových stránek a přepisů televizních pořadů. Celkem model obsahuje 360K nejvíce frekventovaných slov. OOV bylo $3,8 \%$ a perplexita $3380$.
-\end{enumerate}
-
-\noindent V kombinaci s vytvořenými akustickými modely to představuje 4 dílčí experimenty. Jen pro doplnění je nutné poznamenat, že přesnost modelů je vyhodnocována na slovech.
-
-Tab. \ref{tab:construction:reduction:01} a \ref{tab:construction:reduction:02} zobrazují výsledky\footnote{V tomto případě jsou výsledky udávány ve formě přesnosti, protože se zde využívá HTK oproti Kaldi v ostatních experimentech.} pro monofónový akustický model a zerogramový jazykový model, resp. trigramový jazykový model. V obou případech je vidět očekávané chování přesnosti modelu u zdravého řečníka. Ke konečné podobě fonetické sady se dospělo po dlouholetém výzkumu a počet fonémů je tak optimální. Redukcí fonetické sady je omezena komplexita modelu a tím pádem dochází ke zhoršení přesnosti. Překvapující může být horší výsledky u zdravého řečníka v tab. \ref{tab:construction:reduction:02}. Toto chování může být vysvětleno vyšší perplexitou trigramového jazykového modelu v kombinaci s relativně jednoduchým monofónovým akustickým modelem.
-
-U EL řečníka je vidět dílčí zlepšení u 2 modelů (tab. \ref{tab:construction:reduction:01}), resp. 1 modelu v případě trigramového modelu (tab. \ref{tab:construction:reduction:02}). Ve většině případech však redukce fonetické sady vedla ke zhoršení přesnoti. U EL řečníka došlo ke zlepšení při použití trigramového jazykového modelu, to nasvědčuje tomu, že monofónový akustický model není úplně ideální pro odhad sekvence fonémů.
-
-\begin{table}[htpb]
-  \centering
-  \def\arraystretch{1.5}
-  \pgfplotstabletypeset[
-    col sep=semicolon,
-    string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
-    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
-  ]{./ch5-construction/tabs/reduction_01.csv}
-  \caption{Vliv redukce fonetické sady na přesnost ASR systému s monofóním akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
-  \label{tab:construction:reduction:01}
-\end{table}
-
-\begin{table}[htpb]
-  \centering
-  \def\arraystretch{1.5}
-  \pgfplotstabletypeset[
-    col sep=semicolon,
-    string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
-    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
-  ]{./ch5-construction/tabs/reduction_02.csv}
-  \caption{Vliv redukce fonetické sady na přesnost ASR systému s monofóním akustickým a trigramovým jazykovým modelem obsahujícím 360k slov pro zdravého a EL řečníka.}
-  \label{tab:construction:reduction:02}
-\end{table}
-
-V tab. \ref{tab:construction:reduction:03} a \ref{tab:construction:reduction:04} jsou pak vypsány výsledky pro trifónový akustický model se zerogramovým resp. trigramovým jazykovým modelem. Stejně jako u předchozích dvou experimentů, tak i zde je vidět, že redukce fonetické sady vede u zdravého řečníka vždy ke zhoršní přesnosti modelu. Také je tu možné vydedukovat, že trifónový akustický model dosahuje výrazně lepších výsledků než monofónní model. Zhoršení u EL řečníka v tab. \ref{tab:construction:reduction:03} je s největší pravděpodobností způsobeno fonetickými stromy, protože není dostatek dat pro všechny možné varianty trifónů. Tím pádem model pro určité trifóny vrací špatné sekvence znaků. Zerogramového jazykový model to pak nedokáže zachránit, protože všechny slova mají stejnou pravděpodobnost $P_r(w_n|w_1,\dots,w_{n-1}) = \frac{1}{2885}$. Tím pádem může dojít k rozpoznávání špatného slova a nižší celkové přesnosti. Tuto domněnku potvrzuje rapidní zlepšení v případě trigramového jazykového modelu (tab. \ref{tab:construction:reduction:04}), kde již jazykový model významně přispívá k přesnosti modelu.
-
-U obou experimentů s trifónovým jazykovým modelem došlo ke zlepšení u dvou modelů (tab. \ref{tab:construction:reduction:03} a \ref{tab:construction:reduction:04}), ale stejně jako v případě monofónového modelu vedla ve většině případů redukce fonetické sady ke zhoršení.
-
-\begin{table}[htpb]
-  \centering
-  \def\arraystretch{1.5}
-  \pgfplotstabletypeset[
-    col sep=semicolon,
-    string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
-    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
-  ]{./ch5-construction/tabs/reduction_03.csv}
-  \caption{Vliv redukce fonetické sady na přesnost ASR systému s trifónovým akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
-  \label{tab:construction:reduction:03}
-\end{table}
-
-\begin{table}[htpb]
-  \centering
-  \def\arraystretch{1.5}
-  \pgfplotstabletypeset[
-    col sep=semicolon,
-    string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
-    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
-  ]{./ch5-construction/tabs/reduction_04.csv}
-  \caption{Vliv redukce fonetické sady na přesnost ASR systému s trifónovým akustickým a trigramovým jazykovým modelem s 360k slov pro zdravého a EL řečníka.}
-  \label{tab:construction:reduction:04}
-\end{table}
-
-Ze získaných výsledků je možné usoudit, že redukce fonetické sady může vést ke zlepšení přesnosti. Nicméně předpoklad, že všechny neznělé fonémy jsou shodné se svými znělými ekvivalenty se nepotvrdila. Zároveň není možné úplně říci, že je možné, např. dvojici $/s/$ a $/\check{s}/$, za každých okolností převést na znělou variantu a dosáhnout tím lepších výsledků. Při hlubší analýze výsledků se ukázalo, že velmi záleží na kontextu daného fónemu, protože jeho podubu velmi ovlivňují fonémy v bezprostředním okolí. Řeč představuje spojitou formu signálu a při vyslovování různých slov obsahujícím stejný foném s odlišným okolím dochází i třeba k odchylkám v artikulaci, např. \textit{hrad} vs. \textit{hod}. Toto pozorování ověřil i dodatečný experiment, ve kterém se u náhrady $/s/$ za $/z/$ vynechal trifón \textit{b-s+t}, který je nápříklad ve slově \textit{obstát}. Díky vynechání tohoto trifónu byla výsledná nejlepší přesnost u trifónového akustického modelu $83,39\ \%$ v případě zerogramového jazykového modelu a $88,37\ \%$ v případě trigramového modelu. Přestože se jedná o marginální zlepšení, tak ho bylo docíleno jedním trifónem. Nicméně určení toho jaké trifóny vynechat z nahrazování není triviání úloha.
-
-Zajímavý je také rozdíl mezi přesností modelu pro zdravého a EL řečníka. Přestože se v obou případech jedná o individuální modely šité \uv{na míru} řečníkovi, tak průměrný rozdíl je $6,24\ \%$ absolutně a $40,38\ \%$ relativně. To značí, že je potřeba se zabývat myšlenkou jak upravit akustický model, aby dosahoval lepších výsledků a v ideálním případě dosahoval podobných výkonů jako modely pro zdravé řečníky.
-
-Naopak očekávaným výsledkem bylo zhoršená přesnosti pro zdravého řečníka ve všech případech redukce fonetické sady. Dále se potvrdilo, že komplexnější trifónový model dosahuje ve většině případů lepších výsledků. To je nepochybně způsobeno tím, že každý foném máme modelován pomocí více \textit{HMM} stavů, protože se bere v potaz i jeho okolí, kdežto pro monofónový model nikoli.

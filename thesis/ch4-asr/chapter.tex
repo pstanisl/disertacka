@@ -2,7 +2,42 @@
 \chapter{Automatické rozpoznávání řeči}
 \label{chap:asr}
 
-TBD
+Úlohou systému automatického rozpoznávání řeči (ASR) je převedení mluvené řeči na posloupnost slov, které řečník vyslovil. První takovéto systémy se začali objevovat v první polovine 20. století. První systémy pracovali na základě analýzy akustického signálu a porovnávání se vzorem. Byly tak schopny rozpoznávat jen velmi omezené množství slov. Významný zlom nastal v polovině 80. let minulého století, kdy se začali používat systémy založené na statistickém přístupu, konkrétně na HMM \cite{Holmes2001}. Pricipiálně je tento systém znázorněn on obr. \ref{fig:asr:decoding}. Řečový signál je analyzován a pomocí parametrizace převeden na sekvenci vektorů pozorování $O = \left\{o_1\ o_2\ \dots\ o_T\right\}$. Tyto vektory jsou u většiny systémů získávány s periodou $10\ ms$ pro segmenty řeči mající nejčastěji délku $20$ až $40\ ms$. Vlastní rozpoznávání pak probíhá v dekodéru, kde se systém snaží vybrat k vektorům pozorování $O$ takovou posloupnost slov $W = \left\{w_1\ w_2\ \dots\ w_N\right\}$, která maximalizuje aposteriorní pravděpodobnost (MAP)
+
+\begin{equation}
+  \hat{W} = \argmax_W\ P\left(W | O\right).
+  \label{eq:asr:decoding}
+\end{equation}
+
+Pomocí Bayesova pravidla je možné podmíněnou pravděpodobnost $P\left(W | O\right)$ přepsat do tvaru
+
+\begin{equation}
+  P\left(W | O\right) = \frac{p(O|W)P(W)}{p(O)}.
+\end{equation}
+
+Jelikož pravděpodobnost $P(O)$ je z principu nezávislá na sekvenci slov $W$, je možné rovnici (\ref{eq:asr:decoding}) upravit do tvaru
+
+\begin{equation}
+  \hat{W} = \argmax_W\ p\left(O | W\right)P(W).
+  \label{eq:asr:decoding:generic}
+\end{equation}
+
+Takto upravená rovnice představuje obecné pravidlo dekódování a její členy pak základní stavební prvky ASR systému. Podmíněná pravděpodobnost $p(O | W)$ odhaduje sekvenci pozorování $O$ na předpokladu slov $W$, tento výpočet je realizován \textbf{akustický model} (viz obr. \ref{fig:asr:decoding}). K vurčení $\hat{W}$ je ještě nezbytné mít pravděpodobnost výskytu požadované poslovnosti slov $P((W))$, o určení této pravděpodobnosti se stará \textbf{jazykový model}. Pro doplnění je nutné dodat, že \textbf{slovník} obsahuje seznam všech slov, se kterými je systém schopen pracovat. Tento seznam je všetně fonetické transkripce. Všechny tyto části jsou uvnitř \textbf{dekodéru}, který realizuje prohledávací strategii.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-asr/img/decoding.pdf}
+  \caption{Schéma automatického systému rozpoznávání řeči pracující na statistickém přístupu}
+  \label{fig:asr:decoding}
+\end{figure}
+
+V následujícím textu jednotlivé stavební prvky ASR systému blížš popíšeme.
+
+\input{ch4-asr/01-parametrization}
+\input{ch4-asr/02-acoustic_modeling}
+\input{ch4-asr/03-language_modeling.tex}
+\input{ch4-asr/04-decoding.tex}
+\input{ch4-asr/05-evaluation.tex}
 
 % Jedním z hlavních důsledků TL (popsané v \todo{TBD}{[xx]}) je ztráta hlasivek a tím i hlasu. Problematikou komunikace pomocí mluvené řeči i v situacích, kdy akustický řečový signál není k dispozici, se zabývají  systémy zpracovávající \uv{tichou} řeč (angl. Silent speech interface, zkr. SSI). Ve většině případů se snaží získat informaci, která je normálně zakódována v akustickém signálu získat jinou cestou.
 

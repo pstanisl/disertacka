@@ -1,0 +1,101 @@
+% !TEX root = ../thesis.tex
+\section{Získání sekvence pozorování}
+\label{chap:asr:parametrization}
+
+Jako v mnoha jiných odvětvích, tak i při rozpoznávání řeči je v mnoha případech inspirací člověk. Pro získání sekvence pozorování (příznaků) vycházíme z \textbf{modelování produkce řeči} a \textbf{modelování procesu slyšení}, které se inspirují právě člověkem.
+
+\subsubsection{Modelování produkce řeči}
+
+Cílem modelování produkce řeči je nalezení matematických vztahů, které poslouží k reprezentaci fyzikálních dějů spojených s produkcí řeči. Základem je parametrizační technika \textbf{lineárního prediktivního kódování}, známá pod anglickou zkratkou LPC\footnote{Linear Predictive Coding} \cite{Benesty2007}. Vychází z představy, že hlasové ústrojí člověka je schopno vytvářet tři různé typy řečových zvuků:
+
+\begin{itemize}
+  \item \textit{samohlásky} - ty se řadí mezi znělé typy zvuků produkované periodickým buzením vznikajícím pulsy vzduchu, které jsou produkovány hlasivkami;
+  \item \textit{frikativy} (např. $/f/$\footnote{Zápis $/f/$ symbolizuje foném, což je akustická reprezentace písmene, \textit{f}. Konkrétní zápisy se mohou lišit podle použité fonetické abecedy. V Čechách se nejčastěji používá abeceda $SAMPA$ či $Z\v{C}FA$.}) - někdy nazývané jako třené souhlásky, protože vznikají třením výdechovaného proudu vzduchu o překážku v některém místě hlasového ústrojí. Těmito překážkami může být jazyk, zuby ap.;
+  \item \textit{explozivy} (např. $/b/$, $/p/$ ap.) - také nazývané jako souhlásky výbuchové, se tvoří úplnýn uzavřením vydechovaného proudu vzduchu pomocí artikulačních orgánů. To se následně projeví jako krázká pauza (tzv. okluze), po které následuje náhlé jednorázové uvolnění a únik nahromaděného vzduchu, tzv. exploze \cite{Psutka2006};
+\end{itemize}
+
+Snahou modelování je navržení modelu hlasového traktu, který bude dobře popisovat výše popsané zvuky. Nesmí se všask zapomenout na možnou složitost a přesnost modelu, jako ideální by byl linéárně časově invariantní model. Bohužel lidská řeč představuje kontinuální časově variantní a v některých situacích dokonce nelineární proces, takže je téměř nemožné jej přesně namodelovat. Pokud se včask udělají určité rozumné předpoklady, tak možné navrhnout lineární časově invariantní model řeči platný pro krátké časové úseky. Jinými slovy, předpokladem je, že v tomto krátkém časovém zůstává buzení a parametry hlasivkového traktu přibližně konstantní. Tento předpoklad přibližně platí pro intervaly $10$ až $30\ ms$. Odtud také vychází uvažovaná perioda segmntů řeči, viz úvod této kapitoly. Za těchto okolností je možné proces vytváření řeči modelovat pomocí tzv. \textbf{krátkodobého modelu}, který má v krátkých časových intervalech pevné parametry \cite{Holmes2001}.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-asr/img/speech_model.pdf}
+  \caption{Blokové schéma modelu produkce řeči}
+  \label{fig:asr:model:speech}
+\end{figure}
+
+Pro odvození obecného diskrétního modelu hlasovkového traktu se vychází ze zjednodušeného modelu produkce řeči (obr. \ref{fig:asr:model:speech}). Ten je tvořen modelem hlasivek, modelem hlasivkového traktu a modelem vyzařovaného zvuku, které jsou seriově řazeny. K odvození a popisu vlastností modelu se využívá výhod z-transformace \cite{Psutka2006}. Po zjednodušení je krátkodobý model produkce řeči aproximovat celopólovým modelem (filtrem) $H(z)$ ve tvaru
+
+\begin{equation}
+  H(z) = \frac{G}{1 + \sum_{i = 1}^{Q} a_{i} z^{-i}} = \frac{S(z)}{U(z)},
+  \label{eq:asr:lpc:generic}
+\end{equation}
+
+\noindent kde $G$ představuje celkové zesílení, $Q$ je řád modelu odpovídající $2K + 1$ počtu formantů, které má model postihovat, $a_i$ jsou parametry modelu. Vstupem modelu je buzení $u(k)$ (viz obr. \ref{fig:asr:model:speech}), tedy pro znělé zvuky sled pulsů s periodou $T_0$\footnote{Prioda základního hlasivkového tónu.} a pro neznělé zvuky náhodný šum s plochým spektrem. V časové oblasti je pak diskrétní výstupní odezva při fixovaných parametrech hlasového traktu ($10 - 30\ ms$) dána konvolucí a buzení a impulzní odezvy krátkodobého modelu. Na základě toho je možné model upravit na tvar podle obr. \ref{fig:asr:model:speech:excitation}, kde je $u(k)$ buzení a $s(k)$ je výstupní signál s parametry hlasového ústrojí odpovídající $a_i$ celopólového modelu.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-asr/img/speech_process.pdf}
+  \caption{Blokové schéma upraveného modelu produkce řeči}
+  \label{fig:asr:model:speech:excitation}
+\end{figure}
+
+K odhadu parametrů $a_i$ slouží \textbf{lineární prediktivní analýza}. Odhad probíhá přímo z krátkodobého řečového signálu. Přenosové vlastnosti krátkodobého modelu je možné popsat rovnicí (\ref{eq:asr:lpc:generic}). Myšlenka metody LPC staví na předpokladu, že vzorek $k$ řečového signálu je možné popsat lineární kombinací $Q$ předchozích bzorků a buzení $u(k)$, což lze zapsat úpravou vztahu (\ref{eq:asr:lpc:generic}) do tvaru
+
+\begin{equation}
+  s(k) = - \sum_{i = 1}^{Q} a_i s(k-1) + Gu(k).
+\end{equation}
+
+\noindent Z něj patrné, že LPC se snaží parametry modelu $a_i$ odhadnou a zesílení $G$ odhadnout pomocí známe reálně naměřené posloupnosti $s(k)$. K vyřešení se používá principu minimalizace kvadratické chyby krátkodobé energie signálu. Ta je v časové oblasti popsána vztahem
+
+\begin{equation}
+  E = \sum_{k} e^2(k) = \sum_{k} \left[ s(k) - s'(k)\right]^2 = \sum_{k} \left( s(k) + \sum_{i = 1}^{Q} a_i s(k-1) + Gu(k) \right),
+\end{equation}
+
+\noindent kde $s(k)$ jsou vzorky reálného řečového signálu a $s'(k)$ jsou ty predikováné LPC filtrem. K získání řešení krátkodobé chyby predikce $E$, pro konkrétní analyzovaný segment, je použita metoda nejmenších čtverců. K výpočtu konkrétních koeficientů modelu $a_i$ je možné použít rekurzivního Durbinova algoritmu \cite{Holmes2001}.
+
+Další možností jak popsat hlasový trakt je pomocí \textbf{kepstrálních koeficientů lineární predikce}. Pokud rovnici (\ref{eq:asr:lpc:generic})logaritmujeme, vznikne vztah
+
+\begin{equation}
+  \log H(z) = \log \left( \frac{G}{A(z)} \right).
+  \label{eq:asr:lpc:cepstrum}
+\end{equation}
+
+\noindent Člen $A(z)$ je polynomem proměnné $z^{-1}$ řádu $Q$, a pokud všechny jeho kořeny leží uvnitř jednotkové kružnice, tak lze aplikovat Taylorův rozvoj na vztah (\ref{eq:asr:lpc:cepstrum}) ve tvaru
+
+\begin{equation}
+  \log \left( \frac{G}{A(z)} \right) = c(0) + c(1)z^{-1} + \dots = \sum_{k=0}^{\infty} c(k)z^{-k},
+  \label{eq:asr:lpc:cepstrum:taylor}
+\end{equation}
+
+\noindent kde $c(k)$ jsou tzv. kepstrální koeficienty LPC. K odstranění logaritmu je potřeba obě strany rovnice derivovat. Po úpravě je výsledný vztah
+
+\begin{equation}
+  - \sum_{i=1}^{Q} ia_iz^{-i} = \left( \sum_{k=0}^{\infty} kc(k)z^{-k} \right)\left( \sum_{i=0}^{Q} a_iz^{-i}\right).
+  \label{eq:asr:lpc:cepstrum:deriv}
+\end{equation}
+
+\noindent Pokud se $a_i = 1$, pak je možné roznásobení rovnice (\ref{eq:asr:lpc:cepstrum:deriv}) a porovnání člený u stejných mocnin $z$ zapsat vztahy pro výpočet kepstrálních koeficientů LPC
+
+\begin{align}
+  \begin{split}
+    c(1) &= -a_1, \\
+    c(k) &=
+    \begin{cases}
+      - a_k - \sum_{i=1}^{k-1} \left(\frac{i}{k}\right) c(i) a_{k-1},  & \quad \text{pro } 2 \leq k \leq Q, \\
+      - \sum_{i=1}^{Q} \left(\frac{k - i}{k}\right) c(k-i) a_i,  & \quad \text{pro } k = Q + 1, Q + 2, \dots \quad ,
+    \end{cases}
+  \end{split}
+  \label{eq:asr:lpc:cepstrum:coef}
+\end{align}
+
+\noindent kde $k = 1, 2, \dots , Q^{*}$ a $Q^{*}$ je počet kepstrálních koeficientů a $Q^{*} \geq Q$.
+
+Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegmentu řeči odvozené LPC analýzou, tu je možné získat dosazením $e^{j\omega}$ za $z$ v rovnici (\ref{eq:asr:lpc:generic}). Pro uspokojivou reprezentaci se tradičně volí $Q = 7\ \text{až}\ 15$ v závislosti na spektrální šířce přenášeného pásma, požadované přesnosti aproximace apod. Z toho plyne, že pro popis mikrosegmentu řeči by mohl stačit příznakový vektor o $15$ koeficientech.
+
+\subsubsection{Modelování procesu slyšení}
+
+Medelování procesu slyšení usilují o kompenzaci nelineárního vnímání frekvencí lidským sluchem. Dále pak i o respektování maskování zvuků včetně tzv. kritických pásem slyšení, což je přirozená vlastnost lidského sluchu. Maskováním se rozumí jev, kdy vnímání jednoho zvuku je ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přitomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s určitým časovým odstupem. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje věškerý šum ležící mimo ourčité kriticé pásmo. Šířka takového kritického pásma je přitom závislá na frekvenci poslouchaného tónu.
+
+Typickým příkladem metod modelující proces slyšení jsou \textbf{melovská kepstrální filtrace} a \textbf{perceptivní lineární prediktivní analýza}.
+
+TBD
