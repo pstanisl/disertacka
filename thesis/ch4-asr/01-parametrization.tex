@@ -44,6 +44,7 @@ K odhadu parametrů $a_i$ slouží \textbf{lineární prediktivní analýza}. Od
 
 \begin{equation}
   s(k) = - \sum_{i = 1}^{Q} a_i s(k-1) + Gu(k).
+  \label{eq:asr:lpc:generic:edited}
 \end{equation}
 
 \noindent Z něj je atrné, že se LPC snaží parametry modelu $a_i$ a zesílení $G$ odhadnout pomocí známe reálně naměřené posloupnosti $s(k)$. K vyřešení se používá principu minimalizace kvadratické chyby krátkodobé energie signálu. Ta je v časové oblasti popsána vztahem
@@ -166,7 +167,7 @@ Při výpočtu melovských kepstrálních koeficientů jsou na vstup systému p�
   \label{eq:asr:mfcc:freq:responce}
 \end{equation}
 
-\noindent kde frekvence $f$ jsou vybírány ze souboru frekvencí využívaných při FFT výpočtu a $u(f, i)$ je vyjádření konkrétního troúhelníkového filtru $i$. Průchod filtrem tedy znamená, že každý koeficient FFt je násoben odpovídajícím ziskem filtru a výsledky jsou pro příslušné filtry akumulovány. Logaritomováním akumulovaných koeficientů $y_{m}(i)$ se provede převod do kepstrální oblasti. Tento krok příznivě omezí dynamiku signálu.
+\noindent kde frekvence $f$ jsou vybírány ze souboru frekvencí využívaných při FFT výpočtu a $u(f, i)$ je vyjádření konkrétního troúhelníkového filtru $i$. Průchod filtrem tedy znamená, že každý koeficient FFt je násoben odpovídajícím ziskem filtru a výsledky jsou pro příslušné filtry akumulovány. Logaritomováním akumulovaných koeficientů $y_{m}(i)$ se provede převod do kepstrální oblasti. Tento krok příznivě omezí dynamiku signálu \cite{Benesty2007}.
 
 Posledním krokem při výpočtu melovských kepstrálních koeficientů $\left\{c_m\left(j\right)\right\}_{j=1}^{M}$ je provedení IDFT (viz (\ref{eq:asr:lpc:cepstrum:generic})). V případě MFCC se, ale používá diskrétní kosinova transformace (DCT), protože spektrum je reálné a symetrické. K výpočtu slouží vztah
 
@@ -177,5 +178,115 @@ Posledním krokem při výpočtu melovských kepstrálních koeficientů $\left\
 
 \noindent kde $M^{*}$ je počet pásem melovkého pásmového filtru a $M$ je počet melovských kepstrálních koeficientů. Počet těchto koeficientů $M$ se volí podstatně menší, než je počet pásem melovského pásmového filtru $M^{*}$, obvykle se uvažuje prvních $M = 10\ \text{až}\ 13$ koeficientů.
 
+\subsubsection{Perceptivní lineární prediktivní analýza}
 
+Stejně jako MFCC, tak také i \textbf{perceptivní lineární prediktivní analýza (PLP)} vychází z lidského vnímání a slyšení zvuků. Snaha je postihnout z psychofyziky slyšení zejména kritická pásmá spektrální citlivosti, vztah mezi intenzitou a vnímáním hlasitosti a také křivky stejné hlasitosti. \cite{Psutka2006} PLP (podobně jako LPC) pak aproximuje získané sluchové spektrum koeficienty autoregresního celopólového modelu.
 
+Prvním krokem PLP analýzy je \textbf{výpočet výkonového spektra řečového signálu}. Pro konkrétní mikrosegment řečového signálu $s(k)$ aplikujeme\footnote{Ještě před výpočtem je, stejně jako u MFCC aplikována preemfáze.} DFT. Krátkodoné spektrum je pak definováno vztahem
+
+\begin{equation}
+  P\left(\omega\right) = \left| S\left(\omega\right) \right|^{2} = \left[Re\ S\left(\omega\right)\right]^2 + \left[Im\ S\left( \omega \right) \right]^2.
+  \label{eq:asr:plp:spectr}
+\end{equation}
+
+\noindent Poté následuje kompenzace nelináhorního vnímání změn ve výšce zvuku. Vnímjmání je logaritmické, proto je nutné provést nelineární transformaci frekvenční osy pomocí vzorce
+
+\begin{equation}
+  \Omega\left(\omega\right) = 6 \ln \left( \frac{\omega}{1200\pi} + \sqrt{\left(\frac{\omega}{1200\pi}\right)^2 + 1} \right),
+  \label{eq:asr:plp:transform}
+\end{equation}
+
+\noindent kde $\omega = 2\pi f\ \left[rad/s\right]$ a $\Omega\left(\omega\right)\ \left[bark\right]$.
+
+Zahrnutí kritických pásem slyšení (tzv. maskování zvuku) je realizováno navržením vhodného filtru typu pásmová propust šířky jednoho kritického pásma. Stejně jako v případě MFCC se jedná o banku filtrů, kde na sebe jednotlivé filtry ve frekvenční oblasti navazují. Na Barkově frekvenční ose (viz (\ref{eq:asr:plp:transform})) mají všechny filtry šířku $1$ a jsou lineárně rozmístěny. Na obr. \ref{fig:asr:plp:filter} je zobrazen průběh jednoho takového filtru. Filter má strmost $+20\ dB/Bark$ směrem k nížsím frekvencím a $-50\ dB/Bark$ sněren k vyšším frekvencím.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-asr/img/plp_filter.pdf}
+  \caption{Ukázka filtru umístného na Barkově frekvenční ose}
+  \label{fig:asr:plp:filter}
+\end{figure}
+
+Rozmístění filtrů na Barkově frekvenční ose je pak znázorněno na obr. \ref{fig:asr:plp:bank}.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-asr/img/plp-bank.pdf}
+  \caption{Rozmístění filtrů na Barkově frekvenční ose}
+  \label{fig:asr:plp:bank}
+\end{figure}
+
+Jelikož člověk vnímá intenzitu zvuku v závislosti na frekvenci, tak je potřeba aplikovat \textbf{přizpůsobení křivkám stejné hlasitosti}. Na začátku je důležité definovat referenční hlasitost, tj. hlasitost, na kterou budeme normalizovat. Obvykle se volí $40\ Ph$ \cite{Psutka2006}, což přibližně odpovídá hlasitosti běžné řeči. K normalizaci je použit invertní filter popsaný vztahem
+
+\begin{equation}
+  E\left(\omega\right) = K \frac{\omega^4\left(\omega^2 + 56,9 \cdot 10^6\right)}{\left(\omega^2 + 6,3 \cdot 10^6\right)^2\left(\omega^2 + 379,4 \cdot 10^6\right)\left(\omega^6 + 9,6 \cdot 10^{26}\right)},
+  \label{eq:asr:plp:filter}
+\end{equation}
+
+\noindent kde $\omega é 2\pi f$ a $K$ je konstanta nastavená podle požadovaného zesílení. Přizpůsovnení křivce stejné hlasitosti je pak možné například přenásobením celého výkonového spektra mikrosegmentů podle vztahu
+
+\begin{equation}
+  P'\left(\omega\right) = E\left(\omega\right)P\left(\omega\right),
+  \label{eq:asr:plp:filter:application1}
+\end{equation}
+
+\noindent kde $P'\left(\omega\right)$ je spektrum transformované na stejnou hlasitost. Případně lze upravit tvar jednotlivých filtrů pomocí vztahu
+
+\begin{equation}
+  \Phi\left(\omega, i\right) = E\left(\omega\right)\Psi\left(\omega - \omega_i, i\right),
+  \label{eq:asr:plp:filter:application2}
+\end{equation}
+
+\noindent kde $\Phi\left(\omega, i\right)$ je nový tvar filtru $i$ v závislosti na frekvenci $\omega$, $\Psi\left(\omega - \omega_i, i\right)$ je odezva filtru $i$ se středovou frekvencí $\omega_i$.
+
+Po přizpůsobení následuje \textbf{výpočet energie jednotlivých filtrů}, to je obdobné jako u MFCC. Výpočet se provádí pro jednotlivé filtry a výsledky se pak sčítají. Matematicky to je zapsáno vztahem
+
+\begin{equation}
+  \zeta_m = \sum_{\Omega = \Omega_m - 2,5}^{\Omega_m + 1,3} P\left(\Omega\right)\Phi\left(\Omega, m\right), \quad\ m=1, 2,\ \dots\ M - 2,
+  \label{eq:asr:plp:energy}
+\end{equation}
+
+\noindent kde $M$ je počet použitých filtrů (kritických pásem).
+
+Dalším krokem výpočtu je uplatnění \textbf{\uv{zákona slyšení}}. Ten popisuje závislost mezi intenzitou a vnímanou hlasitostí. Na energie $\zeta_m$ je aplikována nelineární transformace vyjádřena vztahem
+
+\begin{equation}
+  \xi_m = \left(\zeta_m\right)^{0,3}, \quad\ m = 1, 2,\ \dots\ M-2,
+  \label{eq:asr:plp:energy:transform}
+\end{equation}
+
+\noindent kde $M$ je opět počet filtrů. Díky této operaci dojde také k redukci proměnlivosti \uv{výstupů} kritických pásemových filtrů a výsledný hledaný celopólový model může být relativně nízkého řádu.
+
+Finálním krokem je \textbf{aproximace celopólového modelu}. Ta vychází z výpočtu koeficientů celopólového modelu metody LPC, kde je model popsán vztahem (\ref{eq:asr:lpc:generic:edited}). Pro chybu predikce pak platí
+
+\begin{equation}
+  e\left(k\right) = \sum_{k} \left(s\left(k\right) + \sum_{i=1}^{Q} a_i s\left(k - i\right)\right).
+  \label{eq:asr:plp:error}
+\end{equation}
+
+\noindent Aplikací z-transformace a uvážením rovnice (\ref{eq:asr:lpc:generic}), je možné (\ref{eq:asr:plp:error}) upravit do tvaru
+
+\begin{equation}
+  E\left(z\right) = \left[1 + \sum_{i=1}^{Q} a_i z^{-i}\right] S\left(z\right) = A\left(z\right)S\left(z\right),
+  \label{eq:asr:plp:error:transform}
+\end{equation}
+
+\noindent kde $A\left(z\right)$ je inverzní filtr a $E\left(z\right)$ a $S\left(z\right)$ jsou z-transformace $e\left(k\right)$ a $s\left(k\right)$. Celkovou chynu predikce je pak možné vyjádřit vztahem
+
+\begin{equation}
+  E\left(z\right) = \frac{1}{2\pi} \int_{-\pi}^{\pi} P\left(\omega\right) A\left(e^{j\omega}\right) A\left(e^{-j\omega}\right)d\omega,
+  \label{eq:asr:plp:error:final}
+\end{equation}
+
+\noindent kde $P\left(\omega\right)$ je vypočtené výkonové spektrum. Podobně jako u LPC je řešením nalezení minima celkové chyby autokorelační funkce $R\left(i\right)$. Pro konečný počet známých frekvencí je tato funkce definována vztahem
+
+\begin{equation}
+  R\left(i\right) = \frac{1}{N} \sum_{n=0}^{N-1} P\left(\omega_n\right) \cos\left(i\omega_n\right),
+  \label{eq:asr:plp:error:solution}
+\end{equation}
+
+\noindent kde $i = 0,\ \dots\ Q$ a $Q$ je řád autoregresního modelu,a $N$ je počet bodů spektrální charakteristiky. Frekvence $\omega_n$ jsou ty, pro které jsou známé spektrální hodnoty. Pro dobrou aproximaci se volí $Q = 5$.
+
+\textbf{Výpočet kepstrálních koeficientů PLP} lze pak pro známé hodnoty $R\left(i\right)$, podobně jako u LPC, určit  Durbinovým algoritmem. Nalezené koeficienty lze již využít jako příznaky při návrhu parametrizátoru řeči, ale častěji se používají kepstrální koeficienty PLP. \cite{Holmes2001}
+
+K vytvoření parametrizátoru je možné použít libovolnou metodu představenou v \ref{chap:asr:parametrization:production} a \ref{chap:asr:parametrization:hearing}. V současnosti, ale převládají metody postavené na principu fungování lidského sluchu, protože amplifikují podstatnou informaci zakódovanou v řeči.
