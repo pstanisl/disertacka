@@ -2,4 +2,92 @@
 \section{Akustické modelování}
 \label{chap:asr:acoustic}
 
+Akustický model představuje v rovnici (\ref{eq:asr:decoding:generic}) podmíněnou pravděpodobnost $p(O|W)$. Úkolem akustického modelu je poskytnout co nejpřesnější odhad této pravděpodobnosti pro libovolnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Velmi vhodným způsobem modelování řeči se ukázalo být využití tzv. \textbf{skrytých Markovových modelů (HMM)}. Ty vycházejí z principu vytváření řeči člověkem. V průběhu produkce řeči se hlasové ústrojí nachází vždy v krátkém časovém úseku nachází v jednom z konečného počtu konfiguracé. V tomto mikrosegmentu je pak hlasovým ústrojím generovám krátký signál, který zavisí na aktuální konfiguraci. Tento vyprodukovaný zvuk je metodami (popsanými v \ref{chap:asr:parametrization}) převeden na vektor příznaků $O$.
+
+Skrytý Markovův model je model stochastického procesu. Na ten je možné nahlížet jako na pravděpodobnostní konečný automat, který v diskrétních časových okamžicích generuje náhodnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Model v každém časovém kroku změní stav svůj $s_j$ podle předem daných pravděpodobností přechodu $a_{ij}$. Přechod ze stavu $s_i$ do stavu $s_j$ má za následek vygenerování výstupního vektoru pozorování $o_t$ a to podle rozdělení výstpní pravděpodobnosti $b_j\left(o_t\right)$ příslušné k tomuto stavu \cite{Psutka2006}.
+
+Podmínění pravděpodobnost přechodu $a_{ij}$ určuje, s jakou pravděpodobností přechází model ze stavu $i$ v čase $t$, do stavu $j$ v čase $t+1$. Platí tedy
+
+\begin{equation}
+  a_{ij} = p\left(s\left(t+1\right)=s_j|s\left(t\right)=s_i\right),
+  \label{eq:asr:acoustic:conditional}
+\end{equation}
+
+\noindent kde $s\left(t\right)$ je stav modelu v čase $t$. Další podmínkou je, že pro všechny stavy $i$, $i=1,2,\dots\,N$, platí
+
+\begin{equation}
+  \sum_{j=1}^{N} a_{ij} = 1.
+  \label{eq:asr:acoustic:state:condition}
+\end{equation}
+
+\noindent Funkce rozdělení výstupní pravděpodobnosti $b_j\left(o_t\right)$ popisují rozdělení pravděpodobnosti pozorování $o_t$ produkovaného ve stavu $s_j$ v čase $t$. Pro tuto funkci platí
+
+\begin{equation}
+  b_j\left(o_t\right) = P\left(o_t|s\left(t\right)=s\right),
+  \label{eq:asr:acoustic:state:output}
+\end{equation}
+
+\noindent kde $P$ značí pravděpodobnost, pro kterou u diskrétních rozdělení platí
+
+\begin{equation}
+  \sum_o b_j\left(o\right) = 1.
+  \label{eq:asr:acoustic:state:output:condition:discrete}
+\end{equation}
+
+\noindent Pro spojité rozdělení pak alternativně
+
+\begin{equation}
+  \int_o b_j\left(o\right)do = 1.
+  \label{eq:asr:acoustic:state:output:condition:continous}
+\end{equation}
+
+\noindent V obou případech to platí pro všechny stavy HMM, které mohou generovat výstupní vektor.
+
+Rozdělení výstupní pravděpodobnosti musí být při modelování řečových zvuků dostatečně specifické, aby bylo možné od sebe oddělit různé zvuky, a zároveň dostatečně robustní, aby zahrnulo značnou variabilitu řečového signálu. Toto rozdělení je možné modelovat
+
+\begin{itemize}
+  \item spojitým normálním rozdělením se směsí hustotních funkcí,
+  \item neuronovými sítěmi.
+\end{itemize}
+
+\subsection{Struktura skrytého Markovova modelu}
+\label{chap:asr:acoustic:HMM}
+
+Z pohledu rozpoznávání řeči se nejčastěji využívá tzv. levo-pravá struktura Markovova modelu. V průběhu let bylo testováno mnoho různých struktur HMM, např. modely s počtem stavů odvozených od průměrné délky slova pro nějž byl model konstruován, až po pevnou strukturu stavů pro každé slovo. Tyto modely sloužily hlavně pro rozpoznávání izolovaných úseků řeči, nejčastěji slov. V současnosti, kdy je většina systémů konstruovaných pro zpracování souvislé řeči a počet slov ve slovníku může přesahovat 1 milion slov, převažují modely odvozené od menších jednotek, než jsou slova. Takovými jednotkami mohou být například fonémy anebo specifičtější trifóny. Trifón je svým způsobem kontextově závislý foném, který bere v potaz svůj levý a pravý kontext, tj. levý a pravý sousední foném. Přepis slova do fonémově, resp. trifónové struktury, lze ukázat na příkladu izolovaného slova \uv{akcie}, které má přepis \uv{\texttt{sil a k c i j e sil}}, v trifónové podobě je pak zápis následující
+
+\begin{verbatim}
+  sil sil-a+k a-k+c k-c+i c-i+j i-j+e j-e+sil sil,
+\end{verbatim}
+
+\noindent kde \texttt{sil} má význam pauzy před, případně za vyslovenou promluvou slova \uv{akcie}.
+
+Oproti slovním modelům, u fonémů (monofónů), resp. trifónů, bývá struktura relativně jednoduchá a často je vyjádřena $5$ stavovým modelem (znázorněn na obr. TBD). Jedná se o $5$ stavový levo-pravý Markovův model, jehož první a poslední stav jsou tzv. neemitující. Jejich primární úlohou je zřetězování jednotlivých HMM modelů trifónů (monofónů) do rozsáhlajších modelů, např. slov, vět ap. Při zřetězení se tyto neemitující stavy vypouštějí. Ostatní stavy modelu jsou emitující a vztahují se k nim odpovídající rozdělení pravděpodobnosti $b_j(.)$.
+
+Pokod předpokládáme, že posloupnost slov $W$ je modelována zřetězeným skrytým Morkovovým modelem $\Theta$, kde dílčí modely odpovídají fonetickým jednotkám, pak je možné určit pravděpodobnost generování posloupnosti $O$ modelem $\Theta$ jako
+
+\begin{equation}
+  P\left(O|\Theta\right) = \sum_{\forall S} P\left(O, S| \Theta\right)P\left(S|\Theta\right) = \sum_{\forall S} a_{s\left(0\right)s\left(1\right)} \prod_{t=1}^{T} b_{s\left(t\right)}\left(o_t\right)a_{s\left(t\right)s\left(t+1\right)},
+  \label{eq:asr:acoustic:structure:output}
+\end{equation}
+
+\subsection{Gausovké směsi}
+\label{chap:asr:acoustic:GMM}
+
 TBD
+
+\subsection{Využití neuronových sítí}
+\label{chap:asr:acoustic:DNN}
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{./ch4-asr/img/neuron.pdf}
+  \caption{Schéma perceptronu}
+  \label{fig:asr:acoustic:neuron}
+\end{figure}
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-asr/img/dnn-training.pdf}
+  \caption{Schéma a princip učení neuronové sítě}
+  \label{fig:asr:acoustic:dnn}
+\end{figure}
