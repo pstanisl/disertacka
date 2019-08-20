@@ -61,19 +61,96 @@ Z pohledu rozpoznávání řeči se nejčastěji využívá tzv. levo-pravá str
 
 \noindent kde \texttt{sil} má význam pauzy před, případně za vyslovenou promluvou slova \uv{akcie}.
 
-Oproti slovním modelům, u fonémů (monofónů), resp. trifónů, bývá struktura relativně jednoduchá a často je vyjádřena $5$ stavovým modelem (znázorněn na obr. TBD). Jedná se o $5$ stavový levo-pravý Markovův model, jehož první a poslední stav jsou tzv. neemitující. Jejich primární úlohou je zřetězování jednotlivých HMM modelů trifónů (monofónů) do rozsáhlajších modelů, např. slov, vět ap. Při zřetězení se tyto neemitující stavy vypouštějí. Ostatní stavy modelu jsou emitující a vztahují se k nim odpovídající rozdělení pravděpodobnosti $b_j(.)$.
+Oproti slovním modelům, u fonémů (monofónů), resp. trifónů, bývá struktura relativně jednoduchá a často je vyjádřena $5$ stavovým modelem (znázorněn na obr. \ref{fig:asr:acoustic:hmm}). Jedná se o $5$ stavový levo-pravý Markovův model, jehož první a poslední stav jsou tzv. neemitující. Jejich primární úlohou je zřetězování jednotlivých HMM modelů trifónů (monofónů) do rozsáhlajších modelů, např. slov, vět ap. Při zřetězení se tyto neemitující stavy vypouštějí. Ostatní stavy modelu jsou emitující a vztahují se k nim odpovídající rozdělení pravděpodobnosti $b_j(.)$.
 
-Pokod předpokládáme, že posloupnost slov $W$ je modelována zřetězeným skrytým Morkovovým modelem $\Theta$, kde dílčí modely odpovídají fonetickým jednotkám, pak je možné určit pravděpodobnost generování posloupnosti $O$ modelem $\Theta$ jako
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{./ch4-asr/img/hmm_structure.pdf}
+  \caption{Příklad levo-pravého Markovova modelu trifónu}
+  \label{fig:asr:acoustic:hmm}
+\end{figure}
+
+Pokud předpokládáme, že posloupnost slov $W$ je modelována zřetězeným skrytým Markovovým modelem $\lambda$, kde dílčí modely odpovídají fonetickým jednotkám, pak je možné určit pravděpodobnost generování posloupnosti $O$ modelem $\lambda$ jako
 
 \begin{equation}
-  P\left(O|\Theta\right) = \sum_{\forall S} P\left(O, S| \Theta\right)P\left(S|\Theta\right) = \sum_{\forall S} a_{s\left(0\right)s\left(1\right)} \prod_{t=1}^{T} b_{s\left(t\right)}\left(o_t\right)a_{s\left(t\right)s\left(t+1\right)},
+  P\left(O|\lambda\right) = \sum_{\forall S} P\left(O, S| \lambda\right)P\left(S|\lambda\right) = \sum_{\forall S} a_{s\left(0\right)s\left(1\right)} \prod_{t=1}^{T} b_{s\left(t\right)}\left(o_t\right)a_{s\left(t\right)s\left(t+1\right)},
   \label{eq:asr:acoustic:structure:output}
 \end{equation}
 
-\subsection{Gausovké směsi}
+\noindent kde posloupnost stavů $S = \left\{s\left(0\right), s\left(1\right),\dots, s\left(T+1\right)\right\}$ je chápána tak, že $s\left(0\right)$ je výstpní a $s\left(T+1\right)$ výstupní neemitující stav modelu $\Theta$ dané promluvy \cite{Psutka2006}. Přitom tento model lze značit trojicí
+
+\begin{equation}
+  \lambda = \left[\left\{a_{ij}\right\}_{k,s=1}^{I}; \left\{b_s(.)\right\}_{s=1}^{I};\left\{\pi_{s}\right\}_{s=1}^{I}\right],
+  \label{eq:asr:acoustic:structure:marking}
+\end{equation}
+
+\noindent kde $a_{ij}$ je přechodová a $b_s(.)$ výstupní pravděpodobnost. Dále $\pi_s$ je rozložení pravděpodobnosti počátečního stavu a $I$ je počet stavů modelu.
+
+Přímé vyčíslení pravděpodobnosti $P\left(O|\lambda\right)$ podle vztahu (\ref{eq:asr:acoustic:state:output}) je z hlediska počtu operací často nerealizovatelné, protože se jedná řádově o $2TN^{T}$ operací násobení. Z tohoto důvodu se proto využívá výpočetně efektivnější tzv. \textbf{algoritmus forward-backward (FB)} s přibližně $N^{2}T$ operací násobení.
+
+Při výpočtu odpředu (forward) se určuje pravděpodobnost $\alpha_j\left(t\right)$ definovaná vztahem
+
+\begin{equation}
+  \alpha_{j}\left(t\right) = P\left(o_1o_2\dots o_t, s\left(t\right)=s_j|\lambda\right),
+  \label{eq:asr:acoustic:structure:forward}
+\end{equation}
+
+\noindent pro výpočet odzadu (backward) se určuje pravděpodobnost $\beta_j\left(t\right)$ definována vztahem
+
+
+\begin{equation}
+  \beta_j\left(t\right) = P\left(o_{t+1}o_{t+2}\dots o_T|s\left(t\right)=s_j|\lambda\right).
+  \label{eq:asr:acoustic:structure:backward}
+\end{equation}
+
+Podle \cite{Psutka2006} lze snadno dokázat, že výsledná pravděpodobnost $P\left(O|\lambda\right)$ může být vyčíslena vztahem
+
+\begin{equation}
+  P\left(O|\lambda\right) = \sum_{s=1}^{N} P\left(O, s\left(t\right) = s | \lambda\right) = \sum_{i = 1}^{N} \alpha_{i}\left(t\right)\beta_{i}\left(t\right)
+  \label{eq:asr:acoustic:structure:forward-backward}
+\end{equation}
+
+\noindent pro $1 \leq t \leq T$.
+
+\subsection{Trénování parametrů HMM s Gausovkými směsmi}
 \label{chap:asr:acoustic:GMM}
 
-TBD
+Volba struktrury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovéní hodnot parametrů modelu je uskutečněno trénováním (odhadem, etimací) na základě trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův interativní algoritmus, což je speciální případ EM algoritmu. Více o něm v \cite{Holmes2001}. Pro odhad střední hodnoty $\mu_{sj}$, tj. složky $m$ gaussovské směsi ve stavu $j$ slouží vztah
+
+\begin{equation}
+  \hat{\mu}_{jm} = \frac{\sum_{t=1}^{T}\gamma_{jm}\left(t\right)o_t}{\sum_{t=1}^{T}\gamma_{jm}\left(t\right)},
+  \label{eq:asr:acoustic:structure:mu}
+\end{equation}
+
+\noindent kde $N$ je počet stavů a $M$ počet složek. Také platí $1 \leq j \leq N$ a $1 \leq m \leq M$. Odhad kovarianční matice $C_{jm}$, tj. složky náležící m-té složce gaussovské směsi ve stavu $j$
+
+\begin{equation}
+  \hat{C}_{jm} = \frac{\sum_{t=1}^{T} \gamma_{jm}\left(t\right)\left(o_t - \hat{\mu}_{jm}\right)\left(o_t - \hat{\mu}_{jm}\right)^{T}}{\sum_{t=1}^{T}\gamma_j\left(t\right)},
+  \label{eq:asr:acoustic:structure:covariant}
+\end{equation}
+
+\noindent kde $1 \leq j \leq N$ a $1 \leq m \leq M$. Odhad váhové složky hustotní směsi $c_{jm}$, tj. složky náležící složce $m$ gaussovské směsi ve stavu $j$ se provádí vztahem
+
+\begin{equation}
+  \hat{c}_{jm} = \frac{\sum_{t=1}^{T} \gamma_{jm}\left(t\right)}{\sum_{t=1}^{T}\gamma_j\left(t\right)},
+  \label{eq:asr:acoustic:structure:weight}
+\end{equation}
+
+\noindent kde $1 \leq j \leq N$ a $1 \leq m \leq M$. Přitom $\gamma_{j}\left(t\right)$ představuje přavděpodobnost, že proces generování posloupnosti $O$ je v čase $t$ ve stavu $j$. Pro vyjádření této pravděpodobnosti $\gamma_{j}\left(t\right)$ platí rovnice (\ref{eq:asr:acoustic:structure:forward-backward}). Pro její definování pak platí vztah
+
+\begin{equation}
+ \gamma_{j}\left(t\right) = \frac{P\left(O, s\left(t\right)=j|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} ,
+  \label{eq:asr:acoustic:structure:gamma}
+\end{equation}
+
+\noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $O$ je v čase $t$ ve stavu $j$ a generuje složku $m$ gaussovské hustotní směsi
+
+\begin{equation}
+  \gamma_{jm}\left(t\right) = \frac{P\left(O, s\left(t\right)=j, m\left(j,t\right)=m|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} \frac{c_{jm}N\left(o_t;\mu_{jm}; C_{jm}\right)}{\sum_{i=1}^{M} c_{ji} N\left(o_t;\mu_{ji};C_{ji}\right) }.
+   \label{eq:asr:acoustic:structure:gamma:one}
+ \end{equation}
+
+\noindent Akustické modely postavené na kombinaci skrytých Markovových modelů a gaussovských směsí pracují s 10 až 100 tisíc hustotních směsí. Při dimenzi příznakového vektoru (viz \ref{chap:asr:parametrization}) vektoru například $45$ je často nutné provést odhad až 10 miliónů parametrů.
 
 \subsection{Využití neuronových sítí}
 \label{chap:asr:acoustic:DNN}
