@@ -146,8 +146,15 @@ Volba struktrury skrytého Markovova modelu je spíše expertní úlohou návrhu
 \noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $O$ je v čase $t$ ve stavu $j$ a generuje složku $m$ gaussovské hustotní směsi
 
 \begin{equation}
-  \gamma_{jm}\left(t\right) = \frac{P\left(O, s\left(t\right)=j, m\left(j,t\right)=m|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} \frac{c_{jm}N\left(o_t;\mu_{jm}; C_{jm}\right)}{\sum_{i=1}^{M} c_{ji} N\left(o_t;\mu_{ji};C_{ji}\right) }.
+  \gamma_{jm}\left(t\right) = \frac{P\left(O, s\left(t\right)=j, m\left(j,t\right)=m|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} \frac{c_{jm}\mathcal{N}\left(o_t;\mu_{jm}; C_{jm}\right)}{\sum_{i=1}^{M} c_{ji} \mathcal{N}\left(o_t;\mu_{ji};C_{ji}\right) }.
    \label{eq:asr:acoustic:structure:gamma:one}
+ \end{equation}
+
+\noindent Rozdělení výstupní pravděpodobnosti $b_j\left(o_t\right)$ pro emitující stav $j$ pak má tvar
+
+\begin{equation}
+   b_{j}\left(o_t\right) = \sum_{m=1}^{M} \hat{c}_{jm} \mathcal{N}\left(o_t; \hat{\mu}_{jm}; \hat{C}_{jm}\right).
+   \label{eq:asr:acoustic:gmm:output}
  \end{equation}
 
 \noindent Akustické modely postavené na kombinaci skrytých Markovových modelů a gaussovských směsí pracují s 10 až 100 tisíc hustotních směsí. Při dimenzi příznakového vektoru (viz \ref{chap:asr:parametrization}) vektoru například $45$ je často nutné provést odhad až 10 miliónů parametrů.
@@ -155,16 +162,186 @@ Volba struktrury skrytého Markovova modelu je spíše expertní úlohou návrhu
 \subsection{Využití neuronových sítí}
 \label{chap:asr:acoustic:DNN}
 
+Neuronové sítě se inspirují neuronem v mozku člověka. Ukázka stavby neuronové buňky je znázorněna na obr. \ref{fig:asr:acoustic:dnn:neuron:human}. Dendrity jsou kráktké výběžky, které slouží k příjímání vstupních informací od ostatních neuronů nebo nervů. V tělo neuronu (soma) dochází k reakci na vstupní signály a vytvoření přísušné odezvy. Ta se dále šíří pomocí výběžku nazvaného axon. Jeho délka může dosahovat až 100 cm. Axon je přes synapse spojen s jinými neurony nebo dalšími buňkami v těle.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{./ch4-asr/img/neuron-human.pdf}
+  \caption{Ukázka neuronové buňky}
+  \label{fig:asr:acoustic:dnn:neuron:human}
+\end{figure}
+
+Umělý ekvivalent s názvem perceptron byl vytvořen Frankem Roseblattem v první polovině 60. let 20. století \cite{Rosenblatt1962}. Schématicky je zobrazen na obr. \ref{fig:asr:acoustic:dnn:neuron:artificial}. Matematicky lze princip neuronu popsat vztahem
+
+\begin{equation}
+  \hat{y}\left(x\right) = \sigma\left(z\right) = \sigma \left(w^{T}x + b\right) = \sigma \left( \sum_{j=1}^{n} w_{j}x_{j} + b\right),
+   \label{eq:asr:acoustic:dnn:neuron:output}
+ \end{equation}
+
+\noindent kde $x$ představuje vstupní vektor, $w$ váhový vektor a $b$ práh. Výsledek linární kombinace je vstupem aktivační funkce $\sigma\left(.\right)$, jejíž výstup je zároveň výstupem neuronu. Neuronová síť\footnote{Popisovaná neuronová síť je typu feedforward (FF). Dalšími typy sítí jsou konvoluční a rekurentní neuronové sítě. Oproti FF síti se liší hlavně svou strukturou. Princip propojení neuronových buněk je však stejný.} (NN, viz obr. \ref{fig:asr:acoustic:dnn:training}) je složena z jedné či více vrtev neuronů. V případě více vrstvé NN jsou vždy propojeny neurony mezi vrstavami $l$ a $l+1$.
+
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.7\textwidth]{./ch4-asr/img/neuron.pdf}
   \caption{Schéma perceptronu}
-  \label{fig:asr:acoustic:neuron}
+  \label{fig:asr:acoustic:dnn:neuron:artificial}
 \end{figure}
+
+Zmíněná aktivační funkce hraje velmi významnou roli, protože umožňuje řešení i nelineárních problémů. Pokud by NN nevyužívala aktivační funkce, jednalo by se defakto stále o lineární kombinaci vektorů a tím pádem by bylo možné řešit jen linární problémy. Mezi nejčastěji používané patří \textit{sigmoid} ($\sigma\left(z\right) = \left(1 - e^{-z}\right)^{-1}$), \textit{tanh} a \textit{relu} ($\sigma\left(z\right) = \max\left(0, z\right)$). Průběhy těchto aktivačních funkcí jsou vidět na obr. \ref{fig:asr:acoustic:dnn:activation}.
+
+ \begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.29\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-asr/img/sigmoid.png}
+    \caption{sigmoid}
+    \label{fig:asr:acoustic:dnn:activation:sigmoid}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-asr/img/tanh.png}
+    \caption{tanh}
+    \label{fig:asr:acoustic:dnn:activation:tanh}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.28\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-asr/img/relu.png}
+    \caption{relu}
+    \label{fig:asr:acoustic:dnn:activation:relu}
+  \end{subfigure}
+  \caption{Příklady používaných aktivačních funkcí}
+  \label{fig:asr:acoustic:dnn:activation}
+\end{figure}
+
+Pro výpočet výstupu neuronové sítě, tzv. \textbf{forward propagation}, je použit iterativní postup matematicky zapsán jako
+
+\begin{align}
+  \begin{split}
+    Z^{[l]} = W^{[l]}a^{[l-1]} + b^{[l]}, \\
+    a^{[l]} = \sigma^{[l]}\left(Z^{[l]}\right),
+  \end{split}
+  \label{eq:asr:acoustic:dnn:fw}
+\end{align}
+
+\noindent kde $a^{[l]}$ představuje výstup $l$-té vrstvy ($a^{[0]} = x$), $W^{[l]}$ představuje váhovou matici $l$-té vrstvy, $b^{[l]}$ vektor prahů $l$-té vrstvy a $\sigma^{[l]}(.)$ aktivační funkci $l$-té vrstvy. Pro $l$ platí $l = 1, \dots, N$, kde $N$ je počet vrstev neuronové sítě. Výsledkem iterativního výpočtu (\ref{eq:asr:acoustic:dnn:fw}) je výstup sítě $y = a^{[N]}$.
+
+Trénováním neuronové sítě je myšleno určení hodnot váhových matic $W^{[l]}$ a prahů $b^{[l]}$. Tento proces se iterativně sestává ze 3 kroků (viz obr. \ref{fig:asr:acoustic:dnn:training})
+
+\begin{enumerate}
+  \item výpočet výstupu sítě (\ref{eq:asr:acoustic:dnn:fw}),
+  \item vypočtení chyby predikce $J\left(y, \hat{y}\right)$,
+  \item aktualizace vah pomocí algoritmu backpropagation.
+\end{enumerate}
+
+\noindent Výpočet výstupu NN je realizován pomocí (\ref{eq:asr:acoustic:dnn:fw}), dále tedy nezbytné vypočítat chybu predikce $J\left(y, \hat{y}\right)$, Ta je difinována vztahem
+
+\begin{equation}
+  J\left(y, \hat{y}\right) = \frac{1}{m} \sum_{i=1}^{m}\mathcal{L}\left(y, \hat{y}\right),
+  \label{eq:asr:acoustic:dnn:cost}
+\end{equation}
+
+\noindent kde $m$ je počet prvků trénovací množiny a $\mathcal{L}\left(y, \hat{y}\right)$ je funkce výpočtu chyby predikce $m$-tého prvku trénovací množiny. Konkrétní funkce závisí na typu řešené úlohy, ale často se používá cross-entropie definované vztahem
+
+\begin{equation}
+  \mathcal{L}\left(y, \hat{y}\right) = - \sum_{i=1}^{m} y_i \log \hat{y}_i,
+  \label{eq:asr:acoustic:dnn:cost}
+\end{equation}
+
+\noindent kde $m$ je dimenze výstupního vektoru.
+
+Samotná aktualizace parametrů sítě je realizování \textbf{backpropagation} algoritmem. Cílem tohoto algoritmu je vypočtení parciálních derivací $\partial J / \partial W^{[l]}$ a $\frac{\partial J}{\partial b^{[l]}}$. Tyto parciální derivace je potřeba vypočíst pro všechny vrstvy sítě. Chyba ve vrstvě $l$ je závislá na chybě v předchozí vrstvě $l-1$. Tato skutečnost znamená, že je možné použít tzv. chain pravidlo. Parciální derivace pak mají následující podobu
+
+\begin{align}
+  \begin{split}
+    \frac{\partial J}{\partial w^{[l]}} & = \frac{\partial J}{\partial a^{[l]}} \frac{\partial a^{[l]}}{\partial z^{[l]}} \frac{\partial z^{[l]}}{\partial w^{l}}, \\
+    \frac{\partial J}{\partial b^{[l]}} & = \frac{\partial J}{\partial a^{[l]}} \frac{\partial a^{[l]}}{\partial z^{[l]}} \frac{\partial z^{[l]}}{\partial b^{l}}
+  \end{split}
+  \label{eq:asr:acoustic:dnn:partial}
+\end{align}
+
+\noindent Vzorce pro výpočet aktualizací parametrů sítě jsou pak následující
+
+\begin{align}
+  \begin{split}
+    \delta^{[L]} & = \nabla_{a} J \odot \sigma'\left(z^{[L]}\right), \\
+    \delta^{[l]} & = \left(\left(w^{[l+1]}\right)^T \delta^{[l+1]}\right) \odot \sigma'\left(z^{[l]}\right), \\
+    \frac{\partial J}{\partial w^{[l]}} & = a^{[l-1]}\delta^{[l]}, \\
+    \frac{\partial J}{\partial b^{[l]}} & = \delta^{[l]},
+  \end{split}
+  \label{eq:asr:acoustic:dnn:bp}
+\end{align}
+
+\noindent kde $\nabla_a J = \partial J / \partial a^{[L]}$ a $\odot$ představuje Hadamardův součin. Samotná aktualizace parametrů je realizována vztahy
+
+\begin{align}
+  \begin{split}
+    W^{[l]} & = W^{[l]} - \alpha \frac{\partial J}{\partial w^{[l]}}, \\
+    b^{[l]} & = b^{[l]} - \alpha \frac{\partial J}{\partial b^{[l]}},
+  \end{split}
+  \label{eq:asr:acoustic:dnn:update}
+\end{align}
+
+\noindent kde $\alpha$ reprezentuje koeficient učení.
 
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.9\textwidth]{./ch4-asr/img/dnn-training.pdf}
   \caption{Schéma a princip učení neuronové sítě}
-  \label{fig:asr:acoustic:dnn}
+  \label{fig:asr:acoustic:dnn:training}
 \end{figure}
+
+\subsubsection{Spojení skrytých Markovových modelů a neuronových sítí}
+
+Rozvoj výpočetní techniky, zejména GPU\footnote{Graphics Processing Unit} s možností provádět obecné maticové operace, zapříčinil masivní využití tzv. hlubokých neuronových sítí (DNN). Ty se vyznačují vyšším počtem skrytých vrstev, což umožňuje řešit sofistikovanější problémy. Jedním takovým je rozpoznávání souvislé řeči. Bohužel DNN end-to-end\footnote{Systém, který kompletně řeší rovnici (\ref{eq:asr:decoding:generic}) pomocí jediné DNN sítě. Tyto systémy jsou většinou postaveny na rekurentních neuronových sítích (RNN).} systém je zatím velmi komplikované vytvořit a provozovat zejména, proto že k uspěšnému natrénování je potřeba řádově více dat, než u GMM \cite{Amodei2016}. Z tohoto důvodu jsou v současné době nejčastější systémy postavené na kombinaci HMM a DNN (HMM-DNN). Rozdíl oproti end-to-end systému je v tom, že cílem DNN není odhad $\hat{W}$, ale ,stejně jako v případě HMM-GMM, určit $b_j\left(o_t\right)$.
+
+V případě HMM-GMM je odhad $b_j\left(o_t\right)$ realizován gaussovskými hustotními směsmi podle vzorce (\ref{eq:asr:acoustic:gmm:output}). Těchto směsí je tolik, kolik je unikátních stavů HMM. U DNN však žádné směsi k dispozici nejsou. Pokud je všask výstupní vrstva typu \textbf{softmax}, kde výstup $j$-tého neuronu je definován vztahem
+
+\begin{equation}
+  y_{j} = a_{j}^{[L]} = \frac{e^{z_j}}{\sum_{i=1}^{m}e^{z_i}},
+  \label{eq:asr:acoustic:dnn:asr:softmax}
+\end{equation}
+
+\noindent kde $m$ je počet neuronů v poslední vrstvě. Zároveň platí
+
+\begin{equation}
+  \sum_{j=1}^{m} y_{j} = 1.
+  \label{eq:asr:acoustic:dnn:asr:softmax:criterium}
+\end{equation}
+
+\noindent Hodnoty výstupního vektoru $y$ mají pseudo-pravděpodobnostní charakter. Pokud tedy bude $m$ rovno počtu stavů $HMM$, pak výstupní pravděpodnost $b_{j} \left(o_t\right)$ pro emitující stav $j$ má, podle (\ref{eq:asr:acoustic:dnn:asr:softmax}), tvar
+
+\begin{equation}
+  b_{j} \left(o_t\right) = y_{j} = \frac{e^{z_j}}{\sum_{i=1}^{m}e^{z_i}}.
+  \label{eq:asr:acoustic:dnn:asr:softmax:criterium}
+\end{equation}
+
+\noindent Principiální rozdíl ve funkci HMM-GMM a HMM-DNN je znázorněn na obr. \ref{fig:asr:acoustic:dnn:asr:diff}.
+
+\begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-asr/img/hmm-gmm.pdf}
+    \caption{GMM}
+    \label{fig:asr:acoustic:dnn:asr:diff:dnn}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-asr/img/hmm-dnn.pdf}
+    \caption{DNN}
+    \label{fig:asr:acoustic:dnn:asr:diff:dnn}
+  \end{subfigure}
+  \caption{Principální rozdíl ve funkci GMM a DNN systému}
+  \label{fig:asr:acoustic:dnn:asr:diff}
+\end{figure}
+
+K natrénování DNN se používá zmíněného backpropagation algoritmu. V poslední době se však prosadilo trénování využívající předtrénování DNN pomocí tzv. restricted Bolzmann machines (RBM) \cite{Hinton2012}. Předtrénování řeší problém kdy se informace zpětně propagovaná pomocí backpropagation algoritmu úplně neovlivní počáteční vrstvy, protože gradient je příliš malý. Předtrénování pomocí RBM pomáhá lépe určit parametry sítě. Princpálně je tento proces znázorněn na obr. \ref{fig:asr:acoustic:dnn:pretraining}.
+
+Nejprve je natrénován GRBM (Gaussian-Bernoulli RBM) model na mikrosegmentu řeči složeného z několika okének parametrů odpovídající délce promluvy například $10\ ms$. Stav skrytých jednotek je použit k natrénování RBM. Tento proces se opakuje dokud není natrénován požadovaný počet vrstev výsledné sítě. Následně jsou jednotlivé RBM spojeny do deep belief sítě (DBN). Následně je přidána výstupní softmax vrstva dimenze rovné počtu HMM stavů (DBN-DNN). Tato DBN-DNN síť je pak diskriminativně trénována na základě zarovnání získaného pomocí HMM-GMM. Více o tomto principu trénování v \cite{Hinton2012} a \cite{Vesely2013}.
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./ch4-asr/img/pretraining.pdf}
+  \caption{Princip předtrénování pomocí RBM s třemi vrstvami \cite{Hinton2012}.}
+  \label{fig:asr:acoustic:dnn:pretraining}
+\end{figure}
+
+\subsubsection{Time-delay neural networks}
