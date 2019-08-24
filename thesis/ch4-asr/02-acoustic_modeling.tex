@@ -346,7 +346,7 @@ Nejprve je natrénován GRBM (Gaussian-Bernoulli RBM) model na mikrosegmentu ře
 
 \subsubsection{Time-delay neural networks}
 
-Nevýhodou DNN sítí je, že berou v potaz pouze statické parametry v rámci zpracovávaných mikrosegmentů, protože sumace v perceptronu odpovídá sumě vážených statických vstupů. Po zpracování segmentu $t$ není získaná informace nijak reflektována při zpracování segmentu $t+1$. Tento nedostatek by řešilo použití rekurentních neuronových sítí (RNN). Bohužel tyto sítě mají mnohem komplikovanější buňku neuronu než FF sítě s perceptronem \cite{Amodei2016}. Proto je potřeba řádově více dat k natrénování. Složitost buňky také zvyšuje komputační náročnost výpočtu.
+Nevýhodou DNN sítí spočívá ve faktu, že pracuje pouze se statickými parametry v rámci zpracovávaných mikrosegmentů, protože sumace v perceptronu odpovídá sumě vážených statických vstupů. Po zpracování segmentu $t$ není získaná informace nijak reflektována při zpracování segmentu $t+1$. Tento nedostatek by řešilo použití rekurentních neuronových sítí (RNN). Bohužel tyto sítě mají mnohem komplikovanější buňku neuronu než FF sítě s perceptronem \cite{Amodei2016}. Proto je potřeba řádově více dat k natrénování. Složitost buňky také zvyšuje komputační náročnost výpočtu.
 
 Základním rozdílem sítí typu time-delay neural network (TDNN) (představená v \cite{Waibel1989}) je přidání časové filtrace do sumační části neuronu, tím je docíleno zahrnutí dynamické složky do výpočtu sítě \cite{Craig2000}. Filtrace je implementována jako filtr s konečnou impulzní odezvou (FIR), tedy
 
@@ -370,7 +370,7 @@ Základním rozdílem sítí typu time-delay neural network (TDNN) (představen�
     \caption{síť}
     \label{fig:asr:acoustic:dnn:tdnn:net}
   \end{subfigure}
-  \caption{Neuron TDNN sítě a jednoduché blokové schéma TDNN sítě \cite{Craig2000}}
+  \caption{Neuron TDNN sítě a zjednodušené blokové schéma TDNN sítě \cite{Craig2000}}
   \label{fig:asr:acoustic:dnn:tdnn}
 \end{figure}
 
