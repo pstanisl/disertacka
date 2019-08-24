@@ -248,12 +248,12 @@ Trénováním neuronové sítě je myšleno určení hodnot váhových matic $W^
 
 \noindent kde $m$ je dimenze výstupního vektoru.
 
-Samotná aktualizace parametrů sítě je realizování \textbf{backpropagation} algoritmem. Cílem tohoto algoritmu je vypočtení parciálních derivací $\partial J / \partial W^{[l]}$ a $\frac{\partial J}{\partial b^{[l]}}$. Tyto parciální derivace je potřeba vypočíst pro všechny vrstvy sítě. Chyba ve vrstvě $l$ je závislá na chybě v předchozí vrstvě $l-1$. Tato skutečnost znamená, že je možné použít tzv. chain pravidlo. Parciální derivace pak mají následující podobu
+Samotná aktualizace parametrů sítě je realizování \textbf{backpropagation} algoritmem. Cílem tohoto algoritmu je vypočtení parciálních derivací $\partial J / \partial W^{[l]}$ a $\partial J/\partial b^{[l]}$. Tyto parciální derivace je potřeba vypočíst pro všechny vrstvy sítě. Chyba ve vrstvě $l$ je závislá na chybě v předchozí vrstvě $l-1$. Tato skutečnost znamená, že je možné použít tzv. chain pravidlo. Parciální derivace pak mají následující podobu
 
 \begin{align}
   \begin{split}
-    \frac{\partial J}{\partial w^{[l]}} & = \frac{\partial J}{\partial a^{[l]}} \frac{\partial a^{[l]}}{\partial z^{[l]}} \frac{\partial z^{[l]}}{\partial w^{l}}, \\
-    \frac{\partial J}{\partial b^{[l]}} & = \frac{\partial J}{\partial a^{[l]}} \frac{\partial a^{[l]}}{\partial z^{[l]}} \frac{\partial z^{[l]}}{\partial b^{l}}
+    \frac{\partial J}{\partial W^{[l]}} & = \frac{\partial J}{\partial a^{[l]}} \frac{\partial a^{[l]}}{\partial z^{[l]}} \frac{\partial z^{[l]}}{\partial W^{[l]}}, \\
+    \frac{\partial J}{\partial b^{[l]}} & = \frac{\partial J}{\partial a^{[l]}} \frac{\partial a^{[l]}}{\partial z^{[l]}} \frac{\partial z^{[l]}}{\partial b^{[l]}}
   \end{split}
   \label{eq:asr:acoustic:dnn:partial}
 \end{align}
@@ -264,7 +264,7 @@ Samotná aktualizace parametrů sítě je realizování \textbf{backpropagation}
   \begin{split}
     \delta^{[L]} & = \nabla_{a} J \odot \sigma'\left(z^{[L]}\right), \\
     \delta^{[l]} & = \left(\left(w^{[l+1]}\right)^T \delta^{[l+1]}\right) \odot \sigma'\left(z^{[l]}\right), \\
-    \frac{\partial J}{\partial w^{[l]}} & = a^{[l-1]}\delta^{[l]}, \\
+    \frac{\partial J}{\partial W^{[l]}} & = a^{[l-1]}\delta^{[l]}, \\
     \frac{\partial J}{\partial b^{[l]}} & = \delta^{[l]},
   \end{split}
   \label{eq:asr:acoustic:dnn:bp}
@@ -274,7 +274,7 @@ Samotná aktualizace parametrů sítě je realizování \textbf{backpropagation}
 
 \begin{align}
   \begin{split}
-    W^{[l]} & = W^{[l]} - \alpha \frac{\partial J}{\partial w^{[l]}}, \\
+    W^{[l]} & = W^{[l]} - \alpha \frac{\partial J}{\partial W^{[l]}}, \\
     b^{[l]} & = b^{[l]} - \alpha \frac{\partial J}{\partial b^{[l]}},
   \end{split}
   \label{eq:asr:acoustic:dnn:update}
@@ -335,7 +335,7 @@ V případě HMM-GMM je odhad $b_j\left(o_t\right)$ realizován gaussovskými hu
 
 K natrénování DNN se používá zmíněného backpropagation algoritmu. V poslední době se však prosadilo trénování využívající předtrénování DNN pomocí tzv. restricted Bolzmann machines (RBM) \cite{Hinton2012}. Předtrénování řeší problém kdy se informace zpětně propagovaná pomocí backpropagation algoritmu úplně neovlivní počáteční vrstvy, protože gradient je příliš malý. Předtrénování pomocí RBM pomáhá lépe určit parametry sítě. Princpálně je tento proces znázorněn na obr. \ref{fig:asr:acoustic:dnn:pretraining}.
 
-Nejprve je natrénován GRBM (Gaussian-Bernoulli RBM) model na mikrosegmentu řeči složeného z několika okének parametrů odpovídající délce promluvy například $10\ ms$. Stav skrytých jednotek je použit k natrénování RBM. Tento proces se opakuje dokud není natrénován požadovaný počet vrstev výsledné sítě. Následně jsou jednotlivé RBM spojeny do deep belief sítě (DBN). Následně je přidána výstupní softmax vrstva dimenze rovné počtu HMM stavů (DBN-DNN). Tato DBN-DNN síť je pak diskriminativně trénována na základě zarovnání získaného pomocí HMM-GMM. Více o tomto principu trénování v \cite{Hinton2012} a \cite{Vesely2013}.
+Nejprve je natrénován GRBM (Gaussian-Bernoulli RBM) model na mikrosegmentu řeči složeného z několika okének parametrů odpovídající délce promluvy například $10\ ms$. Stav skrytých jednotek je použit k natrénování RBM. Tento proces se opakuje dokud není natrénován požadovaný počet vrstev výsledné sítě. Následně jsou jednotlivé RBM spojeny do deep belief sítě (DBN). Následně je přidána výstupní softmax vrstva dimenze rovné počtu HMM stavů (DBN-DNN). Tato DBN-DNN síť je pak diskriminativně trénována na základě zarovnání získaného pomocí HMM-GMM. Více o tomto principu trénování v \cite{Hinton2012} a \cite{Vesely2013}. Vstupem neuronové sítě je často mikrosegment $t$ a jeho okolní mikrosegmenty. Velmi často se používá okolí $t-2$ a $t+2$.
 
 \begin{figure}[hbpt]
   \centering
@@ -345,3 +345,33 @@ Nejprve je natrénován GRBM (Gaussian-Bernoulli RBM) model na mikrosegmentu ře
 \end{figure}
 
 \subsubsection{Time-delay neural networks}
+
+Nevýhodou DNN sítí je, že berou v potaz pouze statické parametry v rámci zpracovávaných mikrosegmentů, protože sumace v perceptronu odpovídá sumě vážených statických vstupů. Po zpracování segmentu $t$ není získaná informace nijak reflektována při zpracování segmentu $t+1$. Tento nedostatek by řešilo použití rekurentních neuronových sítí (RNN). Bohužel tyto sítě mají mnohem komplikovanější buňku neuronu než FF sítě s perceptronem \cite{Amodei2016}. Proto je potřeba řádově více dat k natrénování. Složitost buňky také zvyšuje komputační náročnost výpočtu.
+
+Základním rozdílem sítí typu time-delay neural network (TDNN) (představená v \cite{Waibel1989}) je přidání časové filtrace do sumační části neuronu, tím je docíleno zahrnutí dynamické složky do výpočtu sítě \cite{Craig2000}. Filtrace je implementována jako filtr s konečnou impulzní odezvou (FIR), tedy
+
+\begin{equation}
+  z_{j}^{[l]}\left(t\right) = \sum_{n=0}^{N} w_{j}^{[-n]}f\left(n\right)a^{[l-1]}\left(t - n\right) + b_{j},
+  \label{eq:asr:acoustic:dnn:tdnn:fir}
+\end{equation}
+
+\noindent kde $t$ je dikrétní časový index, $N$ je délka FIR filteru, $f\left(n\right)$ odezva filtru, $w_{j}^{[-n]}$ příslušná váha, $a^{[l-1]}$ je výstup vrstvy $l-1$ a $z_{j}^{[l]}\left(t\right)$ je výstup sumační části neuronu $j$ ve vrstvě $l$. Vztah (\ref{eq:asr:acoustic:dnn:tdnn:fir}) tedy představuje konvoluci. Na obr. \ref{fig:asr:acoustic:dnn:tdnn:neuron} je principiálně znázorněn neuron pracující s $N$ FIR filtry. Z obr. \ref{fig:asr:acoustic:dnn:tdnn:neuron} je také zřejmé, že TDNN síť má několik souborů vah $W^{x}$, které umožňují lépe pracovat s dynamickou složkou signálu \cite{Peddinti2015}.
+
+\begin{figure}[htpb]
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-asr/img/neuron-tdnn.pdf}
+    \caption{neuron}
+    \label{fig:asr:acoustic:dnn:tdnn:neuron}
+  \end{subfigure}
+  %
+  \begin{subfigure}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{./ch4-asr/img/tdnn.pdf}
+    \caption{síť}
+    \label{fig:asr:acoustic:dnn:tdnn:net}
+  \end{subfigure}
+  \caption{Neuron TDNN sítě a jednoduché blokové schéma TDNN sítě \cite{Craig2000}}
+  \label{fig:asr:acoustic:dnn:tdnn}
+\end{figure}
+
+Stejně jako v případě DNN sítě je vstupem parametrizovaný mikrosegment $t$ a jeho okolí. Z obr. \ref{fig:asr:acoustic:dnn:tdnn:net} je patrné, že hlubší vsrtvy postupně zpracovávájí větší a větší okolí mikrosegmentu $t$. Dimenze výstupní vrstvy odpovída počtu HMM stavů. Přestože je TDNN síť typu FF, tak dokáže pracovat i s dynamickými parametry řeči, protože využívá princip konvoluce.
