@@ -346,7 +346,7 @@ Nejprve je natrénován GRBM (Gaussian-Bernoulli RBM) model na mikrosegmentu ře
 
 \subsubsection{Time-delay neural networks}
 
-Nevýhodou DNN sítí spočívá ve faktu, že pracuje pouze se statickými parametry v rámci zpracovávaných mikrosegmentů, protože sumace v perceptronu odpovídá sumě vážených statických vstupů. Po zpracování segmentu $t$ není získaná informace nijak reflektována při zpracování segmentu $t+1$. Tento nedostatek by řešilo použití rekurentních neuronových sítí (RNN). Bohužel tyto sítě mají mnohem komplikovanější buňku neuronu než FF sítě s perceptronem \cite{Amodei2016}. Proto je potřeba řádově více dat k natrénování. Složitost buňky také zvyšuje komputační náročnost výpočtu.
+Nevýhodou DNN sítí spočívá ve faktu, že pracuje pouze se statickými parametry v rámci zpracovávaných mikrosegmentů, protože sumace v perceptronu odpovídá sumě vážených statických vstupů. Po zpracování segmentu $t$ není získaná informace nijak reflektována při zpracování segmentu $t+1$. Tento nedostatek by řešilo použití rekurentních neuronových sítí (RNN). Bohužel tyto sítě mají mnohem komplikovanější buňku neuronu než FF sítě s perceptronem \cite{Amodei2016}. Proto je potřeba řádově více dat k natrénování. Složitost buňky také zvyšuje komputační náročnost výpočtu \cite{Hannun2014}.
 
 Základním rozdílem sítí typu time-delay neural network (TDNN) (představená v \cite{Waibel1989}) je přidání časové filtrace do sumační části neuronu, tím je docíleno zahrnutí dynamické složky do výpočtu sítě \cite{Craig2000}. Filtrace je implementována jako filtr s konečnou impulzní odezvou (FIR), tedy
 
