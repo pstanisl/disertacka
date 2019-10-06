@@ -37,9 +37,9 @@ Druhou možností je vytvoření explictiního modelu pracujícího s délkou fo
   \label{eq:realisation:durationmodels:chain}
 \end{align}
 
-\noindent Model tedy odahuje $P\left(D|W\right)$ na základě $n$ předchozích délek fonémů a předpokládaného slova $W$. Některé duration modely navíc ještě pracují i s tempem řeči \cite{Pylkkonen2004}, nicméně tento efekt je u modelu využívající rovnici \ref{eq:realisation:durationmodels:chain} zakomponován v délkách $n$ předchozích fonémů.
+\noindent Model tedy odhaduje $P\left(D|W\right)$ na základě $n$ předchozích délek fonémů a předpokládaného slova $W$. Některé duration modely navíc ještě pracují i s tempem řeči \cite{Pylkkonen2004}, nicméně tento efekt je u modelu využívající rovnici \ref{eq:realisation:durationmodels:chain} zakomponován v délkách $n$ předchozích fonémů.
 
-Ve skutečnosti je vhodné vytvořit model, který bere v potaz nejen předchozí délky, ale i příznakové vektory těchto fonémů \cite{Alumae2014}. Tedy $P\left(d_{i}|x_{i}\right)$, kde $x_{i}$ představuje příznakový vektor obsahující délky $n$ předchozích fonémů, jejich vektory pozorování a případně i další hodnoty. K odhadu této pravděpodobnosti se jako vhodné ukázaly neuronové sítě. \cite{Alumae2014} \cite{Hadian2017}
+Ve skutečnosti je vhodné vytvořit model, který bere v potaz nejen předchozí délky, ale i příznakové vektory těchto fonémů \cite{Alumae2014}. Tedy $P\left(d_{i}|x_{i}\right)$, kde $x_{i}$ představuje příznakový vektor obsahující délky $n$ předchozích fonémů, jejich vektory pozorování a případně další hodnoty. K odhadu této pravděpodobnosti se jako vhodné ukázaly neuronové sítě. \cite{Alumae2014} \cite{Hadian2017}
 
 Na odhad $P\left(d_{i}|x_{i}\right)$ je možné nahlížet ze dvou pohledů. V prvním případě je cílem modelu odhadnout parametry pravděpobnostní distribuce pomocí conditional density estimation network (CDEN). \cite{Alumae2014} V tomto případě je předpokládáno, že délky fonémů odpovídají určitému pravděpodobnostnímu rozdělení, nejčastěji logaritmicko-normálnímu. Konkrétní hodnota pravděpodobnosti je pak vypočtena dosazením do příslušného vzorce hustoty pravděpodobnosti.
 
@@ -48,26 +48,26 @@ Druhou možností je stejně jako v případě HMM-DNN akustického modelu odhad
 \subsection{Duration model se softmax vrstvou}
 \label{chap:realisation:durationmodels:nn:softmax}
 
-Neuronová síť mající na svém výstupu softmax vrstvu (viz rovnice \ref{eq:asr:acoustic:dnn:asr:softmax}) určuje diskrétní pseudo-pravděpodobnosti $m$ tříd. V případě duration modelu, se jako vhodné jeví reprezentovat jednotlivé třídy jako počet mikrosegmentů ($d=1,2,3,\dots$), které odpovídají danému fonému. Síť však na svém výstupu potřebuje konečný počet tříd (počet neuronů ve výstupní vrtvě). Teoreticky délka může přesáhnout zvolený počet tříd. Řešení tohoto problému spočívá v zavedení maximální délky $D$, kde pro všechny délky $d \geq D$ platí, že $p\left(d\right) = p\left(D\right)$. \cite{Hadian2017} Volba $D$ závisí na konkrétní doméně a je dobré ji určit experimentem.
+Neuronová síť mající na svém výstupu softmax vrstvu (viz rovnice \ref{eq:asr:acoustic:dnn:asr:softmax}) určuje diskrétní pseudo-pravděpodobnosti $m$ tříd. V případě duration modelu, se jako vhodné jeví reprezentovat jednotlivé třídy jako počet mikrosegmentů ($d=1,2,3,\dots$), které odpovídají danému fonému. Síť však na svém výstupu potřebuje konečný počet tříd (počet neuronů ve výstupní vrtvě). Teoreticky délka může přesáhnout tento zvolený počet tříd. Řešení tohoto problému spočívá v zavedení maximální délky $D$, kde pro všechny délky $d \geq D$ platí, že $p\left(d\right) = p\left(D\right)$. \cite{Hadian2017} Volba $D$ závisí na konkrétní doméně a je vhodné ji určit experimentem.
 
 Cílem modelu je predikovat sekvenci délek na základě sekvence fonémů. To implikuje možnost použití levého $L$ i pravého $R$ kontextu fonému $i$. Do vstupního vektoru sítě, ale mohou přijít délky pouze fonémů $L$ nebo $R$ kontextu. Pokud by totiž byly použity oba kontexty, tak by délka fonému $i$ závisela na délce fonému $i+1$. Zároveň by, ale délka fonému $i+1$ závisela na délce fonému $i$. Tím pádem by došlo ke kruhové závislosti, kterou není možné vyřešit. Standardně se volí $L$ kontext pro délky. Příznakový vektor tedy obsahuje následující položky:
 
 \begin{itemize}
-  \item Pro každý foném kontextu $-L \leq i \leq R$ je použito kódování 1 z n (1 pro správný foném, 0 pro ostatní, angl. one-hot encoding). Celková dimenze kontextu je tak $N_{p} \times \left(L + R + 1\right)$, kde $N_{p}$ je počet fonémů.
+  \item Pro každý foném kontextu $-L \leq i \leq R$ je použito kódování 1 z n (1 pro správný foném, 0 pro ostatní, angl. one-hot encoding). Celková dimenze kontextu je tak $N_{p} \times \left(L + R + 1\right)$, kde $N_{p}$ je počet fonémů ve slovníku.
   \item Druhou množinu příznaků reprezentují otázky použité u fonetických rozhodovacích stromů (viz část \ref{chap:construction:results:reduction}). U těchto otázek je opět použito one-hot encoding. Dimenze těchto příznaků je $N_{q} \times \left(L + R + 1\right)$, kde $N_{q}$ odpovídá celkovému počtu otázek.
-  \item Poslední skupinu příznaků představují délky fonémů L kontextu na pozicích $-L \leq i < 0$. Celková dimenze je $L$. Neuronová síť nejlépe pracuje s hodnotami v intervalu $\left(0, 1\right)$ je potřeba normalizovat hodnotu délky $d=1, 2, \dots, D$ pomocí sigmoid funkce
+  \item Poslední skupinu příznaků představují délky fonémů L kontextu na pozicích $-L \leq i < 0$. Celková dimenze je $L$. Neuronová síť nejlépe pracuje s hodnotami v intervalu $\left(0, 1\right)$. Jako vhodné se ukázalo normalizovat hodnotu délky $d=1, 2, \dots, D$ pomocí sigmoid funkce
 
   \begin{equation}
     d^{\prime} = \frac{2}{1 + e^{-0,01d}} - 1,
     \label{eq:realisation:durationmodels:nn:normalization}
   \end{equation}
 
-  \noindent která transformuje hodnoty do požadovaného intervalu $\left(0, 1\right)$. Pokud není kontext k dispozici (krajní případy), tak $d = 0$.
+  \noindent která transformuje hodnoty do požadovaného intervalu $\left(0, 1\right)$ \cite{Alumae2014}. Pokud není kontext k dispozici (krajní případy), tak $d = 0$.
 \end{itemize}
 
 \noindent Celková dimenze výsledného příznakového vektoru je pak $I = \left(L + R + 1\right) \ast \left(N_{p} + N_{q}\right) + L$.
 
-Samotné reskórování výstupní mřížky je realizováno přidáním $\log p\left(d_{i}| x_{i}\right)$, kde $x_{i}$ je vstupní příznakový vektor duration modelu, k hodnotám získaným z akustického a jazykového modelu. Mřížka je mezivýsledek, ze kterého je následně vydekódován výstup ASR systému. Samotné duration skóre je navíc přenásobeno konstantou získanou z development sady v průběhu trénování modelu tak, aby jeho řád odpovídal hodnotám z ostatních modelů. \cite{Hadian2017}
+Samotné reskórování výstupní mřížky je realizováno přidáním $\log p\left(d_{i}| x_{i}\right)$, kde $x_{i}$ je vstupní příznakový vektor duration modelu, k hodnotám získaným z akustického a jazykového modelu. Mřížka je mezivýsledek, ze kterého je následně vydekódován výstup ASR systému. Samotné duration skóre je navíc přenásobeno konstantou získanou z development sady v průběhu trénování modelu tak, aby jeho řád odpovídal hodnotám z ostatních modelů. \cite{Hadian2017} Stejně jako v případě jazykového modelu je i zde tzv. váha duration modelu, která umožňuje měnit vliv tohoto modelu.
 
 \subsection{Dosažené výsledky}
 \label{chap:realisation:durationmodels:nn:softmax}
