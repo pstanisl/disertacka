@@ -53,12 +53,20 @@ Výsledný řečový korpus představuje $5040$ unikátních vět rozdělených 
   \pgfplotstabletypeset[
     col sep=comma,
     string type,
-    columns/phase/.style={column name=Nahrávání, column type={|l}},
-    columns/length/.style={column name=Délka \textit{[HH:MM:SS]}, column type={|r}},
-    columns/sentences/.style={column name=Počet vět, column type={|r}},
-    columns/files/.style={column name=Počet souborů, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every last row/.style={after row=\hline},
+    columns/phase/.style={column name={Nahrávání}, column type={l}},
+    columns/length/.style={column name={Délka \textit{[HH:MM:SS]}}, column type={r}},
+    columns/sentences/.style={column name={Počet vět}, column type={r}},
+    columns/files/.style={column name={Počet souborů}, column type={r}},
+    every head row/.style={
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(lr){2-2}
+        \cmidrule(lr){3-3}
+        \cmidrule(l){4-4}
+      },
+      before row={\toprule}
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/02-recording1-stats.csv}
   \caption{Informace o korpusu nahrávek z 1. etapy nahravání.}
   \label{tab:construction:recording}

@@ -62,14 +62,19 @@ Počet stavů pak nehraje, tak zásádní roli na kvalitu akustického modelu ja
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/8k/.style={column name=8 kHz $[\%]$, column type={|r}},
-    columns/16k/.style={column name=16 kHz $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-      & \multicolumn{2}{c|}{Accuracy} \\
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name={Model}, column type={c}},
+    columns/8k/.style={column name={8 kHz}, column type={r}},
+    columns/16k/.style={column name={16 kHz}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/01-frequency.csv}
   \caption{Vliv frekvence na kvalitu modelu.}
   \label{tab:construction:experiment:gmm}
@@ -87,14 +92,19 @@ Hledání optimálních parametrů baseline modelu bylo realizováno na přelomu
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/8k/.style={column name=8 kHz $[\%]$, column type={|r}},
-    columns/16k/.style={column name=16 kHz $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-      & \multicolumn{2}{c|}{Accuracy} \\
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name={Model}, column type={c}},
+    columns/8k/.style={column name={8 kHz}, column type={r}},
+    columns/16k/.style={column name={16 kHz}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/01-frequency_dnn.csv}
   \caption{Vliv frekvence na kvalitu modelu využívajícího \textit{DNN} }
   \label{tab:construction:experiment:dnn}
@@ -124,12 +134,13 @@ K ověření tohoto předpokladu je potřeba experimentálního ověření. Myš
   \pgfplotstabletypeset[
     col sep=comma,
     string type,
-    columns/unvoiced/.style={column name=Neznělé fonémy, column type={|c}},
-    columns/voiced/.style={column name=Znělé fonémy, column type={|c|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/unvoiced/.style={column name={Neznělé fonémy}, column type={c}},
+    columns/voiced/.style={column name={Znělé fonémy}, column type={c}},
+    every head row/.style={
+      before row={\toprule},
+      after row={\cmidrule(r){1-1}\cmidrule(l){2-2}}
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/phonemes_pairs.csv}
   \caption{Korespondující páry fonémů.}
   \label{tab:construction:reduction:pairs}
@@ -160,13 +171,19 @@ U EL řečníka je vidět dílčí zlepšení u 2 modelů (tab. \ref{tab:constru
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
-    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name=Model, column type={c}},
+    columns/normal/.style={column name={Zdravý}, column type={r}},
+    columns/el/.style={column name={EL}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/reduction_01.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s monofóním akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
   \label{tab:construction:reduction:01}
@@ -178,13 +195,19 @@ U EL řečníka je vidět dílčí zlepšení u 2 modelů (tab. \ref{tab:constru
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
-    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name=Model, column type={c}},
+    columns/normal/.style={column name={Zdravý}, column type={r}},
+    columns/el/.style={column name={EL}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/reduction_02.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s monofóním akustickým a trigramovým jazykovým modelem obsahujícím 360k slov pro zdravého a EL řečníka.}
   \label{tab:construction:reduction:02}
@@ -200,13 +223,19 @@ U obou experimentů s trifónovým jazykovým modelem došlo ke zlepšení u dvo
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
-    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name=Model, column type={c}},
+    columns/normal/.style={column name={Zdravý}, column type={r}},
+    columns/el/.style={column name={EL}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/reduction_03.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s trifónovým akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
   \label{tab:construction:reduction:03}
@@ -218,13 +247,19 @@ U obou experimentů s trifónovým jazykovým modelem došlo ke zlepšení u dvo
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/normal/.style={column name=Zdravý $[\%]$, column type={|r}},
-    columns/el/.style={column name=EL $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name=Model, column type={c}},
+    columns/normal/.style={column name={Zdravý}, column type={r}},
+    columns/el/.style={column name={EL}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/reduction_04.csv}
   \caption{Vliv redukce fonetické sady na přesnost ASR systému s trifónovým akustickým a trigramovým jazykovým modelem s 360k slov pro zdravého a EL řečníka.}
   \label{tab:construction:reduction:04}
