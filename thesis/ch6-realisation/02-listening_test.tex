@@ -43,14 +43,36 @@ Výstupem poslechového testu je tabulka s procentuálním zastoupením jednotli
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/word/.style={column name=Slovo, column type={|l}},
-    columns/option1/.style={column name=Možnost \textit{\textbf{a)} [\%]}, column type={|r}},
-    columns/option2/.style={column name=Možnost \textit{\textbf{b)} [\%]}, column type={|r}},
-    columns/option3/.style={column name=Možnost \textit{\textbf{c)} [\%]}, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every row no 1/.style={after row=\hline},
-    every row no 3/.style={after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/word/.style={column name=Slovo, column type={l}},
+    columns/option1/.style={
+      column name={Možnost \textit{\textbf{a)}}},
+      column type={r}
+    },
+    columns/option2/.style={
+      column name={Možnost \textit{\textbf{b)}}},
+      column type={r}
+    },
+    columns/option3/.style={
+      column name={Možnost \textit{\textbf{c)}}},
+      column type={r}
+    },
+    every head row/.style={
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-4}
+        % \midrule
+      },
+      before row={\toprule & \multicolumn{3}{c}{Relativní četnost odpovědí [\%]} \\}
+    },
+    every row no 1/.style={after row={
+      \cmidrule(r){1-1}
+      \cmidrule(l){2-4}
+    }},
+    every row no 3/.style={after row={
+      \cmidrule(r){1-1}
+      \cmidrule(l){2-4}
+    }},
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0206-isolated.csv}
   \caption{Ukázka výsledku poslechového testu na izolovaných slovech.}
   \label{tab:realisation:listening:isolated}
@@ -74,7 +96,7 @@ Vyšší počet položek v testu je zapříčiněn faktem, že pro určitá slov
 
 Stejně jako u testu s izolovanými slovy je výstupem testu tabulka obsahující procentuální zastoupení jednotlivých odpovědí na každou otázku. Tab. \ref{tab:realisation:listening:bigrams} obsahuje ukázku těchto výsledků. Stejně jako v předchozím případě, správné odpovědi jsou zvýrazněny tučně. Ačkoli jsou nyní v testu dvojice slov, tak dosažené výsledky do značné míry korespondují s výsledky z testu s izolovanými slovy (viz tab. \ref{tab:realisation:listening:isolated}). V prvním případě (\textit{borci + porci}) nebyli účastníci schopni jednoznačně určit význam slov v nahrávce. V druhém případě (\textit{kosa + koza}) všichni posluchači až na jednoho vybrali možnost \textit{d)}, tedy \textit{koza + koza}. Správný výběr jedním účastníkem lze považovat spíše za náhodu, protože u opačného pořadí slov již nikdo správnou odpověď nevybral. Je dobré zmínit, že účastníci v žádném poslechovém testu nebyli omezeni v počtu opětovného přehrání promluvy. Tím pádem je velmi pravděpodobné, že tento konrétní participant opakovaně poslouchal danou nahrávku a hledal rozdíl až nějaký drobný zaznamenal. Otazkou však je, jestli to spíše nebyla sugesce a to již zmíněné štěstí.
 
-Poslední prezentovaný příklad zastupuje množinu odpovědí, kdy účastníci naprosto správně určili význam slov. Průměrná dosažená přesnost člověka, počítána pomocí rovnice (\ref{eq:realisation:accuracy:human}), dosáhla hodnoty $Acc_{p}^{human} = 66,24\ \%$.
+Poslední prezentovaný příklad zastupuje množinu odpovědí, kdy účastníci naprosto správně určili význam slov. Průměrná dosažená přesnost člověka, počítána pomocí rovnice (\ref{eq:realisation:accuracy:human}), dosáhla hodnoty $Acc_{w}^{human} = 66,24\ \%$.
 
 \begin{table}[htpb]
   \centering
@@ -82,15 +104,28 @@ Poslední prezentovaný příklad zastupuje množinu odpovědí, kdy účastníc
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/word/.style={column name=Slovní bigram, column type={|l}},
-    columns/option1/.style={column name=Mož. \textit{\textbf{a)} [\%]}, column type={|r}},
-    columns/option2/.style={column name=Mož. \textit{\textbf{b)} [\%]}, column type={|r}},
-    columns/option3/.style={column name=Mož. \textit{\textbf{c)} [\%]}, column type={|r}},
-    columns/option4/.style={column name=Mož. \textit{\textbf{d)} [\%]}, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every row no 1/.style={after row=\hline},
-    every row no 3/.style={after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/word/.style={column name=Slovní bigram, column type={l}},
+    columns/option1/.style={column name={Možnost \textit{\textbf{a)}}}, column type={r}},
+    columns/option2/.style={column name={Možnost \textit{\textbf{b)}}}, column type={r}},
+    columns/option3/.style={column name={Možnost \textit{\textbf{c)}}}, column type={r}},
+    columns/option4/.style={column name={Možnost \textit{\textbf{d)}}}, column type={r}},
+    every head row/.style={
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-5}
+        % \midrule
+      },
+      before row={\toprule & \multicolumn{4}{c}{Relativní četnost odpovědí [\%]} \\}
+    },
+    every row no 1/.style={after row={
+      \cmidrule(r){1-1}
+      \cmidrule(l){2-5}
+    }},
+    every row no 3/.style={after row={
+      \cmidrule(r){1-1}
+      \cmidrule(l){2-5}
+    }},
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0207-bigrams.csv}
   \caption{Ukázka výsledku poslechového testu na dvojicích slov.}
   \label{tab:realisation:listening:bigrams}
@@ -119,12 +154,21 @@ Velmi zajímavé jsou výsledky u \uv{bigrams} experimentu. Na první pohled se 
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/type/.style={column name= , column type={|l}},
-    columns/onemil/.style={column name=onemil \textit{[\%]}, column type={|r}},
-    columns/reduced/.style={column name=reduced \textit{[\%]}, column type={|r}},
-    columns/bigrams/.style={column name=bigrams \textit{[\%]}, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every last row/.style={after row=\hline},
+    columns/type/.style={column name= , column type={l}},
+    columns/onemil/.style={column name={onemil}, column type={r}},
+    columns/reduced/.style={column name={reduced}, column type={r}},
+    columns/bigrams/.style={column name={bigrams}, column type={r}},
+    every head row/.style={
+      after row={
+        % \cmidrule(lr){1-1}
+        % \cmidrule(lr){2-4}
+        \midrule
+      },
+      before row={\toprule & \multicolumn{3}{c}{$Acc_{p}\ [\%]$} \\}
+    },
+    every last row/.style={
+      after row={\bottomrule}
+    },
   ]{./ch5-construction/tabs/0208-comparison.csv}
   \caption{Porovnání dosažených výsledků člověka a stroje.}
   \label{tab:realisation:comparison}

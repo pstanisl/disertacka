@@ -47,13 +47,23 @@ Tab. \ref{tab:realisation:corpus:recording} přibližuje souhrnné parametry nah
   \pgfplotstabletypeset[
     col sep=comma,
     string type,
-    columns/phase/.style={column name=Nahrávání, column type={|l}},
-    columns/length/.style={column name=Délka \textit{[HH:MM:SS]}, column type={|r}},
-    columns/words/.style={column name=Počet slov, column type={|r}},
-    columns/sentences/.style={column name=Počet vět, column type={|r}},
-    columns/files/.style={column name=Počet souborů, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every last row/.style={after row=\hline},
+    columns/phase/.style={column name=Nahrávání, column type={l}},
+    columns/length/.style={column name=Délka \textit{[HH:MM:SS]}, column type={r}},
+    columns/words/.style={column name=Počet slov, column type={r}},
+    columns/sentences/.style={column name=Počet vět, column type={r}},
+    columns/files/.style={column name=Počet souborů, column type={r}},
+    every head row/.style={
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(lr){2-2}
+        \cmidrule(lr){3-3}
+        \cmidrule(lr){4-4}
+        \cmidrule(l){5-5}
+      },
+      before row={\toprule}},
+    every last row/.style={
+      after row={\bottomrule}
+    },
   ]{./ch5-construction/tabs/0201-recording-stats.csv}
   \caption{Informace o korpusu nahrávek z 2. etapy nahravání.}
   \label{tab:realisation:corpus:recording}
@@ -120,14 +130,19 @@ Změna frameworku mohla zapříčinit chybu v procesu trénování. K ověření
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
-    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-      & \multicolumn{2}{c|}{Accuracy} \\
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name=Model, column type={c}},
+    columns/orig/.style={column name={1. etata}, column type={r}},
+    columns/new/.style={column name={2. etapa}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0202-cross_test.csv}
   \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy.}
   \label{tab:realisation:verification:cross}
@@ -202,14 +217,19 @@ V tab. \ref{tab:realisation:verification:cmn:file} jsou výsledky experimentu s 
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
-    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-      & \multicolumn{2}{c|}{Accuracy} \\
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name=Model, column type={c}},
+    columns/orig/.style={column name={1. etata}, column type={r}},
+    columns/new/.style={column name={2. etapa}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0203-cmn_file.csv}
   \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s \textit{CMN}  přes jednotlivé soubory.}
   \label{tab:realisation:verification:cmn:file}
@@ -225,14 +245,19 @@ Další experiment je s daty, kde bylo aplikováno \textit{CMN} vypočtené ze v
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/model/.style={column name=Model, column type={|c}},
-    columns/orig/.style={column name=1. etata $[\%]$, column type={|r}},
-    columns/new/.style={column name=2. etapa $[\%]$, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-      & \multicolumn{2}{c|}{Accuracy} \\
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/model/.style={column name=Model, column type={c}},
+    columns/orig/.style={column name={1. etata}, column type={r}},
+    columns/new/.style={column name={2. etapa}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0204-cmn_full.csv}
   \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s \textit{CMN}  přes všechny nahrávky v etapě.}
   \label{tab:realisation:verification:cmn:full}
@@ -252,10 +277,17 @@ Trénovaná neuronová síť FF síť má 6 vrstvev z 5 skrytých, výstupní vs
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/neurons/.style={column name=Počet neuronů, column type={|c}},
-    columns/accuracy/.style={column name=Accuracy $[\%]$, column type={|r|}},
-    every head row/.style={before row=\hline,after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/neurons/.style={column name={Počet neuronů}, column type={c}},
+    columns/accuracy/.style={column name={$Acc_{p}\ [\%]$}, column type={r}},
+    every head row/.style={
+      before row={\toprule},
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-2}
+        % \midrule
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0205-dnn.csv}
   \caption{Dosažená přesnost neuronové sítě s monofónovým zerogramovým jazykovám modelem.}
   \label{tab:realisation:verification:dnn}

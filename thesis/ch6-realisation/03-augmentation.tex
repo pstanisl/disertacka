@@ -68,14 +68,24 @@ Doposud se uvažovalo pouze dvojnásobné protažení, v další fázi je tedy p
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/extension/.style={column name=, column type={|l}},
-    columns/1x/.style={column name=1x, column type={|r}},
-    columns/2x/.style={column name=2x, column type={|r}},
-    columns/3x/.style={column name=3x, column type={|r}},
-    columns/4x/.style={column name=4x, column type={|r}},
-    columns/5x/.style={column name=5x, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every last row/.style={after row=\hline},
+    columns/extension/.style={
+      column name={},
+      column type={l},
+      string replace={accp}{$Acc_{p}\ [\%]$}
+    },
+    columns/1x/.style={column name=1x, column type={r}},
+    columns/2x/.style={column name=2x, column type={r}},
+    columns/3x/.style={column name=3x, column type={r}},
+    columns/4x/.style={column name=4x, column type={r}},
+    columns/5x/.style={column name=5x, column type={r}},
+    every head row/.style={
+      after row={
+        % \cmidrule{2-10}
+        \midrule
+      },
+      before row={\toprule & \multicolumn{5}{c}{Míra protažení} \\}
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0301-features.csv}
   \caption{Vliv míry protažení na přesnost modelu.}
   \label{tab:realisation:augmentation:influence}
@@ -136,14 +146,24 @@ K ověření schopností modelu pracovat s uměle protaženými daty je použit 
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/extension/.style={column name=, column type={|l}},
-    columns/100/.style={column name={1,00x}, column type={|r}},
-    columns/125/.style={column name={1,25x}, column type={|r}},
-    columns/150/.style={column name={1,50x}, column type={|r}},
-    columns/175/.style={column name={1,75x}, column type={|r}},
-    columns/200/.style={column name={2,00x}, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every last row/.style={after row=\hline},
+    columns/extension/.style={
+      column name={},
+      column type={l},
+      string replace={accp}{$Acc_{p}\ [\%]$}
+    },
+    columns/100/.style={column name={1,00x}, column type={r}},
+    columns/125/.style={column name={1,25x}, column type={r}},
+    columns/150/.style={column name={1,50x}, column type={r}},
+    columns/175/.style={column name={1,75x}, column type={r}},
+    columns/200/.style={column name={2,00x}, column type={r}},
+    every head row/.style={
+      after row={
+        % \cmidrule{2-6}
+        \midrule
+      },
+      before row={\toprule & \multicolumn{5}{c}{Míra protažení} \\}
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0302-audio_1.csv}
   \caption{Vliv míry protažení fonému na přesnost \textit{DNN} modelu.}
   \label{tab:realisation:augmentation:influence:dnn}
@@ -219,18 +239,28 @@ S relativně přesným zarovnáním je možné přistoupit k protažení foném�
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/extension/.style={column name=, column type={|l}},
-    columns/100/.style={column name={1,00x}, column type={|r}},
-    columns/150/.style={column name={1,50x}, column type={|r}},
-    columns/125/.style={column name={1,25x}, column type={|r}},
-    columns/175/.style={column name={1,75x}, column type={|r}},
-    columns/200/.style={column name={2,00x}, column type={|r}},
-    columns/225/.style={column name={2,25x}, column type={|r}},
-    columns/250/.style={column name={2,50x}, column type={|r}},
-    columns/275/.style={column name={2,75x}, column type={|r}},
-    columns/300/.style={column name={3,00x}, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every last row/.style={after row=\hline},
+    columns/extension/.style={
+      column name={},
+      column type={l},
+      string replace={accp}{$Acc_{p}\ [\%]$}
+    },
+    columns/100/.style={column name={1,00x}, column type={r}},
+    columns/150/.style={column name={1,50x}, column type={r}},
+    columns/125/.style={column name={1,25x}, column type={r}},
+    columns/175/.style={column name={1,75x}, column type={r}},
+    columns/200/.style={column name={2,00x}, column type={r}},
+    columns/225/.style={column name={2,25x}, column type={r}},
+    columns/250/.style={column name={2,50x}, column type={r}},
+    columns/275/.style={column name={2,75x}, column type={r}},
+    columns/300/.style={column name={3,00x}, column type={r}},
+    every head row/.style={
+      after row={
+        % \cmidrule{2-10}
+        \midrule
+      },
+      before row={\toprule & \multicolumn{9}{c}{Míra protažení} \\}
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0303-audio_2.csv}
   \caption{Vliv míry protažení fonému na přesnost TDNN modelu.}
   \label{tab:realisation:augmentation:influence:tdnn}
