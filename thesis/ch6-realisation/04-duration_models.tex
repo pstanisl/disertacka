@@ -72,4 +72,122 @@ Samotné reskórování výstupní mřížky je realizováno přidáním $\log p
 \subsection{Dosažené výsledky}
 \label{chap:realisation:durationmodels:nn:softmax}
 
-K natrénování duration modelu je třeba zarovnání.
+Stejně jako v případě augmentace dat (viz \ref{chap:realisation:augmentation:audio}) je potřeba k natrénování duration modelu kvalitní zarovnání. Jedním z hlavních částí příznakového vektoru modelu je totiž délka L kontextu modelu. K získání co možná nejpřesnějšího zarovnání je použit nejlepší TDNN model natrénovaný na uměle protažených datech\footnote{Natrénování TDNN modelu pomocí reálně protažených dat nebylo vhodné, protože nebylo k dispozici dostatečné množství reálně protažených dat.}, viz tab. \ref{tab:realisation:augmentation:influence:tdnn}.
+
+Samotný duration model (popsaný v předchozí části \ref{chap:realisation:durationmodels:nn:softmax}) je typu feedforward.  Počet skrytých vrstev sítě se odvíjí od konkrétní řešené domény, ale standardně se uvažují $2$ případně $3$, viz \cite{Hadian2017}. Velikost těchto skrytých vrstev je volena jako násobek dimenze příznakového vektoru, v tomto případě byl zvolena hodnota $3I$. Aktivační funkce je typu RELU. Velikost výstupní vrstvy odpovídá maximálnímu počtu mikrosegmentů $D$, v \cite{Hadian2017} bylo dosaženo nejlepších výsledků s $D=50$. K vytvoření duration modelu posloužil framework Kaldi. Ten představuje obecný framework pro vytváření HMM a DNN řečových modelů.
+
+Ověření funkčnosti duration modelu je provedeno na $2x$ uměle protažených datech\footnote{Hodnota $2x$ je zvolena, protože se nejvíce blíží reálně protaženým datům.}. Kontextuální okénko má hodnotu $\left(L, R\right) = \left(3, 3\right)$, $N_{p} = 42$ a $N_{q} = 6$. Velikost vstupního vektoru $I = 339$. Model má $2$ skryté vrstvy o velikosti $1017$ neuronů. Výstupní vrstva typu softmax má dimenzi $D=50$. Model je trénován a otestován pomocí stejné trénovací a testovací sady jako modely v části \ref{chap:realisation:augmentation:audio}. Jazykový model je fonémový zerogramový. Tento model dosáhl $Acc_{p} = 88,54\ \%$, což představuje zlepšení o $0,83\ \%$ absolutně a $7,24\ \%$ relativně oproti TDNN $2x$ modelu ($Acc_{p} = 87,71\ \%$). Duration model tedy relativně významně zlepšuje přesnost modelu. Na reálně protažených datech pak tento model dosáhl přesnosti $Acc_{p} = 85,68\ \%$ (původní TDDN $2x$ model dosáhl $Acc_{p} = 84,51\ \%$).
+
+Mezi hyperparametry modelu patří zejména velikost $L$ a $R$ kontextu, počet vrstev sítě a maximální délka $D$. Zejména hodnota maximální délka $D$ teoreticky poskytuje největší možnost pro zlepšení výsledků modelu, protože hodnota $D=50$ byla zvolena na základě experimentů prevedených v \cite{Hadian2017}, kde se však pracovalo se standarní neprotaženou řečí. Tab. \ref{tab:realisation:duration:duration} ukazuje vliv maximální délky na přesnost modelu. Speciální je hodnota $D=189$, která je určena automaticky na základě zarovnání před samotným trénováním. Model s $D=189$ zároveň dosáhl nejvyšší přesnosti $Acc_{p} = 88,58\ \%$, což představuje drobné zlepšení oproti původnímu modelu s $D = 50$.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/D/.style={
+      column name=D,
+      column type={|l},
+      string replace={accp}{$Acc_{p}\ [\%]$}
+    },
+    columns/50/.style={column name={50}, column type={|r}},
+    columns/100/.style={column name={100}, column type={|r}},
+    columns/150/.style={column name={150}, column type={|r}},
+    columns/189/.style={column name={189}, column type={|r}},
+    columns/200/.style={column name={200}, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch6-realisation/tabs/01-duration_value.csv}
+  \caption{Vliv maximální délky na přesnosti modelu.}
+  \label{tab:realisation:duration:duration}
+\end{table}
+
+Dalším hyperparametrem, který může ovlivnit kvalitu modelu je počet vrstev neuronové sítě. V tab. \ref{tab:realisation:duration:layers} jsou vypsány výsledky jednotlivých modelů. Varianta \textit{1H} představuje model s $1$ skrytou vrstvou, \textit{2H} model s $2$ skrytýma vrstvama a \textit{3H} s $3$ skrýtmi vrstvami. Speciálním případem jsou modely obsahující bottleneck vrstvu (\textit{2H (bottleneck)} a \textit{3H (bottleneck)}). Ty místo poslední skryté vrstvy o velikosti $3I$ obsahují vrstvu s pouze $10$ neurony. Tato vrstva by měla pomoci v zobecňování \cite{Hadian2017}. Z dosažených výsledků je patrné, že velikost sítě není úplně zásadním parametrem. Rozdíl mezí přesností sítě s $2$ a $3$ vrstvami je minimální. Přínos bottleneck vrstvy, oproti výsledkům prezentovaným v \cite{Hadian2017}, je také spíše minimální. Nicméně obecně se dá říci, že tato vrstva má pozitivní dopad na přesnost.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/layers/.style={
+      column name=Model,
+      column type={|l},
+      string replace={accp}{$Acc_{p}\ [\%]$}
+    },
+    columns/1H/.style={column name={1H}, column type={|r}},
+    columns/2H/.style={column name={2H}, column type={|r}},
+    columns/3H/.style={column name={3H}, column type={|r}},
+    columns/2Hb/.style={column name={2H (bottleneck)}, column type={|r}},
+    columns/3Hb/.style={column name={3H (bottleneck)}, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch6-realisation/tabs/02-layers.csv}
+  \caption[Vliv počtu vrstev]{Vliv počtu skrytých vrstev na přesnosti modelu ($D = 189$\footnotemark).}
+  \label{tab:realisation:duration:layers}
+\end{table}
+
+\footnotetext{V průběhu určování nejlepších kombinace hyperparametrů byly otestovány všechny kombinace velikosti sítě a maximální délky $D$. Nejlepších výsledků dosahovaly modely s $D=189$.}
+
+Posledním hyperparametrem, který může mít vliv na přesnost modelu je velikost $L$ a $R$ kontextu. Z tab. \ref{tab:realisation:duration:context:symetric} a tab. \ref{tab:realisation:duration:context:asymetric} vyplývá, že nejlepších výsledků dosahuje modely, který má délku kontext $L + R = 6$. Úplně nejlepšího výsledku pak dosáhl model májící symetrický kontext, oproti modelům s asymetrickým kontextem je rozdíl spíše zanedbatelný.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/context/.style={
+      column name={Kontext \textit{(L, R)}},
+      column type={|l},
+      string replace={accp}{$Acc_{p}\ [\%]$}
+    },
+    columns/0/.style={column name={(0, 0)}, column type={|r}},
+    columns/1/.style={column name={(1, 1)}, column type={|r}},
+    columns/2/.style={column name={(2, 2)}, column type={|r}},
+    columns/3/.style={column name={(3, 3)}, column type={|r}},
+    columns/4/.style={column name={(4, 4)}, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch6-realisation/tabs/03-context.csv}
+  \caption{Porovnání vlivu velikosti symetrického kontextu.}
+  \label{tab:realisation:duration:context:symetric}
+\end{table}
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/context/.style={
+      column name={Kontext \textit{(L, R)}},
+      column type={|l},
+      string replace={accp}{$Acc_{p}\ [\%]$}
+    },
+    columns/5/.style={column name={(5, 1)}, column type={|r}},
+    columns/4/.style={column name={(4, 2)}, column type={|r}},
+    columns/3/.style={column name={(3, 3)}, column type={|r}},
+    columns/2/.style={column name={(2, 4)}, column type={|r}},
+    columns/1/.style={column name={(1, 5)}, column type={|r|}},
+    every head row/.style={before row={
+      \hline
+    },after row=\hline},
+    every last row/.style={after row=\hline},
+  ]{./ch6-realisation/tabs/04-context.csv}
+  \caption{Vliv levého a pravého kontextu v případě, že celková délka $L + R = 6$.}
+  \label{tab:realisation:duration:context:asymetric}
+\end{table}
+
+Nejlepšího výsledku tedy dosahuje model mající $D = 189$, $2$ skryté vrstvy, kde poslední skrytá vrstva má pouze $10$ neuronů a $L + R = 6$. Výsledky však ukazují, že duration model není významně citlivý na změnu parametrů. V případě rozpoznávání reálně protažených dat, dosáhl model přesnoti $Acc_{p} = 85,93\ \%$.
+
+
+\subsection{Aktualizace výsledků porovnání}
+\label{chap:realisation:duration:comparison}
