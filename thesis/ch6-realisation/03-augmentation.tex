@@ -256,18 +256,28 @@ Velmi zajímavé je porovnání zvýšení přesnosti TDNN modelu s fonémovým 
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/type/.style={column name= , column type={|l}},
-    columns/onemil/.style={column name=onemil \textit{[\%]}, column type={|r}},
-    columns/reduced/.style={column name=reduced \textit{[\%]}, column type={|r}},
-    columns/bigrams/.style={column name=bigrams \textit{[\%]}, column type={|r|}},
-    every head row/.style={after row=\hline, before row=\hline},
-    every last row/.style={after row=\hline},
+    columns/type/.style={column name=, column type={l}},
+    columns/onemil/.style={column name=onemil, column type={r}},
+    columns/reduced/.style={column name=reduced, column type={r}},
+    columns/bigrams/.style={column name=bigrams, column type={r}},
+    every head row/.style={
+      after row={
+        % \cmidrule(lr){1-1}
+        % \cmidrule(lr){2-4}
+        \midrule
+      },
+      before row={\toprule & \multicolumn{3}{c}{$Acc_{p}\ [\%]$} \\}
+    },
+    every last row/.style={
+      after row={\bottomrule},
+      before row={\midrule}
+    },
   ]{./ch5-construction/tabs/0304-comparison.csv}
   \caption{Aktualizované porovnání dosažených výsledků člověka a stroje.}
   \label{tab:realisation:augmentation:comparison}
 \end{table}
 
-\todo{Přidat tabulky porovnávající výsledky původního a aktualizovaného testu.}{tabulky}
+% \todo{Přidat tabulky porovnávající výsledky původního a aktualizovaného testu.}{tabulky}
 
 \subsection{Reálně protažená data}
 \label{chap:realisation:augmentation:real}

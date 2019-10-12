@@ -86,20 +86,21 @@ Mezi hyperparametry modelu patří zejména velikost $L$ a $R$ kontextu, počet 
   \pgfplotstabletypeset[
     col sep=semicolon,
     string type,
-    columns/D/.style={
-      column name=D,
-      column type={|l},
+    columns/header/.style={
+      column name={},
+      column type={l},
       string replace={accp}{$Acc_{p}\ [\%]$}
     },
-    columns/50/.style={column name={50}, column type={|r}},
-    columns/100/.style={column name={100}, column type={|r}},
-    columns/150/.style={column name={150}, column type={|r}},
-    columns/189/.style={column name={189}, column type={|r}},
-    columns/200/.style={column name={200}, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/50/.style={column name={50}, column type={r}},
+    columns/100/.style={column name={100}, column type={r}},
+    columns/150/.style={column name={150}, column type={r}},
+    columns/189/.style={column name={189}, column type={r}},
+    columns/200/.style={column name={200}, column type={r}},
+    every head row/.style={
+      before row={\toprule & \multicolumn{5}{c}{D} \\},
+      after row={\midrule}
+    },
+    every last row/.style={after row={\bottomrule}}
   ]{./ch6-realisation/tabs/01-duration_value.csv}
   \caption{Vliv maximální délky na přesnosti modelu.}
   \label{tab:realisation:duration:duration}
@@ -114,19 +115,23 @@ Dalším hyperparametrem, který může ovlivnit kvalitu modelu je počet vrstev
     col sep=semicolon,
     string type,
     columns/layers/.style={
-      column name=Model,
-      column type={|l},
+      column name={},
+      column type={l},
       string replace={accp}{$Acc_{p}\ [\%]$}
     },
-    columns/1H/.style={column name={1H}, column type={|r}},
-    columns/2H/.style={column name={2H}, column type={|r}},
-    columns/3H/.style={column name={3H}, column type={|r}},
-    columns/2Hb/.style={column name={2H (bottleneck)}, column type={|r}},
-    columns/3Hb/.style={column name={3H (bottleneck)}, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/1H/.style={column name={1H}, column type={r}},
+    columns/2H/.style={column name={2H}, column type={r}},
+    columns/3H/.style={column name={3H}, column type={r}},
+    columns/2Hb/.style={column name={2H (bottleneck)}, column type={r}},
+    columns/3Hb/.style={column name={3H (bottleneck)}, column type={r}},
+    every head row/.style={
+      before row={\toprule & \multicolumn{5}{c}{Model} \\},
+      after row={
+        \cmidrule{2-6}
+        % \midrule
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch6-realisation/tabs/02-layers.csv}
   \caption[Vliv počtu vrstev]{Vliv počtu skrytých vrstev na přesnosti modelu ($D = 189$\footnotemark).}
   \label{tab:realisation:duration:layers}
@@ -143,19 +148,24 @@ Posledním hyperparametrem, který může mít vliv na přesnost modelu je velik
     col sep=semicolon,
     string type,
     columns/context/.style={
-      column name={Kontext \textit{(L, R)}},
-      column type={|l},
+      column name={},
+      column type={l},
       string replace={accp}{$Acc_{p}\ [\%]$}
     },
-    columns/0/.style={column name={(0, 0)}, column type={|r}},
-    columns/1/.style={column name={(1, 1)}, column type={|r}},
-    columns/2/.style={column name={(2, 2)}, column type={|r}},
-    columns/3/.style={column name={(3, 3)}, column type={|r}},
-    columns/4/.style={column name={(4, 4)}, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/0/.style={column name={(0, 0)}, column type={r}},
+    columns/1/.style={column name={(1, 1)}, column type={r}},
+    columns/2/.style={column name={(2, 2)}, column type={r}},
+    columns/3/.style={column name={(3, 3)}, column type={r}},
+    columns/4/.style={column name={(4, 4)}, column type={r}},
+    every head row/.style={
+      before row={\toprule & \multicolumn{5}{c}{Kontext \textit{(L, R)}} \\},
+      after row={
+        % \cmidrule(r){1-1}
+        \cmidrule{2-6}
+        % \midrule
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch6-realisation/tabs/03-context.csv}
   \caption{Porovnání vlivu velikosti symetrického kontextu.}
   \label{tab:realisation:duration:context:symetric}
@@ -168,19 +178,24 @@ Posledním hyperparametrem, který může mít vliv na přesnost modelu je velik
     col sep=semicolon,
     string type,
     columns/context/.style={
-      column name={Kontext \textit{(L, R)}},
-      column type={|l},
+      column name={},
+      column type={l},
       string replace={accp}{$Acc_{p}\ [\%]$}
     },
-    columns/5/.style={column name={(5, 1)}, column type={|r}},
-    columns/4/.style={column name={(4, 2)}, column type={|r}},
-    columns/3/.style={column name={(3, 3)}, column type={|r}},
-    columns/2/.style={column name={(2, 4)}, column type={|r}},
-    columns/1/.style={column name={(1, 5)}, column type={|r|}},
-    every head row/.style={before row={
-      \hline
-    },after row=\hline},
-    every last row/.style={after row=\hline},
+    columns/5/.style={column name={(5, 1)}, column type={r}},
+    columns/4/.style={column name={(4, 2)}, column type={r}},
+    columns/3/.style={column name={(3, 3)}, column type={r}},
+    columns/2/.style={column name={(2, 4)}, column type={r}},
+    columns/1/.style={column name={(1, 5)}, column type={r}},
+    every head row/.style={
+      before row={\toprule & \multicolumn{5}{c}{Kontext \textit{(L, R)}} \\},
+      after row={
+        % \cmidrule(r){1-1}
+        \cmidrule{2-6}
+        % \midrule
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
   ]{./ch6-realisation/tabs/04-context.csv}
   \caption{Vliv levého a pravého kontextu v případě, že celková délka $L + R = 6$.}
   \label{tab:realisation:duration:context:asymetric}
@@ -191,3 +206,36 @@ Nejlepšího výsledku tedy dosahuje model mající $D = 189$, $2$ skryté vrstv
 
 \subsection{Aktualizace výsledků porovnání}
 \label{chap:realisation:duration:comparison}
+
+V části \ref{chap:realisation:listening} a \ref{chap:realisation:augmentation:comparison} jsou prezentovány výsledky srovnání schopností člověka a stroje. V případě člověka jsou zdrojem dva poslechové testy, které prověřily schopnost posluchače nejprve určit význam izolovaných slov a následně od sebe rozeznat dvě akusticky velmi podobná slova. V případě stroje jsou použity celkem $3$ ASR experimenty \uv{onemil}, \uv{reduced} a \uv{bigrams}. V tab. \ref{tab:realisation:duration:comparison} jsou pak předchozí výsledky doplněny o hodnoty dosažené duration modelem jehož parametry odpovídají nejlepšímu modelu z předchozí části \ref{chap:realisation:durationmodels:nn:softmax}.
+
+Stejně jako v předchozích experimentech je u \uv{onemil} experimentu použit zerogramový jazykový model s 1 milionem slov, \uv{reduced} obsahuje pouze slova obsažená v poslechovém testu. V případě \uv{bigrams} je pro každou položku generován speciální LM obsahující 4 kombinace slov. Použití duration modelu nepřineslo významné zlepšení výsledků \textit{augmented} modelu. Tento výsledek, ale není překvapivý, protože \textit{augmented} model dosahuje teoreticky maximálních možných hodnot. Největšího zlepšení dosáhl duration model v případě \uv{onemil} experimentu. Zde došlo ke zlepšení o $1,42\ \%$ absolutně, což je o $10,42\ \%$ relativně. Rozhodně se jedná významné zlepšení.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/type/.style={column name=, column type={l}},
+    columns/onemil/.style={column name=onemil, column type={r}},
+    columns/reduced/.style={column name=reduced, column type={r}},
+    columns/bigrams/.style={column name=bigrams, column type={r}},
+    every head row/.style={
+      after row={
+        % \cmidrule(lr){1-1}
+        % \cmidrule(lr){2-4}
+        \midrule
+      },
+      before row={\toprule & \multicolumn{3}{c}{$Acc_{p}\ [\%]$} \\}
+    },
+    every last row/.style={
+      after row={\bottomrule},
+      before row={\midrule}
+    },
+  ]{./ch6-realisation/tabs/05-comparison.csv}
+  \caption{Aktualizované porovnání dosažených výsledků člověka a stroje.}
+  \label{tab:realisation:duration:comparison}
+\end{table}
+
+Použití reskóringu pomocí duration modelu ještě zlepšuje výsledky TDNN modelu natrénovaného na protažených datech. Oba modely navíc dokáží pracovat i s řečníkem reálně protaženými daty, což umožňuje i reálné těchto použití modelů. Hlavním nedostatkem aktuální implementace reskóringu pomocí duratin modelu spočívá v tom, že se jedná o offline přístup. Promluvy jsou nejprve zpracována pomocí TDNN modelu a až následně jsou kompletní výstupy modelu reskórovány pomocí duration modelu. Změna modelu a principu reskórování tak, aby byl schopen pracovat i v online režimu je otázkou budoucího výzkumu, ale principiálně tomu nic nebrání.
