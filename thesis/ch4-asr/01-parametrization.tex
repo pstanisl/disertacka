@@ -1,5 +1,5 @@
 % !TEX root = ../thesis.tex
-\section{Získání sekvence pozorování}
+\section{Parametrizace řečového signálu}
 \label{chap:asr:parametrization}
 
 Jako v mnoha jiných odvětvích, tak i při rozpoznávání řeči je v mnoha případech inspirací člověk. Pro získání sekvence pozorování (příznaků) vycházíme z \textbf{modelování produkce řeči} a \textbf{modelování procesu slyšení}, které se inspirují právě člověkem.
@@ -15,7 +15,7 @@ Cílem modelování produkce řeči je nalezení matematických vztahů, které 
   \item \textit{explozivy} (např. $/b/$, $/p/$ ap.) - také nazývané jako souhlásky výbuchové, se tvoří úplnýn uzavřením vydechovaného proudu vzduchu pomocí artikulačních orgánů. To se následně projeví jako krázká pauza (tzv. okluze), po které následuje náhlé jednorázové uvolnění a únik nahromaděného vzduchu, tzv. exploze \cite{Psutka2006};
 \end{itemize}
 
-Snahou modelování je navržení modelu hlasového traktu, který bude dobře popisovat výše popsané zvuky. Nesmí se všask zapomenout na možnou složitost a přesnost modelu, jako ideální by byl linéárně časově invariantní model. Bohužel lidská řeč představuje kontinuální časově variantní a v některých situacích dokonce nelineární proces, takže je téměř nemožné jej přesně namodelovat. Pokud se včask udělají určité rozumné předpoklady, tak možné navrhnout lineární časově invariantní model řeči platný pro krátké časové úseky. Jinými slovy, předpokladem je, že v tomto krátkém časovém zůstává buzení a parametry hlasivkového traktu přibližně konstantní. Tento předpoklad přibližně platí pro intervaly $10$ až $30\ ms$. Odtud také vychází uvažovaná perioda segmntů řeči, viz úvod této kapitoly. Za těchto okolností je možné proces vytváření řeči modelovat pomocí tzv. \textbf{krátkodobého modelu}, který má v krátkých časových intervalech pevné parametry \cite{Holmes2001}.
+Snahou modelování je navržení modelu hlasového traktu, který bude dobře popisovat výše popsané zvuky. Nesmí se však zapomenout na možnou přílišnou složitost a nedostatečnou přesnost modelu. Jako ideální se může jevit lineárně časově invariantní model. Bohužel lidská řeč je zástupcem kontinuálního časově variantní a v některých situacích dokonce nelineárního proces, takže je téměř nemožné jej přesně namodelovat. Pokud se však, za určitého předpokladu, provedou určitá zjednodušení, tak je možné navrhnout lineární časově invariantní model řeči, který je platný pro krátké časové úseky. Jinými slovy, tímto předpokladem je, že v konkrétním krátkém časovém úseku zůstává buzení a parametry hlasivkového traktu přibližně konstantní. Tuto podmínka lze považovat za platnou pro intervaly od $10$ do $30\ ms$. Odtud také vychází uvažovaná perioda segmentů řeči, viz úvod této kapitoly. Pro tyto segmenty je pak možné proces vytváření řeči modelovat pomocí tzv. \textbf{krátkodobého modelu}, který má v krátkých časových intervalech pevné parametry. \cite{Holmes2001}
 
 \begin{figure}[hbpt]
   \centering
@@ -24,7 +24,7 @@ Snahou modelování je navržení modelu hlasového traktu, který bude dobře p
   \label{fig:asr:model:speech}
 \end{figure}
 
-Pro odvození obecného diskrétního modelu hlasovkového traktu se vychází ze zjednodušeného modelu produkce řeči (obr. \ref{fig:asr:model:speech}). Ten je tvořen modelem hlasivek, modelem hlasivkového traktu a modelem vyzařovaného zvuku, které jsou seriově řazeny. K odvození a popisu vlastností modelu se využívá výhod z-transformace \cite{Psutka2006}. Po zjednodušení je krátkodobý model produkce řeči aproximovat celopólovým modelem (filtrem) $H(z)$ ve tvaru
+Pro odvození obecného diskrétního modelu hlasivkového traktu se vychází ze zjednodušeného modelu produkce řeči (obr. \ref{fig:asr:model:speech}). Ten je tvořen modelem hlasivek, modelem hlasivkového traktu a modelem vyzařovaného zvuku, které jsou seriově řazeny. K odvození a popisu vlastností modelu se využívá výhod z-transformace \cite{Psutka2006}. Po zjednodušení je krátkodobý model produkce řeči aproximovat celopólovým modelem (filtrem) $H(z)$ ve tvaru
 
 \begin{equation}
   H(z) = \frac{G}{1 + \sum_{i = 1}^{Q} a_{i} z^{-i}} = \frac{S(z)}{U(z)},
@@ -47,15 +47,15 @@ K odhadu parametrů $a_i$ slouží \textbf{lineární prediktivní analýza}. Od
   \label{eq:asr:lpc:generic:edited}
 \end{equation}
 
-\noindent Z něj je atrné, že se LPC snaží parametry modelu $a_i$ a zesílení $G$ odhadnout pomocí známe reálně naměřené posloupnosti $s(k)$. K vyřešení se používá principu minimalizace kvadratické chyby krátkodobé energie signálu. Ta je v časové oblasti popsána vztahem
+\noindent Z něj je patrné, že se LPC snaží parametry modelu $a_i$ a zesílení $G$ odhadnout pomocí známe reálně naměřené posloupnosti $s(k)$. K vyřešení se používá principu minimalizace kvadratické chyby krátkodobé energie signálu. Ta je v časové oblasti popsána vztahem
 
 \begin{equation}
   E = \sum_{k} e^2(k) = \sum_{k} \left[ s(k) - s'(k)\right]^2 = \sum_{k} \left( s(k) + \sum_{i = 1}^{Q} a_i s(k-1) + Gu(k) \right),
 \end{equation}
 
-\noindent kde $s(k)$ jsou vzorky reálného řečového signálu a $s'(k)$ jsou ty predikováné LPC filtrem. K získání řešení krátkodobé chyby predikce $E$, pro konkrétní analyzovaný segment, je použita metoda nejmenších čtverců. K výpočtu konkrétních koeficientů modelu $a_i$ je možné použít rekurzivního Durbinova algoritmu \cite{Holmes2001}.
+\noindent kde $s(k)$ jsou vzorky reálného řečového signálu a $s'(k)$ jsou ty predikováné LPC filtrem. K získání řešení krátkodobé chyby predikce $E$, pro konkrétní analyzovaný segment, je použita metoda nejmenších čtverců. K výpočtu konkrétních koeficientů modelu $a_i$ je možné použít rekurzivního Durbinova algoritmu. \cite{Holmes2001}
 
-Další možností jak popsat hlasový trakt je pomocí \textbf{kepstrálních koeficientů lineární predikce}. Kepstrum je definováno jako inverzní diskrétní Fourierova transformace (IDFT) logaritmu velikosti transformovaného vstupního signálu pomocí diskretní Fourierovy transformace (DFT), matematicky popsáno vzhaem
+Další možností jak popsat hlasový trakt je pomocí \textbf{kepstrálních koeficientů lineární predikce}. Kepstrum je definováno jako inverzní diskrétní Fourierova transformace (IDFT) logaritmu velikosti transformovaného vstupního signálu pomocí diskretní Fourierovy transformace (DFT), matematicky popsáno vztahem
 
 \begin{equation}
   c(k) = \mathcal{F}^{-1}\left\{\log\left| \mathcal{F}\left\{s(k)\right\} \right|\right\},
@@ -71,7 +71,7 @@ Další možností jak popsat hlasový trakt je pomocí \textbf{kepstrálních k
   \label{fig:asr:model:speech:cepstrum}
 \end{figure}
 
-Pro získání kepstrálních koeficientů linearní predikce loagritmujeme rovnici (\ref{eq:asr:lpc:generic}) čímž vznikne vztah
+Pro získání kepstrálních koeficientů linearní predikce logaritmujeme rovnici (\ref{eq:asr:lpc:generic}) čímž vznikne vztah
 
 \begin{equation}
   \log H(z) = \log \left( \frac{G}{A(z)} \right).
@@ -113,13 +113,13 @@ Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegment
 \subsection{Modelování procesu slyšení}
 \label{chap:asr:parametrization:hearing}
 
-Medelování procesu slyšení usilují o kompenzaci nelineárního vnímání frekvencí lidským sluchem. Dále pak i o respektování maskování zvuků včetně tzv. kritických pásem slyšení, což je přirozená vlastnost lidského sluchu. Maskováním se rozumí jev, kdy vnímání jednoho zvuku je ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přitomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s určitým časovým odstupem. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje věškerý šum ležící mimo určité kriticé pásmo. Šířka takového kritického pásma je přitom závislá na frekvenci poslouchaného tónu.
+Medelování procesu slyšení usiluje o kompenzaci nelineárního vnímání frekvencí lidským sluchem. Dále pak i o respektování maskování zvuků včetně tzv. kritických pásem slyšení, což je přirozená vlastnost lidského sluchu. Maskováním se rozumí jev, kdy vnímání jednoho zvuku je ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přitomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s určitým časovým odstupem. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje věškerý šum ležící mimo určité kriticé pásmo. Šířka takového kritického pásma je přitom závislá na frekvenci poslouchaného tónu.
 
 Typickým příkladem metod modelující proces slyšení jsou \textbf{melovská kepstrální filtrace} a \textbf{perceptivní lineární prediktivní analýza}.
 
 \subsubsection{Melovské kepstrální koeficienty}
 
-Metoda melovských frekvenčních kepstrálních koeficientů (MFCC) se snaží respoktovat výše zmíněné vlastnosti lidského sluchu. Zejména o dodržení kritických pásem slyšení a dále vlivu subjektivního vnímání výšky tónů.
+Metoda melovských frekvenčních kepstrálních koeficientů (MFCC) se snaží respektovat výše zmíněné vlastnosti lidského sluchu. Zejména o dodržení kritických pásem slyšení a dále vlivu subjektivního vnímání výšky tónů.
 
 Základem MFCC je využití banky filtrů a lineárním rozložením frekvencí v tzv. \textbf{melovské frekvenční škále} definované vztahem
 
@@ -128,7 +128,7 @@ Základem MFCC je využití banky filtrů a lineárním rozložením frekvencí 
   \label{eq:asr:mfcc:melscale}
 \end{equation}
 
-\noindent kde $f \left[Hz\right]$ je frekvence v lineární škále a $f_m \left[mel\right]$ je odpovídající frekvence v melovské škáleě. Melovský filtr má trojúhelníkový tvar. Banka obsahuje filtry rozmístěné lineárně v melovských frekvenčních souřanicích, a to tak, že dva sousední filtry se navzájem o polovinu překrývají. Pro střední frekvence jednotlivých filtrů $b_{m,i}$ platí v melovské škále vztah
+\noindent kde $f \left[Hz\right]$ je frekvence v lineární škále a $f_m \left[mel\right]$ je odpovídající frekvence v melovské stupnice. Melovský filtr má trojúhelníkový tvar. Banka obsahuje filtry rozmístěné lineárně v melovských frekvenčních souřanicích, a to tak, že dva sousední filtry se navzájem o polovinu překrývají. Pro střední frekvence jednotlivých filtrů $b_{m,i}$ platí v melovské škále vztah
 
 \begin{equation}
   b_{m,i} = b_{m,i-1} + \Delta_{m},
@@ -151,7 +151,7 @@ Základem MFCC je využití banky filtrů a lineárním rozložením frekvencí 
   \label{eq:asr:mfcc:melscale:inverse}
 \end{equation}
 
-\noindent Střední frekvence $b_i,\ i=1,2,\ \dots\ , M^{*}+1$ jsou vyjádřené v jednozce $[Hz]$. Filtry jsou rozmístěny nelineárně viz obr. \ref{fig:asr:mfcc:bank:hz}.
+\noindent Střední frekvence $b_i,\ i=1,2,\ \dots\ , M^{*}+1$ jsou vyjádřené v jednotce $[Hz]$. Filtry jsou rozmístěny nelineárně viz obr. \ref{fig:asr:mfcc:bank:hz}.
 
 \begin{figure}[hbpt]
   \centering
@@ -167,7 +167,7 @@ Při výpočtu melovských kepstrálních koeficientů jsou na vstup systému p�
   \label{eq:asr:mfcc:freq:responce}
 \end{equation}
 
-\noindent kde frekvence $f$ jsou vybírány ze souboru frekvencí využívaných při FFT výpočtu a $u(f, i)$ je vyjádření konkrétního troúhelníkového filtru $i$. Průchod filtrem tedy znamená, že každý koeficient FFt je násoben odpovídajícím ziskem filtru a výsledky jsou pro příslušné filtry akumulovány. Logaritomováním akumulovaných koeficientů $y_{m}(i)$ se provede převod do kepstrální oblasti. Tento krok příznivě omezí dynamiku signálu \cite{Benesty2007}.
+\noindent kde frekvence $f$ jsou vybírány ze souboru frekvencí využívaných při FFT výpočtu a $u(f, i)$ je vyjádření konkrétního troúhelníkového filtru $i$. Průchod filtrem tedy znamená, že každý koeficient FFT je násoben odpovídajícím ziskem filtru a výsledky jsou pro příslušné filtry akumulovány. Logaritomováním akumulovaných koeficientů $y_{m}(i)$ se provede převod do kepstrální oblasti. Tento krok příznivě omezí dynamiku signálu \cite{Benesty2007}.
 
 Posledním krokem při výpočtu melovských kepstrálních koeficientů $\left\{c_m\left(j\right)\right\}_{j=1}^{M}$ je provedení IDFT (viz (\ref{eq:asr:lpc:cepstrum:generic})). V případě MFCC se, ale používá diskrétní kosinova transformace (DCT), protože spektrum je reálné a symetrické. K výpočtu slouží vztah
 
@@ -189,7 +189,7 @@ Prvním krokem PLP analýzy je \textbf{výpočet výkonového spektra řečovéh
   \label{eq:asr:plp:spectr}
 \end{equation}
 
-\noindent Poté následuje kompenzace nelináhorního vnímání změn ve výšce zvuku. Vnímjmání je logaritmické, proto je nutné provést nelineární transformaci frekvenční osy pomocí vzorce
+\noindent Poté následuje kompenzace nelineáhorního vnímání změn ve výšce zvuku. Vnímání je logaritmické, proto je nutné provést nelineární transformaci frekvenční osy pomocí vzorce
 
 \begin{equation}
   \Omega\left(\omega\right) = 6 \ln \left( \frac{\omega}{1200\pi} + \sqrt{\left(\frac{\omega}{1200\pi}\right)^2 + 1} \right),
@@ -198,11 +198,11 @@ Prvním krokem PLP analýzy je \textbf{výpočet výkonového spektra řečovéh
 
 \noindent kde $\omega = 2\pi f\ \left[rad/s\right]$ a $\Omega\left(\omega\right)\ \left[bark\right]$.
 
-Zahrnutí kritických pásem slyšení (tzv. maskování zvuku) je realizováno navržením vhodného filtru typu pásmová propust šířky jednoho kritického pásma. Stejně jako v případě MFCC se jedná o banku filtrů, kde na sebe jednotlivé filtry ve frekvenční oblasti navazují. Na Barkově frekvenční ose (viz (\ref{eq:asr:plp:transform})) mají všechny filtry šířku $1$ a jsou lineárně rozmístěny. Na obr. \ref{fig:asr:plp:filter} je zobrazen průběh jednoho takového filtru. Filter má strmost $+20\ dB/Bark$ směrem k nížsím frekvencím a $-50\ dB/Bark$ sněren k vyšším frekvencím.
+Zahrnutí kritických pásem slyšení (tzv. maskování zvuku) je realizováno navržením vhodného filtru typu pásmová propust šířky jednoho kritického pásma. Stejně jako v případě MFCC se jedná o banku filtrů, kde na sebe jednotlivé filtry ve frekvenční oblasti navazují. Na Barkově frekvenční ose (viz (\ref{eq:asr:plp:transform})) mají všechny filtry šířku $1$ a jsou lineárně rozmístěny. Na obr. \ref{fig:asr:plp:filter} je zobrazen průběh jednoho takového filtru. Filtr má strmost $+20\ dB/Bark$ směrem k nížsím frekvencím a $-50\ dB/Bark$ sněren k vyšším frekvencím.
 
 \begin{figure}[hbpt]
   \centering
-  \includegraphics[width=0.9\textwidth]{./ch4-asr/img/plp_filter.pdf}
+  \includegraphics[width=0.5\textwidth]{./ch4-asr/img/plp_filter.pdf}
   \caption{Ukázka filtru umístného na Barkově frekvenční ose}
   \label{fig:asr:plp:filter}
 \end{figure}
@@ -223,7 +223,7 @@ Jelikož člověk vnímá intenzitu zvuku v závislosti na frekvenci, tak je pot
   \label{eq:asr:plp:filter}
 \end{equation}
 
-\noindent kde $\omega = 2\pi f$ a $K$ je konstanta nastavená podle požadovaného zesílení. Přizpůsovnení křivce stejné hlasitosti je pak možné například přenásobením celého výkonového spektra mikrosegmentů podle vztahu
+\noindent kde $\omega = 2\pi f$ a $K$ je konstanta nastavená podle požadovaného zesílení. Přizpůsobení křivce stejné hlasitosti je pak možné například přenásobením celého výkonového spektra mikrosegmentů podle vztahu
 
 \begin{equation}
   P'\left(\omega\right) = E\left(\omega\right)P\left(\omega\right),
@@ -271,7 +271,7 @@ Finálním krokem je \textbf{aproximace celopólového modelu}. Ta vychází z v
   \label{eq:asr:plp:error:transform}
 \end{equation}
 
-\noindent kde $A\left(z\right)$ je inverzní filtr a $E\left(z\right)$ a $S\left(z\right)$ jsou z-transformace $e\left(k\right)$ a $s\left(k\right)$. Celkovou chynu predikce je pak možné vyjádřit vztahem
+\noindent kde $A\left(z\right)$ je inverzní filtr a $E\left(z\right)$ a $S\left(z\right)$ jsou z-transformace $e\left(k\right)$ a $s\left(k\right)$. Celkovou chybu predikce je pak možné vyjádřit vztahem
 
 \begin{equation}
   E\left(z\right) = \frac{1}{2\pi} \int_{-\pi}^{\pi} P\left(\omega\right) A\left(e^{j\omega}\right) A\left(e^{-j\omega}\right)d\omega,
@@ -285,7 +285,7 @@ Finálním krokem je \textbf{aproximace celopólového modelu}. Ta vychází z v
   \label{eq:asr:plp:error:solution}
 \end{equation}
 
-\noindent kde $i = 0,\ \dots\ Q$ a $Q$ je řád autoregresního modelu,a $N$ je počet bodů spektrální charakteristiky. Frekvence $\omega_n$ jsou ty, pro které jsou známé spektrální hodnoty. Pro dobrou aproximaci se volí $Q = 5$.
+\noindent kde $i = 0,\ \dots\ Q$ a $Q$ je řád autoregresního modelu, a $N$ je počet bodů spektrální charakteristiky. Frekvence $\omega_n$ jsou ty, pro které jsou známé spektrální hodnoty. Pro dobrou aproximaci se volí $Q = 5$.
 
 \textbf{Výpočet kepstrálních koeficientů PLP} lze pak pro známé hodnoty $R\left(i\right)$, podobně jako u LPC, určit  Durbinovým algoritmem. Nalezené koeficienty lze již využít jako příznaky při návrhu parametrizátoru řeči, ale častěji se používají kepstrální koeficienty PLP. \cite{Holmes2001}
 
