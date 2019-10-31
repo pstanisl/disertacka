@@ -13,7 +13,7 @@ Jako nejjednodušší možnost augmentace se jeví protežení určitých foném
 a tím pádem vyšší přesnosti rozpoznání.
 %Teorie je jedna věc, ale praxe je věc druhá.
 
-K ověření jsou potřeba data. Bohužel získání reálných dat je zdlouhavý proces (viz \ref{chap:construction:corpus} a \ref{chap:realisation:corpus}), navíc není zřejmé jestli se vůbec vyplatí je pořizovat, protože se jedná o hypotézu. Mnohem prozaičtěji se jeví možnost uměle data protáhnout v místech výskytu zajmových fonémů. Toto protažení je teoreticky možné realizovat dvěma způsoby:
+K ověření jsou potřeba data. Bohužel získání reálných dat je zdlouhavý proces (viz \ref{chap:construction:corpus} a \ref{chap:realisation:corpus}), navíc není zřejmé jestli se vůbec vyplatí je pořizovat, protože se jedná o hypotézu. Mnohem prozaičtěji se jeví možnost uměle data protáhnout v místech výskytu zájmových fonémů. Toto protažení je teoreticky možné realizovat dvěma způsoby:
 
 \begin{enumerate}
   \item protažení na příznacích
@@ -29,7 +29,7 @@ K ověření jsou potřeba data. Bohužel získání reálných dat je zdlouhav�
   \item natrénování nového akustického modelu na protažených datech.
 \end{enumerate}
 
-\noindent Nový model může být otestován a výsledky porovnány s těmi dosavadními. Tyto modely navíc pomohou určit vhodné parametry pro případné skutečné protažení dat.
+\noindent Nový model může být otestován a výsledky porovnány s těmi dosavadními. Tyto experimenty navíc pomohou určit vhodné parametry pro případné skutečné protažení dat.
 
 %V následujícím textu je nejprve v části \ref{chap:realisation:augmentation:features} popsáno jakým způsobem je realizováno protažení na příznacích a následně je vytvořena sada modelů, která je otestována. V části \ref{chap:realisation:augmentation:audio} je stejným způsobem popsáno protažení na audio nahrávkách, ze kterých jsou natrénovány a otestovány modely.
 
@@ -39,7 +39,7 @@ K ověření jsou potřeba data. Bohužel získání reálných dat je zdlouhav�
 Protažení na příznacích vychází z představy, že při protažení (např. fonému) a následné parametrizaci, budou v inkriminovaných mikrosegmentech po sobě následovat velmi podbné příznakové vektory.
 %po sobě protažen, tak po parametrizaci, oproti neprotaženémé promluve, po sobě následují velmi podobné příznakové vektory.
 %Tzn. změna příznakových vektorů není tak markatní.
-Teoreticky, v krajním případě, by mohlo dojít i k tomu, že část ptěchto příznakových vektorů je idenckých. Pokud je tedy cílem zjistit, zda protožení může pomoci při rozpoznávání EL řeči, tak je možné (teoreticky) docílit protažení zkopírováním určitých příznakových vektorů
+Teoreticky, v krajním případě, by mohlo dojít i k tomu, že část těchto příznakových vektorů je idenckých. Pokud je tedy cílem zjistit, zda protažení může pomoci při rozpoznávání EL řeči, tak je možné (teoreticky) docílit protažení zkopírováním určitých příznakových vektorů.
 %a tím docílit \uv{protažení}.
 Lépe je tato myšlenka ilustrována obr. \ref{fig:realisation:augmentation:features}. Nejprve je nahrávka standardně zparametrizována. Barevně jsou vyznačeny případné vektory odpovídající zájmovému úseku (tedy fonému). Konrétní hranice jsou získány ze zarovnání. Tyto vektory jsou pak zduplikovány a tím je \uv{dosaženo} dvojnásobného protažení.
 
@@ -58,7 +58,7 @@ Prvním bodem výše zmíněného algoritmu je získání standardního modelu, 
 
 Jako prvotní ověřovací experiment je zvoleno dvojnásoné protažení fonému $/s/$. Jinými slovy, všechny vektory odpovídající $/s/$ jsou zduplikovány. Následně je standardním způsobem natrénován HMM-DNN model. Neuronová síť má $5$ skrytých vrstev s $4096$. Výstupní vrstva je typu softmax. Otestování je jako v předchozích případech realizováno na testovací sadě s fonémovým zerogramovým jazykovým modelem, aby byl minimalizován vliv LM. Tento nový model dosáhl přesnosti $85,11\ \%$, což je malé zlepšení oproti baseline HMM-DNN modelu.
 
-Protažení $/s/$ posloužilo k ověření procesu vytváření modelu. Další experiment je realizován na protažených fonémech $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$, což představuje většinu neznělých zájmových fonémů. Zarovnání je identické jako u předchozího experimentu. Opět je uvažováno dvojnásobné protažení. Všechny vektory inkriminovaných fonémů jsou zduplikovány. Znovu je natrénován HMM-DNN model se stejnámi parametry. Model je otestován s fonémovým zerogramovým jazykovým modelem. Přesnost na testovací sadě dosáhla hodnoty $87,50\ \%$, což lze považovat za významné zlepšení.
+Protažení $/s/$ posloužilo k ověření procesu vytváření modelu. Další experiment je realizován na protažených fonémech $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$, což představuje většinu neznělých zájmových fonémů. Zarovnání je identické jako u předchozího experimentu. Opět je uvažováno dvojnásobné protažení. Všechny vektory inkriminovaných fonémů jsou zduplikovány. Znovu je natrénován HMM-DNN model se stejnými parametry. Model je otestován s fonémovým zerogramovým jazykovým modelem. Přesnost na testovací sadě dosáhla hodnoty $87,50\ \%$, což lze považovat za významné zlepšení.
 
 Doposud se uvažovalo pouze dvojnásobné protažení, v další fázi je tedy potřeba oveřit jestli jiné hodnoty nemohou poskytnout lepší výsledek. Celkem je uvožované $3x$, $4x$ a $5x$ protažení. Protaženy jsou fonémy $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$. Proces natrénování a otestování modelu je stejný jako v předchozích případech. Dosažené výsledky jsou pak v tab. \ref{tab:realisation:augmentation:influence}. Pro úplnost je tabulka doplněna o baseline model s $1x$ protažením a již prezentované $2x$ protažení. Z výsledků je patrný jasný trend, větší než $2x$ protažení vede ke zhoršení přesnosti. Optimální hodnota protažení tak teoreticky leží někde v intervalu $\left(1,\ 3\right)x$. Bohužel s protahovaním pomocí kopírování příznakových vektorů není možné přesné určení hodnoty.
 
@@ -113,22 +113,22 @@ Zbylé dva uvažované přístupy umožňují sofistikovanější úpravy signá
 
 Fázový vokodér pracuje na podobném principu, s tím rozdílem, že v analytické části dochází k převodu signálu do frekveční oblasti pomocí FFT. Ve fázi zpracování je signál upraven, aby ve fázi syntézy byl opět převeden do časové oblasti pomocí inverzní FFT.
 
-Pomocí těchto dvou zmíněných metod je možné upravit nejen délku, ale i $F_0$ signálu. Stejně jako u převzorkování mají neblahý vliv na signál, ale ten není tak markantní jako v případě převzorkování. U \textit{TD-PSOLA} mohou například vznikat artefakty způsobnené nespojitostmi mezi sousedními upravenými úseky řeči. U fázového vokodér nevznikají artefakty vlivem nespojitostí, ale vlivem fázového posunu.
+Pomocí těchto dvou zmíněných metod je možné upravit nejen délku, ale i $F_0$ signálu. Stejně jako u převzorkování mají neblahý vliv na signál, ale ten není tak markantní jako v případě převzorkování. U \textit{TD-PSOLA} mohou například vznikat artefakty způsobené nespojitostmi mezi sousedními upravenými úseky řeči. U fázového vokodéru nevznikají artefakty vlivem nespojitostí, ale vlivem fázového posunu.
 
 %Jelikož se signál upravuje ve frekveční oblasti, kde dochází ke změnám jednotlivých komponent, může dojít k fázovému posunu mezi jednotlivými komponentami. Při syntéze pak mohou vznikat zaznamenatelné artefakty připomínající tupý zvuk.
 
-Obě metody však poskytují velmi dobré výsledky protažená na jednotlivých fonémech. Výsledné protažení je téměř identické. Interně vyvinutý nástroj umožňující ovlivnění délky řeči (a priory používaný při syntéze řeči) poskytuje obě zmíněné metody. Pro výsledné protažení je použita metoda \textit{TD-PSOLA}. Ukázka původního a protaženého slova \uv{kosa} je na obr. \ref{fig:realisation:augmentation:compare}. Protahován byl foném $/s/$, který je v signálu vidět jako šum mezi dvěmi výraznými častmi signálu. Inkriminovaný foném byl protažen na dvojnásobek. Na obr. \ref{fig:realisation:augmentation:compare:augmented} je pak zřetelně vidět protažení úseku odpovídající $/s/$. V signálu a ve spektru není vidět žádný významný artefakt.
+Obě metody však poskytují velmi dobré výsledky protažení na jednotlivých fonémech. Výsledné protažení je téměř identické. Interně vyvinutý nástroj umožňující ovlivnění délky řeči (a priory používaný při syntéze řeči) poskytuje obě zmíněné metody. Pro výsledné protažení je použita metoda \textit{TD-PSOLA}. Ukázka původního a protaženého slova \uv{kosa} je na obr. \ref{fig:realisation:augmentation:compare}. Protahován byl foném $/s/$, který je v signálu vidět jako šum mezi dvěmi výraznými častmi signálu. Inkriminovaný foném byl protažen na dvojnásobek. Na obr. \ref{fig:realisation:augmentation:compare:augmented} je pak zřetelně vidět protažení úseku odpovídající $/s/$. V signálu a ve spektru není vidět žádný významný artefakt.
 
 \begin{figure}[htpb]
   \centering
   \begin{subfigure}[b]{0.42\textwidth}
-    \includegraphics[width=\textwidth]{./ch5-construction/img/energy_spec_word-normal.png}
+    \includegraphics[width=\textwidth]{./ch6-realisation/img/energy_spec_word-kosa.png}
     \caption{Originální}
     \label{fig:realisation:augmentation:compare:original}
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.42\textwidth}
-    \includegraphics[width=\textwidth]{./ch5-construction/img/energy_spec_word-augmented.png}
+    \includegraphics[width=\textwidth]{./ch6-realisation/img/energy_spec_word-kosa_real.png}
     \caption{Protažené}
     \label{fig:realisation:augmentation:compare:augmented}
   \end{subfigure}
@@ -176,13 +176,13 @@ Při analýze výsledků se ukázalo, že zarovnání v mnoha případech není 
 \begin{figure}[htpb]
   \centering
   \begin{subfigure}[b]{0.26\textwidth}
-    \includegraphics[width=\textwidth]{./ch5-construction/img/alignment_text.pdf}
+    \includegraphics[width=\textwidth]{./ch6-realisation/img/alignment_text.pdf}
     \caption{Zarovnání}
     \label{fig:realisation:augmentation:alignemnt:wrong:text}
   \end{subfigure}
   %
-  \begin{subfigure}[b]{0.55\textwidth}
-    \includegraphics[width=\textwidth]{./ch5-construction/img/energy_spec_word-segment.png}
+  \begin{subfigure}[b]{0.65\textwidth}
+    \includegraphics[width=\textwidth]{./ch6-realisation/img/energy_spec_word-segment.png}
     \caption{V signálu}
     \label{fig:realisation:augmentation:alignemnt:wrong:audio}
   \end{subfigure}
@@ -204,26 +204,26 @@ V době experimentů s protažením konkrétních fonémů se začaly stále ví
 %   \label{fig:experiments:augmentation:tdnn}
 % \end{figure}
 
-Stejně jako u DNN moelu je na počátku trénování nutné mít k dispozici zarovnání. To, ale nemusí být naprosto přesné, protože je vstupní vektor zpracováván jiným způsobem než u DNN. Díky FIR filtraci a více množin vah je brán v potaz i dynamický charakter řeči \cite{Peddinti2015}. Model založený na TDNN by tak měl generovat přesnější zarovnání a tím zlepšit výsledky modelu pracující s uměle protaženými daty.
+Stejně jako u DNN modelu je na počátku trénování nutné mít k dispozici zarovnání. To, ale nemusí být naprosto přesné, protože je vstupní vektor zpracováván jiným způsobem než u DNN. Díky FIR filtraci a více množin vah je brán v potaz i dynamický charakter řeči \cite{Peddinti2015}. Model založený na TDNN by tak měl generovat přesnější zarovnání a tím zlepšit výsledky modelu pracující s uměle protaženými daty.
 
 Jako startovní bod trénování je použito DNN zarovnání z předchozího experimentu. Topologie sítě vychází z hodnot prezentovaných v \cite{Peddinti2015}, tedy síť má $4$ skryté vrstvy. Každá vrstva má 650 neuronů. První vrstav pracuje s kontextem $t-2$ a $t+2$, druhá vrstva s $t-1$ a $t+2$, třetí vrstva s $t-3$ a $t+4$ a čtvrtá s $t-7$ a $t+2$. Výpočet výstupu pak bere v potaz kontext $t-13$ a $t+9$ mikrosegmentů, viz \cite{Peddinti2015}.
 
 %Ukázka zarovnání získané touto sítí je zobrazena na obr. \ref{fig:realisation:augmentation:alignemnt:correct}.
 
-Na obr. \ref{fig:realisation:augmentation:alignemnt:correct} je zonrazeno získané zarovnání slova \uv{kosa} TDNN modelem. Z vyznačených hranic fonému $/s/$ (obr. \ref{fig:realisation:augmentation:alignemnt:correct:audio}) je patrné v podstatě přesné zarovnání. Přesnost TDNN modelu s fonémovým zerogramovým jazykovým modelem dosáhla hodnoty $Acc_{p}= 85,41\ \%$.
+Na obr. \ref{fig:realisation:augmentation:alignemnt:correct} je zobrazeno získané zarovnání slova \uv{kosa} TDNN modelem. Z vyznačených hranic fonému $/s/$ (obr. \ref{fig:realisation:augmentation:alignemnt:correct:audio}) je patrné v podstatě přesné zarovnání. Přesnost TDNN modelu s fonémovým zerogramovým jazykovým modelem dosáhla hodnoty $Acc_{p}= 85,41\ \%$.
 %To předznamenává i lepší vlastnosti \textit{TDNN} modelu. Pro ověření této hypotézy opět poslouží standardní experiment s monofonovým zerogramovým LM.
 %Z tohoto zarovnVýsledná přesnost má hodnotu $85,41\ \%$. Síť tedy dosáhla nepatrně lepšího výsledku než \textit{DNN} síť.
 
 \begin{figure}[htpb]
   \centering
   \begin{subfigure}[b]{0.26\textwidth}
-    \includegraphics[width=\textwidth]{./ch5-construction/img/alignment_text-2.pdf}
+    \includegraphics[width=\textwidth]{./ch6-realisation/img/alignment_text-2.pdf}
     \caption{Zarovnání}
     \label{fig:realisation:augmentation:alignemnt:correct:text}
   \end{subfigure}
   %
-  \begin{subfigure}[b]{0.55\textwidth}
-    \includegraphics[width=\textwidth]{./ch5-construction/img/energy_spec_word-segment-2.png}
+  \begin{subfigure}[b]{0.65\textwidth}
+    \includegraphics[width=\textwidth]{./ch6-realisation/img/energy_spec_word-segment-2.png}
     \caption{V signálu}
     \label{fig:realisation:augmentation:alignemnt:correct:audio}
   \end{subfigure}
@@ -231,7 +231,7 @@ Na obr. \ref{fig:realisation:augmentation:alignemnt:correct} je zonrazeno získa
   \label{fig:realisation:augmentation:alignemnt:correct}
 \end{figure}
 
-S relativně přesným zarovnáním je možné přistoupit k protažení fonémů $/k/$, $/p/$, $/s/$, $/t/$, $/v/$ a vytvoření nového modelu pracujícího s těmito daty. Nejprve je natrénovat HMM-GMM model, který poskytne prvotní zarovnání. V předchozích experimentech následovalo trénování DNN modelu, ale TDNN zarovnání ukázalo lepší vlastnosti tohoto modelu. Jako další model je tedy použita TDNN síť. K otestování modelu je využit standarní fonémový zerogramový jazykový model. Uvažováno je protažení od $1,25x$ do $3,00x$ s krokem $0,25$. Výsledky experimentu jsou vypsány v tab. \ref{tab:realisation:augmentation:influence:tdnn}. Oproti těm v tab. \ref{tab:realisation:augmentation:influence:dnn} je vidět výrazné zlepšení přesnoti  oproti baselinu modelu ($Acc_{p} = 85,41\ \%$. Nejvyšší přesnosti $87,90\ \%$ dosáhl model pracující s $2,5x$ protaženými daty. Navíc modely pracující s protažením od $1,75x$ do $2,75x$ dosahují velmi podobných výsledků. To poskytuje relativně široký pracovní interval pro případné skutečně protažená data řečníkem.
+S relativně přesným zarovnáním je možné přistoupit k protažení fonémů $/k/$, $/p/$, $/s/$, $/t/$, $/v/$ a vytvoření nového modelu pracujícího s těmito daty. Nejprve je natrénovat HMM-GMM model, který poskytne prvotní zarovnání. V předchozích experimentech následovalo trénování DNN modelu, ale TDNN zarovnání ukázalo lepší vlastnosti tohoto modelu. Jako další model je tedy použita TDNN síť. K otestování modelu je využit standarní fonémový zerogramový jazykový model. Uvažováno je protažení od $1,25x$ do $3,00x$ s krokem $0,25$. Výsledky experimentu jsou vypsány v tab. \ref{tab:realisation:augmentation:influence:tdnn}. Oproti těm v tab. \ref{tab:realisation:augmentation:influence:dnn} je vidět výrazné zlepšení přesnoti  oproti baselinu modelu ($Acc_{p} = 85,41\ \%$). Nejvyšší přesnosti $87,90\ \%$ dosáhl model pracující s $2,5x$ protaženými daty. Navíc modely pracující s protažením od $1,75x$ do $2,75x$ dosahují velmi podobných výsledků. To poskytuje relativně široký pracovní interval pro případné skutečně protažená data řečníkem.
 
 \begin{table}[htpb]
   \centering
@@ -271,7 +271,7 @@ Experimenty s uměle protaženými daty potvrdily správnost uvažované hypoté
 \subsection{Aktualizace výsledků porovnání}
 \label{chap:realisation:augmentation:comparison}
 
-V části \ref{chap:realisation:listening} je prezentováno srovnání schopnistí člověka a stroje. Posloužily k tomu dva poslechové testy a celkem $3$ ASR experimenty \uv{onemil}, \uv{reduced} a \uv{bigrams}. S novým modelem je možné aktualizovat hypotetické výsledky stroje. Hypotetické z toho důvodu, že použitá data jsou uměle protažena. Nicméně to nebrání provedení tohoto experimentu. Získané hodnoty mohou být brány jako jakési teroretická maxima ASR systému. Uměle upravená data budou přeci jen relativně přesně a konzistentně protažena. U reálných dat toto nelze a priory očekávat.
+V části \ref{chap:realisation:listening} je prezentováno srovnání schopností člověka a stroje. Posloužily k tomu dva poslechové testy a celkem $3$ ASR experimenty \uv{onemil}, \uv{reduced} a \uv{bigrams}. S novým modelem je možné aktualizovat hypotetické výsledky stroje. Hypotetické z toho důvodu, že použitá data jsou uměle protažena. Nicméně to nebrání provedení tohoto experimentu. Získané hodnoty mohou být brány jako jakési teroretická maxima ASR systému. Uměle upravená data budou přeci jen relativně přesně a konzistentně protažena. U reálných dat toto nelze a priory očekávat.
 
 K aktualizaci výsledků je použit nejlepší model z části \ref{chap:realisation:augmentation:audio}, tedy ten s $2,5x$ protaženými daty. Parametry experimentů jsou totožné s těmi v části \ref{chap:realisation:listening}. V případě \uv{onemil} je použit zerogramový jazykový model s 1 milionem slov, \uv{reduced} pak pouze zerogramový LM se slovy obsaženými v poslechovém testu. Speciální LM, obsahující 4 kombinace slov, je vygenerován pro každou položku \uv{bigrams} experimentu.
 
@@ -314,7 +314,7 @@ Velmi zajímavé je porovnání zvýšení přesnosti TDNN modelu s fonémovým 
 
 Získané výsledky s uměle protaženými daty potvrdily hypotézu, že model pracující s těmito daty může dosahovat lepších výsledků. Dalším krokem je získání reálně protažených dat. Nahrávání je relativně zdlouhavý proces, jak ukázala 1. a 2. etapa nahrávání (části \ref{chap:construction:corpus} a \ref{chap:realisation:corpus}), proto je nezbytné dobře vybrat promluvy. Problémem je navíc samotné protažení. Pokud by bylo cílem získat protažené celé slovo, lze řečníka instruovat, aby mluvil pomaleji. To, ale cílem není. Výsledné promluvy mají mít protažené pouze určité fonémy a to přibližně na dvojnásobek. Jako nejjednodušší, a svým způsobem i elegantní, se ukázal zápis se zdvojenými písmeny, které mají být protaženým fonémem, např. \uv{kossa}. Řečník je obeznámen, že pokud slovo v promluvě obsahuje tento dvojitý zápis, měl by se pokusit toto slovo patřičným způsobem protáhnout. Tento zápis navíc řečníka podvědomě \uv{nutí} vyslovit slovo jinak než v případě normálního zápisu.
 
-Nahrávání se zhostil stejný řečník jako v 1. a 2. etapě. Tedy žena v důchodovém věku, která používá EL v běžném životě již více než 15 let. Nahrávání se uskutečnilo v průběhu 5 měsiců od července 2018 do listopadu 2018. Texty určené k nahrávání obsahavaly většinu izolovaných slov z poslechového testu a věty které doposud neobsahuje řečový korpus složený z 1. a 2. etapy nahrávání. Řečnák byl instruován, aby slova, která obsahují zdvojená pismena (např. \uv{kossa}), adekvátně prodloužil. K nahrávání byla použita stejná nahrávací místnost a aparatura jako v případě 2. etapy nahrávání (viz \ref{chap:realisation:corpus}). Nahrávací protokol byl taktéž stejný, tzn. nahrávání byl vždy přítomen operátor, který kontroloval, zda se řečník nevědomky nedopustil chyby či přeřeknutí. Stejně jako v předchozí etapě obsahuje každá nahrávka minimálně $0,5\ s$ pauzu na začátku a konci. Tato opatření významně zkracují potřebnou dobu k získání kvalitního přepisu.
+Nahrávání se zhostil stejný řečník jako v 1. a 2. etapě. Tedy žena v důchodovém věku, která používá EL v běžném životě již více než 15 let. Nahrávání se uskutečnilo v průběhu 5 měsíců od července 2018 do listopadu 2018. Texty určené k nahrávání obsahavaly většinu izolovaných slov z poslechového testu a věty které doposud neobsahuje řečový korpus složený z 1. a 2. etapy nahrávání. Řečnák byl instruován, aby slova, která obsahují zdvojená pismena (např. \uv{kossa}), adekvátně prodloužil. K nahrávání byla použita stejná nahrávací místnost a aparatura jako v případě 2. etapy nahrávání (viz \ref{chap:realisation:corpus}). Nahrávací protokol byl taktéž stejný, tzn. nahrávání byl vždy přítomen operátor, který kontroloval, zda se řečník nevědomky nedopustil chyby či přeřeknutí. Stejně jako v předchozí etapě obsahuje každá nahrávka minimálně $0,5\ s$ pauzu na začátku a konci. Tato opatření významně zkracují potřebnou dobu k získání kvalitního přepisu.
 %, protože po každé nahrávácí seanci je pro finální kontrolu obsahu dostatečné pouhé poslechnutí obsahu a v případě potřeby drobně poupravit přepis.
 Celkem se takto v rámci 3. etapy nahrávní podařilo získat dohromady $998$ promluv obsahující věty a slova, kterých je $267$. Celkový čas promluv v 3. etapě dosáhl $2$ hodin a $28$ minut.
 
