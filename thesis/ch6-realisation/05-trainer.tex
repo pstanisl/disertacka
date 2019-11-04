@@ -2,20 +2,30 @@
 \section{Trenažér}
 \label{chap:realisation:trainer}
 
-V předchozích částech (\ref{chap:realisation:augmentation} a \ref{chap:realisation:durationmodels}) byla rozvíjena a testována myšlenka doplnění chybějící informace, způsobenou ztrátou hlasivek, pomocí protahování určitých vybraných fonémů. Zejména pak $/k/$, $/p/$, $/s/$, $/\check{s}/$, $/t/$, $/t'/$ a $v$ reprezentující neznělé fonémy. Prezentované výsledky (viz tab. \ref{tab:realisation:augmentation:influence:tdnn} a \ref{tab:realisation:duration:duration}) prokazují, že daný přístup poskytuje výrazné zlepšení přesnosti ASR systému, zejména u promluv s minimálním kontextem. Hlavním problém spočívá v samotném protažení řečníkem. Prezentovaný přístup totiž nepočítá s protažením celého slova, ale pouze nezbytně nutné části, fonému. Nicméně s trochou pomoci je řečník schopen protáhnout požadovanou část slova. Výsledky prezentované v části \ref{chap:realisation:durationmodels:nn:softmax} demostrují, že model natrénovaný na uměle protažených datech je schopen lépe rozpoznávat i reálně protažené fonemy. V případě rozpoznávání neprotažených dat, pak přesnost modelu významně klesá. Tento výsledek je fundamentálním předpokladem pro myšlenku trenažéru.
+V předchozích částech (\ref{chap:realisation:augmentation} a \ref{chap:realisation:durationmodels}) byla rozvíjena a ověřována myšlenka doplnění chybějící informace, způsobenou ztrátou hlasivek, pomocí protahování určitých vybraných fonémů. Zejména pak $/k/$, $/p/$, $/s/$, $/\check{s}/$, $/t/$, $/t'/$ a $v$ reprezentující neznělé fonémy. Prezentované výsledky (viz tab. \ref{tab:realisation:augmentation:influence:tdnn} a \ref{tab:realisation:duration:duration}) prokazují, že daný přístup poskytuje výrazné zlepšení přesnosti ASR systému, zejména u promluv s minimálním kontextem.
+
+Hlavním problém tohot přístupu spočívá v protažení samotným řečníkem. Prezentovaný přístup totiž nepočítá s protažením celého slova, ale pouze nezbytně nutné části, fonému. Nicméně s trochou pomoci je řečník schopen protáhnout požadovanou část slova. Výsledky prezentované v části \ref{chap:realisation:durationmodels:nn:softmax} demostrují, že model natrénovaný na uměle protažených datech je schopen lépe rozpoznávat i reálně protažené fonémy. V případě rozpoznávání neprotažených dat, pak přesnost modelu významně klesá. Tento výsledek je fundamentálním předpokladem pro myšlenku trenažéru. Jeho hlavní funkcí je pomoci řečníkovi naučit se automaticky protahovat inkriminované fonémy tak, aby přesnost rozpoznávání byla maximální. Zároveň je možné pomocí třenažéru postupně adaptovat akustický model pomocí reálných dat. Postupem času by tak měly být eliminovány všechny chyby v datech způsobené umělým protaženám.
+
+Samotný trenažér si lze představit jako počítačový program, který řečníkovi zobrazuje jednotlivá slova/věty a ten je musí vyslovit. Primární funkcí trenažéru je pomoc řečníkovi s učením automatického protahování. Z tohoto důvodu je jeho součástí ASR systém s individuálním modelem, který slouží k rozpoznávání vyřčených promluv. O výsledku rozpoznávání (správně/špatně) je uživatel srozumněn. V případě úspěšného pokusu je promluva uložena a řečník může pokračovat v další promluvě, pokud se ji nerozhodne přeskočit. U protahovaných fonémů je použito použito zdvojeného zápisu (viz \ref{chap:realisation:augmentation:real}). Ten se ukázal jako velmi názorný a podvědomně nutící řečníka vyslovit daný foném \uv{jinak}.
+
+Sekundární funkcí trenažéru je adaptace akustikého modelu na základě reálně protažených dat. Originální duration model je vytvořen na základě uměle protažených dat. Tím jak řečník postupně více a více úspěšně reprodukuje požadované promluvy, je model postupně přetřenováván na základě reálných dat. Tím jsou všechny případné nedostatky, způsobené uměle protaženými daty, postupně eliminovány. Kompletní proces vytvoření adaptovaného duration modelu s pomocí trnažéru je následující:
 
 \begin{enumerate}
-  \item získání co možná největšího množství řečových dat (v řádech hodin).
-  \item vytvoření ASR systému k získání co možná nejpřesnějšího zarovnání.
-  \item umělé protažení dat na základě zarovnání.
-  \item vytvoření akustického duration modelu, který je použit v trenažéru.
-  \item adaptace řečníka a modelu.
-  \item použití adaptovaného modelu\footnote{V případě dostatečného množství reálně protažených dat, pak natrénování nového modelu na reálných datech.}
+  \item Získání co možná největšího množství řečových dat (v řádech hodin).
+  \item Vytvoření ASR systému k získání co možná nejpřesnějšího zarovnání.
+  \item Umělé protažení dat na základě zarovnání.
+  \item Vytvoření akustického duration modelu, který je použit v trenažéru.
+  \item Adaptace řečníka a modelu na základě úspěšně rozpoznaných promluv.
+  \item Použití adaptovaného modelu\footnote{V případě dostatečného množství reálně protažených dat, pak natrénování nového modelu na reálných datech.}.
 \end{enumerate}
+
+\noindent Adaptovaný model je pak možné použít, ve spojení s TTS a původním hlasem řečníka [TBD-Jindra], při telefonování. Což v počátečních fázích života po TL může rapidně zvýšit kvalitu života i psychický stav pacienta.
+
+Jednou z prerekvizit trenažéru je možnost používání doma. Odpadá tak nutnost použití specializovaného HW, či zvukové komory. Pilotní projekt pro získávání dat řečníků (pro účely TTS) pořízených v domácím prostředí na vlastním HW je prezentován v [TBD-Jindra].
 
 
 % TODO: Dodat výsledky rozpoznávání modelu natrénovaného na nějak protažených datech, ale testovaný na jinak protažených datech.
 
-Augmentace dat pomocí protažení může posloužit k vytvoření prvotního modelu, který je použit v trenažéru. Slouží k trénování řečníka.
+% Augmentace dat pomocí protažení může posloužit k vytvoření prvotního modelu, který je použit v trenažéru. Slouží k trénování řečníka.
 
-Možnost trénování doma, pokud správně řekne slovo, tak ví, že se to má říct tak a tak, zaroveň se dané slovo použije pro adaptaci modelu. Budou použita slova i věty, otázka je jestli by trenažér nutně vyžadoval shodu celé věty, nebo jen slova případně procentuální části věty, ale vždy včetně inkriminovaného slova. Toto je otázka, na kterou se musí teprve najít odpověď a dost to souvisí i s uživatelskou přívětivostí nástroje. Protože záleží na funkci, bude funkce získat celé věty nebo zejména ty části co jsou důležité při reálném protažení?
+% Možnost trénování doma, pokud správně řekne slovo, tak ví, že se to má říct tak a tak, zaroveň se dané slovo použije pro adaptaci modelu. Budou použita slova i věty, otázka je jestli by trenažér nutně vyžadoval shodu celé věty, nebo jen slova případně procentuální části věty, ale vždy včetně inkriminovaného slova. Toto je otázka, na kterou se musí teprve najít odpověď a dost to souvisí i s uživatelskou přívětivostí nástroje. Protože záleží na funkci, bude funkce získat celé věty nebo zejména ty části co jsou důležité při reálném protažení?
