@@ -113,7 +113,50 @@ Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegment
 \subsection{Modelování procesu slyšení}
 \label{chap:asr:parametrization:hearing}
 
-Medelování procesu slyšení usiluje o kompenzaci nelineárního vnímání frekvencí lidským sluchem. Dále pak i o respektování maskování zvuků včetně tzv. kritických pásem slyšení, což je přirozená vlastnost lidského sluchu. Maskováním se rozumí jev, kdy vnímání jednoho zvuku je ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přitomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s určitým časovým odstupem. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje věškerý šum ležící mimo určité kriticé pásmo. Šířka takového kritického pásma je přitom závislá na frekvenci poslouchaného tónu.
+Zvuk představuje mechanické vlnění hmotných částic, které se šíří v plyném, kapaném nebo tuhém prostředí. Z fyziologického pohledu je však zvukem považováno pouze slyšitelné vlnění. To je takové, které je schopno vnímat sluchové ústrojí člověka. Zpravidla se jedná o frekvence $16\ Hz - 20\ kHz$. Pro každého člověka je, ale toto rozmezí individuální a mění se s věkem. S přibývajícím věkem a sluchovou zátěží klesá hlavně horní mezní kmitočet. \cite{Psutka2006}
+
+To, zda je člověk schopen daný zvuk slyšet však není závislé pouze na frekvenci zvuku. Velmi podstatná je i intenzita zvuku., která se rovná energii zvukového vlnění, která projde za jednotku času jednotkovou plochou kolmou ke směru šíření vln. Zároveň je úměrná akustickému tlaku zvukové vlny, tj. tlaku, kterým zvukové vlny působí na nějakou překážku. V případě člověka tedy ušní bubínek. Závislost mezi intenzitou zvuku $I\ \left[Wm^{-2}\right]$ a akustickým tlakem $p\ \left[Pa\right]$ je vyjádřen vztahem
+
+\begin{equation}
+  I = \frac{p^{2}}{z},
+  \label{eq:asr:mfcc:intesity}
+\end{equation}
+
+\noindent kde $z$ je měrná akustická impedance prostředí, kterým se zvuk šíří. Lidské ucho je schopno vnímat akustický tlak v rozsahu od $2\cdot10^{-5}$ až $2\cdot10^{2}\ Pa$, tj. v rozsahu sedmi řádů. Z praktického důvodu se tedy používá logaritmické stupnice. K vyjadřování pak slouží logaritmus poměru uvažované veličiny a mezinárodně normované referenční hodnoty téže veličiny. \cite{Psutka2006} Hladina intenzity je pak definována vztahem
+
+\begin{equation}
+  L_{I} = 10\log_{10}\frac{I}{I_{0}},
+  \label{eq:asr:mfcc:intesity:level}
+\end{equation}
+
+\noindent kde $I$ představuje intenzitu zvuku a $I_{0} = 10^{-12}\ Wm^{-2}$ referenční hodnotu intenzity. Pro hladinu akustického tlaku platí
+
+\begin{equation}
+  L_{p} = 20\log_{10}\frac{p}{p_{0}},
+  \label{eq:asr:mfcc:pressure:level}
+\end{equation}
+
+\noindent kde $p$ je akustický tlak a $p_{0} = 2\cdot10^{-5}\ Pa$ je refereční hodnota akustického tlaku. Jak $L_{I}$, tak $L_{p}$ je udáváno v decibelech $\left[dB\right]$.
+
+Důležitým pojmem je pak \textbf{práh slyšitelnosti}, který představuje minimální intenzitu zvuku potřebnou k tomu, aby jej šlověk mohl slyšet, viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}. Tento práh je zcela subjektivní a je závislý na frekvenci. Obecně je lidský sluch nejcitlivější na frekcence $3 - 4\ kHz$. Směrem k nižším a vyšším kmitočtům citlivost sluchi klesá. \textbf{Práh bolesti} představuje horní mez intenzity sluchového pole (viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}), při níž již posluchač pociťuje bolest. Překročení této meze může vést k poškození sluchu. \cite{Holmes2001}
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.75\textwidth]{./ch4-asr/img/listening_perception.pdf}
+  \caption{Oblasti vnímání akustického signálu lidským sluchem.}
+  \label{fig:asr:mfcc:acoustic:characteristic}
+\end{figure}
+
+Hlasitost zvuku je závislost intenzizy na frekvenci a je zcela subjektivní pocit, kterým člověk posuzuje intenzitu daného zvuku. Na obr. \ref{fig:asr:mfcc:acoustic:levels} jsou vyznačeny hlasiny hlasitosti, které vznikly spojením bodů ve sluchovém poli (obr. \ref{fig:asr:mfcc:acoustic:characteristic}) odpovídající tónům, které člověk vnímá stejně hlasitě. Z křivek je patrné, že subjektivní hlasitost se mění s frekvencí zvuku. Zvuky s nižší frekvencí vnímáme méně hlasitěji než zvuky s vyšší frekvencí, zejména pak zvuky v rozmezí $3 - 4\ kHz$. \cite{Psutka2006}
+
+\begin{figure}[hbpt]
+  \centering
+  \includegraphics[width=0.75\textwidth]{./ch4-asr/img/listening_levels.pdf}
+  \caption{Oblasti vnímání akustického signálu lidským sluchem.}
+  \label{fig:asr:mfcc:acoustic:levels}
+\end{figure}
+
+Principem medelování procesu slyšení je pak právě kompenzace nelineárního vnímání frekvencí lidským sluchem (viz obr. \ref{fig:asr:mfcc:acoustic:levels}). Dále pak i o respektování maskování zvuků včetně tzv. kritických pásem slyšení, což je přirozená vlastnost lidského sluchu. Maskováním se rozumí jev, kdy vnímání jednoho zvuku je ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přitomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s určitým časovým odstupem. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje věškerý šum ležící mimo určité kriticé pásmo. Šířka takového kritického pásma je přitom závislá na frekvenci poslouchaného tónu.
 
 Typickým příkladem metod modelující proces slyšení jsou \textbf{melovská kepstrální filtrace} a \textbf{perceptivní lineární prediktivní analýza}.
 
