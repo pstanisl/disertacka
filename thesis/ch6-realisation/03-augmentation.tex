@@ -266,6 +266,41 @@ S relativně přesným zarovnáním je možné přistoupit k protažení foném�
   \label{tab:realisation:augmentation:influence:tdnn}
 \end{table}
 
+Podstatnou otázkou je robustnost duration modelu, tedy jak moc se výsledky změní pokud vstupem modelu, natrénovaného na datech s určitým protažením, jsou data s jinou mírou protažení. Tab. \ref{tab:realisation:augmentation:influence:tdnn:robust} ukazuje, že pokud jsou vstupem $2,5x$ modelu data od $2,0x$ do $3,0x$, tak zhoršení přesnosti dosahuje maximálně $1,66\ \%$ absolutně. Dá se tedy říci, že duration model je v rámci možností robustní v celkem širokém rozsahu protažení. Očekávaným výsledkem je nejmarkantnější pokles u neprotažených dat (konkrétně $9,29\ \%$). Zároveň většina chyb byla v inkriminovaných protažených fonémech. Tento výsledek je předpokladem pro funci trenažeru prezentovaného v části \ref{chap:realisation:trainer}.
+
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/extension/.style={
+      column name={},
+      column type={l},
+      string replace={accp}{$Acc_{p}\ [\%]$}
+    },
+    columns/100/.style={column name={1,00x}, column type={r}},
+    columns/150/.style={column name={1,50x}, column type={r}},
+    columns/125/.style={column name={1,25x}, column type={r}},
+    columns/175/.style={column name={1,75x}, column type={r}},
+    columns/200/.style={column name={2,00x}, column type={r}},
+    columns/225/.style={column name={2,25x}, column type={r}},
+    columns/250/.style={column name={2,50x}, column type={r}},
+    columns/275/.style={column name={2,75x}, column type={r}},
+    columns/300/.style={column name={3,00x}, column type={r}},
+    every head row/.style={
+      after row={
+        % \cmidrule{2-10}
+        \midrule
+      },
+      before row={\toprule & \multicolumn{9}{c}{Míra protažení} \\}
+    },
+    every last row/.style={after row={\bottomrule}},
+  ]{./ch5-construction/tabs/0305-robust.csv}
+  \caption{Robustnost nejlepšího TDNN modelu ($2,5x$) na míru protažení.}
+  \label{tab:realisation:augmentation:influence:tdnn:robust}
+\end{table}
+
 Experimenty s uměle protaženými daty potvrdily správnost uvažované hypotézy. Protažením jednoho z párových fonému dojde k dostatečnému odlišení velmi podobných zvukových reprezentací. Tím dojde k natrénování odlišných modelů fonémů v HMM. Model pracující s fonémy protaženými přímo ve zvuku nakonec dosáhl lepších výsledků než model s uměle protaženými daty na příznacích. Svůj díl na tom má i použití TDNN modelu. Model pracující s duplikovanými příznaky naznačoval, že optimální hodnota protažení bude v intervalu $\left(1,\ 3\right)x$, což druhý typ modelu potvrdil.
 
 \subsection{Aktualizace výsledků porovnání}
