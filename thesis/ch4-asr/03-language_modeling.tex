@@ -9,7 +9,7 @@ Jazykový model (obr. \ref{fig:asr:decoding}) je po parametrizaci a akustickém 
   \label{eq:asr:language:W_full}
 \end{equation}
 
-\noindent kde $K$ počet slov posloupnosti $W$. Pokud by byl proveden rozklad (\ref{eq:asr:language:W_full}) vyšlo by najevo, že pravděpodobnost výskytu slova $P\left(w_i\right),\ i \leq K$ je podmíněna pouze svou historií, tj. posloupností slov $w_1\ \dots\ w_{i-2}w_{i-1}$.
+\noindent kde $K$ je počet slov posloupnosti $W$. Pokud by byl proveden rozklad (\ref{eq:asr:language:W_full}) vyšlo by najevo, že pravděpodobnost výskytu slova $P\left(w_i\right),\ i \leq K$ je podmíněna pouze svou historií, tj. posloupností slov $w_1\ \dots\ w_{i-2}w_{i-1}$.
 
 Systémy rozpoznávání řeči pracují obvykle s rozsáhlými slovníky, čítající stovky tisíc až jednotky milionů slov, není možné předpokládat, že by bylo možné pravděpodobnosti v (\ref{eq:asr:language:W_full}) dostatečně robustně odhadnout pro libovolnou délku posloupnosti $K$.
 
