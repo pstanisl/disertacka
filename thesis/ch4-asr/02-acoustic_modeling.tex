@@ -2,11 +2,11 @@
 \section{Akustické modelování}
 \label{chap:asr:acoustic}
 
-Akustický model představuje v rovnici (\ref{eq:asr:decoding:generic}) podmíněnou pravděpodobnost $p(O|W)$. Úkolem akustického modelu je poskytnout co nejpřesnější odhad této pravděpodobnosti pro libovolnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Velmi vhodným způsobem modelování řeči se ukázalo využití tzv. \textbf{skrytých Markovových modelů (HMM)}. Ty vycházejí z principu vytváření řeči člověkem. V průběhu produkce řeči se hlasové ústrojí nachází vždy v krátkém časovém úseku nachází v jednom z konečného počtu konfigurace. V tomto mikrosegmentu je pak hlasovým ústrojím generovám krátký signál, který zavisí na aktuální konfiguraci. Tento vyprodukovaný zvuk je metodami (popsanými v \ref{chap:asr:parametrization}) převeden na vektor příznaků $O$.
+Akustický model představuje v rovnici (\ref{eq:asr:decoding:generic}) podmíněnou pravděpodobnost $p(O|W)$. Úkolem akustického modelu je poskytnout co nejpřesnější odhad této pravděpodobnosti pro libovolnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Velmi vhodným způsobem modelování řeči se ukázalo využití tzv. \textbf{skrytých Markovových modelů (HMM)}. Ty vycházejí z principu vytváření řeči člověkem. V průběhu produkce řeči se hlasové ústrojí vždy nachází, v krátkém časovém úseku, v nějaké konfiguraci. Množina všech možných konfigurací je konečná. V tomto mikrosegmentu je pak hlasovým ústrojím generován krátký signál, který zavisí právě na aktuální konfiguraci. Tento vyprodukovaný zvuk je metodami (popsanými v \ref{chap:asr:parametrization}) převeden na vektor příznaků $O$.
 
-Skrytý Markovův model je model stochastického procesu. Na ten je možné nahlížet jako na pravděpodobnostní konečný automat, který v diskrétních časových okamžicích generuje náhodnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Model v každém časovém kroku změní stav svůj $s_j$ podle předem daných pravděpodobností přechodu $a_{ij}$. Přechod ze stavu $s_i$ do stavu $s_j$ má za následek vygenerování výstupního vektoru pozorování $o_t$ a to podle rozdělení výstpní pravděpodobnosti $b_j\left(o_t\right)$ příslušné k tomuto stavu \cite{Psutka2006}.
+Skrytý Markovův model je model stochastického procesu. Na ten je možné nahlížet jako na pravděpodobnostní konečný automat, který v diskrétních časových okamžicích generuje náhodnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Model v každém časovém kroku změní stav svůj $s_j$ podle předem daných pravděpodobností přechodu $a_{ij}$. Přechod ze stavu $s_i$ do stavu $s_j$ má za následek vygenerování výstupního vektoru pozorování $o_t$, a to podle rozdělení výstupní pravděpodobnosti $b_j\left(o_t\right)$ příslušné k tomuto stavu \cite{Psutka2006}.
 
-Podmínění pravděpodobnost přechodu $a_{ij}$ určuje, s jakou pravděpodobností přechází model ze stavu $i$ v čase $t$, do stavu $j$ v čase $t+1$. Platí tedy
+Podmíněná pravděpodobnost přechodu $a_{ij}$ určuje, s jakou pravděpodobností přechází model ze stavu $i$ v čase $t$, do stavu $j$ v čase $t+1$. Platí tedy
 
 \begin{equation}
   a_{ij} = p\left(s\left(t+1\right)=s_j|s\left(t\right)=s_i\right),
@@ -27,7 +27,7 @@ Podmínění pravděpodobnost přechodu $a_{ij}$ určuje, s jakou pravděpodobno
   \label{eq:asr:acoustic:state:output}
 \end{equation}
 
-\noindent kde $P$ značí pravděpodobnost, pro kterou u spojité rozdělení platí
+\noindent kde $P$ značí pravděpodobnost, pro kterou u spojitého rozdělení platí
 
 \begin{equation}
   \int_o b_j\left(o\right)do = 1,
@@ -62,7 +62,7 @@ Rozdělení výstupní pravděpodobnosti musí být při modelování řečovýc
 \subsection{Struktura skrytého Markovova modelu}
 \label{chap:asr:acoustic:HMM}
 
-Z pohledu rozpoznávání řeči se nejčastěji využívá tzv. levo-pravá struktura Markovova modelu. V průběhu let bylo testováno mnoho různých struktur HMM, např. modely s počtem stavů odvozených od průměrné délky slova pro nějž byl model konstruován, až po pevnou strukturu stavů pro každé slovo. Tyto modely sloužily hlavně pro rozpoznávání izolovaných úseků řeči, nejčastěji slov. V současnosti, kdy je většina systémů konstruovaných pro zpracování souvislé řeči a počet slov ve slovníku může přesahovat 1 milion slov, převažují modely odvozené od menších jednotek, než jsou slova. Takovými jednotkami mohou být například fonémy anebo specifičtější trifóny. Trifón je svým způsobem kontextově závislý foném, který bere v potaz svůj levý a pravý kontext, tj. levý a pravý sousední foném. Přepis slova do fonémově, resp. trifónové struktury, lze ukázat na příkladu izolovaného slova \uv{akcie}, které má přepis \uv{\texttt{sil a k c i j e sil}}, v trifónové podobě je pak zápis následující
+Z pohledu rozpoznávání řeči se nejčastěji využívá tzv. levo-pravá struktura Markovova modelu. V průběhu let bylo testováno mnoho různých struktur HMM, např. modely s počtem stavů odvozených od průměrné délky slova pro nějž byl model konstruován, až po pevnou strukturu stavů pro každé slovo. Tyto modely sloužily hlavně pro rozpoznávání izolovaných úseků řeči, nejčastěji slov. V současnosti, kdy je většina systémů konstruovaných pro zpracování souvislé řeči a počet slov ve slovníku může přesahovat 1 milion slov, převažují modely odvozené od menších jednotek, než jsou slova. Takovými jednotkami mohou být například fonémy anebo specifičtější trifóny. Trifón je svým způsobem kontextově závislý foném, který bere v potaz svůj levý a pravý kontext, tj. levý a pravý sousední foném. Přepis slova do fonémové, resp. trifónové struktury, lze ukázat na příkladu izolovaného slova \uv{akcie}, které má přepis \uv{\texttt{sil a k c i j e sil}}, v trifónové podobě je pak zápis následující
 
 \begin{verbatim}
   sil sil-a+k a-k+c k-c+i c-i+j i-j+e j-e+sil sil,
@@ -181,12 +181,12 @@ Volba struktrury skrytého Markovova modelu je spíše expertní úlohou návrhu
    \label{eq:asr:acoustic:gmm:output}
  \end{equation}
 
-\noindent Počet hustitních směsí se u modelů postavených na kombinaci skrytých Markovových modelů a gaussovských směsí nejčastěji pohybuhe v rozmezí od 10 tisíc do 100 tisíc směsí. Při dimenzi příznakového vektoru (viz \ref{chap:asr:parametrization}) vektoru například $15$ je často nutné provést odhad až 10 miliónů parametrů.
+\noindent Celkový počet složek hustotních směsí se u modelů postavených na kombinaci skrytých Markovových modelů a gaussovských směsí nejčastěji pohybuje v rozmezí od 10 tisíc do 100 tisíc směsí. Při dimenzi příznakového vektoru (viz \ref{chap:asr:parametrization}) vektoru například $15$ je často nutné provést odhad až 10 miliónů parametrů.
 
 \subsection{Využití neuronových sítí}
 \label{chap:asr:acoustic:DNN}
 
-Neuronové sítě se inspirují neuronem v mozku člověka. Ukázka stavby neuronové buňky je znázorněna na obr. \ref{fig:asr:acoustic:dnn:neuron:human}. Dendrity jsou kráktké výběžky, které slouží k příjímání vstupních informací od ostatních neuronů nebo nervů. V tělo neuronu (soma) dochází k reakci na vstupní signály a vytvoření přísušné odezvy. Ta se dále šíří pomocí výběžku nazvaného axon. Jeho délka může dosahovat až 100 cm. Axon je přes synapse spojen s jinými neurony nebo dalšími buňkami v těle.
+Neuronové sítě se inspirují neuronem v mozku člověka. Ukázka stavby neuronové buňky je znázorněna na obr. \ref{fig:asr:acoustic:dnn:neuron:human}. Dendrity jsou krátké výběžky, které slouží k příjímání vstupních informací od ostatních neuronů nebo nervů. V tělo neuronu (soma) dochází k reakci na vstupní signály a vytvoření přísušné odezvy. Ta se dále šíří pomocí výběžku nazvaného axon. Jeho délka může dosahovat až 100 cm. Axon je přes synapse spojen s jinými neurony nebo dalšími buňkami v těle.
 
 \begin{figure}[hbpt]
   \centering
@@ -211,7 +211,7 @@ Umělý ekvivalent s názvem perceptron byl vytvořen Frankem Roseblattem v prvn
   \label{fig:asr:acoustic:dnn:neuron:artificial}
 \end{figure}
 
-Zmíněná aktivační funkce hraje velmi významnou roli, protože umožňuje řešení i nelineárních problémů. Pokud by NN nevyužívala aktivační funkce, jednalo by se defakto stále o lineární kombinaci vektorů a tím pádem by bylo možné řešit jen linární problémy. Mezi nejčastěji používané patří \textit{sigmoid} ($\sigma\left(z\right) = \left(1 - e^{-z}\right)^{-1}$), \textit{tanh} a \textit{relu} ($\sigma\left(z\right) = \max\left(0, z\right)$). Průběhy těchto aktivačních funkcí jsou vidět na obr. \ref{fig:asr:acoustic:dnn:activation}.
+Zmíněná aktivační funkce hraje velmi významnou roli, protože umožňuje řešení i nelineárních problémů. Pokud by NN nevyužívala aktivační funkce, jednalo by se defakto stále o lineární kombinaci vektorů a tím pádem by bylo možné řešit jen linární problémy. Mezi nejčastěji používané patří \textit{sigmoid} ($\sigma\left(z\right) = \left(1 - e^{-z}\right)^{-1}$), \textit{tanh} ($\sigma\left(z\right) = \tanh\left(z\right)$) a \textit{relu} ($\sigma\left(z\right) = \max\left(0, z\right)$). Průběhy těchto aktivačních funkcí jsou vidět na obr. \ref{fig:asr:acoustic:dnn:activation}.
 
  \begin{figure}[htpb]
   \centering
@@ -246,7 +246,7 @@ Pro výpočet výstupu neuronové sítě, tzv. \textbf{forward propagation}, je 
   \label{eq:asr:acoustic:dnn:fw}
 \end{align}
 
-\noindent kde $a^{[l]}$ představuje výstup $l$-té vrstvy ($a^{[0]} = x$), $\mathbf{W}^{[l]}$ představuje váhovou matici $l$-té vrstvy, $\mathbf{b}^{[l]}$ vektor prahů $l$-té vrstvy a $\sigma^{[l]}(.)$ aktivační funkci $l$-té vrstvy. Pro $l$ platí $l = 1, \dots, N$, kde $N$ je počet vrstev neuronové sítě. Výsledkem iterativního výpočtu (\ref{eq:asr:acoustic:dnn:fw}) je výstup sítě $y = a^{[N]}$.
+\noindent kde $a^{[l]}$ představuje výstup $l$-té vrstvy ($a^{[0]} = x$), $\mathbf{W}^{[l]}$ představuje váhovou matici $l$-té vrstvy, $\mathbf{b}^{[l]}$ vektor prahů $l$-té vrstvy a $\sigma^{[l]}(.)$ aktivační funkci $l$-té vrstvy. Pro $l$ platí $l = 1, \dots, L$, kde $L$ je počet vrstev neuronové sítě. Výsledkem iterativního výpočtu (\ref{eq:asr:acoustic:dnn:fw}) je výstup sítě $y = a^{[N]}$.
 
 Trénováním neuronové sítě je myšleno určení hodnot váhových matic $\mathbf{W}^{[l]}$ a prahů $\mathbf{b}^{[l]}$. Tento proces se iterativně sestává ze 3 kroků (viz obr. \ref{fig:asr:acoustic:dnn:training})
 
@@ -256,7 +256,7 @@ Trénováním neuronové sítě je myšleno určení hodnot váhových matic $\m
   \item aktualizace vah pomocí algoritmu backpropagation.
 \end{enumerate}
 
-\noindent Výpočet výstupu NN je realizován pomocí (\ref{eq:asr:acoustic:dnn:fw}), dále tedy nezbytné vypočítat chybu predikce $J\left(y, \hat{y}\right)$, Ta je difinována vztahem
+\noindent Výpočet výstupu NN je realizován pomocí (\ref{eq:asr:acoustic:dnn:fw}). Následně je nezbytné vypočítat chybu predikce $J\left(y, \hat{y}\right)$, Ta je difinována vztahem
 
 \begin{equation}
   J\left(y, \hat{y}\right) = \frac{1}{M} \sum_{i=1}^{M}\mathcal{L}_{i}\left(y^{i}, \hat{y}^{i}\right),
