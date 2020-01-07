@@ -15,7 +15,7 @@ Cílem modelování produkce řeči je nalezení matematických vztahů, které 
   \item \textit{explozivy} (např. $/b/$, $/p/$ ap.) - také nazývané jako souhlásky výbuchové, se tvoří úplnýn uzavřením vydechovaného proudu vzduchu pomocí artikulačních orgánů. To se následně projeví jako krázká pauza (tzv. okluze), po které následuje náhlé jednorázové uvolnění a únik nahromaděného vzduchu, tzv. exploze \cite{Psutka2006};
 \end{itemize}
 
-Snahou modelování je navržení modelu hlasového traktu, který bude dobře popisovat výše popsané zvuky. Nesmí se však zapomenout na možnou přílišnou složitost a nedostatečnou přesnost modelu. Jako ideální se může jevit lineárně časově invariantní model. Bohužel lidská řeč je zástupcem kontinuálního časově variantní a v některých situacích dokonce nelineárního proces, takže je téměř nemožné jej přesně namodelovat. Pokud se však, za určitého předpokladu, provedou určitá zjednodušení, tak je možné navrhnout lineární časově invariantní model řeči, který je platný pro krátké časové úseky. Jinými slovy, tímto předpokladem je, že v konkrétním krátkém časovém úseku zůstává buzení a parametry hlasivkového traktu přibližně konstantní. Tuto podmínka lze považovat za platnou pro intervaly od $10$ do $30\ ms$. Odtud také vychází uvažovaná perioda segmentů řeči, viz úvod této kapitoly. Pro tyto segmenty je pak možné proces vytváření řeči modelovat pomocí tzv. \textbf{krátkodobého modelu}, který má v krátkých časových intervalech pevné parametry. \cite{Holmes2001}
+Snahou modelování je navržení modelu hlasového traktu, který bude dobře popisovat výše popsané zvuky. Nesmí se však zapomenout na možnou přílišnou složitost~a nedostatečnou přesnost modelu. Jako ideální se může jevit lineárně časově invariantní model. Bohužel lidská řeč je zástupcem kontinuálního časově variantní a~některých situacích dokonce nelineárního proces, takže je téměř nemožné jej přesně namodelovat. Pokud se však, za určitého předpokladu, provedou určitá zjednodušení, tak je možné navrhnout lineární časově invariantní model řeči, který je platný pro krátké časové úseky. Jinými slovy, tímto předpokladem je, že v konkrétním krátkém časovém úseku zůstává buzení a parametry hlasivkového traktu přibližně konstantní. Tuto podmínka lze považovat za platnou pro intervaly od $10$ do $30\ ms$. Odtud také vychází uvažovaná perioda segmentů řeči, viz úvod této kapitoly. Pro tyto segmenty je pak možné proces vytváření řeči modelovat pomocí tzv. \textbf{krátkodobého modelu}, který má v krátkých časových intervalech pevné parametry. \cite{Holmes2001}
 
 \begin{figure}[hbpt]
   \centering
@@ -31,7 +31,7 @@ Pro odvození obecného diskrétního modelu hlasivkového traktu se vychází z
   \label{eq:asr:lpc:generic}
 \end{equation}
 
-\noindent kde $G$ představuje celkové zesílení, $Q$ je řád modelu odpovídající $2K + 1$ počtu formantů, které má model postihovat, $a_i$ jsou parametry modelu. Vstupem modelu je buzení $u(k)$ (viz obr. \ref{fig:asr:model:speech}), tedy pro znělé zvuky sled pulsů s periodou $T_0$\footnote{Prioda základního hlasivkového tónu.} a pro neznělé zvuky náhodný šum s plochým spektrem. V časové oblasti je pak diskrétní výstupní odezva při fixovaných parametrech hlasového traktu ($10 - 30\ ms$) dána konvolucí a buzení a impulzní odezvy krátkodobého modelu. Na základě toho je možné model upravit na tvar podle obr. \ref{fig:asr:model:speech:excitation}, kde je $u(k)$ buzení a $s(k)$ je výstupní signál s parametry hlasového ústrojí odpovídající $a_i$ celopólového modelu.
+\noindent kde $G$ představuje celkové zesílení, $Q$ je řád modelu odpovídající $2K + 1$ počtu formantů, které má model postihovat, $a_i$ jsou parametry modelu. Vstupem modelu je buzení $u(k)$ (viz obr. \ref{fig:asr:model:speech}), tedy pro znělé zvuky sled pulsů s periodou $T_0$\footnote{Prioda základního hlasivkového tónu.} a pro neznělé zvuky náhodný šum s plochým spektrem. V časové oblasti je pak diskrétní výstupní odezva při fixovaných parametrech hlasového traktu ($10 - 30\ ms$) dána konvolucí buzení a impulzní odezvy krátkodobého modelu. Na základě toho je možné model upravit na tvar podle obr. \ref{fig:asr:model:speech:excitation}, kde je $u(k)$ buzení a $s(k)$ je výstupní signál s parametry hlasového ústrojí odpovídající $a_i$ celopólového modelu.
 
 \begin{figure}[hbpt]
   \centering
@@ -92,7 +92,7 @@ Pro získání kepstrálních koeficientů linearní predikce logaritmujeme rovn
   \label{eq:asr:lpc:cepstrum:deriv}
 \end{equation}
 
-\noindent Pokud se $a_i = 1$, pak je možné roznásobení rovnice (\ref{eq:asr:lpc:cepstrum:deriv}) a porovnání člený u stejných mocnin $z$ zapsat vztahy pro výpočet kepstrálních koeficientů LPC
+\noindent Pokud se $a_i = 1$, pak je možné roznásobení rovnice (\ref{eq:asr:lpc:cepstrum:deriv}) a porovnáním členů u stejných mocnin $z$ zapsat vztahy pro výpočet kepstrálních koeficientů LPC
 
 \begin{align}
   \begin{split}
@@ -115,7 +115,7 @@ Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegment
 
 Zvuk představuje mechanické vlnění hmotných částic, které se šíří v plyném, kapaném nebo tuhém prostředí. Z fyziologického pohledu je však zvukem považováno pouze slyšitelné vlnění. To je takové, které je schopno vnímat sluchové ústrojí člověka. Zpravidla se jedná o frekvence $16\ Hz - 20\ kHz$. Pro každého člověka je, ale toto rozmezí individuální a mění se s věkem. S přibývajícím věkem a sluchovou zátěží klesá hlavně horní mezní kmitočet. \cite{Psutka2006}
 
-To, zda je člověk schopen daný zvuk slyšet však není závislé pouze na frekvenci zvuku. Velmi podstatná je i intenzita zvuku., která se rovná energii zvukového vlnění, která projde za jednotku času jednotkovou plochou kolmou ke směru šíření vln. Zároveň je úměrná akustickému tlaku zvukové vlny, tj. tlaku, kterým zvukové vlny působí na nějakou překážku. V případě člověka tedy ušní bubínek. Závislost mezi intenzitou zvuku $I\ \left[Wm^{-2}\right]$ a akustickým tlakem $p\ \left[Pa\right]$ je vyjádřen vztahem
+To, zda je člověk schopen daný zvuk slyšet však není závislé pouze na frekvenci zvuku. Velmi podstatná je i intenzita zvuku, která se rovná energii zvukového vlnění, která projde za jednotku času jednotkovou plochou kolmou ke směru šíření vln. Zároveň je úměrná akustickému tlaku zvukové vlny, tj. tlaku, kterým zvukové vlny působí na nějakou překážku. V případě člověka tedy ušní bubínek. Závislost mezi intenzitou zvuku $I\ \left[Wm^{-2}\right]$ a akustickým tlakem $p\ \left[Pa\right]$ je vyjádřen vztahem
 
 \begin{equation}
   I = \frac{p^{2}}{z},
@@ -147,7 +147,7 @@ Důležitým pojmem je pak \textbf{práh slyšitelnosti}, který představuje mi
   \label{fig:asr:mfcc:acoustic:characteristic}
 \end{figure}
 
-Hlasitost zvuku je závislost intenzizy na frekvenci a je zcela subjektivní pocit, kterým člověk posuzuje intenzitu daného zvuku. Na obr. \ref{fig:asr:mfcc:acoustic:levels} jsou vyznačeny hlasiny hlasitosti, které vznikly spojením bodů ve sluchovém poli (obr. \ref{fig:asr:mfcc:acoustic:characteristic}) odpovídající tónům, které člověk vnímá stejně hlasitě. Z křivek je patrné, že subjektivní hlasitost se mění s frekvencí zvuku. Zvuky s nižší frekvencí vnímáme méně hlasitěji než zvuky s vyšší frekvencí, zejména pak zvuky v rozmezí $3 - 4\ kHz$. \cite{Psutka2006}
+Hlasitost zvuku je závislost intenzity na frekvenci a je zcela subjektivní pocit, kterým člověk posuzuje intenzitu daného zvuku. Na obr. \ref{fig:asr:mfcc:acoustic:levels} jsou vyznačeny hladiny hlasitosti, které vznikly spojením bodů ve sluchovém poli (obr. \ref{fig:asr:mfcc:acoustic:characteristic}) odpovídající tónům, které člověk vnímá stejně hlasitě. Z křivek je patrné, že subjektivní hlasitost se mění s frekvencí zvuku. Zvuky s nižší frekvencí vnímáme méně hlasitěji než zvuky s vyšší frekvencí, zejména pak zvuky v rozmezí $3 - 4\ kHz$. \cite{Psutka2006}
 
 \begin{figure}[hbpt]
   \centering
@@ -156,13 +156,13 @@ Hlasitost zvuku je závislost intenzizy na frekvenci a je zcela subjektivní poc
   \label{fig:asr:mfcc:acoustic:levels}
 \end{figure}
 
-Principem medelování procesu slyšení je pak právě kompenzace nelineárního vnímání frekvencí lidským sluchem (viz obr. \ref{fig:asr:mfcc:acoustic:levels}). Dále pak i o respektování maskování zvuků včetně tzv. kritických pásem slyšení, což je přirozená vlastnost lidského sluchu. Maskováním se rozumí jev, kdy vnímání jednoho zvuku je ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přitomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s určitým časovým odstupem. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje věškerý šum ležící mimo určité kriticé pásmo. Šířka takového kritického pásma je přitom závislá na frekvenci poslouchaného tónu.
+Principem medelování procesu slyšení je pak právě kompenzace nelineárního vnímání frekvencí lidským sluchem (viz obr. \ref{fig:asr:mfcc:acoustic:levels}). Dále pak i respektování maskování zvuků včetně tzv. kritických pásem slyšení, což je přirozená vlastnost lidského sluchu. Maskováním se rozumí jev, kdy vnímání jednoho zvuku je ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přítomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s drobným časovým odstupem od toho prvního. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje věškerý šum ležící mimo určité kriticé pásmo. Šířka takového kritického pásma je přitom závislá na frekvenci poslouchaného tónu.
 
 Typickým příkladem metod modelující proces slyšení jsou \textbf{melovská kepstrální filtrace} a \textbf{perceptivní lineární prediktivní analýza}.
 
 \subsubsection{Melovské kepstrální koeficienty}
 
-Metoda melovských frekvenčních kepstrálních koeficientů (MFCC) se snaží respektovat výše zmíněné vlastnosti lidského sluchu. Zejména o dodržení kritických pásem slyšení a dále vlivu subjektivního vnímání výšky tónů.
+Metoda melovských frekvenčních kepstrálních koeficientů (MFCC) se snaží respektovat výše zmíněné vlastnosti lidského sluchu. Zejména se snaží dodržet kritická pásma slyšení a vliv subjektivního vnímání výšky tónů.
 
 Základem MFCC je využití banky filtrů a lineárním rozložením frekvencí v tzv. \textbf{melovské frekvenční škále} definované vztahem
 
@@ -203,7 +203,7 @@ Základem MFCC je využití banky filtrů a lineárním rozložením frekvencí 
   \label{fig:asr:mfcc:bank:hz}
 \end{figure}
 
-Při výpočtu melovských kepstrálních koeficientů jsou na vstup systému přivedeny mikrosegmenty ($10$ až $30\ ms$) řečového signálu $s(k)$. Na vzorcích $s(k)$ byla ještě předtím provedena preemfáze\footnote{Preemfáze znamená zdůraznění amplitud spektrálních složek řečového signálu s jejich bzrůstající frekvencí. \cite{Psutka2006}}. Pro jednotlivé mikrosegmenty je pomocí FFT vypočteno amplitudové spektrum $\left| S(f) \right|$ a následuje klíčová část celého procesu, melovský filtrace. Odezvy filtrů ve frekvenční oblasti lze vyjádřit vztahem
+Při výpočtu melovských kepstrálních koeficientů jsou na vstup systému přivedeny mikrosegmenty ($10$ až $30\ ms$) řečového signálu $s(k)$. Na vzorcích $s(k)$ byla ještě předtím provedena preemfáze\footnote{Preemfáze znamená zdůraznění amplitud spektrálních složek řečového signálu s jejich vzrůstající frekvencí. \cite{Psutka2006}}. Pro jednotlivé mikrosegmenty je pomocí FFT vypočteno amplitudové spektrum $\left| S(f) \right|$ a následuje klíčová část celého procesu, melovský filtrace. Odezvy filtrů ve frekvenční oblasti lze vyjádřit vztahem
 
 \begin{equation}
   y_m(i) = \sum_{f=b_{i-1}}^{b_{i+1}} \left| S(f) \right| u\left(f, i\right),  \quad i = 1, 2,\ \dots\ ,M^{*},
@@ -232,7 +232,7 @@ Prvním krokem PLP analýzy je \textbf{výpočet výkonového spektra řečovéh
   \label{eq:asr:plp:spectr}
 \end{equation}
 
-\noindent Poté následuje kompenzace nelineáhorního vnímání změn ve výšce zvuku. Vnímání je logaritmické, proto je nutné provést nelineární transformaci frekvenční osy pomocí vzorce
+\noindent Poté následuje kompenzace nelineárního vnímání změn ve výšce zvuku. Vnímání je logaritmické, proto je nutné provést nelineární transformaci frekvenční osy pomocí vzorce
 
 \begin{equation}
   \Omega\left(\omega\right) = 6 \ln \left( \frac{\omega}{1200\pi} + \sqrt{\left(\frac{\omega}{1200\pi}\right)^2 + 1} \right),
@@ -259,7 +259,7 @@ Rozmístění filtrů na Barkově frekvenční ose je pak znázorněno na obr. \
   \label{fig:asr:plp:bank}
 \end{figure}
 
-Jelikož člověk vnímá intenzitu zvuku v závislosti na frekvenci, tak je potřeba aplikovat \textbf{přizpůsobení křivkám stejné hlasitosti}. Na začátku je důležité definovat referenční hlasitost, tj. hlasitost, na kterou budeme normalizovat. Obvykle se volí $40\ Ph$ \cite{Psutka2006}, což přibližně odpovídá hlasitosti běžné řeči. K normalizaci je použit invertní filter popsaný vztahem
+Jelikož člověk vnímá intenzitu zvuku v závislosti na frekvenci, tak je potřeba aplikovat \textbf{přizpůsobení křivkám stejné hlasitosti}. Na začátku je důležité definovat referenční hlasitost, tj. hlasitost, na kterou budeme normalizovat. Obvykle se volí $40\ Ph$ \cite{Psutka2006}, což přibližně odpovídá hlasitosti běžné řeči. K normalizaci je použit inverzní filter popsaný vztahem
 
 \begin{equation}
   E\left(\omega\right) = K \frac{\omega^4\left(\omega^2 + 56,9 \cdot 10^6\right)}{\left(\omega^2 + 6,3 \cdot 10^6\right)^2\left(\omega^2 + 379,4 \cdot 10^6\right)\left(\omega^6 + 9,6 \cdot 10^{26}\right)},
