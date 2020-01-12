@@ -66,7 +66,7 @@ Absence vyšších frekvencí se dá vysvětlit použitím EL, kde samotný EL m
   \label{fig:construction:spectrogram}
 \end{figure}
 
-Dalším způsobem jak porovnat řeč zdravého a EL řečníka je pomocí analýzy jednotlivých fonémů. Na obr. \ref{fig:construction:phonemes:k}, \ref{fig:construction:phonemes:m} a \ref{fig:construction:phonemes:c} jsou zobrazeny průběhy amplitudy v čase\footnote{Hodnoty času odpovídají časům výskytu v původní promluvě.} pro fonémy $/k/$, $/m/$ a $/\check{c}/$. V případě $/k/$ a $/m/$ (obr. \ref{fig:construction:phonemes:k} a \ref{fig:construction:phonemes:m}) se jedná o okluzivy, kde v prvním případě jde o neznělou plozivu a v druhém o znělou plozivu. Tyto fonémy obecně vznikají uzavřením vydechovaného proudu vzduchu pomocí artikulačních orgánů, což se projeví jako krátká pauza (tzv. okluze). Po té následuje náhlé jednorázové uvolnění překážky a únik nahromaděného vzduchu, tzv. exploze \cite{Psutka2006}. Takto popsáno to samozřejmě funguje u zdravého jedince, ale u EL řečníka jde sice o stejný mechanizmus, ale s tím rozdílem, že vzduch nepochází z plic, ale z hltanu. Dalším rozdílem je samozřejmě absence hlasivek.
+Dalším způsobem jak porovnat řeč zdravého a EL řečníka je pomocí analýzy jednotlivých fonémů. Na obr. \ref{fig:construction:phonemes:k}, \ref{fig:construction:phonemes:g} a \ref{fig:construction:phonemes:c} jsou zobrazeny průběhy amplitudy v čase\footnote{Hodnoty času odpovídají časům výskytu v původní promluvě.} pro fonémy $/k/$, $/g/$ a $/\check{c}/$. V případě $/k/$ a $/g/$ (obr. \ref{fig:construction:phonemes:k} a \ref{fig:construction:phonemes:g}) se jedná o okluzivy, kde v prvním případě jde o neznělou plozivu a v druhém o znělou plozivu. Tyto fonémy obecně vznikají uzavřením vydechovaného proudu vzduchu pomocí artikulačních orgánů, což se projeví jako krátká pauza (tzv. okluze). Po té následuje náhlé jednorázové uvolnění překážky a únik nahromaděného vzduchu, tzv. exploze \cite{Psutka2006}. Takto popsáno to samozřejmě funguje u zdravého jedince, ale u EL řečníka jde sice o stejný mechanizmus, ale s tím rozdílem, že vzduch nepochází z plic, ale z hltanu. Dalším rozdílem je samozřejmě absence hlasivek.
 
 Foném $/k/$ je tedy zástupcem neznělých fonémů, ty se vyznačují tím, že do jejich produkce nevstupují hlasivky, které jsou v klidu. Zdrojem buzení je tedy šum, viz část \ref{chap:asr}. Pokud se podíváme na průběh amplitudy v čase u zdravého řečníka (obr. \ref{fig:construction:phonemes:k:normal}), tak zde není vidět žádný periodický signál. Hlasivky jsou tedy opravdu v klidu. Oproti tomu u EL řečníka (obr. \ref{fig:construction:phonemes:k:el}) je jasně patrné, že je zde přítomno aktivní buzení vytvořené EL. Ve frekvenční oblasti je zobrazeno tzv. amplitudové spektrum, které znázorňuje vývoj amplitudy signálu ve frekvenci. V případě zdravého řečníka odpovídá vývoj předpokladům, není zde žádná výrazná frekvence a také nedochází k výraznému útlumu. Přestože se v obou případech jedná o stejný foném, tak z časového i frekvenčního průběhu je zřejmé, že parametry signálu se u obou řečníku diametrálně liší.
 
@@ -87,23 +87,23 @@ Foném $/k/$ je tedy zástupcem neznělých fonémů, ty se vyznačují tím, ž
   \label{fig:construction:phonemes:k}
 \end{figure}
 
-Jako druhý ukázkový foném slouží $/m/$. Jedná se o plozivu, ale v tomto případě znělou. U těchto fonémů hrají velký vliv hlasivky, protože jsou zdrojem buzení. Z obr. \ref{fig:construction:phonemes:m:normal} je toto buzení zřetelné ve formě periodického průběhu amplitudy. U EL řečníka (obr. \ref{fig:construction:phonemes:m:el}) je také vidět periodický signál, ale úplně jiného charakteru. Svým způsobem dost podobný tomu, který je zřetelný u fonému $/k/$. Rozdíl je zřetelný i ve frekvenční oblasti, kdy u EL řečníka nedochází k útlumu ve střední oblasti frekvenčního spektra.
+Jako druhý ukázkový foném slouží $/g/$. Jedná se o plozivu, ale v tomto případě znělou. U těchto fonémů hrají velký vliv hlasivky, protože jsou zdrojem buzení. Z obr. \ref{fig:construction:phonemes:g:normal} je toto buzení zřetelné ve formě periodického průběhu amplitudy. U EL řečníka (obr. \ref{fig:construction:phonemes:g:el}) je také vidět periodický signál, ale úplně jiného charakteru. Svým způsobem dost podobný tomu, který je zřetelný u fonému $/k/$. Rozdíl je zřetelný i ve frekvenční oblasti, kdy u EL řečníka nedochází k útlumu ve střední oblasti frekvenčního spektra.
 
 \begin{figure}[htpb]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
-    \includegraphics[width=\textwidth]{./ch5-construction/img/signal-normal_m.png}
+    \includegraphics[width=\textwidth]{./ch5-construction/img/signal-normal_g.png}
     \caption{Zdravý řečník}
-    \label{fig:construction:phonemes:m:normal}
+    \label{fig:construction:phonemes:g:normal}
   \end{subfigure}
   %
   \begin{subfigure}[b]{0.45\textwidth}
-    \includegraphics[width=\textwidth]{./ch5-construction/img/signal-el_m.png}
+    \includegraphics[width=\textwidth]{./ch5-construction/img/signal-el_g.png}
     \caption{EL řečník}
-    \label{fig:construction:phonemes:m:el}
+    \label{fig:construction:phonemes:g:el}
   \end{subfigure}
-  \caption{Průběh amplitudy fonému $/m/$ v časové a frekvenční oblasti fonému u normálního a EL řečníka}
-  \label{fig:construction:phonemes:m}
+  \caption{Průběh amplitudy fonému $/g/$ v časové a frekvenční oblasti fonému u normálního a EL řečníka}
+  \label{fig:construction:phonemes:g}
 \end{figure}
 
 Posledním ukázkovým fonémem je již zmiňované $/\check{c}/$. Jedná se o neznělý foném, který vzniká přiložením jazyku k zadní části horního patra. Tím je zadržen vzduch v dutině ústní a vzniká krátká pauza. Uvolněním pak dochází k explozi a vytvoření zvuku. \cite{Psutka2006} Do produkce se nezapojují hlasivky a produkovaný zvuk by měl být dostatečně intenzivní, aby jej (v případě EL řečníka) tolik neovlivňoval EL. Tím pádem by měl být průběh signálu, u obou řečníků podobný, a to jak v časové, tak i ve frekvenční oblasti, viz obr. \ref{fig:construction:phonemes:c}.
@@ -125,7 +125,7 @@ Posledním ukázkovým fonémem je již zmiňované $/\check{c}/$. Jedná se o n
   \label{fig:construction:phonemes:c}
 \end{figure}
 
-Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách odlišná od té produkované zdravým řečníkem. Zejména u porovnání ve frekvenční oblasti (obr. \ref{fig:construction:phonemes:k} a \ref{fig:construction:phonemes:m}) je to nejvíce patrné.
+Z doposud provedené analýzy plyne, že EL řeč je v mnoha charakteristikách odlišná od té produkované zdravým řečníkem. Zejména u porovnání ve frekvenční oblasti (obr. \ref{fig:construction:phonemes:k} a \ref{fig:construction:phonemes:g}) je to nejvíce patrné.
 % Tento fakt nepochybně přispívá k tomu, že standardní obecné modely rozpoznávání řeči nedosahují takové přesnosti jako v případě běžné promluvy, viz dále.
 
 % \csvautotabular{./ch5-construction/test.csv}
