@@ -204,7 +204,7 @@ V době experimentů s protažením konkrétních fonémů se začaly stále ví
 %   \label{fig:experiments:augmentation:tdnn}
 % \end{figure}
 
-Stejně jako u DNN modelu je na počátku trénování nutné mít k dispozici zarovnání. To, ale nemusí být naprosto přesné, protože je vstupní vektor zpracováván jiným způsobem než u DNN. Díky FIR filtraci a více množin vah je brán v potaz i dynamický charakter řeči \cite{Peddinti2015}. Model založený na TDNN by tak měl generovat přesnější zarovnání a tím zlepšit výsledky modelu pracujícího s uměle protaženými daty.
+Stejně jako u DNN modelu je na počátku trénování nutné mít k dispozici zarovnání. To, ale nemusí být naprosto přesné, protože je vstupní vektor zpracováván jiným způsobem než u DNN. Díky FIR filtraci a více množin vah je brán v potaz i dynamický charakter řeči \cite{Peddinti2015}. Model založený na TDNN by tak měl generovat přesnější zarovnání, a tím zlepšit výsledky modelu pracujícího s uměle protaženými daty.
 
 Jako startovní bod trénování je použito DNN zarovnání z předchozího experimentu. Topologie sítě vychází z hodnot prezentovaných v \cite{Peddinti2015}, tedy síť má $4$ skryté vrstvy. Každá vrstva má 650 neuronů. První vrstva pracuje s kontextem $t-2$ a $t+2$, druhá vrstva s $t-1$ a $t+2$, třetí vrstva s $t-3$ a $t+4$ a čtvrtá s $t-7$ a $t+2$. Výpočet výstupu pak bere v potaz kontext $t-13$ a $t+9$ mikrosegmentů, viz \cite{Peddinti2015}.
 
