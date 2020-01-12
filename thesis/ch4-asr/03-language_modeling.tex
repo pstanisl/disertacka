@@ -2,7 +2,7 @@
 \section{Jazykové modelování}
 \label{chap:asr:language}
 
-Jazykový model (obr. \ref{fig:asr:decoding}) je po parametrizaci a akustickém modelu další důležitou částí systému rozpoznávání řeči. Jeho úkolem je poskytnout dekodéru co nejrychleji nejpřesnější odhad apriorní pravděpodobnosti $P\left(W\right)$ pro libovolnou posloupnost slov $W$. Tuto pravděpodonost je možné vyjádřit vztahem
+Jazykový model (obr. \ref{fig:asr:decoding}) je po parametrizaci a akustickém modelu další důležitou částí systému rozpoznávání řeči. Jeho úkolem je poskytnout dekodéru co nejrychleji nejpřesnější odhad apriorní pravděpodobnosti $P\left(W\right)$ pro libovolnou posloupnost slov $W$. Tuto pravděpodobnost je možné vyjádřit vztahem
 
 \begin{equation}
   P\left(W\right) = \prod_{k=1}^{K} P\left(w_k | w_{k-1}\dots w_{1}\right),
@@ -13,7 +13,7 @@ Jazykový model (obr. \ref{fig:asr:decoding}) je po parametrizaci a akustickém 
 
 Systémy rozpoznávání řeči pracují obvykle s rozsáhlými slovníky, čítající stovky tisíc až jednotky milionů slov, není možné předpokládat, že by bylo možné pravděpodobnosti v (\ref{eq:asr:language:W_full}) dostatečně robustně odhadnout pro libovolnou délku posloupnosti $K$.
 
-Obvykle se proto provádí aproximace vztahu (\ref{eq:asr:language:W_full}), při níchž docházi k redukci počtu odhadovaných parametrů. Nejčastějším způsobem je stanovení ekvivalentních tříd slov na základě jejich slovní historie, tj. všechny historie $w_1\ \dots\ w_{i-2}w_{i-1}$, které se shodují v posledních $n-1$ slovech, jsou zařazeny do stejné třídy. Uvedené modely se nazývají \textbf{n-gramové modely}. Přitom \textit{n}-gramem se rozumí posloupnost $n$ za sebou jdoucích slov v pozorování jejich náhodného výběru, např. trénovacího korpusu obsahujícího textová data. Modely s $n=0$ se nazývají \textbf{zerogramy}, $n=1$ pak \textbf{unigramy}. Nejpoužívanější jsou pak \textbf{bigramy} ($n=2$) a \textbf{trigramy} ($n=3$). Pravděpodobnost $P\left(W\right)$ u $n$-gramového modelu se vypočte vztahem
+Obvykle se proto provádí aproximace vztahu (\ref{eq:asr:language:W_full}), při nichž dochází k redukci počtu odhadovaných parametrů. Nejčastějším způsobem je stanovení ekvivalentních tříd slov na základě jejich slovní historie, tj. všechny historie $w_1\ \dots\ w_{i-2}w_{i-1}$, které se shodují v posledních $n-1$ slovech, jsou zařazeny do stejné třídy. Uvedené modely se nazývají \textbf{n-gramové modely}. Přitom \textit{n}-gramem se rozumí posloupnost $n$ za sebou jdoucích slov v pozorování jejich náhodného výběru, např. trénovacího korpusu obsahujícího textová data. Modely s $n=0$ se nazývají \textbf{zerogramy}, $n=1$ pak \textbf{unigramy}. Nejpoužívanější jsou pak \textbf{bigramy} ($n=2$) a \textbf{trigramy} ($n=3$). Pravděpodobnost $P\left(W\right)$ u $n$-gramového modelu se vypočte vztahem
 
 \begin{equation}
   P\left(W\right) = \prod_{k=1}^{K} P\left(w_k | w_{k-1}\dots w_{k-n+1}\right).

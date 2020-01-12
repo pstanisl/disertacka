@@ -20,7 +20,7 @@ Akustický model určuje $p\left(O|W\right)$, resp. $p\left(O|\lambda\right)$, p
   \label{eq:asr:decoding:approx}
 \end{equation}
 
-\noindent Tuto pravděpodobnost i optimální posloupnost stavů lze určit tzv. \textbf{Viterbiovým algorimem} \cite{Holmes2001}. Algoritmus řeší úlohu s využitím prohledávání typu beam, což je heuristický prohledávací algoritmus, který vždy expanduje pouze několik nejslibnějších uzlů. Tím pádem dochází k urychlení výpočtů časově synchronního prohledávání, protože dochází k prořezávání neperspektivních hypotéz.
+\noindent Tuto pravděpodobnost i optimální posloupnost stavů lze určit tzv. \textbf{Viterbiovým algoritmem} \cite{Holmes2001}. Algoritmus řeší úlohu s využitím prohledávání typu beam, což je heuristický prohledávací algoritmus, který vždy expanduje pouze několik nejslibnějších uzlů. Tím pádem dochází k urychlení výpočtů časově synchronního prohledávání, protože dochází k prořezávání neperspektivních hypotéz.
 
 Pro další urychlení dekódování (zejména u systému pracujících v reálném čase), bylo navrženo několik dalších sofistikovaných postupů. Mezi takové může patřit využití tzv. lexikálních stromů, dalších technik prořezávání případně zjednodušení akustického modelu slova. Více o této problematice v \cite{Psutka2006}.
 
@@ -31,7 +31,7 @@ U reálného systému je často potřeba vyřešit nebo \uv{vybalancovat} poměr
   \label{eq:asr:decoding:compensated}
 \end{equation}
 
-\noindent kde $\kappa_1$ je faktor změny měřítka, $\kappa_2$ je penalta vložení a $H$ celkový počet slov v hypotéze. Paramtry $\kappa_1$ a $\kappa_2$ jsou většinou nastavovány experimentálně.
+\noindent kde $\kappa_1$ je faktor změny měřítka, $\kappa_2$ je penalta vložení a $H$ celkový počet slov v hypotéze. Parametry $\kappa_1$ a $\kappa_2$ jsou většinou nastavovány experimentálně.
 
 V úloze rozpoznávání spojité řeči se vyskytují 3 typy chyb
 
