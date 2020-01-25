@@ -13,7 +13,7 @@ Hlavní funkcí dekodéru (viz obr. \ref{fig:asr:decoding}) je řešení rovnice
 
 Naštěstí bylo navrženo několik účinných algoritmů, které řeší hledání maxima v rovnici (\ref{eq:asr:decoding}) bez exponenciálního nárůstu počtu výpočtů. Mezi takové algoritmy patří dekódování podle \textbf{kritéria maximální aposteriorní pravděpodobnosti (MAP)}, nebo v současnosti primárně používaného dekódování podle \textbf{Viterbiova kritéria}.
 
-Akustický model určuje $p\left(O|W\right)$, resp. $p\left(O|\lambda\right)$, pomocí forward-backward (FB) algoritmu. Ten pro pozorovanou posloupnost $O$ určí pravděpodobnosti všech možných cest délky $T$ modelem $\lambda$. Výpočet podmíněné pravděpodobnosti lze aproximovat pravděpodobností $P_S(O|\lambda)$, jako nejpravděpodobnější posloupností HMM stavů, kterou projde posloupnost $O$ modelem $\lambda$
+Akustický model určuje $p\left(O|W\right)$, resp. $p\left(O|\lambda\right)$, pomocí forward-backward (FB) algoritmu. Ten pro pozorovanou posloupnost $\boldsymbol{O}$ určí pravděpodobnosti všech možných cest délky $T$ modelem $\lambda$. Výpočet podmíněné pravděpodobnosti lze aproximovat pravděpodobností $P_S(O|\lambda)$, jako nejpravděpodobnější posloupností HMM stavů, kterou projde posloupnost $\boldsymbol{O}$ modelem $\lambda$
 
 \begin{equation}
   p\left(O|\lambda\right) \approx P_S\left(O|\lambda\right) = \max_S P\left(O, S| \lambda \right) = \max_S a_{s\left(0\right)s\left(1\right)} \prod_{t=1}^{T} b_{s\left(t\right)}\left(o_t\right) a_{s\left(t\right)s\left(t+1\right)}.

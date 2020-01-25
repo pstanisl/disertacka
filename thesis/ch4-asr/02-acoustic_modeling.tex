@@ -2,7 +2,7 @@
 \section{Akustické modelování}
 \label{chap:asr:acoustic}
 
-Akustický model představuje v rovnici (\ref{eq:asr:decoding:generic}) podmíněnou pravděpodobnost $p(O|W)$. Úkolem akustického modelu je poskytnout co nejpřesnější odhad této pravděpodobnosti pro libovolnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Velmi vhodným způsobem modelování řeči se ukázalo využití tzv. \textbf{skrytých Markovových modelů (HMM)}. Ty vycházejí z principu vytváření řeči člověkem. V průběhu produkce řeči se hlasové ústrojí vždy nachází, v krátkém časovém úseku, v nějaké konfiguraci. Množina všech možných konfigurací je konečná. V tomto mikrosegmentu je pak hlasovým ústrojím generován krátký signál, který závisí právě na aktuální konfiguraci. Tento vyprodukovaný zvuk je metodami (popsanými v \ref{chap:asr:parametrization}) převeden na vektor příznaků $O$.
+Akustický model představuje v rovnici (\ref{eq:asr:decoding:generic}) podmíněnou pravděpodobnost $p(O|W)$. Úkolem akustického modelu je poskytnout co nejpřesnější odhad této pravděpodobnosti pro libovolnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Velmi vhodným způsobem modelování řeči se ukázalo využití tzv. \textbf{skrytých Markovových modelů (HMM)}. Ty vycházejí z principu vytváření řeči člověkem. V průběhu produkce řeči se hlasové ústrojí vždy nachází, v krátkém časovém úseku, v nějaké konfiguraci. Množina všech možných konfigurací je konečná. V tomto mikrosegmentu je pak hlasovým ústrojím generován krátký signál, který závisí právě na aktuální konfiguraci. Tento vyprodukovaný zvuk je metodami (popsanými v \ref{chap:asr:parametrization}) převeden na vektor příznaků $\boldsymbol{O}$.
 
 Skrytý Markovův model je model stochastického procesu. Na ten je možné nahlížet jako na pravděpodobnostní konečný automat, který v diskrétních časových okamžicích generuje náhodnou posloupnost vektorů příznaků $O = \left\{o_1 o_2\ \dots\ o_T\right\}$. Model v každém časovém kroku změní stav svůj $s_j$ podle předem daných pravděpodobností přechodu $a_{ij}$. Přechod ze stavu $s_i$ do stavu $s_j$ má za následek vygenerování výstupního vektoru pozorování $o_t$, a to podle rozdělení výstupní pravděpodobnosti $b_j\left(o_t\right)$ příslušné k tomuto stavu \cite{Psutka2006}.
 
@@ -79,7 +79,7 @@ Oproti slovním modelům, u fonémů (monofónů), resp. trifónů, bývá struk
   \label{fig:asr:acoustic:hmm}
 \end{figure}
 
-Pokud předpokládáme, že posloupnost slov $W$ je modelována zřetězeným skrytým Markovovým modelem $\lambda$, kde dílčí modely odpovídají fonetickým jednotkám, pak je možné určit pravděpodobnost generování posloupnosti $O$ modelem $\lambda$ jako
+Pokud předpokládáme, že posloupnost slov $W$ je modelována zřetězeným skrytým Markovovým modelem $\lambda$, kde dílčí modely odpovídají fonetickým jednotkám, pak je možné určit pravděpodobnost generování posloupnosti $\boldsymbol{O}$ modelem $\lambda$ jako
 
 \begin{equation}
   P\left(O|\lambda\right) = \sum_{\forall S} P\left(O, S| \lambda\right)P\left(S|\lambda\right) = \sum_{\forall S} a_{s\left(0\right)s\left(1\right)} \prod_{t=1}^{T} b_{s\left(t\right)}\left(o_t\right)a_{s\left(t\right)s\left(t+1\right)},
@@ -124,14 +124,14 @@ Podle \cite{Psutka2006} lze snadno dokázat, že výsledná pravděpodobnost $P\
 \subsection{Trénování parametrů HMM s Gaussovskými směsmi}
 \label{chap:asr:acoustic:GMM}
 
-Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovení hodnot parametrů modelu je uskutečněno trénováním (odhadem, estimací) na základě trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu. Více o něm v \cite{Holmes2001}. Základem je vyčíslení $\gamma_{j}\left(t\right)$, což vyjadřuje pravděpodobnost, že proces generování posloupnosti $O$ je v čase $t$ ve stavu $j$. Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
+Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovení hodnot parametrů modelu je uskutečněno trénováním (odhadem, estimací) na základě trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu. Více o něm v \cite{Holmes2001}. Základem je vyčíslení $\gamma_{j}\left(t\right)$, což vyjadřuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$. Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
 
 \begin{equation}
   \gamma_{j}\left(t\right) = \frac{P\left(O, s\left(t\right)=j|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} ,
    \label{eq:asr:acoustic:structure:gamma}
 \end{equation}
 
-\noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $O$ je v čase $t$ ve stavu $j$ a generuje složku $m$ gaussovské hustotní směsi, pak určuje vztah
+\noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$ a generuje složku $m$ gaussovské hustotní směsi, pak určuje vztah
 
 \begin{equation}
   \gamma_{jm}\left(t\right) = \frac{P\left(O, s\left(t\right)=j, m\left(j,t\right)=m|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} \frac{c_{jm}\mathcal{N}\left(o_t;\mu_{jm}; C_{jm}\right)}{\sum_{i=1}^{M} c_{ji} \mathcal{N}\left(o_t;\mu_{ji};C_{ji}\right) }.
@@ -160,14 +160,14 @@ Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu.
 \end{equation}
 
 \noindent kde $1 \leq j \leq N$ a $1 \leq m \leq M$.
-% Přitom $\gamma_{j}\left(t\right)$ představuje pravděpodobnost, že proces generování posloupnosti $O$ je v čase $t$ ve stavu $j$. Pro vyjádření této pravděpodobnosti $\gamma_{j}\left(t\right)$ platí rovnice (\ref{eq:asr:acoustic:structure:forward-backward}). Pro její definování pak platí vztah
+% Přitom $\gamma_{j}\left(t\right)$ představuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$. Pro vyjádření této pravděpodobnosti $\gamma_{j}\left(t\right)$ platí rovnice (\ref{eq:asr:acoustic:structure:forward-backward}). Pro její definování pak platí vztah
 
 % \begin{equation}
 %  \gamma_{j}\left(t\right) = \frac{P\left(O, s\left(t\right)=j|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} ,
 %   \label{eq:asr:acoustic:structure:gamma}
 % \end{equation}
 
-% \noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $O$ je v čase $t$ ve stavu $j$ a generuje složku $m$ gaussovské hustotní směsi
+% \noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$ a generuje složku $m$ gaussovské hustotní směsi
 
 % \begin{equation}
 %   \gamma_{jm}\left(t\right) = \frac{P\left(O, s\left(t\right)=j, m\left(j,t\right)=m|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} \frac{c_{jm}\mathcal{N}\left(o_t;\mu_{jm}; C_{jm}\right)}{\sum_{i=1}^{M} c_{ji} \mathcal{N}\left(o_t;\mu_{ji};C_{ji}\right) }.

@@ -13,7 +13,7 @@ Přestože se první uvažovaný způsob jeví jako vhodnější, tak všechny d
 \subsection{Princip explicitních duration modelů}
 \label{chap:realisation:durationmodels:model}
 
-Druhou možností je vytvoření explicitního modelu pracujícího s délkou fonémů. S tímto modelem je často problém rozpoznávání přeformulován do úlohy nalezení nejlepší sekvence slov $W^{*}$ a odpovídajících délek $D^{*}$, na základě akustického modelu \cite{Alumae2014}. Za předpokladu, že je dána sekvence slov $W$ a vektory pozorování $O$ lze považovat za nezávislé na délkách $D$, je možné rovnici \ref{eq:asr:decoding} upravit jako
+Druhou možností je vytvoření explicitního modelu pracujícího s délkou fonémů. S tímto modelem je často problém rozpoznávání přeformulován do úlohy nalezení nejlepší sekvence slov $W^{*}$ a odpovídajících délek $D^{*}$, na základě akustického modelu \cite{Alumae2014}. Za předpokladu, že je dána sekvence slov $W$ a vektory pozorování $\boldsymbol{O}$ lze považovat za nezávislé na délkách $D$, je možné rovnici \ref{eq:asr:decoding} upravit jako
 
 \begin{align}
   W^{*}, D^{*} &= \argmax_{W, D} P\left(W, D| O\right) \nonumber  \\
