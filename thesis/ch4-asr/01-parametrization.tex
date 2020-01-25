@@ -116,16 +116,16 @@ Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegment
 \subsection{Modelování procesu slyšení}
 \label{chap:asr:parametrization:hearing}
 
-Zvuk představuje mechanické vlnění hmotných částic, které se šíří v plyném, kapaném nebo tuhém prostředí. Z fyziologického pohledu je však zvukem považováno pouze slyšitelné vlnění. To je takové, které je schopno vnímat sluchové ústrojí člověka. Zpravidla se jedná o frekvence $16\ Hz - 20\ kHz$. Pro každého člověka je, ale toto rozmezí individuální a mění se s věkem. S přibývajícím věkem a sluchovou zátěží klesá hlavně horní mezní kmitočet. \cite{Psutka2006}
+Zvuk představuje mechanické vlnění hmotných částic, které se šíří v plynném, kapaném nebo tuhém prostředí. Z fyziologického pohledu je však zvuk považován pouze za slyšitelné vlnění. To je takové, které je schopno vnímat sluchové ústrojí člověka. Zpravidla se jedná o frekvence $16\ Hz - 20\ kHz$. Pro každého člověka je ale toto rozmezí individuální a mění se s věkem. S přibývajícím věkem a sluchovou zátěží klesá hlavně horní mezní kmitočet \cite{Psutka2006}.
 
-To, zda je člověk schopen daný zvuk slyšet však není závislé pouze na frekvenci zvuku. Velmi podstatná je i intenzita zvuku, která se rovná energii zvukového vlnění, která projde za jednotku času jednotkovou plochou kolmou ke směru šíření vln. Zároveň je úměrná akustickému tlaku zvukové vlny, tj. tlaku, kterým zvukové vlny působí na nějakou překážku. V případě člověka tedy ušní bubínek. Závislost mezi intenzitou zvuku $I\ \left[Wm^{-2}\right]$ a akustickým tlakem $p\ \left[Pa\right]$ je vyjádřen vztahem
+To, zda je člověk schopen daný zvuk slyšet, však není závislé pouze na frekvenci zvuku. Velmi podstatná je i intenzita zvuku, která se rovná energii zvukového vlnění, která projde za jednotku času jednotkovou plochou kolmou ke směru šíření vln. Zároveň je úměrná akustickému tlaku zvukové vlny, tj. tlaku, kterým zvukové vlny působí na nějakou překážku. V případě člověka lze překážkou chápat ušní bubínek. Závislost mezi intenzitou zvuku $I\ \left[Wm^{-2}\right]$ a akustickým tlakem $p\ \left[Pa\right]$ je vyjádřen vztahem
 
 \begin{equation}
   I = \frac{p^{2}}{z},
   \label{eq:asr:mfcc:intesity}
 \end{equation}
 
-\noindent kde $z$ je měrná akustická impedance prostředí, kterým se zvuk šíří. Lidské ucho je schopno vnímat akustický tlak v rozsahu od $2\cdot10^{-5}$ až $2\cdot10^{2}\ Pa$, tj. v rozsahu sedmi řádů. Z praktického důvodu se tedy používá logaritmické stupnice. K vyjadřování pak slouží logaritmus poměru uvažované veličiny a mezinárodně normované referenční hodnoty téže veličiny. \cite{Psutka2006} Hladina intenzity je pak definována vztahem
+\noindent kde $z$ je měrná akustická impedance prostředí, kterým se zvuk šíří. Lidské ucho je schopno vnímat akustický tlak v rozsahu od $2\cdot10^{-5}$ až $2\cdot10^{2}\ Pa$, tj. v rozsahu sedmi řádů. Z praktického důvodu se tedy používá logaritmické stupnice. K vyjadřování pak slouží logaritmus poměru uvažované veličiny a mezinárodně normované referenční hodnoty téže veličiny \cite{Psutka2006}. Hladina intenzity $L_{I}$ je pak definována vztahem
 
 \begin{equation}
   L_{I} = 10\log_{10}\frac{I}{I_{0}},
@@ -139,9 +139,9 @@ To, zda je člověk schopen daný zvuk slyšet však není závislé pouze na fr
   \label{eq:asr:mfcc:pressure:level}
 \end{equation}
 
-\noindent kde $p$ je akustický tlak a $p_{0} = 2\cdot10^{-5}\ Pa$ je referenční hodnota akustického tlaku. Jak $L_{I}$, tak $L_{p}$ je udáváno v decibelech $\left[dB\right]$.
+\noindent kde $p$ je akustický tlak a $p_{0} = 2\cdot10^{-5}\ Pa$ je referenční hodnota akustického tlaku. Hodnoty veličin $L_{I}$ a $L_{p}$ jsou obvykle udávány v decibelech $\left[dB\right]$.
 
-Důležitým pojmem je pak \textbf{práh slyšitelnosti}, který představuje minimální intenzitu zvuku potřebnou k tomu, aby jej šlověk mohl slyšet, viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}. Tento práh je zcela subjektivní a je závislý na frekvenci. Obecně je lidský sluch nejcitlivější na frekvence $3 - 4\ kHz$. Směrem k nižším a vyšším kmitočtům citlivost sluchu klesá. \textbf{Práh bolesti} představuje horní mez intenzity sluchového pole (viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}), při níž již posluchač pociťuje bolest. Překročení této meze může vést k poškození sluchu. \cite{Holmes2001}
+Důležitým pojmem je pak \textbf{práh slyšitelnosti}, který představuje minimální intenzitu zvuku potřebnou k tomu, aby jej šlověk mohl slyšet, viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}. Tento práh je zcela subjektivní a je závislý na frekvenci. Obecně je lidský sluch nejcitlivější na frekvence $3 - 4\ kHz$. Směrem k nižším a vyšším kmitočtům citlivost sluchu klesá. \textbf{Práh bolesti} představuje horní mez intenzity sluchového pole (viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}), při níž již posluchač pociťuje bolest. Překročení této meze může vést k poškození sluchu \cite{Holmes2001}.
 
 \begin{figure}[hbpt]
   \centering
@@ -150,7 +150,7 @@ Důležitým pojmem je pak \textbf{práh slyšitelnosti}, který představuje mi
   \label{fig:asr:mfcc:acoustic:characteristic}
 \end{figure}
 
-Hlasitost zvuku je závislost intenzity na frekvenci a je zcela subjektivní pocit, kterým člověk posuzuje intenzitu daného zvuku. Na obr. \ref{fig:asr:mfcc:acoustic:levels} jsou vyznačeny hladiny hlasitosti, které vznikly spojením bodů ve sluchovém poli (obr. \ref{fig:asr:mfcc:acoustic:characteristic}) odpovídající tónům, které člověk vnímá stejně hlasitě. Z křivek je patrné, že subjektivní hlasitost se mění s frekvencí zvuku. Zvuky s nižší frekvencí vnímáme méně hlasitěji než zvuky s vyšší frekvencí, zejména pak zvuky v rozmezí $3 - 4\ kHz$. \cite{Psutka2006}
+Hlasitost zvuku je závislost intenzity na frekvenci a je zcela subjektivní pocit, kterým člověk posuzuje intenzitu daného zvuku. Na obr. \ref{fig:asr:mfcc:acoustic:levels} jsou vyznačeny hladiny hlasitosti, které vznikly spojením bodů ve sluchovém poli (obr. \ref{fig:asr:mfcc:acoustic:characteristic}), odpovídající tónům, které člověk vnímá stejně hlasitě. Z křivek je patrné, že subjektivní hlasitost se mění s frekvencí zvuku. Zvuky s nižší frekvencí vnímáme méně hlasitěji než zvuky s vyšší frekvencí, zejména pak zvuky v rozmezí $3 - 4\ kHz$ \cite{Psutka2006}.
 
 \begin{figure}[hbpt]
   \centering
@@ -159,22 +159,20 @@ Hlasitost zvuku je závislost intenzity na frekvenci a je zcela subjektivní poc
   \label{fig:asr:mfcc:acoustic:levels}
 \end{figure}
 
-Principem medelování procesu slyšení je pak právě kompenzace nelineárního vnímání frekvencí lidským sluchem (viz obr. \ref{fig:asr:mfcc:acoustic:levels}). Dále pak i respektování maskování zvuků včetně tzv. kritických pásem slyšení, což je přirozená vlastnost lidského sluchu. Maskováním se rozumí jev, kdy vnímání jednoho zvuku je ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přítomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s drobným časovým odstupem od toho prvního. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje veškerý šum ležící mimo určité kriticé pásmo. Šířka takového kritického pásma je přitom závislá na frekvenci poslouchaného tónu.
-
-Typickým příkladem metod modelující proces slyšení jsou \textbf{melovská kepstrální filtrace} a \textbf{perceptivní lineární prediktivní analýza}.
+Principem modelování procesu slyšení je postižení kompenzace nelineárního vnímání frekvencí lidským sluchem a respektování maskování zvuků včetně tzv. kritických pásem slyšení. Maskování zvuků je přirozená vlastnost lidského sluchu. Rozumí se jím jev, kdy je vnímání jednoho zvuku ovlivněno přítomností jiného zvuku. Jinými slovy lze říci, že přítomnost jednoho zvuku zvyšuje práh slyšitelnosti pro jiný zvuk. Ten buď zní současně nebo s drobným časovým odstupem od toho prvního. Tento jev je jakýsi \uv{psychologický filtr}, který ignoruje veškerý šum ležící mimo určité kritické pásmo slyšení. Šířka kritického pásma je přitom závislá na frekvenci poslouchaného tónu. Často užívanými metodami pro modelování procesu slyšení jsou \textbf{melovská kepstrální filtrace} a \textbf{perceptivní lineární prediktivní analýza}.
 
 \subsubsection{Melovské kepstrální koeficienty}
 
-Metoda melovských frekvenčních kepstrálních koeficientů (MFCC) se snaží respektovat výše zmíněné vlastnosti lidského sluchu. Zejména se snaží dodržet kritická pásma slyšení a vliv subjektivního vnímání výšky tónů.
+Metoda melovských frekvenčních kepstrálních koeficientů (MFCC) se snaží respektovat výše zmíněné vlastnosti lidského sluchu, především se snaží dodržet kritická pásma slyšení a vliv subjektivního vnímání výšky tónů.
 
-Základem MFCC je využití banky filtrů a lineárním rozložením frekvencí v tzv. \textbf{melovské frekvenční škále} definované vztahem
+Základem MFCC je využití banky filtrů a lineárního rozložení frekvencí v tzv. \textbf{melovské frekvenční škále} definované vztahem
 
 \begin{equation}
   f_m = 2595 \log \left(1 + \frac{f}{700}\right),
   \label{eq:asr:mfcc:melscale}
 \end{equation}
 
-\noindent kde $f \left[Hz\right]$ je frekvence v lineární škále a $f_m \left[mel\right]$ je odpovídající frekvence v melovské stupnice. Melovský filtr má trojúhelníkový tvar. Banka obsahuje filtry rozmístěné lineárně v melovských frekvenčních souřadnicích, a to tak, že dva sousední filtry se navzájem o polovinu překrývají. Pro střední frekvence jednotlivých filtrů $b_{m,i}$ platí v melovské škále vztah
+\noindent kde $f \left[Hz\right]$ je frekvence v lineární škále a $f_m \left[mel\right]$ je odpovídající frekvence v melovské stupnici. Melovský filtr má trojúhelníkový tvar. Banka obsahuje $M^{*}$ filtrů rozmístěných lineárně v melovských frekvenčních souřadnicích, a to tak, že dva sousední filtry se navzájem o polovinu překrývají. Pro střední frekvence jednotlivých filtrů $b_{m,i}$ v melovské škále platí vztah
 
 \begin{equation}
   b_{m,i} = b_{m,i-1} + \Delta_{m},
