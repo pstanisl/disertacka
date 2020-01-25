@@ -2,7 +2,7 @@
 \section{Parametrizace řečového signálu}
 \label{chap:asr:parametrization}
 
-Jako v mnoha jiných odvětvích, tak i při rozpoznávání řeči je v mnoha případech inspirací člověk. Pro získání sekvence pozorování (příznaků) vycházíme z \textbf{modelování produkce řeči} a \textbf{modelování procesu slyšení}, které se inspirují právě člověkem.
+Stejně jako v mnoha jiných odvětvích, i při rozpoznávání řeči je v mnoha případech inspirací člověk. Pro získání sekvence pozorování (příznaků) vycházíme z \textbf{modelování produkce řeči} a \textbf{modelování procesu slyšení}, které se inspirují právě člověkem.
 
 \subsection{Modelování produkce řeči}
 \label{chap:asr:parametrization:production}
@@ -11,11 +11,13 @@ Cílem modelování produkce řeči je nalezení matematických vztahů, které 
 
 \begin{itemize}
   \item \textit{samohlásky} - ty se řadí mezi znělé typy zvuků produkované periodickým buzením vznikajícím pulsy vzduchu, které jsou produkovány hlasivkami;
-  \item \textit{frikativy} (např. $/f/$\footnote{Zápis $/f/$ symbolizuje foném, což je akustická reprezentace písmene, \textit{f}. Konkrétní zápisy se mohou lišit podle použité fonetické abecedy. V Čechách se nejčastěji používá abeceda $SAMPA$ či $Z\check{C}FA$.}) - někdy nazývané jako třené souhlásky, protože vznikají třením vydechovaného proudu vzduchu o překážku v některém místě hlasového ústrojí. Těmito překážkami může být jazyk, zuby ap.;
-  \item \textit{explozivy} (např. $/b/$, $/p/$ ap.) - také nazývané jako souhlásky výbuchové, se tvoří úplným uzavřením vydechovaného proudu vzduchu pomocí artikulačních orgánů. To se následně projeví jako krátká pauza (tzv. okluze), po které následuje náhlé jednorázové uvolnění a únik nahromaděného vzduchu, tzv. exploze \cite{Psutka2006};
+  \item \textit{frikativy} (např. $/f/$\footnote{Zápis $/f/$ symbolizuje foném, což je akustická reprezentace písmene, \textit{f}. Konkrétní zápisy se mohou lišit podle použité fonetické abecedy. V Čechách se nejčastěji používá abeceda $SAMPA$ či $Z\check{C}FA$.}) - někdy nazývané jako třené souhlásky, protože vznikají třením vydechovaného proudu vzduchu o překážku, kterou mouhou být například zuby nebo jazyk, v některém místě hlasového ústrojí;
+  \item \textit{explozivy} (např. $/b/$, $/p/$ ap.) - také nazývané jako souhlásky výbuchové, se tvoří úplným uzavřením vydechovaného proudu vzduchu pomocí artikulačních orgánů. To se následně projeví jako krátká pauza (tzv. okluze), po které následuje náhlé jednorázové uvolnění a únik nahromaděného vzduchu (tzv. exploze) \cite{Psutka2006}.
 \end{itemize}
 
-Snahou modelování je navržení modelu hlasového traktu, který bude dobře popisovat výše popsané zvuky. Nesmí se však zapomenout na možnou přílišnou složitost~a nedostatečnou přesnost modelu. Jako ideální se může jevit lineárně časově invariantní model. Bohužel lidská řeč je zástupcem kontinuálního časově variantní a~některých situacích dokonce nelineárního proces, takže je téměř nemožné jej přesně namodelovat. Pokud se však, za určitého předpokladu, provedou určitá zjednodušení, tak je možné navrhnout lineární časově invariantní model řeči, který je platný pro krátké časové úseky. Jinými slovy, tímto předpokladem je, že v konkrétním krátkém časovém úseku zůstává buzení a parametry hlasivkového traktu přibližně konstantní. Tuto podmínka lze považovat za platnou pro intervaly od $10$ do $30\ ms$. Odtud také vychází uvažovaná perioda segmentů řeči, viz úvod této kapitoly. Pro tyto segmenty je pak možné proces vytváření řeči modelovat pomocí tzv. \textbf{krátkodobého modelu}, který má v krátkých časových intervalech pevné parametry. \cite{Holmes2001}
+Snahou je navrhnout model hlasového traktu, který bude dobře popisovat výše zmíněné řečové zvuky. Nesmí se však zapomenout na možnou přílišnou složitost~a nedostatečnou přesnost modelu. Jako ideální se může jevit lineárně časově invariantní model. Bohužel lidskou řeč lze klasifikovat jako kontinuální časově variantní a v~některých situacích dokonce nelineární proces, takže je téměř nemožné jej přesně namodelovat. Pokud však, budeme předpokládat, že v konkrétním krátkém časovém úseku zůstává buzení a parametry hlasivkového traktu přibližně konstantní. Tak je možné navrhnout lineární časově invariantní model řeči, který je platný pro krátké časové úseky. Tuto podmínku lze považovat za platnou pro intervaly délky od $10$ do $30\ ms$. Odtud také vychází uvažovaná perioda segmentů řeči, zmíněná v úvodu této kapitoly. Pro tyto segmenty je pak možné proces vytváření řeči modelovat pomocí tzv. \textbf{krátkodobého modelu}, který má v krátkých časových intervalech pevné parametry \cite{Holmes2001}.
+
+O odvození obecného diskrétního modelu hlasivkového traktu je založena na zjednodušeném modelu produkce řeči, jehož struktura je ukázána na obr. \ref{fig:asr:model:speech}. Ten je tvořen třemi dílčími částmi, konkrétně modelem hlasivek, modelem hlasivkového traktu a modelem vyzařovaného zvuku. K odvození a popisu vlastností modelu se využívá výhod Z-transformace \cite{Psutka2006}.
 
 \begin{figure}[hbpt]
   \centering
@@ -24,14 +26,15 @@ Snahou modelování je navržení modelu hlasového traktu, který bude dobře p
   \label{fig:asr:model:speech}
 \end{figure}
 
-Pro odvození obecného diskrétního modelu hlasivkového traktu se vychází ze zjednodušeného modelu produkce řeči (obr. \ref{fig:asr:model:speech}). Ten je tvořen modelem hlasivek, modelem hlasivkového traktu a modelem vyzařovaného zvuku, které jsou sériově řazeny. K odvození a popisu vlastností modelu se využívá výhod z-transformace \cite{Psutka2006}. Po zjednodušení je krátkodobý model produkce řeči aproximovat celopólovým modelem (filtrem) $H(z)$ ve tvaru
+
+\noindent Po zjednodušení je krátkodobý model produkce řeči aproximovat celopólovým modelem charakteru filtru $H(z)$ ve tvaru
 
 \begin{equation}
-  H(z) = \frac{G}{1 + \sum_{i = 1}^{Q} a_{i} z^{-i}} = \frac{S(z)}{U(z)},
+  H(z) = \frac{G}{1 + \sum_{i = 1}^{Q} a_{i} z^{-i}} = \frac{G}{A(z)},
   \label{eq:asr:lpc:generic}
 \end{equation}
 
-\noindent kde $G$ představuje celkové zesílení, $Q$ je řád modelu odpovídající $2K + 1$ počtu formantů, které má model postihovat, $a_i$ jsou parametry modelu. Vstupem modelu je buzení $u(k)$ (viz obr. \ref{fig:asr:model:speech}), tedy pro znělé zvuky sled pulsů s periodou $T_0$\footnote{Perioda základního hlasivkového tónu.} a pro neznělé zvuky náhodný šum s plochým spektrem. V časové oblasti je pak diskrétní výstupní odezva při fixovaných parametrech hlasového traktu ($10 - 30\ ms$) dána konvolucí buzení a impulzní odezvy krátkodobého modelu. Na základě toho je možné model upravit na tvar podle obr. \ref{fig:asr:model:speech:excitation}, kde je $u(k)$ buzení a $s(k)$ je výstupní signál s parametry hlasového ústrojí odpovídající $a_i$ celopólového modelu.
+\noindent kde $G$ představuje celkové zesílení, $Q$ je řád modelu a $a_i$ jsou parametry modelu. Vstupem modelu je buzení $u(k)$ (viz obr. \ref{fig:asr:model:speech}), které je v případě znělých zvuků reprezentováno sledem pulsů s periodou $T_0$\footnote{Perioda základního hlasivkového tónu.} a pro neznělé zvuky je tvořeno náhodným šumem s plochým spektrem. V časové oblasti je pak diskrétní výstupní odezva při fixovaných parametrech hlasového traktu ($10 - 30\ ms$) dána konvolucí buzení a impulzní odezvy krátkodobého modelu. Na základě toho je možné model upravit do podoby znázorněné na obr. \ref{fig:asr:model:speech:excitation}, kde $u(k)$ je buzení a $s(k)$ je výstupní signál s parametry hlasového ústrojí odpovídajícími parametrům $a_i$ celopólového modelu.
 
 \begin{figure}[hbpt]
   \centering
@@ -40,59 +43,59 @@ Pro odvození obecného diskrétního modelu hlasivkového traktu se vychází z
   \label{fig:asr:model:speech:excitation}
 \end{figure}
 
-K odhadu parametrů $a_i$ slouží \textbf{lineární prediktivní analýza}. Odhad probíhá přímo z krátkodobého řečového signálu. Přenosové vlastnosti krátkodobého modelu je možné popsat rovnicí (\ref{eq:asr:lpc:generic}). Myšlenka metody LPC staví na předpokladu, že vzorek $k$ řečového signálu je možné popsat lineární kombinací $Q$ předchozích vzorků a buzení $u(k)$, což lze zapsat úpravou vztahu (\ref{eq:asr:lpc:generic}) do tvaru
+K odhadu parametrů $a_i$ slouží \textbf{lineární prediktivní analýza}. Odhad probíhá přímo z krátkodobého řečového signálu. Přenosové vlastnosti krátkodobého modelu je možné popsat rovnicí (\ref{eq:asr:lpc:generic}). Myšlenka metody LPC vychází z předpokladu, že vzorek $k$ řečového signálu je možné popsat lineární kombinací $Q$ předchozích vzorků a buzení $u(k)$, což lze matematicky vyjádřit pomocí následující rovnice ve tvaru
 
 \begin{equation}
   s(k) = - \sum_{i = 1}^{Q} a_i s(k-1) + Gu(k).
   \label{eq:asr:lpc:generic:edited}
 \end{equation}
 
-\noindent Z něj je patrné, že se LPC snaží parametry modelu $a_i$ a zesílení $G$ odhadnout pomocí známe reálně naměřené posloupnosti $s(k)$. K vyřešení se používá principu minimalizace kvadratické chyby krátkodobé energie signálu. Ta je v časové oblasti popsána vztahem
+\noindent Z rovnice (\ref{eq:asr:lpc:generic:edited}) je patrné, že se LPC snaží odhadnout parametry modelu $a_i$ a zesílení $G$ pomocí známe reálně naměřené posloupnosti vzorků řeči $s(k)$. K odhadu se používá principu minimalizace kvadratické chyby krátkodobé energie signálu $e\left(k\right)$. Ta je v časové oblasti popsána vztahem
 
 \begin{equation}
   E = \sum_{k} e^2(k) = \sum_{k} \left[ s(k) - s'(k)\right]^2 = \sum_{k} \left( s(k) + \sum_{i = 1}^{Q} a_i s(k-1) + Gu(k) \right),
 \end{equation}
 
-\noindent kde $s(k)$ jsou vzorky reálného řečového signálu a $s'(k)$ jsou ty predikované LPC filtrem. K získání řešení krátkodobé chyby predikce $E$, pro konkrétní analyzovaný segment, je použita metoda nejmenších čtverců. K výpočtu konkrétních koeficientů modelu $a_i$ je možné použít rekurzivního Durbinova algoritmu. \cite{Holmes2001}
+\noindent kde $s(k)$ jsou vzorky reálného řečového signálu a $s'(k)$ jsou ty predikované LPC filtrem. K nalezení minimální hodnoty krátkodobé chyby predikce $E$, pro konkrétní analyzovaný segment, je použita metoda nejmenších čtverců. K výpočtu konkrétních koeficientů modelu $a_i$ je možné použít rekurzivního Durbinova algoritmu \cite{Holmes2001}.
 
-Další možností jak popsat hlasový trakt je pomocí \textbf{kepstrálních koeficientů lineární predikce}. Kepstrum je definováno jako inverzní diskrétní Fourierova transformace (IDFT) logaritmu velikosti transformovaného vstupního signálu pomocí diskretní Fourierovy transformace (DFT), matematicky popsáno vztahem
+Další možností jak modelovat hlasový trakt je využít popis pomocí \textbf{kepstrálních koeficientů lineární predikce} $c\left(k\right)$. Kepstrum k-tého mikrosegmentu řečového signálu $s\left(k\right)$ je definováno vztahem (\ref{eq:asr:lpc:cepstrum:generic}), kde $\mathcal{F}$ představuje operátor diskrétní Fourierovy transformace (DFT) a $\mathcal{F}^{-1}$ reprezentuje inverzní diskrétní Fourierovy transformace (IDFT).
 
 \begin{equation}
-  c(k) = \mathcal{F}^{-1}\left\{\log\left| \mathcal{F}\left\{s(k)\right\} \right|\right\},
+  c(k) = \mathcal{F}^{-1}\left\{\log\left| \mathcal{F}\left\{s(k)\right\} \right|\right\}.
   \label{eq:asr:lpc:cepstrum:generic}
 \end{equation}
 
-\noindent a graficky znázorněno na obr. \ref{fig:asr:model:speech:cepstrum}.
+\noindent Postup výpočtu je znázorněn na obr. \ref{fig:asr:model:speech:cepstrum}.
 
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.9\textwidth]{./ch4-asr/img/cepstrum.pdf}
-  \caption{Blokové schéma principu výpočtu kepstra}
+  \caption{Blokové schéma principu výpočtu kepstra.}
   \label{fig:asr:model:speech:cepstrum}
 \end{figure}
 
-Pro získání kepstrálních koeficientů lineární predikce logaritmujeme rovnici (\ref{eq:asr:lpc:generic}) čímž vznikne vztah
+Pro získání kepstrálních koeficientů lineární predikce lze využít vztah (\ref{eq:asr:lpc:generic}), který po zlogaritmování přejde do tvaru
 
 \begin{equation}
   \log H(z) = \log \left( \frac{G}{A(z)} \right).
   \label{eq:asr:lpc:cepstrum}
 \end{equation}
 
-\noindent Člen $A(z)$ je polynomem proměnné $z^{-1}$ řádu $Q$, a pokud všechny jeho kořeny leží uvnitř jednotkové kružnice, tak lze aplikovat Taylorův rozvoj na vztah (\ref{eq:asr:lpc:cepstrum}) ve tvaru
+\noindent Člen $A(z)$ je polynomem proměnné $z^{-1}$ řádu $Q$. Pokud všechny jeho kořeny leží uvnitř jednotkové kružnice, tak lze aplikovat Taylorův rozvoj a vztah (\ref{eq:asr:lpc:cepstrum}), tedy lze zapsat jako
 
 \begin{equation}
   \log \left( \frac{G}{A(z)} \right) = c(0) + c(1)z^{-1} + \dots = \sum_{k=0}^{\infty} c(k)z^{-k},
   \label{eq:asr:lpc:cepstrum:taylor}
 \end{equation}
 
-\noindent kde $c(k)$ jsou tzv. kepstrální koeficienty LPC. K odstranění logaritmu je potřeba obě strany rovnice derivovat. Po úpravě je výsledný vztah
+\noindent kde $c(k)$ jsou tzv. kepstrální koeficienty LPC. Po zderivování obou stran rovnice přejde vztah (\ref{eq:asr:lpc:cepstrum:taylor}) do tvaru
 
 \begin{equation}
   - \sum_{i=1}^{Q} ia_iz^{-i} = \left( \sum_{k=0}^{\infty} kc(k)z^{-k} \right)\left( \sum_{i=0}^{Q} a_iz^{-i}\right).
   \label{eq:asr:lpc:cepstrum:deriv}
 \end{equation}
 
-\noindent Pokud se $a_i = 1$, pak je možné roznásobení rovnice (\ref{eq:asr:lpc:cepstrum:deriv}) a porovnáním členů u stejných mocnin $z$ zapsat vztahy pro výpočet kepstrálních koeficientů LPC
+\noindent Jestliže se $a_i = 1$, pak lze po roznásobení pravé strany rovnice (\ref{eq:asr:lpc:cepstrum:deriv}) a po následném porovnání členů u stejných mocnin proměnné $z$ zapsat vztahy pro výpočet kepstrálních koeficientů LPC ve tvaru
 
 \begin{align}
   \begin{split}
@@ -106,9 +109,9 @@ Pro získání kepstrálních koeficientů lineární predikce logaritmujeme rov
   \label{eq:asr:lpc:cepstrum:coef}
 \end{align}
 
-\noindent kde $k = 1, 2, \dots , Q^{*}$ a $Q^{*}$ je počet kepstrálních koeficientů a $Q^{*} \geq Q$.
+\noindent kde $k = 1, 2, \dots , Q^{*}$. $Q^{*}$ je počet kepstrálních koeficientů pro které musí platit $Q^{*} \geq Q$.
 
-Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegmentu řeči odvozené LPC analýzou, tu je možné získat dosazením $e^{j\omega}$ za $z$ v rovnici (\ref{eq:asr:lpc:generic}). Pro uspokojivou reprezentaci se tradičně volí $Q = 7\ \text{až}\ 15$ v závislosti na spektrální šířce přenášeného pásma, požadované přesnosti aproximace apod. Z toho plyne, že pro popis mikrosegmentu řeči by mohl stačit příznakový vektor o $15$ koeficientech.
+Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegmentu řeči odvozené LPC analýzou. Spektrální obálku je možné získat dosazením $z = e^{j\omega}$ v rovnici (\ref{eq:asr:lpc:generic}). Pro uspokojivou reprezentaci se tradičně volí $Q$ v rozmezí $7\ \text{až}\ 15$ v závislosti na spektrální šířce přenášeného pásma a požadované přesnosti aproximace. Z toho plyne, že pro popis mikrosegmentu řeči by mohl stačit příznakový vektor o $15$ koeficientech.
 
 \subsection{Modelování procesu slyšení}
 \label{chap:asr:parametrization:hearing}
