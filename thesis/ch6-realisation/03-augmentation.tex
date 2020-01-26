@@ -2,46 +2,93 @@
 \section{Augmentace dat}
 \label{chap:realisation:augmentation}
 
-Poslechový test jasně ukázal, že správné rozpoznání pronesené EL promluvy není lehký úkol ani pro člověka. Naprosto markantní význam hraje kontext. Ten pomáhá, pokud některé části promluvy nebylo dobře rozumět. Navíc, ze zkušeností získaných při pořizování řečového korpusu (části \ref{chap:construction:corpus} a \ref{chap:realisation:corpus}), plyne, že EL řečník má tendenci mluvit ve spíše kratších dávkách slov, mezi kterými dělá drobné pauzy. Pro člověka není problém udržet v povědomí kontext, ale stroji to může někdy způsobovat problémy. Otázkou tedy je, jak \uv{vylepšit} stroj tak, aby poskytoval lepší výsledky?
+Poslechový test jasně ukázal, že správné rozpoznání pronesené EL promluvy není lehký úkol ani pro člověka.
+Naprosto markantní význam hraje kontext.
+Ten pomáhá v případě, že některé části promluvy nebylo dobře rozumět.
+Navíc, ze zkušeností získaných při pořizování řečového korpusu (části \ref{chap:construction:corpus} a \ref{chap:realisation:corpus}) plyne, že EL řečník má tendenci mluvit ve spíše kratších dávkách slov, mezi kterými dělá drobné pauzy.
+Pro člověka není problém udržet v povědomí kontext, ale stroji to může někdy způsobovat problémy.
+Otázkou tedy je, jak \uv{vylepšit} stroj tak, aby poskytoval lepší výsledky.
 
-Ať se řečník snaží sebevíc, tak se současnými metodami rehabilitace hlasu (viz \ref{chap:cause:treatment}), se při ztrátě hlasivek část informace z produkované řeči ztrácí. V poslední době bylo prezentováno několik přístupů jak ztracenou informaci obnovit. Souhrn těch nejperspektivnějších je v \cite{Denby2010}. Ve valné většině případů se využívá obohacení akustického modelu o artikulační data, nebo dokonce využití jen těchto artikulačních dat. \cite{Hofe2013} Problém ale spočívá v tom, že ne všechny akustické nuance mezi podobnými fonémy jsou artikulací ovlivněny. Navíc její záznam s sebou často nese používaní dalšího zařízení (kamery, ultrazvuku, atp. \cite{Hueber2010}), nebo dokonce nutnost podstoupení dalšího operačního zákroku (magnety \cite{Hofe2011}). Samozřejmě je férové říct, že většina těchto vyvíjených systémů si klade za cíl kompletně nahradit současné metody rehabilitace. Na druhou stranu faktem je, že ani po dlouholetém vývoji se většina těchto systémů nedostala z raně vývojové fáze. Nepochybně hraje roli, že je tato problematika přeci jen na okraji zájmu řečařské komunity.
+Ať se řečník snaží sebevíc, tak i při využití metod rehabilitace hlasu uvedených v části \ref{chap:cause:treatment}, se v důsledku ztráty hlasivek část informace z produkované řeči ztrácí.
+V poslední době bylo prezentováno několik přístupů jak ztracenou informaci obnovit.
+Souhrn těch nejperspektivnějších je v \cite{Denby2010}.
+Ve valné většině případů se využívá obohacení akustického modelu o artikulační data, nebo dokonce využití jen těchto artikulačních dat \cite{Hofe2013}.
+Problém ale spočívá v tom, že ne všechny akustické nuance mezi podobnými fonémy jsou artikulací ovlivněny.
+Pořízení záznamu artikulačních dat často vyžaduje používaní dalšího zařízení (kamery, ultrazvuku, atp. \cite{Hueber2010}), nebo dokonce nutnost podstoupení dalšího operačního zákroku (magnety \cite{Hofe2011}).
+Samozřejmě je nutno říct, že většina těchto vyvíjených systémů si klade za cíl kompletně nahradit současné metody rehabilitace.
+Na druhou stranu faktem je, že ani po dlouholetém vývoji se většina těchto systémů nedostala z~rané vývojové fáze.
+Nepochybně hraje roli i skutečnost, že tato problematika není v ohnisku zájmu řečařské komunity.
 
-Pokud tedy není úplně reálné získat ztracenou informaci pomocí kompletní změny paradigmatu fungování systémů rozpoznávání řeči, tak zbývá jen pracovat s informací, která je k dispozici a adaptovat současný model. Určitou možností je nahrazení ztracené informacé konkrétní cílenou změnou produkované řeči. Řečník by ideálně neměl být touto změnou ovlivněn. Jako optimální se jeví změna produkované řeči, která je zohledněna modelem. Samozřejmě takovýto přístup nezbaví řečníka EL, ale může mu pomoci v situacích, které jsou pro něj stresující a v konečném důsledku mu velmi komplikují život.
+Pokud tedy není úplně reálné získat ztracenou informaci pomocí kompletní změny paradigmatu fungování systémů rozpoznávání řeči, tak zbývá jen pracovat s informací, která je k dispozici a adaptovat současný model.
+Určitou možností je nahrazení ztracené informace konkrétní cílenou změnou produkované řeči,
+% Řečník by ideálně neměl být touto změnou ovlivněn.
+% Jako optimální se jeví změna produkované řeči,
+která je zohledněna modelem.
+Samozřejmě takovýto přístup nezbaví řečníka EL, ale může mu pomoci v situacích, které jsou pro něj stresující a v konečném důsledku mu velmi komplikují život.
 
-Jako nejjednodušší možnost augmentace se jeví protažení určitých fonémů. Člověk je naprosto bez problémů schopen měnit tempo promluvy. Dokonce velmi často se děje mimoděk, protože tempo řeči velmi významně závisí na emočním a fyzickém stavu jedince. Pokud by se řečník naučil automaticky protahovat určité fonémy, teoreticky by to mohlo pomoci při rozpoznávání. U HMM modelů se délka fonému modeluje pomocí přechodu ze stavu $s_x$ do stejného stavu $s_x$, viz \ref{chap:asr:acoustic:HMM}. Z výsledků \uv{bigrams} experimentu (část \ref{chap:realisation:listening:bigrams}) se dá usuzovat, že modely fonémových párů lišících se znělostí jsou si velmi podobné. Protažení jednoho fonému z inkriminovaného páru může vést k lepšímu odlišení těchto modelů
+Jako nejjednodušší možnost augmentace se jeví protažení určitých fonémů.
+Člověk je naprosto bez problémů schopen měnit tempo promluvy.
+Dokonce se tato změna velmi často děje mimoděk, protože tempo řeči velmi významně závisí na emočním a fyzickém stavu jedince.
+Pokud by se řečník naučil automaticky protahovat určité fonémy, teoreticky by to mohlo pomoci při rozpoznávání.
+U HMM modelů se délka fonému modeluje pomocí přechodu ze stavu $s_x$ do stejného stavu $s_x$, viz kapitola \ref{chap:asr:acoustic:HMM}.
+Z výsledků poskytnutých \uv{bigrams} experimentem (část \ref{chap:realisation:listening:bigrams}) se dá usuzovat, že modely fonémových párů lišících se znělostí jsou si velmi podobné.
+Protažení jednoho fonému z inkriminovaného páru může vést k lepšímu odlišení těchto modelů,
 %situaci, že modely si nebudou tolik podobné, protože se změní pravděpodobnost přechodu ze stavu $s_x$ opět do stavu $s_x$.
-a tím pádem vyšší přesnosti rozpoznání.
+a tím pádem i k svyšší přesnosti rozpoznání.
 %Teorie je jedna věc, ale praxe je věc druhá.
 
-K ověření jsou potřeba data. Bohužel získání reálných dat je zdlouhavý proces (viz \ref{chap:construction:corpus} a \ref{chap:realisation:corpus}), navíc není zřejmé jestli se vůbec vyplatí je pořizovat, protože se jedná o hypotézu. Mnohem prozaičtěji se jeví možnost uměle data protáhnout v místech výskytu zájmových fonémů. Toto protažení je teoreticky možné realizovat dvěma způsoby:
+K ověření jsou potřeba data.
+Bohužel získání reálných dat je časově náročný proces (viz \ref{chap:construction:corpus} a \ref{chap:realisation:corpus}).
+Navíc není zřejmé, jestli se vůbec vyplatí taková data pořizovat, protože se jedná o hypotézu.
+Mnohem snadněji se jeví pro účely testování možnost uměle data protáhnout v místech výskytu zájmových fonémů.
+Toto protažení je teoreticky možné realizovat dvěma způsoby:
 
 \begin{enumerate}
-  \item protažení na příznacích
-  \item protažení na zvuku
+  \item protažením na příznacích;
+  \item protažením na zvuku.
 \end{enumerate}
 
 \noindent V obou případech je nezbytné získat co možná nejpřesnější fonetické zarovnání. Pokud bude obsahovat chyby, tak mohou být protahovány úplně jiné úseky řeči. K natrénování HMM-DNN modelu na protažených datech je zapotřebí zarovnání získané HMM-GMM nebo HMM-DNN modelem, viz \ref{chap:asr:acoustic:DNN}. U obou variant protažení je postup stejný:
 
 \begin{enumerate}
-  \item natrénování akustického modelu na originálních datech.
-  \item získání zarovnání.
-  \item protažení zájmových fonémů podle zarovnání.
+  \item natrénování akustického modelu na originálních datech;
+  \item získání zarovnání;
+  \item protažení zájmových fonémů podle zarovnání;
   \item natrénování nového akustického modelu na protažených datech.
 \end{enumerate}
 
-\noindent Nový model může být otestován a výsledky porovnány s těmi dosavadními. Tyto experimenty navíc pomohou určit vhodné parametry pro případné skutečné protažení dat.
+\noindent Nový model může být otestován a získané výsledky mohou být porovnány s těmi dosavadními.
+Tyto experimenty navíc pomohou určit vhodné hodnoty parametrů pro případné skutečné protažení dat.
 
 %V následujícím textu je nejprve v části \ref{chap:realisation:augmentation:features} popsáno jakým způsobem je realizováno protažení na příznacích a následně je vytvořena sada modelů, která je otestována. V části \ref{chap:realisation:augmentation:audio} je stejným způsobem popsáno protažení na audio nahrávkách, ze kterých jsou natrénovány a otestovány modely.
 
 \subsection{Protažení na příznacích}
 \label{chap:realisation:augmentation:features}
 
-Protažení na příznacích vychází z představy, že při protažení (např. fonému) a následné parametrizaci, budou v inkriminovaných mikrosegmentech po sobě následovat velmi podobné příznakové vektory.
+Protažení na příznacích je založeno na skutečnosti, že při protažení (např. fonému) a následné parametrizaci, budou v inkriminovaných mikrosegmentech po sobě následovat velmi podobné příznakové vektory.
 %po sobě protažen, tak po parametrizaci, oproti neprotažené promluvě, po sobě následují velmi podobné příznakové vektory.
 %Tzn. změna příznakových vektorů není tak markatní.
-Teoreticky, v krajním případě, by mohlo dojít i k tomu, že část těchto příznakových vektorů je identických. Pokud je tedy cílem zjistit, zda protažení může pomoci při rozpoznávání EL řeči, tak je možné (teoreticky) docílit protažení zkopírováním určitých příznakových vektorů.
+Teoreticky by v krajním případě mohlo dojít i k situaci, kdy část těchto příznakových vektorů bude identických.
+Pokud bude cílem zjistit, zda protažení může pomoci při rozpoznávání EL řeči, tak je možné (teoreticky) docílit protažení zkopírováním určitých příznakových vektorů.
 %a tím docílit \uv{protažení}.
-Lépe je tato myšlenka ilustrována obr. \ref{fig:realisation:augmentation:features}. Nejprve je nahrávka standardně parametrizována. Barevně jsou vyznačeny případné vektory odpovídající zájmovému úseku (tedy fonému). Konkrétní hranice jsou získány ze zarovnání. Tyto vektory jsou pak zduplikovány, a tím je \uv{dosaženo} dvojnásobného protažení.
+Tato myšlenka je přiblížena na obr. \ref{fig:realisation:augmentation:features}.
+V prvním kroku je nahrávka standardně parametrizována.
+Barevně jsou vyznačeny případné vektory odpovídající zájmovému úseku (tedy fonému).
+Konkrétní hranice jsou získány ze zarovnání.
+Tyto vektory jsou následně zduplikovány a představují dvojnásobné protažení.
+% Toto protažení je však spíše hypotetická možnost.
+V reálné situaci by řečník mluvil jako doposud a k protažení by docházelo až při zpracování, což je velmi netriviální úkol.
+Teoreticky by musel algoritmus parametrizace být doplněn o mechanismus, který by určité příznakové vektory definovaným způsobem duplikoval.
+Problém je, že by ke kopírování docházelo v momentě předzpracování, kdy jsou o daných příznakových vektorech k dispozici minimální informace.
+Prosté zkopírování navíc narušuje dynamický charakter řeči.
+V rámci jednoho zpracovávaného mikrosegmentu jsou parametry považovány za statické, ale jak se okénko v rámci zpracování posouvá, tak už nelze hovořit o stacionaritě parametrů.
+Tento problém by se musel řešit mapř. pomocí interpolace mezi dvěma konsekutivními vektory.
+Mechanismus by zároveň vyřešil omezení, kdy je kopírováním možné získat pouze protažení odpovídající celočíselnému násobku původní délky.
+Proč tedy vůbec zkoušet tento typ protažení?
+Odpověď je jednoduchá, nehraje zde takovou roli přesnost zarovnání.
+V průběhu zpracování je využíváno posuvného okénka a překryvu.
+Díky tomu dojde k určitému \uv{rozmazání} hranic.
+Pro prvotní experimenty je to pak relativně vhodné zjednodušení úlohy.
 
 \begin{figure}[hbpt]
   \centering
@@ -50,17 +97,37 @@ Lépe je tato myšlenka ilustrována obr. \ref{fig:realisation:augmentation:feat
   \label{fig:realisation:augmentation:features}
 \end{figure}
 
-Toto protažení je však spíše hypotetická možnost. V reálné situaci by řečník mluvil jako doposud a k protažení by docházelo až při zpracování. Což je velmi netriviální úkol. Teoreticky by se musel algoritmus parametrizace doplnit o mechanismus, který by určité příznakové vektory definovaným způsobem duplikoval. Problém je, že by ke kopírování docházelo v momentě předzpracování, kdy jsou o daných příznakových vektorech k dispozici minimální informace. Prosté zkopírování navíc porušuje dynamický charakter řeči. V rámci jednoho zpracovávaného mikrosegmentu jsou parametry považovány za statické, ale jak se okénko v rámci zpracování posouvá, tak už nelze hovořit o stacionaritě parametrů. Tento problém by se musel řešit nějakým druhem interpolace mezi dvěma konsekutivními vektory. Mechanismus by zároveň vyřešil omezení, kdy je kopírováním možné získat pouze protažení odpovídající celočíselnému násobku původní délky. Proč tedy vůbec zkoušet tento typ protažení? Odpověď je jednoduchá, nehraje zde takovou roli přesnost zarovnání. V průběhu zpracování je využíváno posuvného okénka a překryvu. Díky tomu dojde k určitému \uv{rozmazání} hranic. Pro prvotní experimenty je to pak relativně vhodné zjednodušení úlohy.
-
 \subsubsection{Dosažené výsledky}
 
-Prvním bodem výše zmíněného algoritmu je získání standardního modelu, který je použit k zarovnání dat. K tomu je možné použít již natrénovaný model z experimentů popsaných v části \ref{chap:realisation:corpus:elimination}. Konkrétně se jedná o HMM-DNN model s $5$ skrytými vrstvami, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů. Tento model dosáhl s fonémovým zerogramovým LM přesnosti $84,66\ \%$. S jeho pomocí je získáno zarovnání trénovací i testovací sady.
+Prvním bodem výše zmíněného algoritmu bylo získat standardní model, který by bylo vhodné použít k zarovnání dat.
+Jako vhodné se jevilo použít již natrénovaný model z experimentů popsaných v části \ref{chap:realisation:corpus:elimination}.
+% Konkrétně se jedná o HMM-DNN model s $5$ skrytými vrstvami, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů.
+Tento model dosáhl s fonémovým zerogramovým LM přesnosti rozpoznávání $84,66\ \%$.
+S jeho pomocí bylo získáno zarovnání trénovací i testovací sady.
 
-Jako prvotní ověřovací experiment je zvoleno dvojnásobné protažení fonému $/s/$. Jinými slovy, všechny vektory odpovídající $/s/$ jsou zduplikovány. Následně je standardním způsobem natrénován HMM-DNN model. Neuronová síť má $5$ skrytých vrstev s $4096$. Výstupní vrstva je typu softmax. Otestování je jako v předchozích případech realizováno na testovací sadě s fonémovým zerogramovým jazykovým modelem, aby byl minimalizován vliv LM. Tento nový model dosáhl přesnosti $85,11\ \%$, což je malé zlepšení oproti baseline HMM-DNN modelu.
+Pro prvotní ověřovací experiment bylo zvoleno dvojnásobné protažení fonému $/s/$, tedy všechny vektory odpovídající $/s/$ byly zduplikovány.
+Následně byl standardním způsobem natrénován HMM-DNN model.
+% Neuronová síť má $5$ skrytých vrstev s $4096$. Výstupní vrstva je typu softmax.
+Otestování bylo jako v předchozích případech realizováno na testovací sadě s fonémovým zerogramovým jazykovým modelem, aby byl minimalizován vliv LM.
+Tento nový model dosáhl přesnosti rozpoznávání $85,11\ \%$, což lze označit jako malé zlepšení oproti baseline HMM-DNN modelu.
 
-Protažení $/s/$ posloužilo k ověření procesu vytváření modelu. Další experiment je realizován na protažených fonémech $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$, což představuje většinu neznělých zájmových fonémů. Zarovnání je identické jako u předchozího experimentu. Opět je uvažováno dvojnásobné protažení. Všechny vektory inkriminovaných fonémů jsou zduplikovány. Znovu je natrénován HMM-DNN model se stejnými parametry. Model je otestován s fonémovým zerogramovým jazykovým modelem. Přesnost na testovací sadě dosáhla hodnoty $87,50\ \%$, což lze považovat za významné zlepšení.
+% Protažení $/s/$ posloužilo k ověření procesu vytváření modelu.
+Další experiment byl realizován na protažených fonémech $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$, které reprezentují většinu neznělých zájmových fonémů.
+Zarovnání bylo identické jako u předchozího experimentu, stejně tak bylo uvažováno jejich dvojnásobné protažení, tzn. že všechny vektory inkriminovaných fonémů byly zduplikovány.
+Znovu byl natrénován HMM-DNN model se stejnými parametry a násedně byl otestován s fonémovým zerogramovým jazykovým modelem.
+Přesnost rozpoznávání na testovací sadě dosáhla hodnoty $87,50\ \%$, což lze považovat za významné zlepšení.
 
-Doposud se uvažovalo pouze dvojnásobné protažení, v další fázi je tedy potřeba ověřit jestli jiné hodnoty nemohou poskytnout lepší výsledek. Celkem je uvažované $3x$, $4x$ a $5x$ protažení. Protaženy jsou fonémy $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$. Proces natrénování a otestování modelu je stejný jako v předchozích případech. Dosažené výsledky jsou pak v tab. \ref{tab:realisation:augmentation:influence}. Pro úplnost je tabulka doplněna o baseline model s $1x$ protažením a již prezentované $2x$ protažení. Z výsledků je patrný jasný trend, větší než $2x$ protažení vede ke zhoršení přesnosti. Optimální hodnota protažení tak teoreticky leží někde v intervalu $\left(1,\ 3\right)x$. Bohužel s protahováním pomocí kopírování příznakových vektorů není možné přesné určení hodnoty.
+% Doposud se uvažovalo pouze dvojnásobné protažení,
+V další fázi bylo potřeba ověřit, zda jiné hodnoty násobku protažení nemohou poskytnout lepší výsledek.
+Experiment byl zopakován pro trojnásobek, čtyřnásobek a pětinásobek jejich původní délky.
+% Celkem je uvažované $3x$, $4x$ a $5x$ protažení.
+Protaženy byly fonémy $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$.
+Proces natrénování a otestování modelu korespondoval s předchozími experimenty.
+Dosažené výsledky byly zaznamenýny do tab. \ref{tab:realisation:augmentation:influence}.
+Pro úplnost byla tabulka doplněna o baseline model neobsahuhjící protažení a model s dvojnásobným protažením.
+Z uvedených výsledků je patrný jasný trend, větší než dvojnásobné protažení vede ke zhoršení přesnosti rozpoznávání.
+Optimální hodnota protažení tak teoreticky leží někde mezi jednonásobkem a trojnásobkem původní délky.
+Bohužel uvedeným postupem nelze přesně určit hodnotu míry protažení.
 
 \begin{table}[htpb]
   \centering
@@ -91,15 +158,18 @@ Doposud se uvažovalo pouze dvojnásobné protažení, v další fázi je tedy p
   \label{tab:realisation:augmentation:influence}
 \end{table}
 
-Zhoršení přesnosti u vyšších hodnot protažení dozajista souvisí s faktem, že výsledná augmentovaná data neodpovídají realitě. Čím vícekrát je vektor zkopírován, tím více je vnášena chyba způsobená ignorováním dynamické povahy signálu. Nicméně jako proof-of-concept myšlenky posloužil tento experiment velmi dobře.
+Zhoršení přesnosti u vyšších hodnot míry protažení dozajista souvisí s faktem, že výsledná augmentovaná data neodpovídají realitě. Čím vícekrát je vektor zkopírován, tím více je vnášena chyba způsobená ignorováním dynamické povahy signálu. Nicméně jako proof-of-concept myšlenky posloužil tento experiment velmi dobře.
 %Protažení na příznacích vede ke zvýšení přesnosti a má smysl tuto cestu více prozkoumat.
 
 \subsection{Protažení na zvuku}
 \label{chap:realisation:augmentation:audio}
 
-Protažení na příznacích vedlo k významnému zlepšení, ale tento přístup není bohužel reálně použitelný. Tím může být až model pracující s fonémy protaženými přímo v~audiu signálu. Tato data budou teoreticky více odpovídat reálným datům získaným od řečníka.
-
-Stejně jako v předchozím případě je k protažení potřeba zarovnání. To s určitou mírou přesnosti určuje počáteční a koncové hranice jednotlivých fonémů. Na základě je možné určitý úsek protáhnout například pomocí:
+Protažení na příznacích vedlo sice k významnému zlepšení přesnosti rozpoznávání, ale tento přístup není bohužel reálně použitelný. Vhodnou alternativou může být model pracující s fonémy protaženými přímo v~audiu signálu.
+Taková data budou teoreticky více odpovídat reálným datům získaným od řečníka.
+Stejně jako v předchozím případě je k protažení potřeba zarovnání.
+To s určitou mírou přesnosti určuje počáteční a koncové hranice jednotlivých fonémů.
+% Na základě je možné určitý úsek protáhnout například pomocí:
+S ohledem na stanovené hranice je možné určitý úsek protáhnout například pomocí
 
 \begin{itemize}
   \item převzorkování signálu,
@@ -107,7 +177,8 @@ Stejně jako v předchozím případě je k protažení potřeba zarovnání. To
   \item fázového vokodéru.
 \end{itemize}
 
-\noindent Asi nejednodušší je převzorkování dat, stačí načíst všechny vzorky odpovídající vybranému fonému a změnit vzorkovací frekvenci. Pokud je cílem úsek protáhnout, je výsledná nová vzorkovací frekvence menší než originální. Hlavním problémem této metody je tonální posun\footnote{Mění se fundamentální frekvence $F_0$. Pokud dojde ke zrychlení, frekvence se zvýší. Při zpomalení naopak sníží.}. Cílem je protáhnout konkrétní foném, který z celkové délky nahrávky zabírá jen malou část. Proto by se dal tento nepříznivý jev ignorovat. Snaha je však vygenerovat co možná nejreálnější protažené nahrávky, a proto není protažení pomocí převzorkování nejvhodnější metodou.
+\noindent Asi nejednodušší metodou je převzorkování dat pro jehož realizaci, stačí načíst všechny vzorky odpovídající vybranému fonému a změnit jejich vzorkovací frekvenci.
+Pokud je cílem tento úsek protáhnout, je výsledná nová vzorkovací frekvence menší než originální. Hlavním problémem této metody je tonální posun\footnote{Mění se fundamentální frekvence $F_0$. Pokud dojde ke zrychlení, frekvence se zvýší. Při zpomalení naopak sníží.}. Cílem je protáhnout konkrétní foném, který z celkové délky nahrávky zabírá jen malou část. Proto by se dal tento nepříznivý jev ignorovat. Snaha je však vygenerovat co možná nejreálnější protažené nahrávky, a proto není protažení pomocí převzorkování nejvhodnější metodou.
 
 Zbylé dva uvažované přístupy umožňují sofistikovanější úpravy signálu. Snahou je upravit časové vlastnosti signálu aniž by byl nepříznivě ovlivněn tón.  Obě metody využívají \textit{analýzy} signálu, následované \textit{zpracováním} a zakončené \textit{syntézou}. Rozdíl je hlavně ve způsobu. Metody z rodiny \textit{PSOLA} pracují s hlasivkovými pulsy, které jsou nejprve v analytické části nalezeny\footnote{Výsledkem analýzy jsou periodicky se opakující značky, angl. pitch marks. Úpravou jejich parametrů dochází ke změnám parametrů řeči.}, aby pak v části zpracování došlo k jejich transformaci na základě požadavků na výslednou řeč. V posledním kroku dochází k syntéze signálu na základě upravených analytických krátkodobých signálů, tedy hlasivkových pulsů. Více detailněji se o této metodě hovoří v \cite{Psutka2006}.
 
