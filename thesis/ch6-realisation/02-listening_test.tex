@@ -2,23 +2,37 @@
 \section{Poslechový test a porovnání výsledků člověka a stroje}
 \label{chap:realisation:listening}
 
-V předchozím textu byly prezentovány různé dosažené výsledky, ale ty zatím nedokázali odpovědět na zásadní otázku: \uv{Dokáže se stroj\footnote{Stroj je zde reprezentován systémem automatického rozpoznávání řeči.} vyrovnat človéku?}. Přestože je EL řeč na první poslech obtížně srozumitelná, tak již po krátké době je člověk schopen obstojně rozumět. S přibývajícím časem se do určité míry porozumění ještě zlepšuje. Jak je na tom tedy stroj v porovnání s člověkem?
+V předchozím textu byly prezentovány vybrané dosažené výsledky, ale ty zatím nedokázaly odpovědět na zásadní otázku: \uv{Dokáže se stroj\footnote{Stroj je reprezentován systémem automatického rozpoznávání řeči.} vyrovnat človéku?}.
+Přestože je EL řeč na první poslech obtížně srozumitelná, tak již po krátké době je člověk schopen obstojně rozumět.
+S přibývajícím časem se do určité míry porozumění ještě zlepšuje.
+Jak je na tom tedy stroj v porovnání s člověkem?
 
-Ještě než je vůbec možné na tuto otázku odpovědět, tak je dobré si odpovědět na otázku: \uv{Jakým způsobem porovnat schopnosti člověka a stroje?}. K tomu může posloužit poslechový test, ve kterém mají posluchači za úkol vybrat, z předem definovaných možností, co je obsahem promluv. Otestování schopností stroje pak probíhá standardně pomocí experimentu. Vstupem ASR systému jsou stejné promluvy, která jsou součástí poslechového testu. Výstupem je přepis. Metrika experimentu je počítána na základě správně/špatně určeného obsahu promluv v přepisu\footnote{Výstup ASR systému je považován za správný i v případě, že se liší např. i/y. Z akustického pohledu jsou totiž oba fonémy identické.}. Prostým porovnáním počtu správných odpovědí člověka a stroje je možné odpovědět na první \uv{položenou} otázku.
+Ještě než je vůbec možné na tuto otázku odpovědět, tak je dobré si odpovědět na otázku: \uv{Jakým způsobem porovnat schopnosti člověka a stroje?}.
+K tomu může posloužit poslechový test, ve kterém mají posluchači za úkol vybrat z předem definovaných možností, co je obsahem promluv.
+Otestování schopností stroje pak probíhá pomocí experimentu.
+Vstupem ASR systému jsou stejné promluvy, které jsou součástí poslechového testu.
+Výstupem je přepis.
+Metrika experimentu je počítána na základě správně/špatně určeného obsahu promluv v přepisu\footnote{Výstup ASR systému je považován za správný i v případě, že se liší např. i/y. Z akustického pohledu jsou totiž oba fonémy identické.}.
+Prostým porovnáním počtu správných odpovědí člověka a stroje je možné odpovědět na první z výše uvedených otázek.
 
 Při přípravě experimentu vykrystalizovaly tyto varianty poslechového testu:
 
 \begin{itemize}
   \item test na izolovaných slovech,
-  \item test na slovních bigramech.
+  \item test na slovních bigramech (dvojicích slov).
 \end{itemize}
 
-\noindent Tím, že promluvy obsahují pouze izolovaná slova (v druhém případě dvojici slov) je do značné míry eliminován vliv kontextu. Ten v mnoha případech pomáhá se správným určením významu i přesto, že nebylo dobře rozumět. Pokud se bude experiment skládat z množiny promluv, které obsahují pouze slova popsaná v části \ref{chap:realisation:corpus}, tak bude možné určit, jak \uv{dobře} dokáže člověk (stroj) určit význam těchto slov a případně je od sebe odlišit.
+\noindent Tím, že promluvy obsahují pouze izolovaná slova, resp. dvojici slov je do značné míry eliminován vliv kontextu.
+Ten v mnoha případech pomáhá se správným určením významu i přesto, že nebylo dobře rozumět.
+Pokud se bude experiment skládat z množiny promluv, které obsahují pouze slova popsaná v části \ref{chap:realisation:corpus}, tak bude možné určit, do jaké míry dokáže člověk, resp. stroj správně určit význam těchto slov a případně je od sebe odlišit.
 
 \subsection{Izolovaná slova}
 \label{chap:realisation:listening:isolated}
 
-Rozpoznání slova, které bylo vysloveno v klidném prostředí se jeví jako velice jednoduchý úkol, ale pokud jej vyslovil řečník používající EL, tak už to tak snadné být nemusí. Zvlášť pokud se jedná o slova popsaná v \ref{chap:realisation:corpus}. Účastníci poslechového testu na izolovaných slovech mají za úkol postupně vyslechnout $320$ nahrávek izolovaných slov a vybrat jednu z předem definovaných odpovědí:
+Rozpoznání slova, které bylo vysloveno v klidném prostředí se jeví jako velice jednoduchý úkol.
+Pokud jej ale vyslovil řečník používající EL, tak už to tak snadné být nemusí.
+Zvlášť pokud se jedná o slova popsaná v \ref{chap:realisation:corpus}.
+Účastníci poslechového testu na izolovaných slovech mají za úkol postupně vyslechnout $320$ nahrávek izolovaných slov a vybrat jednu z předem definovaných odpovědí:
 
 \begin{enumerate}[label=\alph*)]
   \item slovo A \textit{(např. kosa)},
@@ -28,14 +42,21 @@ Rozpoznání slova, které bylo vysloveno v klidném prostředí se jeví jako v
 
 \noindent Ve výčtu možností je vždy skutečně pronesené slovo a k němu pak varianta lišící se pouze znělostí jednoho fonému. První dvě možnosti jsou vždy v abecedním pořadí. Nahrávky použité v rámci poslechového testu pocházejí z 2. etapy nahrávání. Poslechového testu se účastnilo $19$ subjektů z řad kolegů.
 
-Výstupem poslechového testu je tabulka s procentuálním zastoupením jednotlivých odpovědí pro každou nahrávku. V tab. \ref{tab:realisation:listening:isolated} je zobrazen výňatek získaných výsledků. Správné odpovědi jsou zvýrazněny tučně. Výsledky slov \textit{borce} a \textit{porce} reprezentují situaci, kdy účastník nebyl jednoznačně schopen určit význam slova. Druhý příklad (\textit{kosa} + \textit{koza}) ukazuje situaci, kdy všichni účastníci vybrali z komplementárních slov vždy pouze jediné, a to nehledě na to, které jim bylo ve skutečnosti puštěno. V tomto konkrétním případě tedy posluchači vždy \uv{slyšeli} slovo \uv{koza}. Dalo by se tedy usuzovat, že slova \uv{kosa} je akusticky identické se slovem \uv{koza}. Poslední případ reprezentuje situaci, kdy většina účastníků byla schopna určit správný význam slova. Celková přesnost dosáhla hodnoty $Acc_w^{human} = 70,47\ \%$ a byla vypočtena vzorcem
+Výstupy poslechového testu byly vyhodnoceny a zapsány do tabulky s procentuálním zastoupením jednotlivých odpovědí pro každou nahrávku.
+V tab. \ref{tab:realisation:listening:isolated} je ukázán výňatek získaných výsledků. Správné odpovědi jsou zvýrazněny tučně.
+Výsledky slov \textit{borce} a \textit{porce} reprezentují situaci, kdy účastník nebyl jednoznačně schopen určit význam slova.
+Druhý příklad (\textit{kosa} + \textit{koza}) ukazuje situaci, kdy všichni účastníci vybrali z komplementárních slov vždy pouze jediné, a to nehledě na to, které jim bylo ve skutečnosti puštěno.
+V tomto konkrétním případě tedy posluchači vždy \uv{slyšeli} slovo \uv{koza}.
+Dalo by se tedy usuzovat, že slova \uv{kosa} je akusticky identické se slovem \uv{koza}.
+Poslední případ reprezentuje situaci, kdy byla většina účastníků schopna určit správný význam slova.
+Celková přesnost rozpoznávání byla vypočtena podle vzorce
 
 \begin{equation}
   Acc_w^{human} = \frac{1}{N} \sum_{i=1}^{N} f_i * 100,
   \label{eq:realisation:accuracy:human}
 \end{equation}
 
-\noindent kde $N=320$ a $f_i$ se rovná relativní četnosti správných odpovědí na otázku $i$ v poslechovém testu s izolovanými slovy.
+\noindent kde $N=320$ a $f_i$ se rovná relativní četnosti správných odpovědí na otázku $i$ v poslechovém testu s izolovanými slovy. Dosáhla hodnoty $Acc_w^{human} = 70,47\ \%$.
 
 \begin{table}[htpb]
   \centering
@@ -94,9 +115,19 @@ V druhém poslechovém testu mají posluchači za úkol vyslechnout $333$ nahrá
 
 Vyšší počet položek v testu je zapříčiněn faktem, že pro určitá slova existuje více než jedna kombinace s jiným slovem\footnote{Ve valné většině se jedná o slova obsahující písmena \textit{i/y}, která jsou v akustické formě identická. Příkladem může být dvojice \textit{nebyli + nepili} a \textit{nebili + nepili}.}. Ve snaze zkrátit, už tak docela náročný poslechový test, byly vygenerovány bigramy odpovídající pouze možnostem \textit{b)} a \textit{c)}. Účastníci poslechového testu o tom však nebyli informováni. Přesto tento poslechový test dokončilo pouze $12$ účastníků.
 
-Stejně jako u testu s izolovanými slovy je výstupem testu tabulka obsahující procentuální zastoupení jednotlivých odpovědí na každou otázku. Tab. \ref{tab:realisation:listening:bigrams} obsahuje ukázku těchto výsledků. Stejně jako v předchozím případě, správné odpovědi jsou zvýrazněny tučně. Ačkoli jsou nyní v testu dvojice slov, tak dosažené výsledky do značné míry korespondují s výsledky z testu s izolovanými slovy (viz tab. \ref{tab:realisation:listening:isolated}). V prvním případě (\textit{borci + porci}) nebyli účastníci schopni jednoznačně určit význam slov v nahrávce. V druhém případě (\textit{kosa + koza}) všichni posluchači až na jednoho vybrali možnost \textit{d)}, tedy \textit{koza + koza}. Správný výběr jedním účastníkem lze považovat spíše za náhodu, protože u opačného pořadí slov již nikdo správnou odpověď nevybral. Je dobré zmínit, že účastníci v žádném poslechovém testu nebyli omezeni v počtu opětovného přehrání promluvy. Tím pádem je velmi pravděpodobné, že tento konkrétní participant opakovaně poslouchal danou nahrávku a hledal rozdíl až nějaký drobný zaznamenal. Otázkou však je, jestli to spíše nebyla sugesce a to již zmíněné štěstí.
+Stejně jako u testu s izolovanými slovy je výstup testu zpracován do tabulky obsahující procentuální zastoupení jednotlivých odpovědí na každou otázku.
+Tab. \ref{tab:realisation:listening:bigrams} obsahuje ukázku těchto výsledků.
+Stejně jako v předchozím případě jsou správné odpovědi zvýrazněny tučně.
+Ačkoli jsou nyní v testu dvojice slov, tak dosažené výsledky do značné míry korespondují s výsledky z testu s izolovanými slovy (viz tab. \ref{tab:realisation:listening:isolated}).
+V prvním případě (\textit{borci + porci}) nebyli účastníci schopni jednoznačně určit význam slov v nahrávce.
+V druhém případě (\textit{kosa + koza}) všichni posluchači až na jednoho vybrali možnost \textit{d)}, tedy \textit{koza + koza}.
+Správný výběr jedním účastníkem lze považovat spíše za náhodu, protože u opačného pořadí slov již nikdo správnou odpověď nevybral.
+Je dobré zmínit, že účastníci v žádném z provedených poslechových testů nebyli omezeni počtem opětovného přehrání promluvy.
+Tím pádem je velmi pravděpodobné, že tento konkrétní participant opakovaně poslouchal danou nahrávku a hledal rozdíl až nějaký drobný zaznamenal.
+% Otázkou však je, jestli to spíše nebyla sugesce a to již zmíněné štěstí.
 
-Poslední prezentovaný příklad zastupuje množinu odpovědí, kdy účastníci naprosto správně určili význam slov. Průměrná dosažená přesnost člověka, počítána pomocí rovnice (\ref{eq:realisation:accuracy:human}), dosáhla hodnoty $Acc_{w}^{human} = 66,24\ \%$.
+Poslední prezentovaný příklad zastupuje množinu odpovědí, kdy účastníci naprosto správně určili význam slov.
+Průměrná dosažená přesnost rozpoznávání člověka, počítána pomocí rovnice (\ref{eq:realisation:accuracy:human}), dosáhla hodnoty $Acc_{w}^{human} = 66,24\ \%$.
 
 \begin{table}[htpb]
   \centering
@@ -134,19 +165,69 @@ Poslední prezentovaný příklad zastupuje množinu odpovědí, kdy účastníc
 \subsection{Výsledky porovnání}
 \label{chap:realisation:comparison}
 
-Výsledky poslechového testu ukázaly, jak je na tom člověk. Nyní je potřeba zjistit, jak je na tom stroj zastoupený ASR systémem. K tomu je nezbytné natrénovat akustický model a použít vhodný jazykový model. Jako akustický model je použit HMM-DNN model. Konkrétně jde o DNN síť s $6$ vrstvami ($5$ skrytých vrstev, každá s $4096$ neurony), výstupní vrstva je typu softmax s dimenzí rovnou počtu HMM stavů. Jako parametrizace je použito PLP (12 kepstrálních koeficientů + delta + delta-delta parametry) a pro eliminaci vlivu kanálu CMN počítané přes všechny nahrávky v rámci etapy. Výsledný příznakový vektor má dimenzi $36$. Vstupem neuronové sítě je pak parametrizované okénko mající kontext přes $11$ mikrosegmentů, tedy $t-5$ a $t+5$. Vstupní dimenze neuronové sítě je tedy $396$. Oproti dosavadním experimentům je v tomto případě použit vlastní real-time dekodér (více o dekódování v části \ref{chap:asr:decoding}). Tento LVCSR systém je optimalizován pro co nejnižší latenci a je schopný pracovat s velmi velkými slovníky čítající i miliony položek. Tento dekodér byl vyvinut na katedře kybernetiky Fakulty aplikovaných věd.
+Výsledky poslechového testu ukázaly, přesnost rozpoznání člověka.
+Nyní je potřeba zjistit, jak je na tom stroj zastoupený ASR systémem.
+% K tomu je nezbytné natrénovat akustický model a použít vhodný jazykový model.
+Byl využit model HMM-DNN, konkrétně se jednalo o DNN síť s $6$ vrstvami ($5$ skrytých vrstev, každá s $4096$ neurony), přičemž výstupní vrstva byla typu softmax s dimenzí rovnou počtu HMM stavů.
+Parametrizace byla provedena pomocí PLP (12 kepstrálních koeficientů + delta + delta-delta parametry) a pro eliminaci vlivu kanálu CMN počítané přes všechny nahrávky v rámci etapy.
+Výsledný příznakový vektor má dimenzi $36$.
+Vstupem neuronové sítě je parametrizované okénko mající kontext přes $11$ mikrosegmentů, tedy $t-5$ a $t+5$.
+Vstupní dimenze neuronové sítě je tedy $396$.
+Oproti dosavadním experimentům je v tomto případě použit vlastní real-time dekodér (více o dekódování v části \ref{chap:asr:decoding}).
+Tento LVCSR systém je optimalizován pro co nejnižší latenci a je schopný pracovat s velmi velkými slovníky čítající i miliony položek.
+Tento dekodér byl vyvinut na Katedře kybernetiky Fakulty aplikovaných věd.
 
-Z poslechových testů jsou k dispozici dva výsledky. První reprezentuje schopnost určit význam izolovaného slova. Druhý schopnost rozeznat dvě velmi podobná slova. Pro potřeby porovnání, s těmi dosaženými ASR systémem ,jsou vytvořeny celkem $3$ experimenty využívající výše popsaný akustický model.
+Provedené poslechové testy poskytly dva typy výsledků.
+První reprezentuje schopnost určit význam izolovaného slova, druhý schopnost rozeznat dvě velmi podobná slova.
+Pro potřeby porovnání přesnosti rozpoznávání člověka s výsledky dosaženými ASR systémem, byly navrženy celkem $3$ experimenty využívající výše popsaný akustický model.
 
-První experiment odpovídá poslechovému testu s izolovanými slovy a jeho základem je zerogramový LM obsahující více než 1 milion slov. Většina předchozích experimentů využívala fonémový zerogramový model, aby bylo možné eliminovat vliv LM na výsledné přesnosti. U těchto experimentů je tento LM nevyhovující, protože cílem je správně určit celé slovo, a proto je využit slovní jazykový model. U zerogramového modelu mají všechny položky stejnou pravděpodobnost, tím je zaručeno, že nebudou preferována četnější slova. Slovník potřebný pro tento LM je sestaven z textů pocházejících z novinových článků, webových zpravodajských serverů, filmových titulků a přepisů televizních pořadů. Využití takto velkého LM vychází z představy, že i člověk má velkou slovní zásobu a dopředu neví co bude obsahem konkrétní promluvy v rámci testu. Tento test je pojmenován jako \uv{one-mil}.
+První experiment odpovídá poslechovému testu s izolovanými slovy.
+Jeho základem je zerogramový LM obsahující více než 1 milion slov.
+Většina předchozích experimentů využívala fonémový zerogramový model, aby bylo možné eliminovat vliv LM na výslednou přesnost rozpoznávání.
+U těchto experimentů je tento LM nevyhovující, protože cílem je správně určit celé slovo, a proto je využit slovní jazykový model.
+U zerogramového modelu mají všechny položky stejnou pravděpodobnost, tím je zaručeno, že nebudou preferována četnější slova.
+Slovník potřebný pro tento LM je sestaven z textů pocházejících z novinových článků, webových zpravodajských serverů, filmových titulků a přepisů televizních pořadů.
+Využití takto velkého LM vychází z představy, že i člověk má obsáhlou slovní zásobu a dopředu nezná obsah konkrétní promluvy v rámci testu.
+Tento test je pojmenován jako \uv{one-mil}.
 
-Ve skutečnosti však, v rámci poslechového testu, účastníci znají seznam slov zahrnutých v testu a mají tak určitou výhodu oproti \uv{one-mil} nastavení. Ke kompenzaci tohoto faktu, je vytvořen druhý experiment, který má redukovaný LM. Obsahuje pouze slova, která se opravdu vyskytla v rámci poslechového testu ($N = 320$). Tento experiment je nazván jako \uv{reduced}. Výsledky obou těchto experimentů jsou porovnány s poslechovým testem na izolovaných slovech. Další možností by mohlo být vytvoření speciálních LM pro každou promluvu. Ten by obsahoval pouze komplementární slova. Problémem tohoto postupu je 3 možnost, kterou obsahuje poslechový test (tzv. \uv{nemohu rozhodnout}). V případě, že by LM obsahoval pouze dvě slova, tak by ASR experiment, svými parametry, neodpovídal poslechovému testu.
+Ve skutečnosti však účastníci znají seznam slov zahrnutých do poslechového testu a mají tak určitou výhodu oproti \uv{one-mil} nastavení.
+Za účelem kompenzace tohoto vlivu, je vytvořen druhý experiment, který pracuje s redukovaným LM.
+Obsahuje pouze slova, která se opravdu vyskytla v rámci poslechového testu ($N = 320$).
+Tento experiment je nazván jako \uv{reduced}.
+Výsledky obou těchto experimentů byly porovnány s poslechovým testem na izolovaných slovech.
+Další možností by mohlo být vytvoření speciálních LM pro každou promluvu.
+Ten by obsahoval pouze komplementární slova.
+Problémem tohoto postupu je třetí možnost, kterou obsahuje poslechový test (tzv. \uv{nemohu rozhodnout}).
+V případě, že by LM obsahoval pouze dvě slova, tak by ASR experiment, svými parametry, neodpovídal poslechovému testu.
 
-Poslední experiment odpovídá druhému poslechovému testu. K získání srovnatelných výsledků, je ke každé nahrávce se slovním bigramem vygenerován speciální zerogramový LM. Ten obsahuje vždy pouze všechny 4 kombinace slov. Tím pádem odpovídá dostupným možnostem v rámci poslechového testu. Tento experiment je nazván jako \uv{bigrams}. Jeho výsledky jsou porovnány s druhým poslechovým testem.
+Poslední navržený experiment spočívá v tom, že je ke každé nahrávce se slovním bigramem vygenerován speciální (zerogramový) LM.
+Ten obsahuje vždy pouze všechny 4 kombinace slov.
+Tím pádem odpovídá dostupným možnostem v rámci poslechového testu.
+Tento experiment je nazván jako \uv{bigrams}.
+Jeho výsledky jsou porovnány s druhým poslechovým testem.
 
-Výsledkem rozpoznávače je nejlepší hypotéza (případně \textit{N} nejlepších hypotéz), tudíž slovo. To však není porovnatelné s výsledkem poslechového testu. Z tohoto důvodu jsou všechny výsledky ohodnoceny $1$, pokud bylo výstupem správné slovo, a v opačném případě $0$. Násladně byl z tohoto ohodnocení vypočten průměr. Pro upřesnění je nutné zmínit, že \textit{i/y} na výsledném ohodnocení nehraje roli. Dosažené výsledky jsou pak v tab. \ref{tab:realisation:comparison}. Ty ukazují, že požadovaný úkol je výzvou jak pro člověka, natož pro stroj. V případě experimentu \uv{one-mil} je výkon ASR systému významně horší než výkon člověka. To je zejména způsobeno enormní perplexitou jazykového modelu. Ta je přímo rovna velikosti slovníku. Zmenšením slovníku se podařilo získat výsledky srovnatelné s člověkem. Je dobré zdůraznit, že i v případě \uv{reduced} experimentu hrají karty ve prospěch člověka, protože čelí pouze perplexitě $3$, protože se kdykoli může podívat na nabízené možnosti. Řešením by bylo nechat účastníky přepsat obsah promluvy a porovnat ho se skutečným obsahem. Nicméně toto by významně zvýšilo náročnost (zejména časovou) poslechového testu a bylo by velmi komplivané získat kompletní výsledky od relevantního množství účastníků. Už jen podíl odpadlíků mezi prvním a druhým poslechovým testem činí závratných $30\ \%$.
+Výsledkem rozpoznávače je nejlepší hypotéza (případně \textit{N} nejlepších hypotéz), tudíž slovo.
+To však není porovnatelné s výsledkem poslechového testu.
+Z tohoto důvodu jsou všechny výsledky ohodnoceny $1$, pokud bylo výstupem správné slovo, a v opačném případě $0$.
+Násladně byl z tohoto ohodnocení vypočten průměr.
+Pro upřesnění je nutné zmínit, že \textit{i/y} na výsledném ohodnocení nehraje roli.
+Dosažené výsledky jsou pak shrnuty v tab. \ref{tab:realisation:comparison}.
+Ty ukazují, že řešení takového úkolu je výzvou nejen pro člověka, ale i pro stroj.
+V případě experimentu \uv{one-mil} je úspěšnost rozpoznávání ASR systému významně nižší než úspěšnost rozpoznání člověka.
+To je způsobeno především enormní perplexitou jazykového modelu.
+Ta je rovna velikosti slovníku.
+Po zmenšení slovníku se podařilo získat výsledky srovnatelné s člověkem.
+Je ale potřeba zdůraznit, že i v případě \uv{reduced} experimentu vykazuje člověk vyšší úspěšnost rozpoznání, protože čelí pouze perplexitě $3$ (kdykoli může podívat na nabízené možnosti).
+Tento faktor by bylo možno eliminovat tak, že by účastník testu přepsal obsah promluvy a tebti přepis by byl následně porovnán se skutečným obsahem.
+To by ale významně zvýšilo časovou náročnost poslechového testu a bylo by velmi komplivané získat kompletní výsledky od relevantního množství účastníků.
+Už jen podíl odpadlíků mezi prvním a druhým poslechovým testem dosáhl závratných $30\ \%$.
 
-Velmi zajímavé jsou výsledky u \uv{bigrams} experimentu. Na první pohled se může jevit jako snazší, protože úkolem je vybrat z jasně definovaných kombinací slov. Avšak slova jsou si akusticky velmi podobná a v mnoha případech je velmi náročné je od sebe rozeznat. Jak člověk, tak stroj, dosáhli v tomto testu nejhorších výsledků. Při analýze se ukázalo, že rozdíly mezi hypotézami ASR systému jsou velmi malé, což naznačuje velkou podobnost mezi inkriminovanými modely fonémů. Zároveň tyto výsledky s velmi podobnými hypotézami korelují s výsledky poslechového testu, kde posluchači nebyli schopni jednoznačně rozhodnout o významu jednotlivých slov.
+Velmi zajímavé jsou výsledky u \uv{bigrams} experimentu.
+Na první pohled se může jevit jako snazší, protože úkolem je vybrat z jasně definovaných kombinací slov.
+Slova jsou si ale akusticky velmi podobná a v mnoha případech je velmi náročné je od sebe rozeznat.
+Jak člověk, tak stroj, dosáhli v tomto testu nejhorších výsledků.
+Při analýze se ukázalo, že rozdíly mezi hypotézami ASR systému jsou velmi malé, což naznačuje velkou podobnost mezi inkriminovanými modely fonémů.
+Zároveň tyto výsledky s velmi podobnými hypotézami korelují s výsledky poslechového testu, kde posluchači nebyli schopni jednoznačně rozhodnout o významu jednotlivých slov.
 
 \begin{table}[htpb]
   \centering
@@ -174,4 +255,12 @@ Velmi zajímavé jsou výsledky u \uv{bigrams} experimentu. Na první pohled se 
   \label{tab:realisation:comparison}
 \end{table}
 
-Z dosažených výsledků je zřejmé, že stroj nedosahuje schopností člověka. Pokud se vezme v úvahu, že byl člověk oproti stroji vždy v malé výhodě, tak dosažené výsledky jsou relativně optimistické. Minimálně v jednom případě se stroj téměř vyrovnal člověku. Samotnou kapitolou je vliv slovního kontextu. Ještě před samotnými ASR experimenty byl ověřen výkon ASR systému na \uv{kontinuální} řeči, zde reprezentované větami z testovací sady. Jazykovým modelem je v tomto případě trigramový slovní model obsahující $1,2$ milionu unikátních slov. Přesnost na slovech (počítaná pomocí rovnice (\ref{eq:asr:decoding:acc})) dosáhla hodnoty $86,10\ \%$. Při porovnání s výsledky z tab. \ref{tab:realisation:comparison} jasně plyne, že pokud je k dispozici dostatečný kontext, tak je ASR schopen správně určit variantu slova. Přeci jen slovo \uv{kosa} se většinou vyskytuje v trochu jiném slovním kontextu, než slovo \uv{koza} a toto platí u většiny dvojic.
+Na základě dosažených výsledků lze tvrdit, že stroj prozatím nedosahuje schopností člověka.
+Pokud uvážíme, že byl člověk oproti stroji vždy v malé výhodě, tak dosažené výsledky jsou relativně optimistické.
+Minimálně v jednom případě se stroj téměř vyrovnal člověku.
+Samotnou kapitolou je vliv slovního kontextu.
+Ještě před samotnými experimenty byl ověřen výkon ASR systému na \uv{kontinuální} řeči, zde reprezentované pomocí vět z testovací sady.
+Jazykovým modelem je v tomto případě trigramový slovní model obsahující $1,2$ milionu unikátních slov.
+Přesnost rozpoznávání na slovech (počítaná pomocí rovnice (\ref{eq:asr:decoding:acc})) dosáhla hodnoty $86,10\ \%$.
+Při porovnání této hodnoty s výsledky uvedenými v tab. \ref{tab:realisation:comparison} lze konstatovat, že pokud je k dispozici dostatečný kontext, tak je ASR schopen správně určit variantu slova.
+Přeci jen slovo \uv{kosa} se většinou vyskytuje v trochu jiném slovním kontextu, než slovo \uv{koza}, a toto platí u většiny dvojic.
