@@ -2,7 +2,7 @@
 \section{Jazykové modelování}
 \label{chap:asr:language}
 
-Jazykový model je po parametrizaci a akustickém modelu další důležitou částí systému rozpoznávání řeči viz obr. \ref{fig:asr:decoding}. Jeho úkolem je poskytnout dekodéru co nejrychleji co nejpřesnější odhad apriorní pravděpodobnosti $P\left(W\right)$ pro libovolnou posloupnost slov $W$. Tuto pravděpodobnost je možné vyjádřit vztahem
+Jazykový model (LM) je po parametrizaci a akustickém modelu další důležitou částí systému rozpoznávání řeči viz obr. \ref{fig:asr:decoding}. Jeho úkolem je poskytnout dekodéru co nejrychleji co nejpřesnější odhad apriorní pravděpodobnosti $P\left(W\right)$ pro libovolnou posloupnost slov $W$. Tuto pravděpodobnost je možné vyjádřit vztahem
 
 \begin{equation}
   P\left(W\right) = \prod_{k=1}^{K} P\left(w_k | w_{k-1}\dots w_{1}\right),
