@@ -2,43 +2,45 @@
 \section{Dekódování}
 \label{chap:asr:decoding}
 
-Hlavní funkcí dekodéru (viz obr. \ref{fig:asr:decoding}) je řešení rovnice
+Hlavní funkcí dekodéru je nalézt nejlepší výstupní posloupnost slov $\hat{W}$. Matematicky lze tento proces popsat pomocí vztahu
 
 \begin{equation}
-  \hat{W} = \argmax_{W} p\left(O | W\right)P\left(W\right),
+  \hat{W} = \argmax_{W} P\left(\boldsymbol{O} | W\right)P\left(W\right),
   \label{eq:asr:decoding:decoder}
 \end{equation}
 
-\noindent kde $p\left(O|W\right)$ představuje již popsaný akustický model a $P\left(W\right)$ pak ten jazykový. Někdy je úloha dekódování zobecněna na nalezení více než jedné posloupnosti slov $\hat{W}$. O té se pak mluví jako o hledání \textbf{\textit{N} nejlepších} (\textit{N}-best) posloupností slov $\hat{W}$.  Řešení této úlohy je netriviální, protože dekodér obvykle nemá informaci o počtu slov v dané promluvě, protože ASR systémy nevyžadují vyslovování pauz mezi jednotlivými slovy. Navíc, i kdyby tato informace byla k dispozici, tak pro promluvu, která čítá $M$ slov, tak pak se slovníkem čítajícím $N$ slov, je potřeba prozkoumat $N^{M}$ různých slovních kombinací (hypotéz), tj. například $10^{50}$ vyhodnocení při $N=100000$ a $M=10$. Z toho jasně plyne, že aplikace metody vyčerpávajícího prohledávání je i pro úlohu s malými slovníky a krátkými promluvami nerealizovatelná.
+\noindent kde $P\left(\boldsymbol{O}|W\right)$ představuje již popsaný akustický model, $P\left(W\right)$ opisuje jazykový model. V některých případech je úloha dekódování zobecněna na nalezení více než jedné posloupnosti slov $\hat{W}$. V těchto případech se mluví jako o hledání \textbf{\textit{N} nejlepších} (\textit{N}-best) posloupností slov $\hat{W}$.  Řešení této úlohy je netriviální, protože dekodér obvykle nemá informaci o počtu slov v dané promluvě, protože ASR systémy nevyžadují vyslovování pauz mezi jednotlivými slovy. Navíc, i kdyby tato informace byla k dispozici, tak pro promluvu, která čítá $M$ slov, je se slovníkem čítajícím $N$ slov, potřeba prozkoumat $N^{M}$ různých slovních kombinací (hypotéz), tj. například $10^{50}$ vyhodnocení při $N=100000$ a $M=10$. Z toho jasně plyne, že aplikace metody vyčerpávajícího prohledávání je i pro úlohu s malými slovníky a krátkými promluvami nerealizovatelná.
 
-Naštěstí bylo navrženo několik účinných algoritmů, které řeší hledání maxima v rovnici (\ref{eq:asr:decoding}) bez exponenciálního nárůstu počtu výpočtů. Mezi takové algoritmy patří dekódování podle \textbf{kritéria maximální aposteriorní pravděpodobnosti (MAP)}, nebo v současnosti primárně používaného dekódování podle \textbf{Viterbiova kritéria}.
+Naštěstí bylo navrženo několik účinných algoritmů, které řeší úlohu hledání maxima (\ref{eq:asr:decoding}) bez exponenciálního nárůstu počtu výpočtů. Mezi takové algoritmy patří dekódování podle \textbf{kritéria maximální aposteriorní pravděpodobnosti (MAP)}, nebo v současnosti primárně používaného dekódování podle \textbf{Viterbiova kritéria}.
 
-Akustický model určuje $p\left(O|W\right)$, resp. $p\left(O|\lambda\right)$, pomocí forward-backward (FB) algoritmu. Ten pro pozorovanou posloupnost $\boldsymbol{O}$ určí pravděpodobnosti všech možných cest délky $T$ modelem $\lambda$. Výpočet podmíněné pravděpodobnosti lze aproximovat pravděpodobností $P_S(O|\lambda)$, jako nejpravděpodobnější posloupností HMM stavů, kterou projde posloupnost $\boldsymbol{O}$ modelem $\lambda$
+Akustický model zjišťuje pravděpodobnost $P\left(\boldsymbol{O}|W\right)$, resp. $P\left(\boldsymbol{O}|\lambda\right)$ pomocí forward-backward (FB) algoritmu.
+Ten pro pozorovanou posloupnost $\boldsymbol{O}$ určí pravděpodobnosti všech možných cest délky $T$ modelem $\lambda$.
+Výpočet podmíněné pravděpodobnosti lze aproximovat pravděpodobností $P_S(\boldsymbol{O}|\lambda)$, reprezentující nejpravděpodobnější posloupnost HMM stavů, kterými projde posloupnost $\boldsymbol{O}$ modelem $\lambda$, tedy
 
 \begin{equation}
-  p\left(O|\lambda\right) \approx P_S\left(O|\lambda\right) = \max_S P\left(O, S| \lambda \right) = \max_S a_{s\left(0\right)s\left(1\right)} \prod_{t=1}^{T} b_{s\left(t\right)}\left(o_t\right) a_{s\left(t\right)s\left(t+1\right)}.
+  P\left(\boldsymbol{O}|\lambda\right) \approx P_S\left(\boldsymbol{O}|\lambda\right) = \max_S P\left(\boldsymbol{O}, S| \lambda \right) = \max_S a_{s\left(0\right)s\left(1\right)} \prod_{t=1}^{T} b_{s\left(t\right)}\left(\boldsymbol{o}_t\right) a_{s\left(t\right)s\left(t+1\right)}.
   \label{eq:asr:decoding:approx}
 \end{equation}
 
-\noindent Tuto pravděpodobnost i optimální posloupnost stavů lze určit tzv. \textbf{Viterbiovým algoritmem} \cite{Holmes2001}. Algoritmus řeší úlohu s využitím prohledávání typu beam, což je heuristický prohledávací algoritmus, který vždy expanduje pouze několik nejslibnějších uzlů. Tím pádem dochází k urychlení výpočtů časově synchronního prohledávání, protože dochází k prořezávání neperspektivních hypotéz.
+\noindent Tuto pravděpodobnost i optimální posloupnost stavů lze určit tzv. \textbf{Viterbiovým algoritmem} \cite{Holmes2001}. Ten řeší úlohu s využitím heuristického prohledávání typu beam. Protože vždy expanduje pouze několik nejslibnějších uzlů, dochází k urychlení výpočtů časově synchronního prohledávání, a tedy i k prořezávání neperspektivních hypotéz.
 
-Pro další urychlení dekódování (zejména u systému pracujících v reálném čase), bylo navrženo několik dalších sofistikovaných postupů. Mezi takové může patřit využití tzv. lexikálních stromů, dalších technik prořezávání případně zjednodušení akustického modelu slova. Více o této problematice v \cite{Psutka2006}.
+Pro další urychlení dekódování (zejména u systému pracujících v reálném čase) bylo navrženo několik dalších sofistikovaných postupů, např. využití tzv. lexikálních stromů nebo jiných technik prořezávání, případně zjednodušení akustického modelu slova. Více o této problematice v \cite{Psutka2006}.
 
-U reálného systému je často potřeba vyřešit nebo \uv{vybalancovat} poměr příspěvků pravděpodobností od akustického a jazykového modelu. Z principu ASR systémy upřednostňují při dekódování krátký slova, což způsobuje chybu typu vložení. Ta se kompenzuje tzv. penaltou vložení, která mění měřítko $p(O|W)P(W)$ v závislosti na počtu slovních hypotéz. Jinými slovy penalizuje vložení krátkého slova pokud se jako \uv{lepší} jeví delší slovo. Vyvážení příspěvku jazykového modelu se ve většině systémů používá tzv. \uv{grammar scale factor}. Zohledněním těchto poznatků, je možné rovnici (\ref{eq:asr:decoding:decoder}) zapsat ve tvaru
+U reálného systému je často potřeba vyřešit nebo \uv{vybalancovat} poměr příspěvků pravděpodobností od akustického a jazykového modelu. Z principu fungování ASR systémů vyplývá, že upřednostňují při dekódování krátká slova, což způsobuje chybu typu vložení. Ta se kompenzuje tzv. penaltou vložení, která mění měřítko $P(\boldsymbol{O}|W)P(W)$ v závislosti na počtu slovních hypotéz. Jinými slovy penalizuje vložení krátkého slova v případě, že se jako \uv{lepší} jeví delší slovo. Pro vyvážení příspěvku jazykového modelu se ve většině systémů používá tzv. \uv{grammar scale factor}. S využitím výše uvedených poznatků lze vztah (\ref{eq:asr:decoding:decoder}) určující odhad obsahu promluvy upravit do tvaru
 
 \begin{equation}
-  \hat{W} = \argmax_{W} \left[\log p\left(O|W\right) + \kappa_1 \log\left(P\left(W\right) + \kappa_2H\right)\right],
+  \hat{W} = \argmax_{W} \left[\log P\left(\boldsymbol{O}|W\right) + \kappa_1 \log\left(P\left(W\right) + \kappa_2H\right)\right],
   \label{eq:asr:decoding:compensated}
 \end{equation}
 
-\noindent kde $\kappa_1$ je faktor změny měřítka, $\kappa_2$ je penalta vložení a $H$ celkový počet slov v hypotéze. Parametry $\kappa_1$ a $\kappa_2$ jsou většinou nastavovány experimentálně.
+\noindent kde $\kappa_1$ je faktor změny měřítka, $\kappa_2$ je penalta vložení a $H$ celkový počet obsažených slov v~hypotéze. Hodnoty parametrů $\kappa_1$ a $\kappa_2$ jsou většinou určovány experimentálně.
 
 V úloze rozpoznávání spojité řeči se vyskytují 3 typy chyb
 
 \begin{itemize}
   \item \textit{substituce (S)} - došlo k rozpoznání špatného slova;
   \item \textit{deletace (D)} - došlo k vynechání nějakého slova;
-  \item \textit{inzerce (I)} - došlo k vložení slova, které nebylo součástí $W$;
+  \item \textit{inzerce (I)} - došlo k vložení slova, které nebylo součástí promluvy $W$.
 \end{itemize}
 
 \noindent K evaluaci schopností systému rozpoznávání řeči se pak využívá vzorce pro výpočet míry chybovosti na slovech (WER)
@@ -48,13 +50,11 @@ V úloze rozpoznávání spojité řeči se vyskytují 3 typy chyb
   \label{eq:asr:decoding:wer}
 \end{equation}
 
-\noindent kde $N$ představuje počet slov v $\hat{W}$ a $C(.)$ je celkový počet chyb konkrétního typu. Čím je $WER$ nižší, tím je systém lepší.
-
-Velmi často se také používá metrika přesnosti rozpoznání udávaná v $[\%]$. Stejně jako $WER$ se počítá na základě chyb systému pomocí vzorce
+\noindent kde $N$ představuje počet slov v $\hat{W}$ a $C(.)$ je funkce určující celkový počet chyb konkrétního typu. Čím je hodnota $WER$ nižší, tím systém poskytuje přesnější odhad. Velmi často se také používá metrika přesnosti rozpoznání udávaná v procentech. Stejně jako $WER$ je definována pomocí vyčíslených chyb systému. Matematicky lze tuto relaci zapsat pomocí vztahu
 
 \begin{equation}
-  Acc = \frac{N - C(S) - C(D) - C(I)}{N} * 100 = \left(1 - WER\right) * 100.
+  Acc = \frac{N - C(S) - C(D) - C(I)}{N} * 100.
   \label{eq:asr:decoding:acc}
 \end{equation}
 
-\noindent Oproti $WER$ je systém s vyšší přesností lepší než systém s nižší přesností.
+\noindent Po úpravě výše uvedeného vztahu lze získat relaci mezi oběma metrikami , konkrétně $Acc = \left(1 - WER\right) * 100$. Z toho plyne, že oproti $WER$ je systém s vyšší přesností lepší než systém s nižší přesností.
