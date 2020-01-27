@@ -12,12 +12,14 @@
 
 %%% For the electronic copy, use doublespacing, define "\proquestmode" to use outlined links, instead of colored links.
 % \documentclass[12pt,lot, los, lof]{puthesis}
+% \documentclass[12pt, lot, lof]{puthesis}
 % \newcommand{\proquestmode}{}
 % I prefer proquestmode to be off for electronic copies for normal use, since the colored links are less distracting. However when printed in black and white, the colored links are difficult to read.
 
 %%% For early drafts without some of the frontmatter
 % Also see the "ifodd" command below to disable more frontmatter
-\documentclass[12pt]{puthesis}
+\documentclass[12pt, lot, lof]{puthesis}
+
 
 \usepackage{t1enc} % as usual
 \usepackage[utf8]{inputenc}

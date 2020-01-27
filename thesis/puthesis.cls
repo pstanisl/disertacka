@@ -160,25 +160,39 @@
     \phantomsection
   \else
   \fi
-  \addcontentsline{toc}{section}{List of Tables}\listoftables}}
+  \addcontentsline{toc}{section}{Seznam tabulek}\listoftables}}
 \DeclareOption{lof}{\renewcommand*{\makelof}{
   \ifdefined\phantomsection
     % makes hyperref recognize this section properly for pdf links
     \phantomsection
   \else
   \fi
-  \addcontentsline{toc}{section}{List of Figures}\listoffigures}}
+  \addcontentsline{toc}{section}{Seznam obrázků}\listoffigures}}
+% \DeclareOption{los}{
+%   \renewcommand*{\makelos}{
+%     \RequirePackage{losymbol}
+%     \section*{List of Symbols\@mkboth {LIST OF SYMBOLS}{LIST OF SYMBOLS}}
+%     \@starttoc{los}
+%   \ifdefined\phantomsection
+%     % makes hyperref recognize this section properly for pdf links
+%     \phantomsection
+%   \else
+%   \fi
+%     \addcontentsline{toc}{section}{Seznam symbolů}
+%   }
+% }
 \DeclareOption{los}{
   \renewcommand*{\makelos}{
-    \RequirePackage{losymbol}
-    \section*{List of Symbols\@mkboth {LIST OF SYMBOLS}{LIST OF SYMBOLS}}
-    \@starttoc{los}
+    %\RequirePackage{losymbol}
+    \section*{Seznam pou\v{z}it\'{y}ch zkratek\@mkboth {Seznam pou\v{z}it\'{y}ch zkratek}{Seznam pou\v{z}it\'{y}ch zkratek}}
+    %\@starttoc{los}
   \ifdefined\phantomsection
     % makes hyperref recognize this section properly for pdf links
     \phantomsection
   \else
   \fi
-    \addcontentsline{toc}{section}{List of Symbols}
+    \addcontentsline{toc}{section}{Seznam pou\v{z}it\'{y}ch zkratek}
+    \@listofshorcuts
   }
 }
 \DeclareOption{singlespace}{

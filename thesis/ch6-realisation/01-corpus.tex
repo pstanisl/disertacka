@@ -56,14 +56,14 @@ Ten se v době mezi nahráváními navíc změnil, což v konečném důsledku p
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.9\textwidth]{./ch5-construction/img/energy_spec_word.png}
-  \caption{Průběh a spektrogram slova \uv{kosa} s společně s vyznačenou energií EL promluvy.}
+  \caption[Průběh a spektrogram slova \uv{kosa}.]{Průběh a spektrogram slova \uv{kosa} s společně s vyznačenou energií EL promluvy.}
   \label{fig:realisation:corpus:word}
 \end{figure}
 
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.9\textwidth]{./ch5-construction/img/energy_spec_sentence.png}
-  \caption{Průběh a spektrogram promluvy obsahující slovo \uv{kosa} s vyznačenou energií EL promluvy.}
+  \caption[Průběh a spektrogram promluvy obsahující slovo \uv{kosa}.]{Průběh a spektrogram promluvy obsahující slovo \uv{kosa} s vyznačenou energií EL promluvy.}
   \label{fig:realisation:corpus:sentence}
 \end{figure}
 
@@ -192,7 +192,7 @@ Z té je jasně patrné, že trénovací proces proběhl správně a vině jsou 
     },
     every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0202-cross_test.csv}
-  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy.}
+  \caption[Křížový test s CMN.]{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy.}
   \label{tab:realisation:verification:cross}
 \end{table}
 
@@ -308,7 +308,7 @@ Významnou roli tu hraje fakt, že zejména nahrávky izolovaných slov jsou rel
     },
     every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0203-cmn_file.csv}
-  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s CMN  přes jednotlivé věty.}
+  \caption[Křížový test s CMN přes jednotlivé věty.]{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s CMN  přes jednotlivé věty.}
   \label{tab:realisation:verification:cmn:file}
 \end{table}
 
@@ -342,7 +342,7 @@ Pro doplnění je nutno zmínit, že pokud byl model natrénován na celé množ
     },
     every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0204-cmn_full.csv}
-  \caption{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s CMN  přes všechny nahrávky v etapě.}
+  \caption[Křížový test s CMN přes všechny nahrávky]{Křížový test modelů natrénovaných a otestovaných na datech z 1. a 2. etapy s CMN  přes všechny nahrávky v etapě.}
   \label{tab:realisation:verification:cmn:full}
 \end{table}
 
@@ -386,6 +386,6 @@ To je zlepšení o $6,97\ \%$ absolutně oproti HMM-GMM na kompletní testovací
     },
     every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/0205-dnn.csv}
-  \caption{Dosažená přesnost neuronové sítě s monofónovým zerogramovým jazykovým modelem.}
+  \caption[Přesnost neuronové sítě s monofónovým zerogramovým LM.]{Dosažená přesnost neuronové sítě s monofónovým zerogramovým jazykovým modelem.}
   \label{tab:realisation:verification:dnn}
 \end{table}
