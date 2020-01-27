@@ -105,7 +105,7 @@ Jako vhodné se jevilo použít již natrénovaný model z experimentů popsaný
 Tento model dosáhl s fonémovým zerogramovým LM přesnosti rozpoznávání $84,66\ \%$.
 S jeho pomocí bylo získáno zarovnání trénovací i testovací sady.
 
-Pro prvotní ověřovací experiment bylo zvoleno dvojnásobné protažení fonému $/s/$, tedy všechny vektory odpovídající $/s/$ byly zduplikovány.
+Pro prvotní ověřovací experiment bylo zvoleno $2\mathrm{x}$ protažení fonému $/s/$, tedy všechny vektory odpovídající $/s/$ byly zduplikovány.
 Následně byl standardním způsobem natrénován HMM-DNN model.
 % Neuronová síť má $5$ skrytých vrstev s $4096$. Výstupní vrstva je typu softmax.
 Otestování bylo jako v předchozích případech realizováno na testovací sadě s fonémovým zerogramovým jazykovým modelem, aby byl minimalizován vliv LM.
@@ -113,19 +113,19 @@ Tento nový model dosáhl přesnosti rozpoznávání $85,11\ \%$, což lze ozna�
 
 % Protažení $/s/$ posloužilo k ověření procesu vytváření modelu.
 Další experiment byl realizován na protažených fonémech $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$, které reprezentují většinu neznělých zájmových fonémů.
-Zarovnání bylo identické jako u předchozího experimentu, stejně tak bylo uvažováno jejich dvojnásobné protažení, tzn. že všechny vektory inkriminovaných fonémů byly zduplikovány.
+Zarovnání bylo identické jako u předchozího experimentu, stejně tak bylo uvažováno jejich $2\mathrm{x}$ protažení, tzn. že všechny vektory inkriminovaných fonémů byly zduplikovány.
 Znovu byl natrénován HMM-DNN model se stejnými parametry a násedně byl otestován s fonémovým zerogramovým jazykovým modelem.
 Přesnost rozpoznávání na testovací sadě dosáhla hodnoty $87,50\ \%$, což lze považovat za významné zlepšení.
 
-% Doposud se uvažovalo pouze dvojnásobné protažení,
+% Doposud se uvažovalo pouze $2\mathrm{x}$ protažení,
 V další fázi bylo potřeba ověřit, zda jiné hodnoty násobku protažení nemohou poskytnout lepší výsledek.
-Experiment byl zopakován pro trojnásobek, čtyřnásobek a pětinásobek jejich původní délky.
+Experiment byl zopakován pro $3\mathrm{x}$, $4\mathrm{x}$ a $5\mathrm{x}$ jejich původní délky.
 % Celkem je uvažované $3x$, $4x$ a $5x$ protažení.
 Protaženy byly fonémy $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$.
 Proces natrénování a otestování modelu korespondoval s předchozími experimenty.
 Dosažené výsledky byly zaznamenýny do tab. \ref{tab:realisation:augmentation:influence}.
-Pro úplnost byla tabulka doplněna o baseline model neobsahuhjící protažení a model s dvojnásobným protažením.
-Z uvedených výsledků je patrný jasný trend, větší než dvojnásobné protažení vede ke zhoršení přesnosti rozpoznávání.
+Pro úplnost byla tabulka doplněna o baseline model neobsahuhjící protažení a model s $2\mathrm{x}$ protažením.
+Z uvedených výsledků je patrný jasný trend, větší než $2\mathrm{x}$ protažení vede ke zhoršení přesnosti rozpoznávání.
 Optimální hodnota protažení tak teoreticky leží někde mezi jednonásobkem a trojnásobkem původní délky.
 Bohužel uvedeným postupem nelze přesně určit hodnotu míry protažení.
 
@@ -553,7 +553,7 @@ Na testovací sadě dosáhl přesnosti $Acc_{p} = 87,71\ \%$.
 K otestování výkonu na reálně protažených datech jsou použity všechny věty a slova obsahující protažení zmíněných fonémů\footnote{Stejně jako u 1. a 2. etapy bylo i zde aplikováno CMN napočítané přes všechny nahrávky v rámci etapy.}.
 S touto testovací sadou dosáhl zmíněný model s fonémovým zerogramovým jazykovým modelem $Acc_{p} = 84,51\ \%$.
 
-Dosažená přesnost je sice horší něž původní přesnost na uměle protažených datech, ale nedošlo k dramatickému propadu jako v případě křížového testu mezi 1. a 2. etapou (viz tab. \ref{tab:realisation:verification:cmn:full}\footnote{V tabulce jsou prezentovány hodnoty odpovídající GMM modelu. Srovnání na první pohled není úplně korektní, nicméně validní, protože GMM model trénovány na uměle protažených datech a otestovaný na reálně protažených datech dosáhl $Acc_{p} = 81,29\ \%$. Což je srovnatelná hodnota s ostatními GMM modely.}).
+Dosažená přesnost je sice horší něž původní přesnost na uměle protažených datech, ale nedošlo k dramatickému propadu jako v případě křížového testu mezi 1. a 2. etapou (viz tab. \ref{tab:realisation:verification:cmn:full}\footnote{V tabulce jsou prezentovány hodnoty odpovídající GMM modelu. Srovnání na první pohled není úplně korektní, nicméně validní, protože GMM model trénovaný na uměle protažených datech a otestovaný na reálně protažených datech dosáhl $Acc_{p} = 81,29\ \%$, což je srovnatelná hodnota s ostatními GMM modely.}).
 Dosažený výsledek tak potvrzuje podobnost uměle a reálně protažených dat.
 
 V případě, že se k trénovací sadě přidaly věty z 3. etapy, které neobsahují protažené fonémy, výsledná přesnost TDNN modelu s fonémovým zerogramovým jazykovým modelem dosáhla hodnoty $Acc_{p} = 85,88\ \%$.

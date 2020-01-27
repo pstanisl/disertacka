@@ -2,11 +2,15 @@
 \section{Model akcentující protažení dat}
 \label{chap:realisation:durationmodels}
 
-Augmentace dat (viz část \ref{chap:realisation:augmentation}) ukázala, že ztracenou informaci EL řeči je částečné možné nahradit protažením inkriminovaných fonémů. Experimenty s reálně protaženými daty (viz část \ref{chap:realisation:augmentation:real}) navíc prokázaly schopnost člověla toto protažení realizovat. Dalším krokem je tedy úprava modelu tak, aby tuto změnu co možná nejvíce reflektoval.
+Augmentace dat (viz část \ref{chap:realisation:augmentation}) ukázala, že ztracenou informaci EL řeči je částečné možné nahradit protažením inkriminovaných fonémů.
+Experimenty s reálně protaženými daty (viz část \ref{chap:realisation:augmentation:real}) navíc prokázaly schopnost člověla toto protažení realizovat.
+Dalším krokem je tedy úprava modelu tak, aby tuto změnu co možná nejvíce reflektoval.
 
-Z principu fungování a nejpoužívanější topologie HMM modelu (viz \ref{chap:asr:acoustic:HMM}) je délka fonému modelována pomocí přechodových pravděpodobností. Ty zase vedou na funkce geometrické distribuce pravděpodobnosti \cite{Rabiner1989}. Bohužel skutečná podoba těchto distribucí odpovídá spíše gamma nebo logaritmicko-normálnímu rozdělení \cite{Alumae2014}.
-
-Správné modelování délky může být realizováno úpravou přechodových hustotních funkcí v HMM nebo změnou topologie modelu. Druhou možností je vytvoření speciálního modelu pracujícího s délkou jednotlivých fonémů (duration model) a reskórováním výstupních N-best hypotéz či celé rozpoznávací mřížky \cite{Alumae2014} \cite{Anastasakos1995} \cite{Gadde2000}.
+% Z principu fungování a nejpoužívanější topologie HMM modelu (viz \ref{chap:asr:acoustic:HMM})
+S ohledem na princip fungování HMM a jeho topologie je délka fonému modelována pomocí přechodových pravděpodobností, které vedou na funkce geometrické distribuce pravděpodobnosti \cite{Rabiner1989}.
+Bohužel skutečná podoba těchto distribucí odpovídá spíše gamma nebo logaritmicko-normálnímu rozdělení \cite{Alumae2014}.
+Správné modelování délky může být realizováno úpravou přechodových hustotních funkcí v HMM nebo změnou topologie modelu.
+Další možností je vytvoření speciálního modelu pracujícího s délkou jednotlivých fonémů (duration model) a reskórováním výstupních N-best hypotéz či celé rozpoznávací mřížky \cite{Alumae2014} \cite{Anastasakos1995} \cite{Gadde2000}.
 
 Přestože se první uvažovaný způsob jeví jako vhodnější, tak všechny dosavadní publikované výsledky ukazují významné zvýšení výpočetní náročnosti dekódování a komplexity modelu \cite{Rabiner1989} \cite{Pylkkonen2004} \cite{Russell1985}. Tento přístup je však často používán u HMM syntézy řeči, viz \cite{Yoshimura1998}.
 
