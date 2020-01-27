@@ -185,6 +185,7 @@
   \renewcommand*{\makelos}{
     %\RequirePackage{losymbol}
     \section*{Seznam pou\v{z}it\'{y}ch zkratek\@mkboth {Seznam pou\v{z}it\'{y}ch zkratek}{Seznam pou\v{z}it\'{y}ch zkratek}}
+    % \section*{{eznam}{Seznam}}
     %\@starttoc{los}
   \ifdefined\phantomsection
     % makes hyperref recognize this section properly for pdf links
@@ -192,7 +193,9 @@
   \else
   \fi
     \addcontentsline{toc}{section}{Seznam pou\v{z}it\'{y}ch zkratek}
-    \@listofshorcuts
+    % TODO: Command does not work -> hardcoded filename (PS 20200127)
+    % \@listofshorcuts
+    \input{listofshorcuts}
   }
 }
 \DeclareOption{singlespace}{

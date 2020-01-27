@@ -18,7 +18,7 @@
 
 %%% For early drafts without some of the frontmatter
 % Also see the "ifodd" command below to disable more frontmatter
-\documentclass[12pt, lot, lof]{puthesis}
+\documentclass[12pt, lot, los, lof]{puthesis}
 
 
 \usepackage{t1enc} % as usual
@@ -163,6 +163,9 @@
 % url package understands urls (with proper line-breaks) without hyperlinking them
 \usepackage{url}
 
+\listofshorcuts{
+  \input{listofshorcuts}
+}
 
 \else
 
