@@ -2,7 +2,7 @@
 \chapter{Automatické rozpoznávání řeči}
 \label{chap:asr}
 
-Úlohou systému automatického rozpoznávání řeči (ASR) je převedení mluvené řeči na posloupnost slov, která řečník vyslovil. První takovéto systémy se začaly objevovat v~první polovině 20. století. Jejich funkce spočívala v~analýze akustického signálu a jeho porovnávání se vzorem. Byly tak schopny rozpoznávat jen velmi omezené množství slov. Významný zlom nastal v~polovině 80. let minulého století, kdy se začaly používat systémy založené na statistickém přístupu, konkrétně na principu skrytých Markovových modelech (HMM) \cite{Holmes2001}. Princip fungování takového systému je znázorněn na obr. \ref{fig:asr:decoding}. Řečový signál obsahující posloupnost slov $W = \left\{ w_1\ w_2\ \dots\ w_N \right\}$ je analyzován a následně převeden na sekvenci vektorů pozorování $\boldsymbol{O} = \left\{\boldsymbol{o}_1\ \boldsymbol{o}_2\ \dots\ \boldsymbol{o}_T\right\}$. Tyto vektory jsou u většiny systémů získávány s periodou $10\ ms$ pro segmenty řeči mající nejčastěji délku $20$ až $40\ ms$. Vlastní rozpoznávání pak probíhá v~dekodéru, který se snaží vybrat k vektorům pozorování $\boldsymbol{O}$ takovou posloupnost slov $\hat{W}$, která maximalizuje aposteriorní pravděpodobnost (MAP) určenou vztahem
+Úlohou systému automatického rozpoznávání řeči (ASR) je převedení mluvené řeči na posloupnost slov, která řečník vyslovil. První takovéto systémy se začaly objevovat v~první polovině 20. století. Jejich funkce spočívala v~analýze akustického signálu a jeho porovnávání se vzorem. Byly tak schopny rozpoznávat jen velmi omezené množství slov. Významný zlom nastal v~polovině 80. let minulého století, kdy se začaly používat systémy založené na statistickém přístupu, konkrétně na principu skrytých Markovových modelech (HMM) \cite{Holmes2001}. Princip fungování takového systému je znázorněn na obr. \ref{fig:asr:decoding}. Řečový signál obsahující posloupnost slov $W = \left\{ w_1\ w_2\ \dots\ w_N \right\}$ je analyzován a následně převeden na sekvenci vektorů pozorování $\boldsymbol{O} = \left\{\boldsymbol{o}_1\ \boldsymbol{o}_2\ \dots\ \boldsymbol{o}_T\right\}$. Tyto vektory jsou u většiny systémů získávány s~periodou $10\ ms$ pro segmenty řeči mající nejčastěji délku $20$ až $40\ ms$. Vlastní rozpoznávání pak probíhá v~dekodéru, který se snaží vybrat  k~vektorům pozorování $\boldsymbol{O}$ takovou posloupnost slov $\hat{W}$, která maximalizuje aposteriorní pravděpodobnost (MAP) určenou vztahem
 
 \begin{figure}[hbpt]
   \centering
@@ -29,7 +29,7 @@
   \label{eq:asr:decoding:generic}
 \end{equation}
 
-Takto upravená rovnice představuje obecné pravidlo dekódování a její členy reprezentují základní stavební prvky ASR systému. Pro doplnění je nutné dodat, že \textbf{slovník} obsahuje seznam všech slov, se kterými je systém schopen pracovat. Tento seznam jobsahuje rovněž jejich fonetickou transkripci. Všechny tyto části jsou součástí \textbf{dekodéru}, který realizuje prohledávací strategii. v~následujícím textu budou jednotlivé stavební prvky ASR systému popsány podrobněji.
+Takto upravená rovnice představuje obecné pravidlo dekódování a její členy reprezentují základní stavební prvky ASR systému. Pro doplnění je nutné dodat, že \textbf{slovník} obsahuje seznam všech slov, se kterými je systém schopen pracovat. Tento seznam obsahuje rovněž jejich fonetickou transkripci. Všechny tyto části jsou součástí \textbf{dekodéru}, který realizuje prohledávací strategii. V~následujícím textu budou jednotlivé stavební prvky ASR systému popsány podrobněji.
 
 \input{ch4-asr/01-parametrization}
 \input{ch4-asr/02-acoustic_modeling}
@@ -37,7 +37,7 @@ Takto upravená rovnice představuje obecné pravidlo dekódování a její čle
 \input{ch4-asr/04-decoding.tex}
 % \input{ch4-asr/05-evaluation.tex}
 
-% Jedním z hlavních důsledků TL (popsané v~\todo{TBD}{[xx]}) je ztráta hlasivek, a tím i hlasu. Problematikou komunikace pomocí mluvené řeči i v~situacích, kdy akustický řečový signál není k dispozici, se zabývají  systémy zpracovávající \uv{tichou} řeč (angl. Silent speech interface, zkr. SSI). Ve většině případů se snaží získat informaci, která je normálně zakódována v~akustickém signálu získat jinou cestou.
+% Jedním z hlavních důsledků TL (popsané v~\todo{TBD}{[xx]}) je ztráta hlasivek, a tím i hlasu. Problematikou komunikace pomocí mluvené řeči i v~situacích, kdy akustický řečový signál není  k~dispozici, se zabývají  systémy zpracovávající \uv{tichou} řeč (angl. Silent speech interface, zkr. SSI). Ve většině případů se snaží získat informaci, která je normálně zakódována v~akustickém signálu získat jinou cestou.
 
 % Produkce mluvené řeči je komplexní proces, který začíná v~možku a končí produkcí slyšitelného zvuku. Pokud odstraníme komponentu starající se o vznik zvuku, ještě to neznamená, že i ostatní komponenty také ztrácejí svou funkci. Tento fakt je základní premisou pro funkci všech v~současnosti vyvíjených SSI systémů.
 

@@ -9,7 +9,7 @@ Hlavní funkcí dekodéru je nalézt nejlepší výstupní posloupnost slov $\ha
   \label{eq:asr:decoding:decoder}
 \end{equation}
 
-\noindent kde $P\left(\boldsymbol{O}|W\right)$ představuje již popsaný akustický model, $P\left(W\right)$ opisuje jazykový model. v~některých případech je úloha dekódování zobecněna na nalezení více než jedné posloupnosti slov $\hat{W}$. v~těchto případech se mluví jako o hledání \textbf{\textit{N} nejlepších} (\textit{N}-best) posloupností slov $\hat{W}$.  Řešení této úlohy je netriviální, protože dekodér obvykle nemá informaci o počtu slov v~dané promluvě, protože ASR systémy nevyžadují vyslovování pauz mezi jednotlivými slovy. Navíc, i kdyby tato informace byla k dispozici, tak pro promluvu, která čítá $M$ slov, je se slovníkem čítajícím $N$ slov, potřeba prozkoumat $N^{M}$ různých slovních kombinací (hypotéz), tj. například $10^{50}$ vyhodnocení při $N=100000$ a $M=10$. Z toho jasně plyne, že aplikace metody vyčerpávajícího prohledávání je i pro úlohu s malými slovníky a krátkými promluvami nerealizovatelná.
+\noindent kde $P\left(\boldsymbol{O}|W\right)$ představuje již popsaný akustický model, $P\left(W\right)$ opisuje jazykový model. V~některých případech je úloha dekódování zobecněna na nalezení více než jedné posloupnosti slov $\hat{W}$. V~těchto případech se mluví jako o hledání \textbf{\textit{N} nejlepších} (\textit{N}-best) posloupností slov $\hat{W}$.  Řešení této úlohy je netriviální, protože dekodér obvykle nemá informaci o počtu slov v~dané promluvě, protože ASR systémy nevyžadují vyslovování pauz mezi jednotlivými slovy. Navíc, i kdyby tato informace byla  k~dispozici, tak pro promluvu, která čítá $M$ slov, je se slovníkem čítajícím $N$ slov, potřeba prozkoumat $N^{M}$ různých slovních kombinací (hypotéz), tj. například $10^{50}$ vyhodnocení při $N=100000$ a $M=10$. Z toho jasně plyne, že aplikace metody vyčerpávajícího prohledávání je i pro úlohu s~malými slovníky a krátkými promluvami nerealizovatelná.
 Naštěstí bylo navrženo několik účinných algoritmů, které řeší úlohu hledání maxima (\ref{eq:asr:decoding}) bez exponenciálního nárůstu počtu výpočtů. Mezi takové algoritmy patří dekódování podle \textbf{kritéria maximální aposteriorní pravděpodobnosti (MAP)}, nebo v~současnosti primárně používaného dekódování podle \textbf{Viterbiova kritéria}.
 
 Akustický model zjišťuje pravděpodobnost $P\left(\boldsymbol{O}|W\right)$, resp. $P\left(\boldsymbol{O}|\lambda\right)$ pomocí forward-backward (FB) algoritmu.
@@ -21,7 +21,7 @@ Výpočet podmíněné pravděpodobnosti lze aproximovat pravděpodobností $P_S
   \label{eq:asr:decoding:approx}
 \end{equation}
 
-\noindent Tuto pravděpodobnost i optimální posloupnost stavů lze určit tzv. \textbf{Viterbiovým algoritmem} \cite{Holmes2001}. Ten řeší úlohu s využitím heuristického prohledávání typu beam. Protože vždy expanduje pouze několik nejslibnějších uzlů, dochází k urychlení výpočtů časově synchronního prohledávání, a tedy i k prořezávání neperspektivních hypotéz.
+\noindent Tuto pravděpodobnost i optimální posloupnost stavů lze určit tzv. \textbf{Viterbiovým algoritmem} \cite{Holmes2001}. Ten řeší úlohu s~využitím heuristického prohledávání typu beam. Protože vždy expanduje pouze několik nejslibnějších uzlů, dochází  k~urychlení výpočtů časově synchronního prohledávání, a tedy i  k~prořezávání neperspektivních hypotéz.
 
 Pro další urychlení dekódování (zejména u systému pracujících v~reálném čase) bylo navrženo několik dalších sofistikovaných postupů, např. využití tzv. lexikálních stromů nebo jiných technik prořezávání, případně zjednodušení akustického modelu slova. Více o této problematice v~\cite{Psutka2006}.
 
@@ -37,9 +37,9 @@ U reálného systému je často potřeba vyřešit nebo \uv{vybalancovat} poměr
 V úloze rozpoznávání spojité řeči se vyskytují 3 typy chyb:
 
 \begin{itemize}
-  \item \textit{substituce (S)} - došlo k rozpoznání špatného slova;
-  \item \textit{deletace (D)} - došlo k vynechání nějakého slova;
-  \item \textit{inzerce (I)} - došlo k vložení slova, které nebylo součástí promluvy $W$.
+  \item \textit{substituce (S)} - došlo  k~rozpoznání špatného slova;
+  \item \textit{deletace (D)} - došlo  k~vynechání nějakého slova;
+  \item \textit{inzerce (I)} - došlo  k~vložení slova, které nebylo součástí promluvy $W$.
 \end{itemize}
 
 \noindent K evaluaci schopností systému rozpoznávání řeči se pak využívá vzorce pro výpočet míry chybovosti na slovech (WER)
@@ -56,4 +56,4 @@ V úloze rozpoznávání spojité řeči se vyskytují 3 typy chyb:
   \label{eq:asr:decoding:acc}
 \end{equation}
 
-\noindent Po úpravě výše uvedeného vztahu lze získat relaci mezi oběma metrikami, konkrétně $Acc = \left(1 - WER\right) * 100$. Z toho plyne, že oproti $WER$ je systém s vyšší přesností lepší než systém s nižší přesností.
+\noindent Po úpravě výše uvedeného vztahu lze získat relaci mezi oběma metrikami, konkrétně $Acc = \left(1 - WER\right) * 100$. Z toho plyne, že oproti $WER$ je systém s~vyšší přesností lepší než systém s~nižší přesností.
