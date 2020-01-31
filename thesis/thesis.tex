@@ -31,21 +31,30 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Author & title page info
 
-\title{Rozpoznávání řeči pacientů po totální laryngektomii komunikujících pomocí elektrlarynxu}
+\title{Rozpoznávání řeči pacientů po totální laryngektomii komunikujících pomocí elektrolarynxu}
+\titleEN{Speech recognition of patients after total laryngectomy communicating by electrolarynx}
 
 \papertype{Dizertační práce}
+\papertypeEN{Thesis}
 
 \submitted{Leden 2020}  % degree conferral date (January, April, June, September, or November)
 \copyrightyear{2020}  % year in which the copyright is secured by publication of the dissertation.
 \authorcaption{Autor:}
+\authorcaptionEN{Author:}
 \author{Ing. Petr Stanislav}
 \advisercaption{Školitel:}
+\advisercaptionEN{Adviser:}
 \adviser{Prof. Ing. Josef Psutka, CSc.}  %replace with the full name of your adviser
 \department{Katedra kybernetiky}
+\departmentEN{Department of Cybernetics}
 \departmentfieldcaption{Obor:}
+\departmentfieldcaptionEN{Obor:}
 \departmentfield{Kybernetika}
+\departmentfieldEN{Cybernetics}
 \faculty{Fakulta aplikovaných věd}
+\facultyEN{Faculty of Applied Science}
 \university{Západočeská univerzita v Plzni}
+\universityEN{University of West Bohemia}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Tweak float placements
@@ -248,7 +257,7 @@
 %%%% Front-matter
 
 % For early drafts, you may want to disable some of the frontmatter. Simply change this to "\ifodd 1" to do so.
-\ifodd 1
+\ifodd 0
 % front-matter disabled while writing chapters
 % \renewcommand{\maketitlepage}{}
 \renewcommand*{\makecopyrightpage}{}
@@ -259,8 +268,12 @@
 \else
 
 \abstract{
-% Abstract can be any length, but should be max 350 words for a Dissertation for ProQuest's print indicies (150 words for a Master's Thesis) or it will be truncated for those uses.
-\input{abstract}
+  % Abstract can be any length, but should be max 350 words for a Dissertation for ProQuest's print indicies (150 words for a Master's Thesis) or it will be truncated for those uses.
+  \input{abstract}
+}
+
+\statement{
+  \input{statement}
 }
 
 \acknowledgements{
@@ -367,8 +380,10 @@
 % \include{chaps/ch0_uvodni/nomenklatura}
 
 % ----- Teoretická cast ----- %
+% \addcontentsline{toc}{chapter}{Seznam použitých symbolů}
 % \addcontentsline{toc}{chapter}{Úvod}
 % \include lets us split up the document (and each include starts a new page):
+%\setcounter{page}{5}
 \include{ch1-introduction/chapter}
 \include{ch2-motivation/chapter}
 \include{ch3-cause/chapter}
@@ -395,6 +410,8 @@
 % ----- Seznamy literatury ----- %
 \addcontentsline{toc}{chapter}{Seznam použité literatury}
 \printbibliography[heading=bibliography,title={Seznam použité literatury}]
+
+\makelot\clearpage\makelof\clearpage
 
 % \addcontentsline{toc}{chapter}{Publikace autora }
 % \printbibliography[heading=bibliography,category=lit_autor,title={Publikace autora spojené s tématem práce},prefixnumbers={A}]

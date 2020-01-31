@@ -1,14 +1,15 @@
 %% !TEX root = ../thesis.tex
 \chapter*{Závěr}
+\addcontentsline{toc}{chapter}{Závěr}
 \label{chap:conclusion}
 
 Předložená disertační práce se zabývá problematikou rozpoznávání řeči pacientů po totální laryngektomii, kteří komunikují pomocí elektrolarynxu. Motivací pro zpracování tohoto tématu bylo obohatit stávacíjí postupy využívané pro rehabilitaci hlasu o možnosti, které přináší využití moderních technologií, konkrétně možností automatického rozpoznávání řeči. V kapitole \ref{chap:mot} byly vytyčeny cíle práce, jejichž naplnění bude v následujících odstavcích zhodnoceno.
 
-V kapitole \ref{chap:cause} jsou přiblíženy nejčastější příčiny ztráty hlasu a metody užívané k jeho rehabilitaci.
+V kapitole \ref{chap:cause} jsou přiblíženy nejčastější příčiny ztráty hlasu a metody užívané k~jeho rehabilitaci.
 Pomocí klasických rehabilitačních technik lze pacientům navrátit možnost mluvit, ale kvalita produkované řeči nutně nemusí splňovat očekávání pacientů  a požadavky kladené na mluvčího okolím. Například použití
 elektrolarynxu sice neklade na uživatele vysoké nároky co se týče učení, ale
 kvalita řeči není vůbec přirozená. Oproti tomu pomocí jícnového hlasu je
-produkován relativně kvalitní hlas, ale k edukaci je potřeba vynaložit opravdu
+produkován relativně kvalitní hlas, ale k~edukaci je potřeba vynaložit opravdu
 nemalé úsilí. Jako ideální se může jevit použití tracheoezofageální píštěle,
 která umožňuje proudění vzduchu z plic do dutiny ústní. Produkovaný hlas se v
 tomto případě vyznačuje vysokou kvalitou, dobrou srozumitelností,
@@ -20,9 +21,26 @@ spíše autorskými týmy a o masovém použití se rozhodně nedá hovořit. Bo
 stále snaží zdokonalovat, a tím zkvalitňovat život pacientů. U všech aktuálně používaných metod rehabilitace hlasu
 je patrný významný negativní dopad na psychiku pacienta, který se musí vyrovnat nejen se ztrátou vlastního hlasu, ale i s ostychem, který provází opětovné snahy mluvit.
 
-Pomoc s rehabilitací hlasu mohou poskytnout řečové technologie zpracovávající přirozenou řeč. V současnosti využívané obecné systémy automatického rozpoznávání řeči (ASR systémy) ale poskytují uspokojivé výsledky v případě rozpoznávání promluv zdravého řečníka. Za nedostatek lze označit jejich nekompabilitu s řečí pacientů po totální laryngektomii, (viz část \ref{chap:construction:results}). Hlavním problémem je přílišná odlišnost TL řeči od té normální. Jako problematické se pak ukazují zejména neznělé fonémy, které se už z podstaty produkce TL řeči liší od neznělých zdravého řečníka (viz část \ref{chap:construction:analysis}). A je jedno jestli se jedná o jícnový hlas, tracheoezofageální fistuli nebo elektrolarynx.
-%
-%Problém TL řeči se dá vztáhnout ke ztrátě určitého množství informace z promluvy. V případě, že je k dispozici dostatečný slovní kontext, tak velmi pozitivně výsledek ovlivňuje jazykový model. Přece jen vetšina slov mající jiný význam a akusticky se lišících pouze znělostí jednoho fonému se vyskytuje v~jiném slovním kontextu. Problém by se tak mohl jevit jako marginální. Bohužel TL řečníci se v mnoha případech snaží mluvit spíše v kratších úsecích, což problém s chybějící informací podtrhuje.
+Pomoc s rehabilitací hlasu mohou poskytnout řečové technologie zpracovávající přirozenou řeč. V současnosti využívané obecné systémy automatického rozpoznávání řeči (ASR systémy) ale poskytují spolehlivé výsledky v případě rozpoznávání promluv zdravého řečníka. V případě, že se charakteristiky rozpoznávané řeči příliš líší ( např. řeč obsahuje vyšší množství šumu), může se u běžně uživaných ASR systémů projevit jejich nedostačná robustnost. Proto bylo pro potřeby návrhu ASR systému, který bude sloužit pro rozpoznávání řeči pacientů po totální laryngektomii, nutno pořídit řecová data odpovídající kvality. V takovýchto promluvách se ukazuje jako problematická zejména přílišná odlišnost produkovaných neznělých fonémů. Proto byla navázana spolupráce s mluvčí, která prodělala TL a komunikuje pomocí elektrolarynxu. V průběhu pěti let byly pořízeny 3 sady nahrávek, což odpovídá necelým 15 hodinám řečových dat. První sada je složená z vět, které jsou součástí interně využívaného řečového korpusu, 2. sada rozšiřuje řečový korpus o další sadu vě a problematických izolovaných slov. Ve 3. sadě jsou obsaženy další věty a slova respetující protažení problematických fonémů.
+S ohledem na toto lze i cíl č. 2 uvedený v \ref{chap:mot} považovat za naplněný.
+
+Pro otestování robustnosti obecného ASR systému byla využita data poskytnutá řečníkem po totální laryngektomii. Testovaný systém vykázal pro trigramový jazykový model obsahující 1 milion unikátních slov úspěšnost rozpoznávání slov pouze 18,49~\%. Takto nízká přesnost rozpoznávání indikovala nutnost navrhnout individuální akustický model, který bude reflektovat specifika řeči produkované s využitím EL. Při využití dat z EL korpusu doosáhl systém přesnosti rozpoznávání slov 83,33\%. 
+
+Následně byl minimalizován vliv jazykového modelu, viz \ref{chap:construction:results}, a byly hledány optimální parametry akustického modelu. Byl ověřen vliv maximálního počtu unikátních stavů HMM modelu a velikosti vzorkovací frekvence na kvalitu rozpoznávání. Nejlepších výsledků bylo dosaženo pro model pracující s maximálně 4096 unikátními stavy a vzorkovací frekvencí 16kHz. Pro HMM-GMM bylo dosaženo přesnosti rozpoznávání 81,20\%, pro HMM-DNN pak 85,23\%. Po provedení analýzy získaných výsledků se jako problematické ukázalo rozpoznávání neznělých fonémů, proto bylo přistoupeno k redukci fonetické sady prostřednictví různýc kombinací náhrady neznělých fonémů za znělé, čož ve většině případů nemělo pozitivní dopad. Proto byly navrženy další úpravy ASR systému, konkrétně protaženy neznělé fonémy a následně byl ASR systém rozšířen o tzv. duration model akcentující právě délku fonémů. Na základě provedených experimentů se jako vhodné ukázalo prodloužit neznělé fonémy na dvojnásobek jejich původní délky. Úspěšnost rozšířeného modelu dosahovala 88,54\%.
+
+S ohledem na získané výsledky vyvstala potřeba porovnat schopnosti rozpoznávání člověka a stroje. Za tímto účelem byl navržen tzv. poslechový test, jehož princip byl přiblížen v části \ref{chap:realisation:listening}. Pro model s výše navrženými optimálními parametry ( max. 4096 unikatní stavů a vzorkovací frekvencí 16 kHz) stroj dosál přesnosti rozpoznávání  69,91\% pro případ izolovaných slov a 54,82\% pro případ bigramů. U člověka bylo dosaženo přesnosti 74,47\%, resp. 66,24\%. Při zohlednění umělého protažení akustických dat dosáhl stroj přesnosti 94,36\% pro izolovaná slova, resp. 98,80\% pro bigramy. Po následném rozšíření systému rozpoznávání o duration model dosáhl stroj úspěšnosti 94,42\%, resp. 98,81\%. S ohledem na výsledky poskytnuté ASR systémem byla pořízena sada řečových dat respektující protažení neznělých fonémů. Na takto rozšířené testovací sadě bylo dosaženo přesnosti rozpoznávání 87,02\% na úrovni fonémů. Tím bylo ověřeno, že model natrénovaný na uměle protažených datech je schopen rozpoznávat i data reálná, a lze ho tedy využít jako základ pro vývoj trenažéru, který bude výukovým nástrojem pro osvojení schopnosti řečníka protahovat neznělé fonémy.
+
+S ohledem na výše uvedené výsledky a znich vyvozené závěry lze říci, že vytyčené cíle dysertační práce byly naplněny a s ohledem na aktuálnost řešené problematiky lze získané poznatky využít jako základ další práce.
+
+
+
+
+
+
+
+
+
+
 %
 %Doplnění chybějící informace je možné v případě využití různých druhů multimodálních systémů, které se snaží různými způsoby, zejména na základě snímání artikulace. Tyto systémy jsou však ještě musí urazit dlouhou cestu k dosažení produkčního nasazení. Hlavním problémem jsou zatím výkony některých systému a také jimi kladené nároky na mluvčího.
 %
