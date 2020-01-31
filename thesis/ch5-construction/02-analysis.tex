@@ -60,15 +60,15 @@ Při nahrávání bylo velmi běžné, že v průběhu promluvy řečník uděla
 Nicméně je třeba říci, že tempo není pro ASR systémy problém.
 %, protože různá délka fonémů je v relativně snadno modelována, viz část \ref{chap:asr:acoustic}.
 
-Dalším způsobem jak ukázat rozdíly mezi promluvou zdravého řečníka a řečníka s EL, je porovnat oba signály ve frekvenční oblasti.
-Pro větší názornost jsou na obr. \ref{fig:construction:spectrogram} zobrazena společně spektra ukázkové promluvy zdravého řečníka (\ref{fig:construction:spectrogram:normal}) a toho s EL (\ref{fig:construction:spectrogram:el}), přičemž obsah obou promluv je identický.
+Dalším způsobem, jak ukázat rozdíly mezi promluvou zdravého řečníka a řečníka s EL, je porovnat oba signály ve frekvenční oblasti.
+Pro větší názornost jsou na obr.~\ref{fig:construction:spectrogram} zobrazena společně spektra ukázkové promluvy zdravého řečníka (\ref{fig:construction:spectrogram:normal}) a toho s EL (\ref{fig:construction:spectrogram:el}), přičemž obsah obou promluv je identický.
 Prvním markantním rozdílem je mnohem významnější zastoupení šumu v promluvě řečníka s EL v úsecích \uv{ticha}, viz obr. \ref{fig:construction:spectrogram:el}.
 To je nepochybně způsobeno samotným EL, který řečník mezi jednotlivými slovy nevypíná.
 Přítomnost šumu se projeví zejména na průběhu energie (viz obr. obr. \ref{fig:construction:el_speech}), zejména před prvním a druhým slovem promluvy.
 %Na obr. \ref{fig:construction:el_speech} je zřetelně patrný, zejména na průběhu energie, šum před prvním a druhým slovem promluvy.
 Zajímavá je přítomnost šumu v celém frekvenčním spektru, přestože EL produkuje konstantní buzení, které je ve spektru (obr. \ref{fig:construction:spectrogram:el}) reprezentováno výraznou souvislou linií na nízkých frekvencích.
 Přítomnost šumu na vyšších frekvencích je způsobena umístěním mikrofonu, který je nalepen přímo na pokožku, a tím pádem snímá namodulované vibrace přenášené měkkou tkání.
-Tato hypotéza byla potvrzena v dalších etapách nahrávání, kde byl použit studiový mikrofon vzdálený od úst minimálně 15 cm, podrobněji bude popsáno v části \ref{chap:realisation:corpus}.
+Tato hypotéza byla potvrzena v dalších etapách nahrávání, kde byl použit studiový mikrofon vzdálený od úst minimálně 15 cm, toto bude podrobněji bude popsáno v části \ref{chap:realisation:corpus}.
 Nicméně z pohledu použitelnosti nějakého budoucího systému je nezbytné počítat i se situací, kdy mikrofon zaznamenává i vibrace přenášené tkání.
 
 Dalším významným rozdílem v promluvě EL řečníka je absence vyšších frekvencí u většiny produkovaných fonémů.
@@ -98,7 +98,7 @@ Problémem teoreticky může být zdroj vzduchu, jelikož jej z plic není možn
   \label{fig:construction:spectrogram}
 \end{figure}
 
-Dalším způsobem jak porovnat promluvy zdravého řečníka  a EL řečníka je na úrovni analýzy jednotlivých fonémů.
+Dalším způsobem, jak porovnat promluvy zdravého řečníka  a EL řečníka je na úrovni analýzy jednotlivých fonémů.
 Na obr. \ref{fig:construction:phonemes:k} - \ref{fig:construction:phonemes:c} jsou zobrazeny průběhy amplitud jednotlivých fonémů v čase\footnote{Hodnoty času odpovídají časům výskytu v původní promluvě.} pro fonémy $/k/$, $/g/$ a $/\check{c}/$.
 V případě $/k/$ a $/g/$ (obr. \ref{fig:construction:phonemes:k} a \ref{fig:construction:phonemes:g}) se jedná o okluzivy, konkrétně $/k/$ je kategorizováno jao neznělá ploziva a $/g/$ jako znělá ploziva.
 Tyto fonémy obecně vznikají v důsledku uzavření vydechovaného proudu vzduchu pomocí artikulačních orgánů, což se projeví jako krátká pauza (tzv. okluze).
@@ -138,7 +138,7 @@ Přestože se v obou případech jedná o stejný foném, je z časového i frek
 Jako druhý ukázkový foném byl vybrán $/g/$.
 Jedná se o znělou plozivu.
 Při produkci znělých fonémů hrají velký vliv hlasivky, protože jsou zdrojem buzení.
-Z obr. \ref{fig:construction:phonemes:g:normal} je toto buzení zřetelné ve formě periodického průběhu amplitudy.
+Z~obr. \ref{fig:construction:phonemes:g:normal} je toto buzení zřetelné ve formě periodického průběhu amplitudy.
 U EL řečníka (obr. \ref{fig:construction:phonemes:g:el}) je také vidět periodický signál, ale úplně jiného charakteru.
 Svým způsobem dost podobný tomu, který je zřetelný u fonému $/k/$.
 Rozdíl je zřetelný i ve frekvenční oblasti, kdy u EL řečníka nedochází k útlumu ve střední oblasti frekvenčního spektra.

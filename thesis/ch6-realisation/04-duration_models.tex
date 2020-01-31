@@ -10,23 +10,24 @@ Dalším krokem je tedy úprava modelu tak, aby tuto změnu co možná nejvíce 
 S ohledem na princip fungování HMM a jeho topologie je délka fonému modelována pomocí přechodových pravděpodobností, které vedou na funkce geometrické distribuce pravděpodobnosti \cite{Rabiner1989}.
 Bohužel skutečná podoba těchto distribucí odpovídá spíše gamma nebo logaritmicko-normálnímu rozdělení \cite{Alumae2014}.
 Správné modelování délky může být realizováno úpravou přechodových hustotních funkcí v HMM nebo změnou topologie modelu.
-Další možností je vytvoření speciálního modelu pracujícího s délkou jednotlivých fonémů (duration model) a reskórováním výstupních N-best hypotéz či celé rozpoznávací mřížky \cite{Alumae2014} \cite{Anastasakos1995} \cite{Gadde2000}.
+Další možností je vytvoření speciálního modelu pracujícího s délkou jednotlivých fonémů (duration model) a reskórováním výstupních N-best hypotéz či celé rozpoznávací mřížky \cite{Alumae2014} \cite{Anastasakos1995} 
+\cite{Gadde2000}.
 
 Přestože se první uvažovaný způsob jeví jako vhodnější, tak všechny dosavadní publikované výsledky ukazují významné zvýšení výpočetní náročnosti dekódování a komplexity modelu \cite{Rabiner1989} \cite{Pylkkonen2004} \cite{Russell1985}. Tento přístup je však často používán u HMM syntézy řeči, viz \cite{Yoshimura1998}.
 
 \subsection{Princip explicitních duration modelů}
 \label{chap:realisation:durationmodels:model}
 
-Druhou možností je vytvoření explicitního modelu pracujícího s délkou fonémů. S tímto modelem je často problém rozpoznávání přeformulován do úlohy nalezení nejlepší sekvence slov $W^{*}$ a odpovídajících délek $D^{*}$, na základě akustického modelu \cite{Alumae2014}. Za předpokladu, že je dána sekvence slov $W$ a vektory pozorování $\boldsymbol{O}$ lze považovat za nezávislé na délkách $D$, je možné rovnici \ref{eq:asr:decoding} upravit jako
+Další možností je vytvoření explicitního modelu pracujícího s délkou fonémů. Aby bylo možno takový model využít, je často potřeba problém rozpoznávání přeformulovat na úlohu nalezení nejlepší sekvence slov $W^{*}$ a jim odpovídajících délek $D^{*}$ \cite{Alumae2014}. Za předpokladu, že je dána sekvence slov $W$ a vektory pozorování $\boldsymbol{O}$ lze považovat za nezávislé na délkách $D$, je možné rovnici \ref{eq:asr:decoding} upravit jako
 
 \begin{align}
-  W^{*}, D^{*} &= \argmax_{W, D} P\left(W, D| O\right) \nonumber  \\
-          &= \argmax_{W, D} P\left(O, D| W\right)P\left(W\right) \nonumber  \\
-          &= \argmax_{W, D} P\left(O|W\right)P\left(D|W\right)P\left(W\right).
+  W^{*}, D^{*} &= \argmax_{W, D} P\left(W, D| \boldsymbol{O}\right) \nonumber  \\
+          &= \argmax_{W, D} P\left(\boldsymbol{O}, D| W\right)P\left(W\right) \nonumber  \\
+          &= \argmax_{W, D} P\left(\boldsymbol{O}|W\right)P\left(D|W\right)P\left(W\right).
   \label{eq:realisation:durationmodels:assumtion}
 \end{align}
 
-\noindent Úkolem duration modelu je tedy odhad pravděpodobnosti $P\left(D|W\right)$. Délku $D$ je možné dekomponovat na $m$ délek jednotlivých fonémů $d_{i}$
+\noindent Úkolem duration modelu je tedy odhadnout pravděpodobnosti $P\left(D|W\right)$, přičemž délku $D$ je možné dekomponovat na $m$ délek jednotlivých fonémů $d_{i}$
 
 \begin{equation}
   P\left(D | W\right) = P\left(d_{1}, \dots, d_{m}|W\right).
@@ -41,20 +42,18 @@ Druhou možností je vytvoření explicitního modelu pracujícího s délkou fo
   \label{eq:realisation:durationmodels:chain}
 \end{align}
 
-\noindent Model tedy odhaduje $P\left(D|W\right)$ na základě $n$ předchozích délek fonémů a předpokládaného slova $W$. Některé duration modely navíc ještě pracují i s tempem řeči \cite{Pylkkonen2004}, nicméně tento efekt je u modelu využívající rovnici \ref{eq:realisation:durationmodels:chain} zakomponován v délkách $n$ předchozích fonémů.
+\noindent Model tedy odhaduje pravděpodobnost $P\left(D|W\right)$ na základě délek $n$ předchozích fonémů a předpokládaného slova $W$. Některé duration modely navíc pracují i s tempem řeči \cite{Pylkkonen2004}, tento efekt je však u modelu využívajícího vztah \ref{eq:realisation:durationmodels:chain} zohledněn prostřednictvím délek $n$ předchozích fonémů. Ve skutečnosti je vhodné vytvořit model, který bere v potaz nejen délky předchozích fonémů, ale i příznakové vektory těchto fonémů \cite{Alumae2014}. Zohlednění délek předchozích fonémů v závislosti je provedeno prostřednictvím pravděpodobnosti  $P\left(d_{i}|x_{i}\right)$, kde $x_{i}$ představuje příznakový vektor obsahující délky $n$ předchozích fonémů, jejich vektory pozorování a případně další hodnoty. K~ odhadu této pravděpodobnosti se jako vhodné ukázaly neuronové sítě \cite{Alumae2014}, \cite{Hadian2017}.
 
-Ve skutečnosti je vhodné vytvořit model, který bere v potaz nejen předchozí délky, ale i příznakové vektory těchto fonémů \cite{Alumae2014}. Tedy $P\left(d_{i}|x_{i}\right)$, kde $x_{i}$ představuje příznakový vektor obsahující délky $n$ předchozích fonémů, jejich vektory pozorování a případně další hodnoty. K odhadu této pravděpodobnosti se jako vhodné ukázaly neuronové sítě. \cite{Alumae2014} \cite{Hadian2017}
-
-Na odhad $P\left(d_{i}|x_{i}\right)$ je možné nahlížet ze dvou pohledů. V prvním případě je cílem modelu odhadnout parametry pravděpobnostní distribuce pomocí conditional density estimation network (CDEN). \cite{Alumae2014} V tomto případě je předpokládáno, že délky fonémů odpovídají určitému pravděpodobnostnímu rozdělení, nejčastěji logaritmicko-normálnímu. Konkrétní hodnota pravděpodobnosti je pak vypočtena dosazením do příslušného vzorce hustoty pravděpodobnosti.
+Na odhad $P\left(d_{i}|x_{i}\right)$ je možné nahlížet ze dvou pohledů. V prvním případě je cílem odhadnout parametry pravděpobnostní distribuce pomocí conditional density estimation network (CDEN) \cite{Alumae2014}. V tomto případě se předpokládá, že délky fonémů odpovídají určitému pravděpodobnostnímu rozdělení, nejčastěji logaritmicko-normálnímu. Konkrétní hodnota pravděpodobnosti je pak stanovena s využitím příslušného vztahu pro výpočet hustoty pravděpodobnosti.
 
 Druhou možností je stejně jako v případě HMM-DNN akustického modelu odhad pseudo-pravděpodobností za pomocí NN mající jako poslední vrstvu tzv. softmax vrstvu. Tento přístup nevnáší do modelu žádné předpoklady o podobě pravděpodobnostního rozdělení. Experimenty v \cite{Hadian2017} ukazují, že tento přístup je vhodnější\footnote{Při vytváření duration modelu byly otestovány oba přístupy a i naše experimenty ukazují, že NN se softmax vrstvou poskytuje lepší výsledky, protože u EL řeči CDEN model přinesl zanedbatelné zlepšení a v některých případech dokonce reskórování způsobilo zhoršení výsledků.}.
 
 \subsection{Duration model se softmax vrstvou}
 \label{chap:realisation:durationmodels:nn:softmax}
 
-Neuronová síť mající na svém výstupu softmax vrstvu (viz rovnice \ref{eq:asr:acoustic:dnn:asr:softmax}) určuje diskrétní pseudo-pravděpodobnosti $m$ tříd. V případě duration modelu, se jako vhodné jeví reprezentovat jednotlivé třídy jako počet mikrosegmentů ($d=1,2,3,\dots$), které odpovídají danému fonému. Čistě teoreticky může být těchto mikrosegmentů nekonečné množství, síť však na svém výstupu potřebuje konečný počet tříd (počet neuronů ve výstupní vrstvě). Jako vhodné řešení tohoto problému se ukázalo zvolení maximální délky fonému $D$. Pro všechny s délkou $d \geq D$ platí, že $p\left(d\right) = p\left(D\right)$. \cite{Hadian2017} Volba $D$ závisí na konkrétní doméně a je vhodné ji určit experimentem.
+Neuronová síť mající na svém výstupu softmax vrstvu (viz rovnice \ref{eq:asr:acoustic:dnn:asr:softmax}) určuje diskrétní pseudo-pravděpodobnosti $m$ tříd. V případě duration modelu, se jako vhodné jeví reprezentovat jednotlivé třídy jako počet mikrosegmentů ($d=1,2,3,\dots$), které odpovídají danému fonému. Čistě teoreticky může být těchto mikrosegmentů nekonečné množství, síť však na svém výstupu potřebuje konečný počet tříd (počet neuronů ve výstupní vrstvě). Jako vhodné řešení tohoto problému se ukázalo zvolit maximální délky fonému $D$. Pro všechny s délkou $d \geq D$ platí, že $p\left(d\right) = p\left(D\right)$. \cite{Hadian2017} Volba $D$ závisí na konkrétní doméně a je vhodné ji určit experimentem.
 
-Cílem modelu je predikovat sekvenci délek na základě sekvence fonémů. To implikuje možnost použití levého $L$ i pravého $R$ kontextu fonému $i$. Do vstupního vektoru sítě, ale mohou přijít délky pouze fonémů $L$ nebo $R$ kontextu. Pokud by totiž byly použity oba kontexty, tak by délka fonému $i$ závisela na délce fonému $i+1$. Zároveň by, ale délka fonému $i+1$ závisela na délce fonému $i$. Tím pádem by došlo ke kruhové závislosti, kterou není možné vyřešit. Standardně se volí $L$ kontext pro délky. Příznakový vektor tedy obsahuje následující položky:
+Úlohou modelu je predikovat sekvenci délek na základě sekvence fonémů. To implikuje možnost použití levého $L$ i pravého $R$ kontextu fonému $i$. Do vstupního vektoru sítě ale mohou přijít pouze délky fonémů $L$ kontextu  nebo $R$ kontextu. Pokud by totiž byly použity oba kontexty, tak by délka fonému $i$ závisela na délce fonému $i+1$. Zároveň by ale délka fonému $i+1$ závisela na délce fonému $i$. Tím pádem by došlo ke kruhové závislosti, kterou není možné vyřešit. Standardně se volí $L$ kontext pro délky. Příznakový vektor tedy obsahuje následující položky:
 
 \begin{itemize}
   \item Pro každý foném kontextu $-L \leq i \leq R$ je použito kódování 1 z n (1 pro správný foném, 0 pro ostatní, angl. one-hot encoding). Celková dimenze kontextu je tak $N_{p} \times \left(L + R + 1\right)$, kde $N_{p}$ je počet fonémů ve slovníku.
@@ -110,7 +109,7 @@ Mezi hyperparametry modelu patří zejména velikost $L$ a $R$ kontextu, počet 
   \label{tab:realisation:duration:duration}
 \end{table}
 
-Dalším hyperparametrem, který může ovlivnit kvalitu modelu je počet vrstev neuronové sítě. V tab. \ref{tab:realisation:duration:layers} jsou vypsány výsledky jednotlivých modelů. Varianta \textit{1H} představuje model s $1$ skrytou vrstvou, \textit{2H} model s $2$ skrytými vrstvami a \textit{3H} s $3$ skrytými vrstvami. Speciálním případem jsou modely obsahující bottleneck vrstvu (\textit{2H (bottleneck)} a \textit{3H (bottleneck)}). Ty místo poslední skryté vrstvy o velikosti $3I$ obsahují vrstvu s pouze $10$ neurony. Tato vrstva by měla pomoci v zobecňování \cite{Hadian2017}. Z dosažených výsledků je patrné, že velikost sítě není úplně zásadním parametrem. Rozdíl mezí přesností sítě s $2$ a $3$ vrstvami je minimální. Přínos bottleneck vrstvy, oproti výsledkům prezentovaným v \cite{Hadian2017}, je také spíše minimální. Nicméně obecně se dá říci, že tato vrstva má pozitivní dopad na přesnost.
+Dalším hyperparametrem, který může ovlivnit kvalitu modelu, je počet vrstev neuronové sítě. V tab. \ref{tab:realisation:duration:layers} jsou vypsány výsledky jednotlivých modelů. Varianta \textit{1H} představuje model s $1$ skrytou vrstvou, \textit{2H} model s $2$ skrytými vrstvami a \textit{3H} s $3$ skrytými vrstvami. Speciálním případem jsou modely obsahující bottleneck vrstvu (\textit{2H (bottleneck)} a \textit{3H (bottleneck)}). Ty místo poslední skryté vrstvy o velikosti $3I$ obsahují vrstvu s pouze $10$ neurony. Tato vrstva by měla pomoci v zobecňování \cite{Hadian2017}. Z dosažených výsledků je patrné, že velikost sítě není úplně zásadním parametrem. Rozdíl mezí přesností sítě s $2$ a $3$ vrstvami je minimální. Přínos bottleneck vrstvy, oproti výsledkům prezentovaným v \cite{Hadian2017}, je také spíše minimální. Nicméně obecně se dá říci, že tato vrstva má pozitivní dopad na přesnost.
 
 \begin{table}[htpb]
   \centering
@@ -143,7 +142,7 @@ Dalším hyperparametrem, který může ovlivnit kvalitu modelu je počet vrstev
 
 \footnotetext{V průběhu určování nejlepších kombinace hyperparametrů byly otestovány všechny kombinace velikosti sítě a maximální délky $D$. Nejlepších výsledků dosahovaly modely s $D=189$.}
 
-Posledním hyperparametrem, který může mít vliv na přesnost modelu je velikost $L$ a $R$ kontextu. Z tab. \ref{tab:realisation:duration:context:symetric} a tab. \ref{tab:realisation:duration:context:asymetric} vyplývá, že nejlepších výsledků dosahuje modely, který má délku kontext $L + R = 6$. Úplně nejlepšího výsledku pak dosáhl model mající symetrický kontext, ale oproti modelům s asymetrickým kontextem je rozdíl spíše zanedbatelný.
+Posledním hyperparametrem, který může mít vliv na přesnost modelu, je velikost $L$ a $R$ kontextu. Z tab. \ref{tab:realisation:duration:context:symetric} a tab. \ref{tab:realisation:duration:context:asymetric} vyplývá, že nejlepších výsledků dosahuje modely, který má délku kontext $L + R = 6$. Úplně nejlepšího výsledku pak dosáhl model mající symetrický kontext, ale oproti modelům s asymetrickým kontextem je rozdíl spíše zanedbatelný.
 
 \begin{table}[htpb]
   \centering
@@ -211,7 +210,7 @@ Nejlepšího výsledku tedy dosahuje model mající $D = 189$, $2$ skryté vrstv
 \subsection{Aktualizace výsledků porovnání}
 \label{chap:realisation:duration:comparison}
 
-V části \ref{chap:realisation:listening} a \ref{chap:realisation:augmentation:comparison} jsou prezentovány výsledky srovnání schopností člověka a stroje. V případě člověka jsou zdrojem dva poslechové testy, které prověřily schopnost posluchače nejprve určit význam izolovaných slov a následně od sebe rozeznat dvě akusticky velmi podobná slova. V případě stroje jsou použity celkem $3$ ASR experimenty \uv{one-mil}, \uv{reduced} a \uv{bigrams}. V tab. \ref{tab:realisation:duration:comparison} jsou pak předchozí výsledky doplněny o hodnoty dosažené duration modelem jehož parametry odpovídají nejlepšímu modelu z předchozí části \ref{chap:realisation:durationmodels:nn:softmax}.
+V části \ref{chap:realisation:listening} a \ref{chap:realisation:augmentation:comparison} jsou prezentovány výsledky srovnání schopností člověka a stroje. V~případě člověka jsou zdrojem dva poslechové testy, které prověřily schopnost posluchače nejprve určit význam izolovaných slov, a následně od sebe rozeznat dvě akusticky velmi podobná slova. V případě stroje jsou použity celkem $3$ ASR experimenty \uv{one-mil}, \uv{reduced} a \uv{bigrams}. V tab. \ref{tab:realisation:duration:comparison} jsou pak předchozí výsledky doplněny o hodnoty dosažené duration modelem jehož parametry odpovídají nejlepšímu modelu z předchozí části \ref{chap:realisation:durationmodels:nn:softmax}.
 
 Stejně jako v předchozích experimentech je u \uv{one-mil} experimentu použit zerogramový jazykový model s 1 milionem slov, \uv{reduced} obsahuje pouze slova obsažená v poslechovém testu. V případě \uv{bigrams} je pro každou položku generován speciální LM obsahující 4 kombinace slov. Použití duration modelu nepřineslo významné zlepšení výsledků \textit{augmented} modelu. Tento výsledek, ale není překvapivý, protože \textit{augmented} model dosahuje teoreticky maximálních možných hodnot. Největšího zlepšení dosáhl duration model v případě \uv{one-mil} experimentu. Zde došlo ke zlepšení o $1,42\ \%$ absolutně, což je o $10,42\ \%$ relativně. Rozhodně se jedná o významné zlepšení.
 
@@ -242,4 +241,4 @@ Stejně jako v předchozích experimentech je u \uv{one-mil} experimentu použit
   \label{tab:realisation:duration:comparison}
 \end{table}
 
-Použití reskóringu pomocí duration modelu ještě zlepšuje výsledky TDNN modelu natrénovaného na protažených datech. Oba modely navíc dokáží pracovat i s řečníkem reálně protaženými daty, což umožňuje i reálné použití těchto modelů. Hlavním nedostatkem aktuální implementace reskóringu pomocí duration modelu spočívá v tom, že se jedná o offline přístup. Promluvy jsou nejprve zpracována pomocí TDNN modelu a až následně jsou kompletní výstupy modelu reskórovány pomocí duration modelu. Změna modelu a principu reskórování tak, aby byl schopen pracovat i v online režimu je otázkou budoucího výzkumu, ale principiálně tomu nic nebrání.
+Použití reskóringu pomocí duration modelu ještě zlepšuje výsledky TDNN modelu natrénovaného na protažených datech. Oba modely navíc dokáží pracovat i s řečníkem reálně protaženými daty, což umožňuje i reálné použití těchto modelů. Hlavním nedostatkem aktuální implementace reskóringu pomocí duration modelu spočívá v tom, že se jedná o offline přístup. Promluvy jsou nejprve zpracovány pomocí TDNN modelu a až následně jsou kompletní výstupy modelu reskórovány pomocí duration modelu. Změna modelu a principu reskórování tak, aby byl schopen pracovat i v online režimu, je otázkou budoucího výzkumu, ale principiálně tomu nic nebrání.

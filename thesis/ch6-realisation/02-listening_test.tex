@@ -24,7 +24,7 @@ Při přípravě experimentu vykrystalizovaly tyto varianty poslechového testu:
 
 \noindent Tím, že promluvy obsahují pouze izolovaná slova, resp. dvojici slov je do značné míry eliminován vliv kontextu.
 Ten v mnoha případech pomáhá se správným určením významu i přesto, že nebylo dobře rozumět.
-Pokud se bude experiment skládat z množiny promluv, které obsahují pouze slova popsaná v části \ref{chap:realisation:corpus}, tak bude možné určit, do jaké míry dokáže člověk, resp. stroj správně určit význam těchto slov a případně je od sebe odlišit.
+Pokud se bude experiment skládat z~množiny promluv, které obsahují pouze slova popsaná v části \ref{chap:realisation:corpus}, tak bude možné určit, do jaké míry dokáže člověk, resp. stroj správně určit význam těchto slov a případně je od sebe odlišit.
 
 \subsection{Izolovaná slova}
 \label{chap:realisation:listening:isolated}
@@ -119,8 +119,8 @@ Stejně jako u testu s izolovanými slovy je výstup testu zpracován do tabulky
 Tab. \ref{tab:realisation:listening:bigrams} obsahuje ukázku těchto výsledků.
 Stejně jako v předchozím případě jsou správné odpovědi zvýrazněny tučně.
 Ačkoli jsou nyní v testu dvojice slov, tak dosažené výsledky do značné míry korespondují s výsledky z testu s izolovanými slovy (viz tab. \ref{tab:realisation:listening:isolated}).
-V prvním případě (\textit{borci + porci}) nebyli účastníci schopni jednoznačně určit význam slov v nahrávce.
-V druhém případě (\textit{kosa + koza}) všichni posluchači až na jednoho vybrali možnost \textit{d)}, tedy \textit{koza + koza}.
+V~prvním případě (\textit{borci + porci}) nebyli účastníci schopni jednoznačně určit význam slov v nahrávce.
+V~druhém případě (\textit{kosa + koza}) všichni posluchači až na jednoho vybrali možnost \textit{d)}, tedy \textit{koza + koza}.
 Správný výběr jedním účastníkem lze považovat spíše za náhodu, protože u opačného pořadí slov již nikdo správnou odpověď nevybral.
 Je dobré zmínit, že účastníci v žádném z provedených poslechových testů nebyli omezeni počtem opětovného přehrání promluvy.
 Tím pádem je velmi pravděpodobné, že tento konkrétní participant opakovaně poslouchal danou nahrávku a hledal rozdíl až nějaký drobný zaznamenal.
@@ -165,7 +165,7 @@ Průměrná dosažená přesnost rozpoznávání člověka, počítána pomocí 
 \subsection{Výsledky porovnání}
 \label{chap:realisation:comparison}
 
-Výsledky poslechového testu ukázaly, přesnost rozpoznání člověka.
+Výsledky poslechového testu ukázaly přesnost rozpoznání člověka.
 Nyní je potřeba zjistit, jak je na tom stroj zastoupený ASR systémem.
 % K tomu je nezbytné natrénovat akustický model a použít vhodný jazykový model.
 Byl využit model HMM-DNN, konkrétně se jednalo o DNN síť s $6$ vrstvami ($5$ skrytých vrstev, každá s $4096$ neurony), přičemž výstupní vrstva byla typu softmax s dimenzí rovnou počtu HMM stavů.
@@ -173,7 +173,7 @@ Parametrizace byla provedena pomocí PLP (12 kepstrálních koeficientů + delta
 Výsledný příznakový vektor má dimenzi $36$.
 Vstupem neuronové sítě je parametrizované okénko mající kontext přes $11$ mikrosegmentů, tedy $t-5$ a $t+5$.
 Vstupní dimenze neuronové sítě je tedy $396$.
-Oproti dosavadním experimentům je v tomto případě použit vlastní real-time dekodér (více o dekódování v části \ref{chap:asr:decoding}).
+Oproti dosavadním experimentům je v~tomto případě použit vlastní real-time dekodér (více o dekódování v části \ref{chap:asr:decoding}).
 Tento LVCSR systém je optimalizován pro co nejnižší latenci a je schopný pracovat s velmi velkými slovníky čítající i miliony položek.
 Tento dekodér byl vyvinut na Katedře kybernetiky Fakulty aplikovaných věd.
 
@@ -204,7 +204,7 @@ Poslední navržený experiment spočívá v tom, že je ke každé nahrávce se
 Ten obsahuje vždy pouze všechny 4 kombinace slov.
 Tím pádem odpovídá dostupným možnostem v rámci poslechového testu.
 Tento experiment je nazván jako \uv{bigrams}.
-Jeho výsledky jsou porovnány s druhým poslechovým testem.
+Jeho výsledky jsou porovnány s~druhým poslechovým testem.
 
 Výsledkem rozpoznávače je nejlepší hypotéza (případně \textit{N} nejlepších hypotéz), tudíž slovo.
 To však není porovnatelné s výsledkem poslechového testu.
@@ -218,7 +218,7 @@ To je způsobeno především enormní perplexitou jazykového modelu.
 Ta je rovna velikosti slovníku.
 Po zmenšení slovníku se podařilo získat výsledky srovnatelné s člověkem.
 Je ale potřeba zdůraznit, že i v případě \uv{reduced} experimentu vykazuje člověk vyšší úspěšnost rozpoznání, protože čelí pouze perplexitě $3$ (kdykoli může podívat na nabízené možnosti).
-Tento faktor by bylo možno eliminovat tak, že by účastník testu přepsal obsah promluvy a tebti přepis by byl následně porovnán se skutečným obsahem.
+Tento faktor by bylo možno eliminovat tak, že by účastník testu přepsal obsah promluvy a tento přepis by byl následně porovnán se skutečným obsahem.
 To by ale významně zvýšilo časovou náročnost poslechového testu a bylo by velmi komplivané získat kompletní výsledky od relevantního množství účastníků.
 Už jen podíl odpadlíků mezi prvním a druhým poslechovým testem dosáhl závratných $30\ \%$.
 
@@ -227,7 +227,7 @@ Na první pohled se může jevit jako snazší, protože úkolem je vybrat z jas
 Slova jsou si ale akusticky velmi podobná a v mnoha případech je velmi náročné je od sebe rozeznat.
 Jak člověk, tak stroj, dosáhli v tomto testu nejhorších výsledků.
 Při analýze se ukázalo, že rozdíly mezi hypotézami ASR systému jsou velmi malé, což naznačuje velkou podobnost mezi inkriminovanými modely fonémů.
-Zároveň tyto výsledky s velmi podobnými hypotézami korelují s výsledky poslechového testu, kde posluchači nebyli schopni jednoznačně rozhodnout o významu jednotlivých slov.
+Zároveň tyto výsledky s~velmi podobnými hypotézami korelují s výsledky poslechového testu, kde posluchači nebyli schopni jednoznačně rozhodnout o významu jednotlivých slov.
 
 \begin{table}[htpb]
   \centering
@@ -262,5 +262,5 @@ Samotnou kapitolou je vliv slovního kontextu.
 Ještě před samotnými experimenty byl ověřen výkon ASR systému na \uv{kontinuální} řeči, zde reprezentované pomocí vět z testovací sady.
 Jazykovým modelem je v tomto případě trigramový slovní model obsahující $1,2$ milionu unikátních slov.
 Přesnost rozpoznávání na slovech (počítaná pomocí rovnice (\ref{eq:asr:decoding:acc})) dosáhla hodnoty $86,10\ \%$.
-Při porovnání této hodnoty s výsledky uvedenými v tab. \ref{tab:realisation:comparison} lze konstatovat, že pokud je k dispozici dostatečný kontext, tak je ASR schopen správně určit variantu slova.
+Při porovnání této hodnoty s výsledky uvedenými v tab. \ref{tab:realisation:comparison} lze konstatovat, že pokud je k~dispozici dostatečný kontext, tak je ASR schopen správně určit variantu slova.
 Přeci jen slovo \uv{kosa} se většinou vyskytuje v trochu jiném slovním kontextu, než slovo \uv{koza}, a toto platí u většiny dvojic.

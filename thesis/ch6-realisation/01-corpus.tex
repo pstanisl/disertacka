@@ -43,7 +43,7 @@ Software ale žádným způsobem nekontroluje co je ve skutečnosti vysloveno, p
 Řečník následně musí promluvu opakovat, dokud nahrávka neodpovídá požadovaným parametrům a zároveň není obsahově správně.
 
 Na obr. \ref{fig:realisation:corpus:word} a \ref{fig:realisation:corpus:sentence} jsou ukázky audio záznamu slova \uv{kosa} a věty \uv{Zkoušel jsem to několikrát, ale pokaždé padla kosa na kámen.}.
-Pokud se nahrávky porovnají s nahrávkami získanými v 1. etapě (obr. \ref{fig:construction:el_speech}), je patrná vyšší kvalita nahrávek, zejména vyšší amplituda.
+Pokud se nahrávky porovnají s~nahrávkami získanými v 1. etapě (obr. \ref{fig:construction:el_speech}), je patrná vyšší kvalita nahrávek, zejména vyšší amplituda.
 Ze zobrazených spektrogramů je zřejmé, že šum je přítomen v menším množství a intenzitě než v nahrávkách získaných v průběhu 1. etapy.
 Hlavní vliv na toto má studiový mikrofon, který není přilepen ke tváři řečníka, a tudíž nezaznamenává vibrace přenášené měkkou tkání.
 Další rozdíl je vidět v oblasti nižších frekvencích spektrogramu, ty jsou výraznější.
@@ -51,7 +51,7 @@ Přestože se jedná o stejného řečníka, zaznamenaná řeč nemá úplně id
 Jedním z důvodů bude nepochybně změna nahrávací aparatury a procesu nahrávání.
 Nezanedbatelný vliv má i relativní nestálost parametrů EL řeči.
 Ty jsou závislé na typu a pozici elektrolarynxu.
-Ten se v době mezi nahráváními navíc změnil, což v konečném důsledku představuje asi hlavní důvod diference parametrů.
+Ten se v~době mezi nahráváními navíc změnil, což v konečném důsledku představuje asi hlavní důvod diference parametrů.
 
 \begin{figure}[hbpt]
   \centering
@@ -202,7 +202,7 @@ Z té je jasně patrné, že trénovací proces proběhl správně a vině jsou 
 \subsection{Eliminace vlivu kanálu}
 \label{chap:realisation:corpus:elimination}
 
-Z prezentovaných výsledků plyne, že nová data jsou příliš odlišná od původních a v parametrickém prostoru jsou od nich příliš vzdálena.
+Z prezentovaných výsledků plyne, že nová data jsou příliš odlišná od původních a v~parametrickém prostoru jsou od nich příliš vzdálena.
 Zároveň je těchto dat relativně malé množství na to, aby se mohly modely plně adaptovat.
 Na zmíněný rozdíl v datech je možné nahlížet jako na změnu kanálu.
 Řečník je totiž stejný.
@@ -270,7 +270,7 @@ Otázkou je, přes jaký úsek počítat střední hodnotu.
 Je možné ji počítat přes posuvné okénko fixní délky, přes jednotlivé věty/nahrávky, nebo dokonce přes všechny nahrávky konkrétní etapy.
 Optimální úsek pro výpočet stř. hodnoty byl stanoven na základě provedených experimentů.
 
-\subsubsection{Určení délky úseky pro výpočet CMN}
+\subsubsection{Určení délky úseku pro výpočet CMN}
 
 Ke stanovení vhodné délky úseku pro výpočet střední hodnoty kepstra $q$ zaznamenaného signálu byla využita stejná trénovací procedura, tj. byl
 %K určení vhodné délky úseku pro výpočet střední hodnoty CMN byla použita stejná trénovací procedura jako v předešlých experimentech s novými daty.
@@ -284,7 +284,7 @@ Celkem jsou uvažovány dva experimenty, a to
 \end{itemize}
 
 V tab. \ref{tab:realisation:verification:cmn:file} jsou uvedeny výsledky experimentu s CMN počítaném přes jednotlivé nahrávky.
-Z dosažených výsledků je patrné, že oproti výsledkům zaznamenaným v tab. \ref{tab:realisation:verification:cross} je dosaženo určitého zlepšení, zvláště pro případy, kdy je model natrénován na datech z 1. etapy a otestován na datech z 2. etapy.
+Z dosažených výsledků je patrné, že oproti výsledkům zaznamenaným v~tab. \ref{tab:realisation:verification:cross} je dosaženo určitého zlepšení, zvláště pro případy, kdy je model natrénován na datech z 1. etapy a otestován na datech z 2. etapy.
 Výsledky však nejsou zdaleka tak dobré, jako v případě trénování a testování modelu na datech ze stejné sady.
 Významnou roli tu hraje fakt, že zejména nahrávky izolovaných slov jsou relativně krátké a vypočtené střední hodnoty, tak nabývají odlišných hodnot.
 
@@ -364,7 +364,7 @@ Vstupní data byla parametrizována pomocí PLP s 12 kepstrálními, delta a del
 Byl využit fonémový zerogramový model, který minimalizoval vliv jazykového modelu na přesnost rozpoznávání.
 Jazykový model je fonémový zerogramový tak, aby byl co nejvíce amplifikován vliv akustického modelu.
 V tab. \ref{tab:realisation:verification:dnn} jsou zapsány dosažené výsledky všech natrénovaných variant.
-Nejvyšší přesnosti dosáhl model s 4096 neurony v každé vrstvě, ale rozdíl od ostatních variant s menším počtem neuronů v každé vrstvě nebyl významný.
+Nejvyšší přesnosti dosáhl model s 4096 neurony v každé vrstvě, ale rozdíl od ostatních variant s menším počtem neuronů v~každé vrstvě nebyl významný.
 Nejlepší HMM-DNN model dosáhl $Acc_{p} = 84,66\ \%$.
 To je zlepšení o $6,97\ \%$ absolutně oproti HMM-GMM na kompletní testovací sadě.
 

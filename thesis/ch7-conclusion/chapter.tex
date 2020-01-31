@@ -1,12 +1,11 @@
-% !TEX root = ../thesis.tex
-\chapter{Závěr}
+%% !TEX root = ../thesis.tex
+\chapter*{Závěr}
 \label{chap:conclusion}
 
-Přestože nádorovitá onemocnění hrtanu nepatří mezi nejčastější onemocnění, je
-jim věnována značná pozornost. Případné následky totiž mohou výrazně zhoršit
-kvalitu života pacienta. Klasické rehabilitační techniky (zmíněné v části
-\ref{chap:cause:treatment}) dokážou navrátit schopnost mluvit, ale kvalita
-produkované řeči nemusí být rozhodně optimální. Například použití
+Předložená disertační práce se zabývá problematikou rozpoznávání řeči pacientů po totální laryngektomii, kteří komunikují pomocí elektrolarynxu. Motivací pro zpracování tohoto tématu bylo obohatit stávacíjí postupy využívané pro rehabilitaci hlasu o možnosti, které přináší využití moderních technologií, konkrétně možností automatického rozpoznávání řeči. V kapitole \ref{chap:mot} byly vytyčeny cíle práce, jejichž naplnění bude v následujících odstavcích zhodnoceno.
+
+V kapitole \ref{chap:cause} jsou přiblíženy nejčastější příčiny ztráty hlasu a metody užívané k jeho rehabilitaci.
+Pomocí klasických rehabilitačních technik lze pacientům navrátit možnost mluvit, ale kvalita produkované řeči nutně nemusí splňovat očekávání pacientů  a požadavky kladené na mluvčího okolím. Například použití
 elektrolarynxu sice neklade na uživatele vysoké nároky co se týče učení, ale
 kvalita řeči není vůbec přirozená. Oproti tomu pomocí jícnového hlasu je
 produkován relativně kvalitní hlas, ale k edukaci je potřeba vynaložit opravdu
@@ -18,80 +17,81 @@ dá považovat nutnost pravidelně čistit a měnit píštěle. Existují i dal�
 metody, popsané v části \ref{chap:cause:treatment}, ale ty jsou zatím používány
 spíše autorskými týmy a o masovém použití se rozhodně nedá hovořit. Bohužel
 žádná z~technik nepředstavuje univerzální řešení, a proto se je lékaři
-stále snaží zdokonalovat, a tím zkvalitňovat život pacientů. U všech aktuálně používaných metod rehabilitace je také podstatný psychologický efekt způsobující obtíže při mluvení na veřejnosti.
+stále snaží zdokonalovat, a tím zkvalitňovat život pacientů. U všech aktuálně používaných metod rehabilitace hlasu
+je patrný významný negativní dopad na psychiku pacienta, který se musí vyrovnat nejen se ztrátou vlastního hlasu, ale i s ostychem, který provází opětovné snahy mluvit.
 
-Pomoc může poskytnou rozvoj technologií zpracovávajících přirozenou řeč (ASR). Hlavním nedostatkem obecných ASR systému je jejich nekompatibilita s~TL řečí (viz část \ref{chap:construction:results}). I v případě natrénování individuálního ASR systému nedosahují jejich výkony (viz tab. \ref{tab:construction:experiment:dnn}) těch obecných ASR systémů se zdravými řečníky. Hlavním problémem je přílišná odlišnost TL řeči od té normální. Jako problematické se pak ukazují zejména neznělé fonémy, které se už z podstaty produkce TL řeči liší od neznělých zdravého řečníka (viz část \ref{chap:construction:analysis}). A je jedno jestli se jedná o jícnový hlas, tracheoezofageální fistuli nebo elektrolarynx.
-
-Problém TL řeči se dá vztáhnout ke ztrátě určitého množství informace z promluvy. V případě, že je k dispozici dostatečný slovní kontext, tak velmi pozitivně výsledek ovlivňuje jazykový model. Přece jen vetšina slov mající jiný význam a akusticky se lišících pouze znělostí jednoho fonému se vyskytuje v~jiném slovním kontextu. Problém by se tak mohl jevit jako marginální. Bohužel TL řečníci se v mnoha případech snaží mluvit spíše v kratších úsecích, což problém s chybějící informací podtrhuje.
-
-Doplnění chybějící informace je možné v případě využití různých druhů multimodálních systémů, které se snaží různými způsoby, zejména na základě snímání artikulace. Tyto systémy jsou však ještě musí urazit dlouhou cestu k dosažení produkčního nasazení. Hlavním problémem jsou zatím výkony některých systému a také jimi kladené nároky na mluvčího.
-
-Tato práce se zaměřila na možnost doplnění informace pomocí drobné cílené změny produkované řeči a úpravy ASR systému tak, aby tato změna byla co možná nejvíce akcentována. V části \ref{chap:realisation:augmentation} je představena a následně otestována možnost protahování vybraných fonémů k minimalizaci problémů ASR systémů s krátkými promluvami. K ověření funkčnosti konceptu byla data nejprve uměle protažena. Dosažené výsledky (viz tab. \ref{tab:realisation:augmentation:influence} a tab. \ref{tab:realisation:augmentation:influence:tdnn}) potvrzují nezanedbatelné zlepšení pouze drobnou úpravou pronášených promluv. Pokud se navíc upraví ASR systém tak, aby toto prodloužení příslušně využil, dojde ještě k dalšímu zlepšení (viz tab. \ref{tab:realisation:duration:layers}, \ref{tab:realisation:duration:context:symetric} a \ref{tab:realisation:duration:context:asymetric}).
-
-K reálně použitelnému systému jsou samozřejmě zapotřebí reálně protažená data, ale díky těm umělým bylo možné určit vhodnou míru protažení. V části \ref{chap:realisation:augmentation:real} je pak představen jednoduchý a pro řečníka intuitivní způsob získání reálně protažených dat. Tento způsob společně s uměle protaženými daty jsou pak stavebními kameny představeného trenažéru (viz část \ref{chap:realisation:trainer}), který slouží ke snadnému trénování řečníka v protahování. Sekundární funkcí je pak získání reálných dat, které pak mohou posloužit k vytvoření co možná nejlepšího ASR systému.
-
-Hlavním nedostatkem představených ASR systému postavených na duration modelech (viz část \ref{chap:realisation:durationmodels}) je v současné chvíli jejich offline funkcionalita. V současné podobě je není možné využít jejich použití v systémech zpracovávající promluvy v reálném čase. Principiálně tomu však nic nebrání.
-
-V ideálním případě pak může ASR systém s duration modelem ve spojení s TTS systémem posloužit v určitých situacích ke snadnější komunikaci TL řečníků s ostatními lidmi. Při diskuzích s pacienty po TL laryngektomii se jako velmi lukrativní jeví využití takovéhoto systému například při telefonování, protože to drasticky redukuje míru stresu a strachu z reakce druhé strany. Ač se to na první pohled nemusí zdát, může to vést k významnému zlepšení kvality života a snížení psychologické zátěže TL řečníků. Zejména pak v kritické době následující po operaci.
-
-% TODO: psychologický aspekt
-% TODO: popis zhodnocení výsledků
-% TODO: využití zejména v telefonii
-% TODO: problém s offline zpracováním dává možnost budoucího vývoje
-% TODO: zmínit, že navržený postup je nezávislý na zvolené standardní metodě rehabilitace, principiálně je to u všech stejné
-
-% Pomoc může poskytnout rozvoj technologií zpracovávajících přirozenou řeč
-% umožňující jejich využití ve stále rozmanitějších oblastech lidské činnosti.
-% Jednou z takovýchto oblastí představuje zpracování tzv. \uv{tiché} řeči (SSI),
-% při které není produkována slyšitelná promluva. K jejímu záznamu je tak
-% potřeba zaznamenat jiný druh dat. Jelikož produkce mluveného slova představuje
-% komplexní proces, kterého se běžně účastní mozek, nervový systém, hlasivky,
-% artikulační orgány a svaly, je v~případě absence akustického signálu nutné
-% snímat aktivitu jednotlivých částí zapojených do tohoto procesu. V současnosti
-% se vyvíjí systémy (jejich přehled je v části \ref{ch:ssi}) snažících se
-% rozpoznat obsah promluvy z aktivity artikulačních orgánů, mozkové aktivity či
-% zaznamenané tělem šířené řeči. Takovéto systémy umožňují použití řečových
-% technologií například v prostředích s nadměrným hlukem (kde běžné systémy
-% nedosahují požadovaných výkonů) nebo dokonce lidmi trpící ztrátou hlasu.
-
-% Schopnost pracovat bez akustických dat předurčuje SSI jako další možnost při
-% rehabilitaci hlasu. Zachycením a zpracováním promluvy dovolují vygenerovat
-% její obsah pomocí TTS a dosáhnout přirozeného a kvalitního hlasu (v ideálním
-% případě dokonce hlasem mluvčího, který měl před ztrátou hlasu).
-
-% Nejblíže reálnému nasazení je technologie postavená na snímání tělem šířené
-% řeči pomocí speciálního NAM mikrofonu (popsáno v části \ref{ssec:ssi:nam}).
-% Tento přístup staví na faktu, že část energie promluvy je přenášena i skrze
-% tkáně lidského těla. Speciálně vyvinutý mikrofon tuto řeč dokáže zachytit a
-% zpracovat. Ke vzniku tělem šířené řeči je, ale potřeba hlasivek nebo jiného
-% zdroje buzení (podobný princip jako elektrolarynx) což nepatrně omezuje
-% možnosti využití v rámci rehabilitace hlasu.
-
-% Nejoblíbenějším přístupem je jednoznačně zaznamenání artikulace mluvčího při
-% promluvě. K tomuto účelu se vyvíjejí systémy využívající permanentních magnetů
-% (část \ref{ssec:ssi:pma}), spojení ultrazvuku a kamery (část
-% \ref{ssec:ssi:us}) či elektromyografie (část \ref{ssec:ssi:others}).
-% Jednotlivé přístupy se sice nacházejí v různých stádiích vývoje, ale dohromady
-% dávají tušit, že záznamem artikulace je možné získat dostatečně kvalitní
-% informaci k~dekódování promluvy.
-
-% Relativně futuristicky se na první pohled může jevit snaha BCI zachytit
-% informace o promluvě již na samém počátku, tedy v mozku (zmíněno v části
-% \ref{ssec:ssi:others}). V případě funkčnosti se však ještě rozšiřují
-% schopnosti SSI. Bohužel tyto snahy jsou teprve na samém počátku a k prvním
-% výsledků je ještě potřeba usilovného vývoje.
-
-% Předkládaný přehled (část \ref{ch:ssi}) vyvíjených SSI demonstruje snahu
-% tvůrčích týmů vytvořit funkční systém umožňující pracovat v podmínkách, ve
-% kterých klasické přístupy selhávají. Naneštěstí většina prezentovaných
-% technologií je v raném stádiu vývoje a k~reálnému nasazení je ještě potřeba
-% vyřešit nespočet problémů. Velmi zajímavě se jeví možnost vzájemné kombinace
-% prezentovaných přístupů. Z pohledu katedry kybernetiky Fakulty aplikovaných
-% věd pak zejména spojení NAM a záznamu artikulace rtů pomocí kamery, z důvodu
-% dostupnosti a zkušeností s těmito technologiemi.
-
-% V současnosti není snadné určit, který z prezentovaných přístupů má největší
-% naději stát masově používaným plnohodnotným SSI systémem, ale rozmanitost
-% přístupů přináší optimismus v otázce zda je možné takovýto systém vůbec
-% sestrojit.
-
+Pomoc s rehabilitací hlasu mohou poskytnout řečové technologie zpracovávající přirozenou řeč. V současnosti využívané obecné systémy automatického rozpoznávání řeči (ASR systémy) ale poskytují uspokojivé výsledky v případě rozpoznávání promluv zdravého řečníka. Za nedostatek lze označit jejich nekompabilitu s řečí pacientů po totální laryngektomii, (viz část \ref{chap:construction:results}). Hlavním problémem je přílišná odlišnost TL řeči od té normální. Jako problematické se pak ukazují zejména neznělé fonémy, které se už z podstaty produkce TL řeči liší od neznělých zdravého řečníka (viz část \ref{chap:construction:analysis}). A je jedno jestli se jedná o jícnový hlas, tracheoezofageální fistuli nebo elektrolarynx.
+%
+%Problém TL řeči se dá vztáhnout ke ztrátě určitého množství informace z promluvy. V případě, že je k dispozici dostatečný slovní kontext, tak velmi pozitivně výsledek ovlivňuje jazykový model. Přece jen vetšina slov mající jiný význam a akusticky se lišících pouze znělostí jednoho fonému se vyskytuje v~jiném slovním kontextu. Problém by se tak mohl jevit jako marginální. Bohužel TL řečníci se v mnoha případech snaží mluvit spíše v kratších úsecích, což problém s chybějící informací podtrhuje.
+%
+%Doplnění chybějící informace je možné v případě využití různých druhů multimodálních systémů, které se snaží různými způsoby, zejména na základě snímání artikulace. Tyto systémy jsou však ještě musí urazit dlouhou cestu k dosažení produkčního nasazení. Hlavním problémem jsou zatím výkony některých systému a také jimi kladené nároky na mluvčího.
+%
+%Tato práce se zaměřila na možnost doplnění informace pomocí drobné cílené změny produkované řeči a úpravy ASR systému tak, aby tato změna byla co možná nejvíce akcentována. V části \ref{chap:realisation:augmentation} je představena a následně otestována možnost protahování vybraných fonémů k minimalizaci problémů ASR systémů s krátkými promluvami. K ověření funkčnosti konceptu byla data nejprve uměle protažena. Dosažené výsledky (viz tab. \ref{tab:realisation:augmentation:influence} a tab. \ref{tab:realisation:augmentation:influence:tdnn}) potvrzují nezanedbatelné zlepšení pouze drobnou úpravou pronášených promluv. Pokud se navíc upraví ASR systém tak, aby toto prodloužení příslušně využil, dojde ještě k dalšímu zlepšení (viz tab. \ref{tab:realisation:duration:layers}, \ref{tab:realisation:duration:context:symetric} a \ref{tab:realisation:duration:context:asymetric}).
+%
+%K reálně použitelnému systému jsou samozřejmě zapotřebí reálně protažená data, ale díky těm umělým bylo možné určit vhodnou míru protažení. V části \ref{chap:realisation:augmentation:real} je pak představen jednoduchý a pro řečníka intuitivní způsob získání reálně protažených dat. Tento způsob společně s uměle protaženými daty jsou pak stavebními kameny představeného trenažéru (viz část \ref{chap:realisation:trainer}), který slouží ke snadnému trénování řečníka v protahování. Sekundární funkcí je pak získání reálných dat, které pak mohou posloužit k vytvoření co možná nejlepšího ASR systému.
+%
+%Hlavním nedostatkem představených ASR systému postavených na duration modelech (viz část \ref{chap:realisation:durationmodels}) je v současné chvíli jejich offline funkcionalita. V současné podobě je není možné využít jejich použití v systémech zpracovávající promluvy v reálném čase. Principiálně tomu však nic nebrání.
+%
+%V ideálním případě pak může ASR systém s duration modelem ve spojení s TTS systémem posloužit v určitých situacích ke snadnější komunikaci TL řečníků s ostatními lidmi. Při diskuzích s pacienty po TL laryngektomii se jako velmi lukrativní jeví využití takovéhoto systému například při telefonování, protože to drasticky redukuje míru stresu a strachu z reakce druhé strany. Ač se to na první pohled nemusí zdát, může to vést k významnému zlepšení kvality života a snížení psychologické zátěže TL řečníků. Zejména pak v kritické době následující po operaci.
+%
+%% TODO: psychologický aspekt
+%% TODO: popis zhodnocení výsledků
+%% TODO: využití zejména v telefonii
+%% TODO: problém s offline zpracováním dává možnost budoucího vývoje
+%% TODO: zmínit, že navržený postup je nezávislý na zvolené standardní metodě rehabilitace, principiálně je to u všech stejné
+%
+%% Pomoc může poskytnout rozvoj technologií zpracovávajících přirozenou řeč
+%% umožňující jejich využití ve stále rozmanitějších oblastech lidské činnosti.
+%% Jednou z takovýchto oblastí představuje zpracování tzv. \uv{tiché} řeči (SSI),
+%% při které není produkována slyšitelná promluva. K jejímu záznamu je tak
+%% potřeba zaznamenat jiný druh dat. Jelikož produkce mluveného slova představuje
+%% komplexní proces, kterého se běžně účastní mozek, nervový systém, hlasivky,
+%% artikulační orgány a svaly, je v~případě absence akustického signálu nutné
+%% snímat aktivitu jednotlivých částí zapojených do tohoto procesu. V současnosti
+%% se vyvíjí systémy (jejich přehled je v části \ref{ch:ssi}) snažících se
+%% rozpoznat obsah promluvy z aktivity artikulačních orgánů, mozkové aktivity či
+%% zaznamenané tělem šířené řeči. Takovéto systémy umožňují použití řečových
+%% technologií například v prostředích s nadměrným hlukem (kde běžné systémy
+%% nedosahují požadovaných výkonů) nebo dokonce lidmi trpící ztrátou hlasu.
+%
+%% Schopnost pracovat bez akustických dat předurčuje SSI jako další možnost při
+%% rehabilitaci hlasu. Zachycením a zpracováním promluvy dovolují vygenerovat
+%% její obsah pomocí TTS a dosáhnout přirozeného a kvalitního hlasu (v ideálním
+%% případě dokonce hlasem mluvčího, který měl před ztrátou hlasu).
+%
+%% Nejblíže reálnému nasazení je technologie postavená na snímání tělem šířené
+%% řeči pomocí speciálního NAM mikrofonu (popsáno v části \ref{ssec:ssi:nam}).
+%% Tento přístup staví na faktu, že část energie promluvy je přenášena i skrze
+%% tkáně lidského těla. Speciálně vyvinutý mikrofon tuto řeč dokáže zachytit a
+%% zpracovat. Ke vzniku tělem šířené řeči je, ale potřeba hlasivek nebo jiného
+%% zdroje buzení (podobný princip jako elektrolarynx) což nepatrně omezuje
+%% možnosti využití v rámci rehabilitace hlasu.
+%
+%% Nejoblíbenějším přístupem je jednoznačně zaznamenání artikulace mluvčího při
+%% promluvě. K tomuto účelu se vyvíjejí systémy využívající permanentních magnetů
+%% (část \ref{ssec:ssi:pma}), spojení ultrazvuku a kamery (část
+%% \ref{ssec:ssi:us}) či elektromyografie (část \ref{ssec:ssi:others}).
+%% Jednotlivé přístupy se sice nacházejí v různých stádiích vývoje, ale dohromady
+%% dávají tušit, že záznamem artikulace je možné získat dostatečně kvalitní
+%% informaci k~dekódování promluvy.
+%
+%% Relativně futuristicky se na první pohled může jevit snaha BCI zachytit
+%% informace o promluvě již na samém počátku, tedy v mozku (zmíněno v části
+%% \ref{ssec:ssi:others}). V případě funkčnosti se však ještě rozšiřují
+%% schopnosti SSI. Bohužel tyto snahy jsou teprve na samém počátku a k prvním
+%% výsledků je ještě potřeba usilovného vývoje.
+%
+%% Předkládaný přehled (část \ref{ch:ssi}) vyvíjených SSI demonstruje snahu
+%% tvůrčích týmů vytvořit funkční systém umožňující pracovat v podmínkách, ve
+%% kterých klasické přístupy selhávají. Naneštěstí většina prezentovaných
+%% technologií je v raném stádiu vývoje a k~reálnému nasazení je ještě potřeba
+%% vyřešit nespočet problémů. Velmi zajímavě se jeví možnost vzájemné kombinace
+%% prezentovaných přístupů. Z pohledu katedry kybernetiky Fakulty aplikovaných
+%% věd pak zejména spojení NAM a záznamu artikulace rtů pomocí kamery, z důvodu
+%% dostupnosti a zkušeností s těmito technologiemi.
+%
+%% V současnosti není snadné určit, který z prezentovaných přístupů má největší
+%% naději stát masově používaným plnohodnotným SSI systémem, ale rozmanitost
+%% přístupů přináší optimismus v otázce zda je možné takovýto systém vůbec
+%% sestrojit.
+%

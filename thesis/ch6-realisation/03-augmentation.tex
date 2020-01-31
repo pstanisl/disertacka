@@ -14,17 +14,18 @@ V poslední době bylo prezentováno několik přístupů jak ztracenou informac
 Souhrn těch nejperspektivnějších je v \cite{Denby2010}.
 Ve valné většině případů se využívá obohacení akustického modelu o artikulační data, nebo dokonce využití jen těchto artikulačních dat \cite{Hofe2013} .
 Problém ale spočívá v tom, že ne všechny akustické nuance mezi podobnými fonémy jsou artikulací ovlivněny.
-Pořízení záznamu artikulačních dat často vyžaduje používaní dalšího zařízení (kamery, ultrazvuku, atp. \cite{Hueber2010} \cite{Brumberg2010} \cite{Fagan2008} \cite{Hirahara2010} \cite{Jorgensen2010}), nebo dokonce nutnost podstoupení dalšího operačního zákroku (magnety \cite{Hofe2011}).
-Samozřejmě je nutno říct, že většina těchto vyvíjených systémů si klade za cíl kompletně nahradit současné metody rehabilitace.
+Pořízení záznamu artikulačních dat často vyžaduje používaní dalšího zařízení (kamery, ultrazvuku, atp. \cite{Hueber2010}- %\cite{Brumberg2010} \cite{Fagan2008} \cite{Hirahara2010}
+ \cite{Jorgensen2010}), nebo dokonce nutnost podstoupení dalšího operačního zákroku (magnety \cite{Hofe2011}).
+Samozřejmě je nutno říct, že většina těchto vyvíjených systémů si klade za cíl kompletně nahradit současné metody rehabilitace hlasu.
 Na druhou stranu faktem je, že ani po dlouholetém vývoji se většina těchto systémů nedostala z~rané vývojové fáze.
 Nepochybně hraje roli i skutečnost, že tato problematika není v ohnisku zájmu řečařské komunity.
 
-Pokud tedy není úplně reálné získat ztracenou informaci pomocí kompletní změny paradigmatu fungování systémů rozpoznávání řeči, tak zbývá jen pracovat s informací, která je k dispozici a adaptovat současný model.
+Pokud tedy není úplně reálné získat ztracenou informaci pomocí kompletní změny paradigmatu fungování systémů rozpoznávání řeči, tak zbývá jen pracovat s informací, která je k dispozici, a adaptovat současný model.
 Určitou možností je nahrazení ztracené informace konkrétní cílenou změnou produkované řeči,
 % Řečník by ideálně neměl být touto změnou ovlivněn.
 % Jako optimální se jeví změna produkované řeči,
 která je zohledněna modelem.
-Samozřejmě takovýto přístup nezbaví řečníka EL, ale může mu pomoci v situacích, které jsou pro něj stresující a v konečném důsledku mu velmi komplikují život.
+Samozřejmě takovýto přístup nezbaví řečníka EL, ale může mu pomoci v~situacích, které jsou pro něj stresující a~v konečném důsledku mu velmi komplikují život.
 
 Jako nejjednodušší možnost augmentace se jeví protažení určitých fonémů.
 Člověk je naprosto bez problémů schopen měnit tempo promluvy.
@@ -34,7 +35,7 @@ U HMM modelů se délka fonému modeluje pomocí přechodu ze stavu $s_x$ do ste
 Z výsledků poskytnutých \uv{bigrams} experimentem (část \ref{chap:realisation:listening:bigrams}) se dá usuzovat, že modely fonémových párů lišících se znělostí jsou si velmi podobné.
 Protažení jednoho fonému z inkriminovaného páru může vést k lepšímu odlišení těchto modelů,
 %situaci, že modely si nebudou tolik podobné, protože se změní pravděpodobnost přechodu ze stavu $s_x$ opět do stavu $s_x$.
-a tím pádem i k svyšší přesnosti rozpoznání.
+a tím pádem i k vyšší přesnosti rozpoznávání.
 %Teorie je jedna věc, ale praxe je věc druhá.
 
 K ověření jsou potřeba data.
@@ -48,7 +49,7 @@ Toto protažení je teoreticky možné realizovat dvěma způsoby:
   \item protažením na zvuku.
 \end{enumerate}
 
-\noindent V obou případech je nezbytné získat co možná nejpřesnější fonetické zarovnání. Pokud bude obsahovat chyby, tak mohou být protahovány úplně jiné úseky řeči. K natrénování HMM-DNN modelu na protažených datech je zapotřebí zarovnání získané HMM-GMM nebo HMM-DNN modelem, viz \ref{chap:asr:acoustic:DNN}. U obou variant protažení je postup stejný:
+\noindent V obou případech je nezbytné získat co možná nejpřesnější fonetické zarovnání. Pokud bude obsahovat chyby, tak mohou být protahovány úplně jiné úseky řeči. K~natrénování HMM-DNN modelu na protažených datech je zapotřebí zarovnání získané HMM-GMM nebo HMM-DNN modelem, viz \ref{chap:asr:acoustic:DNN}. U obou variant protažení je postup stejný:
 
 \begin{enumerate}
   \item natrénování akustického modelu na originálních datech;
@@ -79,7 +80,7 @@ Tyto vektory jsou následně zduplikovány a představují dvojnásobné protaž
 % Toto protažení je však spíše hypotetická možnost.
 V reálné situaci by řečník mluvil jako doposud a k protažení by docházelo až při zpracování, což je velmi netriviální úkol.
 Teoreticky by musel algoritmus parametrizace být doplněn o mechanismus, který by určité příznakové vektory definovaným způsobem duplikoval.
-Problém je, že by ke kopírování docházelo v momentě předzpracování, kdy jsou o daných příznakových vektorech k dispozici minimální informace.
+Problém je, že by ke kopírování docházelo v momentě předzpracování, kdy jsou o daných příznakových vektorech k~dispozici minimální informace.
 Prosté zkopírování navíc narušuje dynamický charakter řeči.
 V rámci jednoho zpracovávaného mikrosegmentu jsou parametry považovány za statické, ale jak se okénko v rámci zpracování posouvá, tak už nelze hovořit o stacionaritě parametrů.
 Tento problém by se musel řešit např. pomocí interpolace mezi dvěma konsekutivními vektory.
@@ -100,7 +101,7 @@ Pro prvotní experimenty je to pak relativně vhodné zjednodušení úlohy.
 \subsubsection{Dosažené výsledky}
 
 Prvním bodem výše zmíněného algoritmu bylo získat standardní model, který by bylo vhodné použít k zarovnání dat.
-Jako vhodné se jevilo použít již natrénovaný model z experimentů popsaných v části \ref{chap:realisation:corpus:elimination}.
+Jako vhodné se jevilo použít již natrénovaný model z~experimentů popsaných v~části \ref{chap:realisation:corpus:elimination}.
 % Konkrétně se jedná o HMM-DNN model s $5$ skrytými vrstvami, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů.
 Tento model dosáhl s fonémovým zerogramovým LM přesnosti rozpoznávání $84,66\ \%$.
 S jeho pomocí bylo získáno zarovnání trénovací i testovací sady.
@@ -188,18 +189,18 @@ Zbylé dva uvažované přístupy využívají sofistikovanější úpravy sign�
 Obě metody využívají \textit{analýzu} signálu, pro jeho následné \textit{zpracování}, které je zakončené \textit{syntézou}.
 % Rozdíl je hlavně ve způsobu.
 Metody z rodiny PSOLA pracují s hlasivkovými pulsy, které jsou nejprve v analytické části nalezeny\footnote{Výsledkem analýzy jsou periodicky se opakující značky, angl. pitch marks. Úpravou jejich parametrů dochází ke změnám parametrů řeči.}, aby pak v části zpracování došlo k jejich transformaci na základě požadavků na výslednou řeč.
-V posledním kroku dochází k syntéze signálu na základě upravených analytických krátkodobých signálů (hlasivkových pulsů), podrobněji v v \cite{Psutka2006}.
+V posledním kroku dochází k~syntéze signálu na základě upravených analytických krátkodobých signálů (hlasivkových pulsů), podrobněji v \cite{Psutka2006}.
 
 Fázový vokodér pracuje na podobném principu, s tím rozdílem, že v analytické části dochází k převodu signálu do frekvenční oblasti.
 Ve fázi zpracování je signál upraven tak, aby mohl být ve fázi syntézy opět převeden do časové oblasti.
 
 Pomocí těchto dvou zmíněných metod je možné upravit nejen délku, ale i  fundamentální frekvenci $F_0$ signálu.
-Negativně se může úprava projevit napr. vznikem artefaktů, které u TD-PSOLA vznikají v důsledku nespojitosti mezi sousedními úseky řeči; u fázového vokodéru mohou vznikat artefakty napr. vlivem fázového posunu.
+Negativně se může úprava projevit např. vznikem artefaktů, které u TD-PSOLA vznikají v důsledku nespojitosti mezi sousedními úseky řeči; u fázového vokodéru mohou vznikat artefakty např. vlivem fázového posunu.
 % Stejně jako u převzorkování mají vliv na signál, ale ten není tak markantní jako v případě převzorkování. U TD-PSOLA mohou například vznikat artefakty způsobené nespojitostmi mezi sousedními upravenými úseky řeči. U fázového vokodéru nevznikají artefakty vlivem nespojitostí, ale vlivem fázového posunu.
 %Jelikož se signál upravuje ve frekvenční oblasti, kde dochází ke změnám jednotlivých komponent, může dojít k fázovému posunu mezi jednotlivými komponentami. Při syntéze pak mohou vznikat zaznamenatelné artefakty připomínající tupý zvuk.
 Obě metody však poskytují velmi dobré výsledky protažení na jednotlivých fonémech.
 Dosažené protažení je téměř identické.
-Přestože interně vyvinutý nástroj umožňuje k ovlivnění délky řeči (a priori používaný pro účely řešení úlohy syntézy řeči) využít obě výše zmíněné metody, tak pro účely této práce byli protažení modelováno metodou TD-PSOLA.
+Přestože interně vyvinutý nástroj umožňuje k~ovlivnění délky řeči (a priori používaný pro účely řešení úlohy syntézy řeči) využít obě výše zmíněné metody, tak pro účely této práce byli protažení modelováno metodou TD-PSOLA.
 Ukázka původního a protaženého slova \uv{kosa} je na obr. \ref{fig:realisation:augmentation:compare}.
 Protahován byl foném $/s/$, který je v signálu reprezentovaný šumem mezi dvěma výraznými částmi signálu.
 Inkriminovaný foném byl protažen na dvojnásobek.
@@ -225,7 +226,7 @@ V signálu a ve spektru není vidět žádný významný artefakt.
 
 \subsubsection{Dosažené výsledky s DNN}
 
-K ověření schopností modelu pracovat s uměle protaženými daty je použit stejný HMM-DNN model jako v předchozích případech.
+K ověření schopností modelu pracovat s uměle protaženými daty byl použit stejný HMM-DNN model jako v předchozích případech.
 % Neuronová síť má $5$ skrytých vrstev, každá s $4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů. Vstupní data jsou parametrizována pomocí PLP (12 statických kepstrálních koeficientů společně s delta a delta-delta parametry).
 V datech jsou protaženy všechny výskyty fonémů $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$. Uvažováno je protažení $1,25\mathrm{x}$, $1,50\mathrm{x}$, $1,75\mathrm{x}$ a $2,00\mathrm{x}$. Jazykový model je stejně jako v případě protažení na příznacích fonémový zerogramový.
 Dosažené výsledky jsou shrnuty v tab. \ref{tab:realisation:augmentation:influence:dnn}.
@@ -418,10 +419,12 @@ Tento výsledek je předpokladem pro funkci trenažéru prezentovaného v část
 
 Experimenty s uměle protaženými daty potvrdily správnost uvažované hypotézy.
 Protažením jednoho z párových fonémů dojde k dostatečnému odlišení velmi podobných zvukových reprezentací.
-Tím dojde k natrénování odlišných modelů fonémů v HMM.
+Tím dojde k natrénování odlišných modelů fonémů v~HMM.
 Model pracující s fonémy protaženými přímo ve zvuku nakonec dosáhl lepších výsledků než model s uměle protaženými daty na příznacích.
 Svůj podíl na tom má i použití TDNN modelu.
-Model pracující s duplikovanými příznaky naznačoval, že optimální hodnota protažení bude v intervalu $\left(1,\ 3\right)\mathrm{x}$, což druhý typ modelu potvrdil.
+Model pracující s duplikovanými příznaky naznačoval, že optimální hodnota protažení bude v~intervalu 
+%$\left(1,\ 3\right)\mathrm{x}$
+jedno až trojnásobku, což druhý typ modelu potvrdil.
 
 \subsection{Aktualizace výsledků porovnání}
 \label{chap:realisation:augmentation:comparison}
@@ -434,16 +437,16 @@ Nicméně to nebrání provedení tohoto experimentu.
 Získané hodnoty mohou být brány jako jakási teoretická maxima ASR systému.
 Uměle upravená data budou relativně přesně a konzistentně protažena, u reálných dat toto nelze a priori očekávat.
 
-K aktualizaci výsledků je použit nejlepší model z části \ref{chap:realisation:augmentation:audio}, tedy ten s $2,5\mathrm{x}$ protaženými daty.
-Parametry experimentů jsou totožné s těmi v části \ref{chap:realisation:listening}.
-V případě \uv{one-mil} je použit zerogramový jazykový model s 1 milionem slov, \uv{reduced} pak pouze zerogramový LM se slovy obsaženými v poslechovém testu ($N = 320$).
-Speciální LM, obsahující 4 kombinace slov, je vygenerován pro každou položku \uv{bigrams} experimentu.
+K aktualizaci výsledků byl použit nejlepší model z části \ref{chap:realisation:augmentation:audio}, tedy ten s $2,5\mathrm{x}$ protaženými daty.
+Parametry experimentů byly totožné s těmi v části \ref{chap:realisation:listening}.
+V případě experimentu \uv{one-mil} byl použit zerogramový jazykový model s 1 milionem slov, experiment \uv{reduced} pak pouze zerogramový LM se slovy obsaženými v poslechovém testu ($N = 320$).
+Speciální LM, obsahující 4 kombinace slov, byl vygenerován pro každou položku \uv{bigrams} experimentu.
 
-Dosažené výsledky byly zaznamenýny fo tab. \ref{tab:realisation:augmentation:comparison}.
+Dosažené výsledky byly zaznamenány do tab. \ref{tab:realisation:augmentation:comparison}.
 Ve všech třech případech došlo k významnému zlepšení.
-U \uv{one-mil} to je o $23\ \%$ absolutně, u \uv{reduced} pak o $24\ \%$.
+U experimentu \uv{one-mil} to je o $23\ \%$ absolutně, u \uv{reduced} experimentu pak o $24\ \%$.
 K nejmarkantnějšímu zlepšení došlo u experimentu \uv{bigrams}, dokonce o $44\ \%$.
-Výsledky člověka jsou stejné, protože realizace poslechového testu je zdlouhavý proces a je obtížné získat dostatečný počet respondentů.
+Výsledky člověka se nezměnily, protože realizace poslechového testu je zdlouhavý proces a je obtížné získat dostatečný počet respondentů.
 Nicméně se dá očekávat, že i člověk by dosáhl zlepšení.
 Pokud by měl informaci o fonémech, které jsou protaženy.
 V opačném případě by ke zlepšení nutně nemuselo dojít, protože kromě protažení nebyl zvuk nijak pozměněn.
@@ -518,7 +521,7 @@ Hlavním viditelným rozdílem je slabší zastoupení frekvencí kolem $2\ kHz$
 Ač to tak na první pohled nevypadá, tak obě protažení mají téměř identickou délku $0,258\ s$ (reálné) vs. $0,261\ s$ (umělé).
 Vizuální rozdíl je způsoben vyšší celkovou délkou reálně protaženého slova.
 Foném $/s/$ je zástupcem neznělých fonémů, zdrojem zvuku je tedy a priori šum a nikoli periodický signál produkovaný hlasivkami, tím pádem je velikost amplitudy taktéž velmi podobná.
-Další viditelný rozdíl v místě protažení fonému $/s/$ je způsoben vyšší maximální amplitudou u uměle protažené nahrávky (\ref{fig:realisation:real:compare:augmented}), která pochází z 2. etapy nahrávání.
+Další viditelný rozdíl v místě protažení fonému $/s/$ je způsoben vyšší maximální amplitudou u uměle protažené nahrávky (\ref{fig:realisation:real:compare:augmented}), která byla pořízena v průběhu 2. etapy nahrávání.
 
 \begin{figure}[htpb]
   \centering

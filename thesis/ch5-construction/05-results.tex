@@ -17,7 +17,7 @@ Celková slovní přesnost, počítaná podle vzorce (\ref{eq:asr:decoding:acc})
 Dosažený výsledek zřetelně ilustruje odlišnost EL domény, protože obecný na řečníkovi nezávislý systém s rozsáhlým jazykovým modelem není schopen obstojně rozpoznat EL promluvu.
 
 Pokud jsou k natrénování akustického modelu (taktéž využívajícího TDNN síť) použita pouze data\footnote{Korpus byl náhodně rozdělen na trénovací a testovací sadu v poměru $90\ \%\ (10h41m44s)$ trénovací a $10\ \%\ (1h00m58s)$ testovací sada. Toto rozděleni je použito ve všech experimentech.} z EL korpusu, tak výsledná slovní přesnost dosáhla hodnoty $83,33\ \%$, opět počítáno podle vzorce (\ref{eq:asr:decoding:acc}).
-Jazykový model je identický jako v případě obecného systému.
+Jazykový model je identický jako v~případě obecného systému.
 Dosažený výsledek demonstruje výhodu vytvoření individuálního modelu z EL nahrávek.
 Zároveň ukazuje schopnost akustického modelu přizpůsobit se specifikům EL řeči.
 Přestože je výstup individuálního modelu výrazně přesnější než obecného modelu zpracovávající EL promluvy, tak zdaleka nedosahuje výsledků srovnatelných s nejlepšími ASR systémy, které jsou schopny v ideálních podmínkách dosahovat více než $90\ \%$ slovní přesnosti.
@@ -63,7 +63,7 @@ Z tohoto důvodu je použit speciální zerogramový jazykový model.
 Standarně se předpokládá, že základní jednotkou jazykového modelu je slovo.
 Pro ně jsou počítány četnosti z trénovacích dat a vytvořen model.
 Obecně ale není nutné, aby základní jednotkou bylo slovo. V případě experimentů s EL řečí je mnohem výhodnější vytvořit model, jehož základní jednotkou je foném, protože právě foném je výstupem akustického modelu.
-Výstupem ASR systému tak bude sekvence fonémů, která z praktického pohledu není úplně užitečná, ale pro testování vlastností akustického modelu se hodí dokonale.
+Výstupem ASR systému tak bude sekvence fonémů, která z~praktického pohledu není úplně užitečná, ale pro testování vlastností akustického modelu se hodí dokonale.
 V rámci této práce je takovýto model označován jako fonémový zerogramový jazykový model.
 Velikost slovníku tohoto modelu odpovídá velikosti fonémové sady, a tedy lze pravděpodobnost výskytu libovolného fonému stanovit jako $P(w_n) = 1/N$\footnote{Označení $w_n$ může evokovat použití slov u jazykového modelu. Změna písmena by však mohla vést ke zmatení čtenáře, protože by byla použita nestandardní notace. Z tohoto důvodu je i pro speciální model použito označení fonémů $w_n$.}, kde $N=40$.
 Výsledná přesnost je tedy závislá pouze na akustickém modelu.
@@ -98,7 +98,7 @@ Slovíčko \uv{maximálním} je zde podstatné.
 Algoritmus trénování akustického modelu se snaží rozdistribuovat všechny možné akustické jednotky (v tomto případě trifóny) do maximálního počtu stavů.
 Pokud chceme dosáhnout menšího počtu stavů než jednotek, dochází k určité formě shlukování (za pomocí fonetického rozhodovacího stromu) \cite{Holmes2001}.
 Pokud je k dispozici dostatek dat k natrénování konkrétního shluku, je tento shluk akceptován, pokud jich není dostatečné množství, je tento shluk spojen s jiným, který je svými parametry nejblíže.
-V případě, že je k dispozici dostatek dat k natrénování maximálního počtu stavů má model tento počet stavů.
+V případě, že je k dispozici dostatek dat k~natrénování maximálního počtu stavů má model tento počet stavů.
 Pokud není dostatek dat, může mít model méně stavů.
 U modelu s maximálním počtem $4096$ stavů je skutečný počet stavů $3257$, tzn. i kdyby se trénoval model s $8192$ stavy, tak by se tato hodnota změnila jen velmi málo.
 
@@ -174,12 +174,12 @@ Hodnoty přesnosti baseline modelu jsou tedy pro GMM $Acc_{p}^{GMM} = 81,20\ \%$
 \label{chap:construction:results:reduction}
 
 Při mluvení je elektrolarynx permanentně zapnutý, a to i v případě neznělých fonémů.
-Toto má vliv na jejich průběh, podrovněji v části v \ref{chap:construction:analysis}.
+Toto má vliv na jejich průběh, podrobněji v části v \ref{chap:construction:analysis}.
 Nabízí se tak předpoklad, že všechny neznělé fonémy mají podobu znělých párových fonémů, a tím pádem je možné redukovat fonetickou sadu.
 V důsledku redukce fonetické sady by došlo ke snížení perplexity modelu.
 Rozhodnutí, zda se jedná o variantu slova obsahující znělý nebo neznělý foném, je pak přenecháno jazykovému modelu.
 
-K ověření tohoto předpokladu je potřeba provést experimentálního ověření.
+K ověření tohoto předpokladu je potřeba provést experiment.
 Myšlenka experimentu je jednoduchá.
 Je potřeba natrénovat několik modelů lišících se pouze tím, jaký fonetický pár (viz tab. \ref{tab:construction:reduction:pairs}) je použit pro redukci fonetické sady.
 V rámci experimentu jsou uvažovány tyto případy:

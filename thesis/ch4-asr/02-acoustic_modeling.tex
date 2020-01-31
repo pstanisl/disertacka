@@ -52,7 +52,7 @@ Podmíněná pravděpodobnost přechodu $a_{ij}$ určuje, s jakou pravděpodobno
 
 % \noindent V obou případech to platí pro všechny stavy HMM, které mohou generovat výstupní vektor.
 
-Rozdělení výstupní pravděpodobnosti musí být při modelování řečových zvuků dostatečně specifické, aby bylo možné od sebe oddělit různé zvuky, a zároveň dostatečně robustní, aby zahrnulo značnou variabilitu řečového signálu. Toto rozdělení je nejčastěji modelováno dvěma postupy, a to
+Rozdělení výstupní pravděpodobnosti musí být při modelování řečových zvuků dostatečně specifické, aby bylo možné od sebe odlišit různé zvuky, a zároveň dostatečně robustní, aby zahrnulo značnou variabilitu řečového signálu. Toto rozdělení je nejčastěji modelováno dvěma postupy, a to
 
 \begin{itemize}
   \item spojitým normálním rozdělením se směsí hustotních funkcí,
@@ -62,7 +62,8 @@ Rozdělení výstupní pravděpodobnosti musí být při modelování řečovýc
 \subsection{Struktura skrytého Markovova modelu}
 \label{chap:asr:acoustic:HMM}
 
-Z pohledu rozpoznávání řeči se nejčastěji využívá tzv. levo-pravá struktura Markovova modelu. V průběhu let bylo testováno mnoho různých struktur HMM, např. modely s počtem stavů odvozených od průměrné délky slova, pro které byl model konstruován, až po pevnou strukturu stavů pro každé slovo. Tyto modely sloužily hlavně pro rozpoznávání izolovaných úseků řeči, nejčastěji slov.
+Z pohledu rozpoznávání řeči se nejčastěji využívá tzv. levo-pravá struktura Markovova modelu. V průběhu let bylo testováno mnoho různých struktur HMM, např. modely s počtem stavů odvozených od průměrné délky slova, pro kterou byl model konstruován, až po pevnou strukturu stavů pro každé slovo. Tyto modely sloužily hlavně pro rozpoznávání izolovaných úseků řeči, nejčastěji slov.
+
 Zatímco v minulosti byly systémy rozpoznávání řeči založené na modelech celých slov, v současnosti jsou pro zpracování kontinuální řeči využívány systémy pracující s modely odvozenými od menších jednotek než jsou slova.
 %V současnosti, kdy je většina systémů konstruovaných pro zpracování souvislé řeči a počet slov ve slovníku může přesahovat 1 milion slov, převažují modely odvozené od menších jednotek, než jsou slova.
 Takovými jednotkami mohou být například fonémy anebo specifičtější trifóny. Trifón je svým způsobem kontextově závislý foném, který bere v potaz svůj levý a pravý kontext, tj. levý a pravý sousední foném. Přepis slova do fonémové, resp. trifónové struktury lze ukázat na příkladu izolovaného slova \uv{akcie}, které má přepis \uv{\texttt{sil a k c i j e sil}}, v trifónové podobě je pak zápis následující
@@ -73,7 +74,7 @@ Takovými jednotkami mohou být například fonémy anebo specifičtější trif
 
 \noindent kde \texttt{sil} má význam pauzy před, případně za vyslovenou promluvou slova \uv{akcie}.
 
-Oproti slovním modelům, u fonémů (monofónů), resp. trifónů bývá struktura relativně jednoduchá a často je vyjádřena pěti stavovým modelem, jehož podoba je přiblížena na obr. \ref{fig:asr:acoustic:hmm}. Jedná se o pětistavový levo-pravý Markovův model, jehož první a poslední stav jsou tzv. neemitující. Jejich primární úlohou je zřetězování jednotlivých HMM modelů trifónů (monofónů) do rozsáhlejších modelů, např. slov nebo vět. Při zřetězení se tyto neemitující stavy vypouštějí. Ostatní stavy modelu jsou emitující a vztahují se k nim odpovídající rozdělení pravděpodobnosti $b_j(.)$.
+Oproti slovním modelům, u fonémů (monofónů), resp. trifónů bývá struktura relativně jednoduchá a často je vyjádřena pětistavovým modelem, jehož podoba je přiblížena na obr. \ref{fig:asr:acoustic:hmm}. Jedná se o pětistavový levo-pravý Markovův model, jehož první a poslední stav jsou tzv. neemitující. Jejich primární úlohou je zřetězování jednotlivých HMM modelů trifónů (monofónů) do rozsáhlejších modelů, např. slov nebo vět. Při zřetězení se tyto neemitující stavy vypouštějí. Ostatní stavy modelu jsou emitující a vztahují se k nim odpovídající rozdělení pravděpodobnosti $b_j(.)$.
 
 \begin{figure}[hbpt]
   \centering
@@ -125,7 +126,7 @@ Přímé vyčíslení pravděpodobnosti $P\left(\boldsymbol{O}|\lambda\right)$ p
 \subsection{Trénování parametrů HMM s Gaussovskými směsmi}
 \label{chap:asr:acoustic:GMM}
 
-Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovení hodnot parametrů modelu je provedeno na základě trénování (odhadem, estimací) na definované množině trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu, který je podrobněji popsáný např. v \cite{Holmes2001}. Základem je vyčíslení hodnoty $\gamma_{j}\left(t\right)$, která vyjadřuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$. Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
+Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovení hodnot parametrů modelu je provedeno na základě trénování (odhadem, estimací) na definované množině trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu, který je podrobněji popsáný např. v~\cite{Holmes2001}. Základem je vyčíslení hodnoty $\gamma_{j}\left(t\right)$, která vyjadřuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$. Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
 
 \begin{equation}
   \gamma_{j}\left(t\right) = \frac{P\left(\boldsymbol{O}, s\left(t\right)=j|\lambda\right)}{P\left(\boldsymbol{O}|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(\boldsymbol{O}|\lambda\right)} ,
@@ -246,7 +247,7 @@ Zmíněná aktivační funkce hraje velmi významnou roli, protože umožňuje �
   \label{fig:asr:acoustic:dnn:activation}
 \end{figure}
 
-Pro výpočet výstupu $L$-vrstvé neuronové sítě je použit iterativní postup tzv. \textbf{forward propagation}, který lze matematicky zapsat jako
+\newpage Pro výpočet výstupu $L$-vrstvé neuronové sítě je použit iterativní postup tzv. \textbf{forward propagation}, který lze matematicky zapsat jako
 
 \begin{align}
   \begin{split}
@@ -282,7 +283,7 @@ Trénováním neuronové sítě je myšleno určení hodnot váhových matic $\m
 
 \noindent kde $m$ je dimenze výstupního vektoru.
 
-Samotná aktualizace parametrů sítě je realizována pomocí \textbf{backpropagation} algoritmem. Úlohou tohoto algoritmu je vypočtení parciálních derivací $\partial J / \partial \mathbf{W}^{[l]}$ a $\partial J/\partial \mathbf{b}^{[l]}$ pro všechny vrstvy sítě. Chyba predikce ve vrstvě $l$ je závislá na chybě v předchozí vrstvě $l-1$, a tedy lze pro jejich vyjádření použít tzv. chain pravidlo. Parciální derivace pak mají následující podobu
+Samotná aktualizace parametrů sítě je realizována pomocí \textbf{backpropagation} algoritmem. Úlohou tohoto algoritmu je vypočtení parciálních derivací $\partial J / \partial \mathbf{W}^{[l]}$ a $\partial J/\partial \mathbf{b}^{[l]}$ pro všechny vrstvy sítě. Chyba predikce ve vrstvě $l$ je závislá na chybě v~předchozí vrstvě $l-1$, a tedy lze pro jejich vyjádření použít tzv. chain pravidlo. Parciální derivace pak mají následující podobu
 
 \begin{align}
   \begin{split}
