@@ -2,25 +2,25 @@
 \section{Akustické modelování}
 \label{chap:asr:acoustic}
 
-Akustický model (AM) je v rovnici (\ref{eq:asr:decoding:generic}) reprezentován podmíněnou pravděpodobností $P(\boldsymbol{O}|W)$. Úkolem akustického modelu je poskytnout co nejpřesnější odhad této pravděpodobnosti pro libovolnou posloupnost vektorů příznaků $\boldsymbol{O} = \left\{\boldsymbol{o}_1, \boldsymbol{o}_2\ \dots\ \boldsymbol{o}_T\right\}$. Jako velmi vhodný nástroj pro modelování řeči se ukázaly tzv. \textbf{skryté Markovovy modely (HMM)}. Ty vycházejí z principu vytváření řeči člověkem. V průběhu produkce řeči se hlasové ústrojí v krátkém časovém úseku nachází v určité konfiguraci, přičemž množina všech možných konfigurací je konečná. Ve zvoleném krátkém úseku řeči (mikrosegmentu) je pak hlasovým ústrojím generován signál, který závisí na aktuální konfiguraci hlasového ústrojí. Tento vyprodukovaný zvuk je pomocí metod popsaných v části \ref{chap:asr:parametrization} převeden na vektor příznaků $\boldsymbol{O}$.
+Akustický model (AM) je v~rovnici (\ref{eq:asr:decoding:generic}) reprezentován podmíněnou pravděpodobností $P(\boldsymbol{O}|W)$. Úkolem akustického modelu je poskytnout co nejpřesnější odhad této pravděpodobnosti pro libovolnou posloupnost vektorů příznaků $\boldsymbol{O} = \left\{\boldsymbol{o}_1, \boldsymbol{o}_2\ \dots\ \boldsymbol{o}_T\right\}$. Jako velmi vhodný nástroj pro modelování řeči se ukázaly tzv. \textbf{skryté Markovovy modely (HMM)}. Ty vycházejí z principu vytváření řeči člověkem. v~průběhu produkce řeči se hlasové ústrojí v~krátkém časovém úseku nachází v~určité konfiguraci, přičemž množina všech možných konfigurací je konečná. Ve zvoleném krátkém úseku řeči (mikrosegmentu) je pak hlasovým ústrojím generován signál, který závisí na aktuální konfiguraci hlasového ústrojí. Tento vyprodukovaný zvuk je pomocí metod popsaných v~části \ref{chap:asr:parametrization} převeden na vektor příznaků $\boldsymbol{O}$.
 
-Skrytý Markovův model je model stochastického procesu. Na ten je možné nahlížet jako na pravděpodobnostní konečný automat, který v diskrétních časových okamžicích generuje náhodnou posloupnost vektorů příznaků $\boldsymbol{O} = \left\{\boldsymbol{o}_1, \boldsymbol{o}_2\ \dots\ \boldsymbol{o}_T\right\}$. Model v každém časovém kroku změní stav svůj $s_j$ podle předem daných pravděpodobností přechodu $a_{ij}$. Přechod ze stavu $s_i$ do stavu $s_j$ má za následek vygenerování výstupního vektoru pozorování $\boldsymbol{o}_t$, a to podle rozdělení výstupní pravděpodobnosti $b_j\left(\boldsymbol{o}_t\right)$ příslušné k tomuto stavu \cite{Psutka2006}.
+Skrytý Markovův model je model stochastického procesu. Na ten je možné nahlížet jako na pravděpodobnostní konečný automat, který v~diskrétních časových okamžicích generuje náhodnou posloupnost vektorů příznaků $\boldsymbol{O} = \left\{\boldsymbol{o}_1, \boldsymbol{o}_2\ \dots\ \boldsymbol{o}_T\right\}$. Model v~každém časovém kroku změní stav svůj $s_j$ podle předem daných pravděpodobností přechodu $a_{ij}$. Přechod ze stavu $s_i$ do stavu $s_j$ má za následek vygenerování výstupního vektoru pozorování $\boldsymbol{o}_t$, a to podle rozdělení výstupní pravděpodobnosti $b_j\left(\boldsymbol{o}_t\right)$ příslušné k tomuto stavu \cite{Psutka2006}.
 
-Podmíněná pravděpodobnost přechodu $a_{ij}$ určuje, s jakou pravděpodobností přechází model ze stavu $i$ v čase $t$, do stavu $j$ v čase $t+1$. Platí tedy
+Podmíněná pravděpodobnost přechodu $a_{ij}$ určuje, s jakou pravděpodobností přechází model ze stavu $i$ v~čase $t$, do stavu $j$ v~čase $t+1$. Platí tedy
 
 \begin{equation}
   a_{ij} = p\left(s\left(t+1\right)=s_j|s\left(t\right)=s_i\right),
   \label{eq:asr:acoustic:conditional}
 \end{equation}
 
-\noindent kde $s\left(t\right)$ je stav modelu v čase $t$. Další podmínkou je, že pro všechny stavy $i$, $i=1,2,\dots\,N$, platí
+\noindent kde $s\left(t\right)$ je stav modelu v~čase $t$. Další podmínkou je, že pro všechny stavy $i$, $i=1,2,\dots\,N$, platí
 
 \begin{equation}
   \sum_{j=1}^{N} a_{ij} = 1.
   \label{eq:asr:acoustic:state:condition}
 \end{equation}
 
-\noindent Funkce rozdělení výstupní pravděpodobnosti $b_j\left(\boldsymbol{o}_t\right)$ popisují rozdělení pravděpodobnosti pozorování $\boldsymbol{o}_t$ produkovaného ve stavu $s_j$ v čase $t$. Pro tuto funkci platí
+\noindent Funkce rozdělení výstupní pravděpodobnosti $b_j\left(\boldsymbol{o}_t\right)$ popisují rozdělení pravděpodobnosti pozorování $\boldsymbol{o}_t$ produkovaného ve stavu $s_j$ v~čase $t$. Pro tuto funkci platí
 
 \begin{equation}
   b_j\left(\boldsymbol{o}_t\right) = P\left(\boldsymbol{o}_t|s\left(t\right)=s\right),
@@ -50,7 +50,7 @@ Podmíněná pravděpodobnost přechodu $a_{ij}$ určuje, s jakou pravděpodobno
 %   \label{eq:asr:acoustic:state:output:condition:continous}
 % \end{equation}
 
-% \noindent V obou případech to platí pro všechny stavy HMM, které mohou generovat výstupní vektor.
+% \noindent v~obou případech to platí pro všechny stavy HMM, které mohou generovat výstupní vektor.
 
 Rozdělení výstupní pravděpodobnosti musí být při modelování řečových zvuků dostatečně specifické, aby bylo možné od sebe odlišit různé zvuky, a zároveň dostatečně robustní, aby zahrnulo značnou variabilitu řečového signálu. Toto rozdělení je nejčastěji modelováno dvěma postupy, a to
 
@@ -62,11 +62,11 @@ Rozdělení výstupní pravděpodobnosti musí být při modelování řečovýc
 \subsection{Struktura skrytého Markovova modelu}
 \label{chap:asr:acoustic:HMM}
 
-Z pohledu rozpoznávání řeči se nejčastěji využívá tzv. levo-pravá struktura Markovova modelu. V průběhu let bylo testováno mnoho různých struktur HMM, např. modely s počtem stavů odvozených od průměrné délky slova, pro kterou byl model konstruován, až po pevnou strukturu stavů pro každé slovo. Tyto modely sloužily hlavně pro rozpoznávání izolovaných úseků řeči, nejčastěji slov.
+Z pohledu rozpoznávání řeči se nejčastěji využívá tzv. levo-pravá struktura Markovova modelu. v~průběhu let bylo testováno mnoho různých struktur HMM, např. modely s počtem stavů odvozených od průměrné délky slova, pro kterou byl model konstruován, až po pevnou strukturu stavů pro každé slovo. Tyto modely sloužily hlavně pro rozpoznávání izolovaných úseků řeči, nejčastěji slov.
 
-Zatímco v minulosti byly systémy rozpoznávání řeči založené na modelech celých slov, v současnosti jsou pro zpracování kontinuální řeči využívány systémy pracující s modely odvozenými od menších jednotek než jsou slova.
+Zatímco v~minulosti byly systémy rozpoznávání řeči založené na modelech celých slov, v~současnosti jsou pro zpracování kontinuální řeči využívány systémy pracující s modely odvozenými od menších jednotek než jsou slova.
 %V současnosti, kdy je většina systémů konstruovaných pro zpracování souvislé řeči a počet slov ve slovníku může přesahovat 1 milion slov, převažují modely odvozené od menších jednotek, než jsou slova.
-Takovými jednotkami mohou být například fonémy anebo specifičtější trifóny. Trifón je svým způsobem kontextově závislý foném, který bere v potaz svůj levý a pravý kontext, tj. levý a pravý sousední foném. Přepis slova do fonémové, resp. trifónové struktury lze ukázat na příkladu izolovaného slova \uv{akcie}, které má přepis \uv{\texttt{sil a k c i j e sil}}, v trifónové podobě je pak zápis následující
+Takovými jednotkami mohou být například fonémy anebo specifičtější trifóny. Trifón je svým způsobem kontextově závislý foném, který bere v~potaz svůj levý a pravý kontext, tj. levý a pravý sousední foném. Přepis slova do fonémové, resp. trifónové struktury lze ukázat na příkladu izolovaného slova \uv{akcie}, které má přepis \uv{\texttt{sil a k c i j e sil}}, v~trifónové podobě je pak zápis následující
 
 \begin{verbatim}
   sil sil-a+k a-k+c k-c+i c-i+j i-j+e j-e+sil sil,
@@ -126,14 +126,14 @@ Přímé vyčíslení pravděpodobnosti $P\left(\boldsymbol{O}|\lambda\right)$ p
 \subsection{Trénování parametrů HMM s Gaussovskými směsmi}
 \label{chap:asr:acoustic:GMM}
 
-Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovení hodnot parametrů modelu je provedeno na základě trénování (odhadem, estimací) na definované množině trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu, který je podrobněji popsáný např. v~\cite{Holmes2001}. Základem je vyčíslení hodnoty $\gamma_{j}\left(t\right)$, která vyjadřuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$. Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
+Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovení hodnot parametrů modelu je provedeno na základě trénování (odhadem, estimací) na definované množině trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu, který je podrobněji popsáný např. v~\cite{Holmes2001}. Základem je vyčíslení hodnoty $\gamma_{j}\left(t\right)$, která vyjadřuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v~čase $t$ ve stavu $j$. Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
 
 \begin{equation}
   \gamma_{j}\left(t\right) = \frac{P\left(\boldsymbol{O}, s\left(t\right)=j|\lambda\right)}{P\left(\boldsymbol{O}|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(\boldsymbol{O}|\lambda\right)} ,
    \label{eq:asr:acoustic:structure:gamma}
 \end{equation}
 
-\noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$ a generuje složku $m$ Gaussovské hustotní směsi, pak určuje vztah
+\noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v~čase $t$ ve stavu $j$ a generuje složku $m$ Gaussovské hustotní směsi, pak určuje vztah
 
 \begin{equation}
   \gamma_{jm}\left(t\right) = \frac{P\left(\boldsymbol{O}, s\left(t\right)=j, m\left(j,t\right)=m|\lambda\right)}{P\left(\boldsymbol{O}|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(\boldsymbol{O}|\lambda\right)} \frac{c_{jm}\mathcal{N}\left(\boldsymbol{o}_t;\mu_{jm}; C_{jm}\right)}{\sum_{i=1}^{M} c_{ji} \mathcal{N}\left(\boldsymbol{o}_t;\mu_{ji};C_{ji}\right) }.
@@ -162,14 +162,14 @@ Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu.
 \end{equation}
 
 \noindent kde $1 \leq j \leq N$ a $1 \leq m \leq M$.
-% Přitom $\gamma_{j}\left(t\right)$ představuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$. Pro vyjádření této pravděpodobnosti $\gamma_{j}\left(t\right)$ platí rovnice (\ref{eq:asr:acoustic:structure:forward-backward}). Pro její definování pak platí vztah
+% Přitom $\gamma_{j}\left(t\right)$ představuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v~čase $t$ ve stavu $j$. Pro vyjádření této pravděpodobnosti $\gamma_{j}\left(t\right)$ platí rovnice (\ref{eq:asr:acoustic:structure:forward-backward}). Pro její definování pak platí vztah
 
 % \begin{equation}
 %  \gamma_{j}\left(t\right) = \frac{P\left(O, s\left(t\right)=j|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} ,
 %   \label{eq:asr:acoustic:structure:gamma}
 % \end{equation}
 
-% \noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v čase $t$ ve stavu $j$ a generuje složku $m$ gaussovské hustotní směsi
+% \noindent kde $j = 1,\dots,N$ a $t = 1, \dots, T$. Pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v~čase $t$ ve stavu $j$ a generuje složku $m$ gaussovské hustotní směsi
 
 % \begin{equation}
 %   \gamma_{jm}\left(t\right) = \frac{P\left(O, s\left(t\right)=j, m\left(j,t\right)=m|\lambda\right)}{P\left(O|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(O|\lambda\right)} \frac{c_{jm}\mathcal{N}\left(o_t;\mu_{jm}; C_{jm}\right)}{\sum_{i=1}^{M} c_{ji} \mathcal{N}\left(o_t;\mu_{ji};C_{ji}\right) }.
@@ -183,12 +183,12 @@ Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu.
    \label{eq:asr:acoustic:gmm:output}
  \end{equation}
 
-\noindent Celkový počet složek hustotních směsí se u modelů založených na kombinaci skrytých Markovových modelů a Gaussovských směsí nejčastěji pohybuje v rozmezí od 10000 do 100000 směsí. Například pro dimenzi příznakového vektoru rovnou například $15$ je často nutné provést odhad až 10 miliónů parametrů.
+\noindent Celkový počet složek hustotních směsí se u modelů založených na kombinaci skrytých Markovových modelů a Gaussovských směsí nejčastěji pohybuje v~rozmezí od 10000 do 100000 směsí. Například pro dimenzi příznakového vektoru rovnou například $15$ je často nutné provést odhad až 10 miliónů parametrů.
 
 \subsection{Využití neuronových sítí}
 \label{chap:asr:acoustic:DNN}
 
-Neuronové sítě se inspirují neuronem v mozku člověka. Ukázka stavby neuronové buňky je znázorněna na obr. \ref{fig:asr:acoustic:dnn:neuron:human}. Dendrity jsou krátké výběžky, které slouží k příjímání vstupních informací od ostatních neuronů nebo nervů. V těle neuronu (soma) dochází k reakci na vstupní signály a vytvoření příslušné odezvy. Ta se dále šíří výběžkem nazvaným axon. Jeho délka může dosahovat až 100 cm. Axon je přes synapse spojen s jinými neurony nebo dalšími buňkami v těle.
+Neuronové sítě se inspirují neuronem v~mozku člověka. Ukázka stavby neuronové buňky je znázorněna na obr. \ref{fig:asr:acoustic:dnn:neuron:human}. Dendrity jsou krátké výběžky, které slouží k příjímání vstupních informací od ostatních neuronů nebo nervů. v~těle neuronu (soma) dochází k reakci na vstupní signály a vytvoření příslušné odezvy. Ta se dále šíří výběžkem nazvaným axon. Jeho délka může dosahovat až 100 cm. Axon je přes synapse spojen s jinými neurony nebo dalšími buňkami v~těle.
 
 \begin{figure}[hbpt]
   \centering
@@ -197,7 +197,7 @@ Neuronové sítě se inspirují neuronem v mozku člověka. Ukázka stavby neuro
   \label{fig:asr:acoustic:dnn:neuron:human}
 \end{figure}
 
-\noindent Umělý ekvivalent s názvem perceptron byl vytvořen Frankem Roseblattem v první polovině 60. let 20. století \cite{Rosenblatt1962}. Schématicky je zobrazen na obr. \ref{fig:asr:acoustic:dnn:neuron:artificial}.
+\noindent Umělý ekvivalent s názvem perceptron byl vytvořen Frankem Roseblattem v~první polovině 60. let 20. století \cite{Rosenblatt1962}. Schématicky je zobrazen na obr. \ref{fig:asr:acoustic:dnn:neuron:artificial}.
 
 \begin{figure}[hbpt]
   \centering
@@ -257,13 +257,13 @@ Zmíněná aktivační funkce hraje velmi významnou roli, protože umožňuje �
   \label{eq:asr:acoustic:dnn:fw}
 \end{align}
 
-\noindent kde $l = 1, \dots, L$, $\boldsymbol{a}^{[l]}$ představuje výstup $l$-té vrstvy ($\boldsymbol{a}^{[0]} = \boldsymbol{x}$), $\mathbf{W}^{[l]}$ představuje váhovou matici $l$-té vrstvy, $\mathbf{b}^{[l]}$ vektor prahů $l$-té vrstvy a $\sigma^{[l]}(.)$ aktivační funkci $l$-té vrstvy. Výsledkem iterativního výpočtu (\ref{eq:asr:acoustic:dnn:fw}) je výstup sítě $\boldsymbol{y} = \boldsymbol{a}^{[L]}$.
+\noindent kde $l = 1, \dots, L$, $\boldsymbol{a}^{[l]}$ představuje výstup $l$-té vrstvy ($\boldsymbol{a}^{[0]} = \boldsymbol{x}$), $\mathbf{W}^{[l]}$ představuje váhovou matici $l$-té vrstvy, $\mathbf{b}^{[l]}$ vektor prahů $l$-té vrstvy a $\sigma^{[l]}(.)$ aktivační funkci $l$-té vrstvy. Výsledkem iterativního výpočtu (\ref{eq:asr:acoustic:dnn:fw}) je výstup sítě $\hat{\boldsymbol{y}} = \boldsymbol{a}^{[L]}$.
 
 Trénováním neuronové sítě je myšleno určení hodnot váhových matic $\mathbf{W}^{[l]}$ a prahů $\mathbf{b}^{[l]}$. Tento proces se iterativně sestává ze tří kroků (viz obr. \ref{fig:asr:acoustic:dnn:training})
 
 \begin{enumerate}
-  \item výpočet výstupu sítě dle vztahů (\ref{eq:asr:acoustic:dnn:fw}),
-  \item vypočtení chyby predikce $J\left(\boldsymbol{y}, \hat{\boldsymbol{y}}\right)$,
+  \item výpočet výstupu sítě dle vztahů (\ref{eq:asr:acoustic:dnn:fw});
+  \item vypočtení chyby predikce $J\left(\boldsymbol{y}, \hat{\boldsymbol{y}}\right)$, kde $\boldsymbol{y}$ je učitel;
   \item aktualizace vah pomocí algoritmu backpropagation.
 \end{enumerate}
 
@@ -319,16 +319,16 @@ Samotná aktualizace parametrů sítě je realizována pomocí \textbf{backpropa
 
 \subsubsection{Spojení skrytých Markovových modelů a neuronových sítí}
 
-Rozvoj výpočetní techniky, zejména GPU\footnote{Graphics Processing Unit} s možností provádět obecné maticové operace, zapříčinil masivní využití tzv. hlubokých neuronových sítí (DNN). Ty se vyznačují vyšším počtem skrytých vrstev, což umožňuje řešit sofistikovanější problémy jako např. rozpoznávání souvislé řeči. Bohužel DNN end-to-end\footnote{Systém, který kompletně řeší rovnici (\ref{eq:asr:decoding:generic}) pomocí jediné DNN sítě. Tyto systémy jsou většinou postaveny na rekurentních neuronových sítích (RNN).} systém je zatím velmi komplikované vytvořit a provozovat zejména proto, že k úspěšnému natrénování je potřeba řádově více dat než u GMM \cite{Amodei2016}. Z tohoto důvodu jsou v současné době nejčastěji využívané systémy postavené na kombinaci HMM a DNN (HMM-DNN). Rozdíl oproti end-to-end systému je v tom, že cílem DNN není odhad $\hat{W}$, ale stejně jako v případě HMM-GMM, určit rozdělení pravděpodobnosti $b_j\left(o_t\right)$.
+Rozvoj výpočetní techniky, zejména GPU\footnote{Graphics Processing Unit} s možností provádět obecné maticové operace, zapříčinil masivní využití tzv. hlubokých neuronových sítí (DNN). Ty se vyznačují vyšším počtem skrytých vrstev, což umožňuje řešit sofistikovanější problémy jako např. rozpoznávání souvislé řeči. Bohužel DNN end-to-end\footnote{Systém, který kompletně řeší rovnici (\ref{eq:asr:decoding:generic}) pomocí jediné DNN sítě. Tyto systémy jsou většinou postaveny na rekurentních neuronových sítích (RNN).} systém je zatím velmi komplikované vytvořit a provozovat zejména proto, že k úspěšnému natrénování je potřeba řádově více dat než u GMM \cite{Amodei2016}. Z tohoto důvodu jsou v~současné době nejčastěji využívané systémy postavené na kombinaci HMM a DNN (HMM-DNN). Rozdíl oproti end-to-end systému je v~tom, že cílem DNN není odhad $\hat{W}$, ale stejně jako v~případě HMM-GMM, určit rozdělení pravděpodobnosti $b_j\left(\boldsymbol{o}_t\right)$.
 
-V případě HMM-GMM je odhad $b_j\left(o_t\right)$ realizován Gaussovskými hustotními směsmi podle vztahu (\ref{eq:asr:acoustic:gmm:output}). Těchto směsí je tolik, kolik je unikátních stavů HMM. U DNN však žádné směsi k dispozici nejsou. Pokud je však výstupní vrstva typu \textbf{softmax}, jde výstup $j$-tého neuronu definován vztahem
+V případě HMM-GMM je odhad $b_j\left(\boldsymbol{o}_t\right)$ realizován Gaussovskými hustotními směsmi podle vztahu (\ref{eq:asr:acoustic:gmm:output}). Těchto směsí je tolik, kolik je unikátních stavů HMM. U DNN však žádné směsi k dispozici nejsou. Pokud je však výstupní vrstva typu \textbf{softmax}, jde výstup $j$-tého neuronu definován vztahem
 
 \begin{equation}
   y_{j} = a_{j}^{[L]} = \frac{\mathsf{e}^{z_j}}{\sum_{i=1}^{m}\mathsf{e}^{z_i}},
   \label{eq:asr:acoustic:dnn:asr:softmax}
 \end{equation}
 
-\noindent a $m$ je počet neuronů v poslední vrstvě, zároveň platí, že
+\noindent a $m$ je počet neuronů v~poslední vrstvě, zároveň platí, že
 
 \begin{equation}
   \sum_{j=1}^{m} y_{j} = 1.
@@ -338,7 +338,7 @@ V případě HMM-GMM je odhad $b_j\left(o_t\right)$ realizován Gaussovskými hu
 \noindent Hodnoty složek, označené $y_{i}$, výstupního vektoru $\boldsymbol{y}$ mají pseudo-pravděpodobnostní charakter. Pokud tedy bude $m$ rovno počtu stavů HMM, pak výstupní pravděpodobnost $b_{j} \left(\boldsymbol{o}_t\right)$ pro emitující stav $j$ má, podle (\ref{eq:asr:acoustic:dnn:asr:softmax}) tvar
 
 \begin{equation}
-  b_{j} \left(o_t\right) = y_{j} = \frac{\mathsf{e}^{z_j}}{\sum_{i=1}^{m}\mathsf{e}^{z_i}}.
+  b_{j} \left(\boldsymbol{o}_t\right) = y_{j} = \frac{\mathsf{e}^{z_j}}{\sum_{i=1}^{m}\mathsf{e}^{z_i}}.
   \label{eq:asr:acoustic:dnn:asr:softmax:criterium}
 \end{equation}
 
@@ -361,7 +361,7 @@ V případě HMM-GMM je odhad $b_j\left(o_t\right)$ realizován Gaussovskými hu
   \label{fig:asr:acoustic:dnn:asr:diff}
 \end{figure}
 
-K natrénování DNN se používá zmíněného backpropagation algoritmu. V poslední době se však prosadilo trénování využívající předtrénování DNN pomocí tzv. restricted Bolzmann machines (RBM) \cite{Hinton2012}. Předtrénování řeší problém, kdy se informace zpětně propagovaná pomocí backpropagation algoritmu úplně neovlivní počáteční vrstvy, protože gradient je příliš malý. Předtrénování pomocí RBM pomáhá lépe určit parametry sítě. Principiálně je tento proces znázorněn na obr. \ref{fig:asr:acoustic:dnn:pretraining}.
+K natrénování DNN se používá zmíněného backpropagation algoritmu. v~poslední době se však prosadilo trénování využívající předtrénování DNN pomocí tzv. restricted Bolzmann machines (RBM) \cite{Hinton2012}. Předtrénování řeší problém, kdy se informace zpětně propagovaná pomocí backpropagation algoritmu úplně nepřenese zpět do počáteční vrstvy, protože gradient je příliš malý. Předtrénování pomocí RBM pomáhá lépe určit parametry sítě. Principiálně je tento proces znázorněn na obr. \ref{fig:asr:acoustic:dnn:pretraining}.
 
 Nejprve je natrénován GRBM (Gaussian-Bernoulli RBM) model na minibatchích sestavených z mikrosegmentů řeči o konstantní délce, například $10\ ms$. Stav skrytých jednotek je použit k natrénování RBM. Tento proces se opakuje dokud není natrénován požadovaný počet vrstev výsledné sítě. Následně jsou jednotlivé RBM spojeny do deep belief sítě (DBN) a je přidána výstupní softmax vrstva dimenze rovné počtu HMM stavů (DBN-DNN). Tato DBN-DNN síť je pak diskriminativně trénována na základě zarovnání získaného pomocí HMM-GMM, více o tomto principu trénování v~\cite{Hinton2012} a \cite{Vesely2013}. Vstupem neuronové sítě je často mikrosegment $t$ a jeho okolní mikrosegmenty. Velmi často se používá okolí o rozsahu $t-2$ a $t+2$.
 
@@ -374,7 +374,7 @@ Nejprve je natrénován GRBM (Gaussian-Bernoulli RBM) model na minibatchích ses
 
 \subsubsection{Time-delay neural networks}
 
-Nevýhodou DNN sítí je, že pracují pouze se statickými parametry v~rámci zpracovávaných mikrosegmentů, protože sumace v perceptronu odpovídá sumě vážených statických vstupů. Po zpracování mikrosegmentu $t$ není získaná informace nijak zohledněna při zpracování segmentu $t+1$. Tento nedostatek by řešilo použití rekurentních neuronových sítí (RNN). Bohužel tyto sítě mají mnohem komplikovanější buňku neuronu než FF sítě s perceptronem \cite{Amodei2016}, proto je potřeba řádově více dat k~natrénování. Složitost buňky také zvyšuje komputační náročnost výpočtu \cite{Hannun2014}.
+Nevýhodou DNN sítí je, že pracují pouze se statickými parametry v~rámci zpracovávaných mikrosegmentů, protože sumace v~perceptronu odpovídá sumě vážených statických vstupů. Po zpracování mikrosegmentu $t$ není získaná informace nijak zohledněna při zpracování segmentu $t+1$. Tento nedostatek by řešilo použití rekurentních neuronových sítí (RNN). Bohužel tyto sítě mají mnohem komplikovanější buňku neuronu než FF sítě s perceptronem \cite{Amodei2016}, proto je potřeba řádově více dat k~natrénování. Složitost buňky také zvyšuje komputační náročnost výpočtu \cite{Hannun2014}.
 
 Dalším typem neuronových sítí jsou time-delay neural network (TDNN), které jsou podrobněji popsané v~\cite{Waibel1989}. Oproti výše popsaným NN je přidána časová filtrace do sumační části neuronu, tím je docíleno zahrnutí dynamické složky do výpočtu sítě \cite{Craig2000}. Filtrace je implementována jako filtr s konečnou impulzní odezvou (FIR), tedy
 
@@ -383,7 +383,7 @@ Dalším typem neuronových sítí jsou time-delay neural network (TDNN), které
   \label{eq:asr:acoustic:dnn:tdnn:fir}
 \end{equation}
 
-\noindent kde $t$ je diskrétní časový index, $N$ je délka FIR filtru, $f\left(n\right)$ odezva filtru v bodě $n$, $w_{j}^{[-n]}$ příslušná váha, $a^{[l-1]}_{j}$ je výstup vrstvy $l-1$ a $z_{j}^{[l]}\left(t\right)$ je výstup sumační části neuronu $j$ ve vrstvě $l$. Vztah (\ref{eq:asr:acoustic:dnn:tdnn:fir}) tedy představuje konvoluci. Na obr. \ref{fig:asr:acoustic:dnn:tdnn:neuron} je principiálně znázorněn neuron pracující s $N$ FIR filtry. Z obr. \ref{fig:asr:acoustic:dnn:tdnn:neuron} je také zřejmé, že TDNN síť má několik souborů vah $W^{x}$, které umožňují lépe pracovat s dynamickou složkou signálu \cite{Peddinti2015}.
+\noindent kde $t$ je diskrétní časový index, $N$ je délka FIR filtru, $f\left(n\right)$ odezva filtru v~bodě $n$, $w_{j}^{[-n]}$ příslušná váha, $a^{[l-1]}_{j}$ je výstup vrstvy $l-1$ a $z_{j}^{[l]}\left(t\right)$ je výstup sumační části neuronu $j$ ve vrstvě $l$. Vztah (\ref{eq:asr:acoustic:dnn:tdnn:fir}) tedy představuje konvoluci. Na obr. \ref{fig:asr:acoustic:dnn:tdnn:neuron} je principiálně znázorněn neuron pracující s FIR filtrem $N$-tého řádu. Z obr. \ref{fig:asr:acoustic:dnn:tdnn:neuron} je také zřejmé, že TDNN síť má několik souborů vah $W^{x}$, které umožňují lépe pracovat s dynamickou složkou signálu \cite{Peddinti2015}.
 
 \begin{figure}[htpb]
   \centering
@@ -402,4 +402,4 @@ Dalším typem neuronových sítí jsou time-delay neural network (TDNN), které
   \label{fig:asr:acoustic:dnn:tdnn}
 \end{figure}
 
-Stejně jako v případě DNN sítě je vstupem parametrizovaný mikrosegment $t$ a jeho okolí. Z obr. \ref{fig:asr:acoustic:dnn:tdnn:net} je patrné, že hlubší vrstvy postupně zpracovávají větší a větší okolí mikrosegmentu $t$. Dimenze výstupní vrstvy odpovídá počtu HMM stavů. Přestože je TDNN síť typu FF, tak dokáže pracovat i s dynamickými parametry řeči, protože využívá princip konvoluce.
+Stejně jako v~případě DNN sítě je vstupem parametrizovaný mikrosegment $t$ a jeho okolí. Z obr. \ref{fig:asr:acoustic:dnn:tdnn:net} je patrné, že hlubší vrstvy postupně zpracovávají větší a větší okolí mikrosegmentu $t$. Dimenze výstupní vrstvy odpovídá počtu HMM stavů. Přestože je TDNN síť typu FF, tak dokáže pracovat i s dynamickými parametry řeči, protože využívá princip konvoluce.
