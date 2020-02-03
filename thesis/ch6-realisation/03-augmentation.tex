@@ -103,20 +103,20 @@ Pro prvotní experimenty je to pak relativně vhodné zjednodušení úlohy.
 Prvním bodem výše zmíněného algoritmu bylo získat standardní model, který by bylo vhodné použít  k~zarovnání dat.
 Jako vhodné se jevilo použít již natrénovaný model z~experimentů popsaných v~části \ref{chap:realisation:corpus:elimination}.
 % Konkrétně se jedná o HMM-DNN model s~$5$ skrytými vrstvami, každá s~$4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů.
-Tento model dosáhl s~fonémovým zerogramovým LM přesnosti rozpoznávání $84,66\ \%$.
+Tento model dosáhl s~fonémovým zerogramovým LM přesnosti rozpoznávání $84,66~\%$.
 S jeho pomocí bylo získáno zarovnání trénovací i testovací sady.
 
 Pro prvotní ověřovací experiment bylo zvoleno $2\mathrm{x}$ protažení fonému $/s/$, tedy všechny vektory odpovídající $/s/$ byly zduplikovány.
 Následně byl standardním způsobem natrénován HMM-DNN model.
 % Neuronová síť má $5$ skrytých vrstev s~$4096$. Výstupní vrstva je typu softmax.
 Otestování bylo jako v~předchozích případech realizováno na testovací sadě s~fonémovým zerogramovým jazykovým modelem, aby byl minimalizován vliv LM.
-Tento nový model dosáhl přesnosti rozpoznávání $85,11\ \%$, což lze označit jako malé zlepšení oproti baseline HMM-DNN modelu.
+Tento nový model dosáhl přesnosti rozpoznávání $85,11~\%$, což lze označit jako malé zlepšení oproti baseline HMM-DNN modelu.
 
 % Protažení $/s/$ posloužilo  k~ověření procesu vytváření modelu.
 Další experiment byl realizován na protažených fonémech $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$, které reprezentují většinu neznělých zájmových fonémů.
 Zarovnání bylo identické jako u předchozího experimentu, stejně tak bylo uvažováno jejich $2\mathrm{x}$ protažení, tzn. že všechny vektory inkriminovaných fonémů byly zduplikovány.
 Znovu byl natrénován HMM-DNN model se stejnými parametry a násedně byl otestován s~fonémovým zerogramovým jazykovým modelem.
-Přesnost rozpoznávání na testovací sadě dosáhla hodnoty $87,50\ \%$, což lze považovat za významné zlepšení.
+Přesnost rozpoznávání na testovací sadě dosáhla hodnoty $87,50~\%$, což lze považovat za významné zlepšení.
 
 % Doposud se uvažovalo pouze $2\mathrm{x}$ protažení,
 V další fázi bylo potřeba ověřit, zda jiné hodnoty násobku protažení nemohou poskytnout lepší výsledek.
@@ -230,7 +230,7 @@ K ověření schopností modelu pracovat s~uměle protaženými daty byl použit
 % Neuronová síť má $5$ skrytých vrstev, každá s~$4096$ neurony. Výstupní vrstva je pak typu softmax dimenze rovné počtu HMM stavů. Vstupní data jsou parametrizována pomocí PLP (12 statických kepstrálních koeficientů společně s~delta a delta-delta parametry).
 V datech jsou protaženy všechny výskyty fonémů $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$. Uvažováno je protažení $1,25\mathrm{x}$, $1,50\mathrm{x}$, $1,75\mathrm{x}$ a $2,00\mathrm{x}$. Jazykový model je stejně jako v~případě protažení na příznacích fonémový zerogramový.
 Dosažené výsledky jsou shrnuty v~tab. \ref{tab:realisation:augmentation:influence:dnn}.
-Nejlepšího výsledku dosáhl \textit{baseline} model s~hodnotou $84,66\ \%$.
+Nejlepšího výsledku dosáhl \textit{baseline} model s~hodnotou $84,66~\%$.
 S libovolným protažením dochází  k~poklesu přesnosti.
 
 \begin{table}[htpb]
@@ -313,9 +313,9 @@ Jako startovní bod trénování je použito DNN zarovnání z předchozího exp
 
 Na obr. \ref{fig:realisation:augmentation:alignemnt:correct} je zobrazeno získané zarovnání slova \uv{kosa} TDNN modelem.
 Z vyznačených hranic fonému $/s/$ (obr. \ref{fig:realisation:augmentation:alignemnt:correct:audio}) je patrné v~podstatě přesné zarovnání.
-Přesnost TDNN modelu s~fonémovým zerogramovým jazykovým modelem dosáhla hodnoty $Acc_{p}= 85,41\ \%$.
+Přesnost TDNN modelu s~fonémovým zerogramovým jazykovým modelem dosáhla hodnoty $Acc_{p}= 85,41~\%$.
 %To předznamenává i lepší vlastnosti TDNN modelu. Pro ověření této hypotézy opět poslouží standardní experiment s~monofónovým zerogramovým LM.
-%Z tohoto zarovnání Výsledná přesnost má hodnotu $85,41\ \%$. Síť tedy dosáhla nepatrně lepšího výsledku než DNN síť.
+%Z tohoto zarovnání Výsledná přesnost má hodnotu $85,41~\%$. Síť tedy dosáhla nepatrně lepšího výsledku než DNN síť.
 
 \begin{figure}[htpb]
   \centering
@@ -339,8 +339,8 @@ S přesnějším zarovnáním je možné přistoupit  k~protažení fonémů $/k
 Jako další model je tedy použita TDNN síť.
 K otestování modelu je využit standardní fonémový zerogramový jazykový model.
 Uvažováno je protažení od $1,25\mathrm{x}$ do $3,00\mathrm{x}$ s~krokem $0,25$. Výsledky experimentu jsou uvedeny v~tab. \ref{tab:realisation:augmentation:influence:tdnn}.
-Oproti hodnotám rozpoznávání přesnosti v~tab. \ref{tab:realisation:augmentation:influence:dnn} je vidět výrazné zlepšení přesnosti oproti baselinu modelu ($Acc_{p} = 85,41\ \%$).
-Nejvyšší přesnosti $87,90\ \%$ dosáhl model pracující s~$2,5\mathrm{x}$ protaženými daty, navíc modely pracující s~protažením od $1,75\mathrm{x}$ do $2,75\mathrm{x}$ dosahují velmi blízkých hodnot přesnosti rozpoznávání.
+Oproti hodnotám rozpoznávání přesnosti v~tab. \ref{tab:realisation:augmentation:influence:dnn} je vidět výrazné zlepšení přesnosti oproti baselinu modelu ($Acc_{p} = 85,41~\%$).
+Nejvyšší přesnosti $87,90~\%$ dosáhl model pracující s~$2,5\mathrm{x}$ protaženými daty, navíc modely pracující s~protažením od $1,75\mathrm{x}$ do $2,75\mathrm{x}$ dosahují velmi blízkých hodnot přesnosti rozpoznávání.
 To poskytuje relativně široký pracovní interval pro případné skutečné protažení dat řečníkem.
 
 \begin{table}[htpb]
@@ -378,9 +378,9 @@ To poskytuje relativně široký pracovní interval pro případné skutečné p
 
 Podstatnou otázkou je robustnost modelu.
 S ohledem na hodnoty přesnosti rozpoznávání uvedené v~tab. \ref{tab:realisation:augmentation:influence:tdnn:robust} se dá říci, že duration model je v~rámci možností robustní v~poměrně širokém rozsahu protažení.
-Očekávaným výsledkem je nejnižší hodnota přesnosti rozpoznávání pro neprotažená data (konkrétně $78,61\ \%$).
-% , tedy jak moc se výsledky změní pokud vstupem modelu, natrénovaného na datech s~určitým protažením, jsou data s~jinou mírou protažení. Tab. \ref{tab:realisation:augmentation:influence:tdnn:robust} ukazuje, že pokud jsou vstupem $2,5\mathrm{x}$ modelu data od $2,0\mathrm{x}$ do $3,0\mathrm{x}$, tak zhoršení přesnosti dosahuje maximálně $1,66\ \%$ absolutně.
-% Dá se tedy říci, že duration model je v~rámci možností robustní v~celkem širokém rozsahu protažení. Očekávaným výsledkem je nejmarkantnější pokles pokud jsou vstupem neprotažená data (konkrétně $9,29\ \%$).
+Očekávaným výsledkem je nejnižší hodnota přesnosti rozpoznávání pro neprotažená data (konkrétně $78,61~\%$).
+% , tedy jak moc se výsledky změní pokud vstupem modelu, natrénovaného na datech s~určitým protažením, jsou data s~jinou mírou protažení. Tab. \ref{tab:realisation:augmentation:influence:tdnn:robust} ukazuje, že pokud jsou vstupem $2,5\mathrm{x}$ modelu data od $2,0\mathrm{x}$ do $3,0\mathrm{x}$, tak zhoršení přesnosti dosahuje maximálně $1,66~\%$ absolutně.
+% Dá se tedy říci, že duration model je v~rámci možností robustní v~celkem širokém rozsahu protažení. Očekávaným výsledkem je nejmarkantnější pokles pokud jsou vstupem neprotažená data (konkrétně $9,29~\%$).
 Většina chyb v~rozpoznávání nastala v~důsledku neznalosti inkriminovaných neprotažených fonémů.
 Tento výsledek je předpokladem pro funkci trenažéru prezentovaného v~části \ref{chap:realisation:trainer}.
 
@@ -444,16 +444,16 @@ Speciální LM, obsahující 4 kombinace slov, byl vygenerován pro každou polo
 
 Dosažené výsledky byly zaznamenány do tab. \ref{tab:realisation:augmentation:comparison}.
 Ve všech třech případech došlo  k~významnému zlepšení.
-U experimentu \uv{one-mil} to je o~$23\ \%$ absolutně, u~\uv{reduced} experimentu pak o~$24\ \%$.
-K nejmarkantnějšímu zlepšení došlo u experimentu \uv{bigrams}, dokonce o~$44\ \%$.
+U experimentu \uv{one-mil} to je o~$23~\%$ absolutně, u~\uv{reduced} experimentu pak o~$24~\%$.
+K nejmarkantnějšímu zlepšení došlo u experimentu \uv{bigrams}, dokonce o~$44~\%$.
 Výsledky člověka se nezměnily, protože realizace poslechového testu je zdlouhavý proces a je obtížné získat dostatečný počet respondentů.
 Nicméně se dá očekávat, že i člověk by dosáhl zlepšení.
 Pokud by měl informaci o fonémech, které jsou protaženy.
 V opačném případě by ke zlepšení nutně nemuselo dojít, protože kromě protažení nebyl zvuk nijak pozměněn.
 %Dosažené výsledky ASR systému lze brát jako teoretická maxima systému.
 
-Velmi zajímavé je porovnání zvýšení přesnosti rozpoznávání TDNN modelu s~fonémovým zerogramovým LM ($2,49\ \%$ absolutně mezi baseline a $2,5\mathrm{x}$ modelem, viz tab. \ref{tab:realisation:augmentation:influence:tdnn}) a dosaženými výsledky prezentovanými v~tab. \ref{tab:realisation:augmentation:comparison}.
-Oproti nim je zlepšení o~$2,49\ \%$ absolutně poměrně zanedbatelné, přesto velmi významné zlepšení.
+Velmi zajímavé je porovnání zvýšení přesnosti rozpoznávání TDNN modelu s~fonémovým zerogramovým LM ($2,49~\%$ absolutně mezi baseline a $2,5\mathrm{x}$ modelem, viz tab. \ref{tab:realisation:augmentation:influence:tdnn}) a dosaženými výsledky prezentovanými v~tab. \ref{tab:realisation:augmentation:comparison}.
+Oproti nim je zlepšení o~$2,49~\%$ absolutně poměrně zanedbatelné, přesto velmi významné zlepšení.
 Jasně to ukazuje ideu experimentů s~fonémovým zerogramovým jazykovým modelem.
 I drobné zlepšení u akustického modelu může vést  k~rapidnímu zlepšení sofistikovanějšího systému.
 
@@ -552,13 +552,13 @@ Pokud jsou reálně protažená data opravdu velmi podobná uměle protaženým 
 
 Porovnáním neprotažených nahrávek z 2. etapy a protažných nahrávek z 3. etapy se jako ideální jeví použití $2\mathrm{x}$ protaženého modelu z části \ref{chap:realisation:augmentation:audio} (viz tab. \ref{tab:realisation:augmentation:influence:tdnn}).
 Jedná se tedy o TDNN model, který je natrénován na datech obsahujících $2\mathrm{x}$ protažené fonémy $/k/$, $/p/$, $/s/$, $/t/$ a $/v/$.
-Na testovací sadě dosáhl přesnosti $Acc_{p} = 87,71\ \%$.
+Na testovací sadě dosáhl přesnosti $Acc_{p} = 87,71~\%$.
 K otestování výkonu na reálně protažených datech jsou použity všechny věty a slova obsahující protažení zmíněných fonémů\footnote{Stejně jako u 1. a 2. etapy bylo i zde aplikováno CMN napočítané přes všechny nahrávky v~rámci etapy.}.
-S touto testovací sadou dosáhl zmíněný model s~fonémovým zerogramovým jazykovým modelem $Acc_{p} = 84,51\ \%$.
+S touto testovací sadou dosáhl zmíněný model s~fonémovým zerogramovým jazykovým modelem $Acc_{p} = 84,51~\%$.
 
-Dosažená přesnost je sice horší něž původní přesnost na uměle protažených datech, ale nedošlo  k~dramatickému propadu jako v~případě křížového testu mezi 1. a 2. etapou (viz tab. \ref{tab:realisation:verification:cmn:full}\footnote{V tabulce jsou prezentovány hodnoty odpovídající GMM modelu. Srovnání na první pohled není úplně korektní, nicméně validní, protože GMM model trénovaný na uměle protažených datech a otestovaný na reálně protažených datech dosáhl $Acc_{p} = 81,29\ \%$, což je srovnatelná hodnota s~ostatními GMM modely.}).
+Dosažená přesnost je sice horší něž původní přesnost na uměle protažených datech, ale nedošlo  k~dramatickému propadu jako v~případě křížového testu mezi 1. a 2. etapou (viz tab. \ref{tab:realisation:verification:cmn:full}\footnote{V tabulce jsou prezentovány hodnoty odpovídající GMM modelu. Srovnání na první pohled není úplně korektní, nicméně validní, protože GMM model trénovaný na uměle protažených datech a otestovaný na reálně protažených datech dosáhl $Acc_{p} = 81,29~\%$, což je srovnatelná hodnota s~ostatními GMM modely.}).
 Dosažený výsledek tak potvrzuje podobnost uměle a reálně protažených dat.
 
-V případě, že se  k~trénovací sadě přidaly věty z 3. etapy, které neobsahují protažené fonémy, výsledná přesnost TDNN modelu s~fonémovým zerogramovým jazykovým modelem dosáhla hodnoty $Acc_{p} = 85,88\ \%$.
-To je lepší hodnota než v~případě baseline TDNN model ($Acc_{p} = 85,41\ \%$, viz tab. \ref{tab:realisation:augmentation:influence:tdnn}).
+V případě, že se  k~trénovací sadě přidaly věty z 3. etapy, které neobsahují protažené fonémy, výsledná přesnost TDNN modelu s~fonémovým zerogramovým jazykovým modelem dosáhla hodnoty $Acc_{p} = 85,88~\%$.
+To je lepší hodnota než v~případě baseline TDNN model ($Acc_{p} = 85,41~\%$, viz tab. \ref{tab:realisation:augmentation:influence:tdnn}).
 Tyto experimenty podporují ideu trenažéru prezentovaného v~části \ref{chap:realisation:trainer}.

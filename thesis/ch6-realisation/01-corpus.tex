@@ -69,7 +69,7 @@ Ten se v~době mezi nahráváními navíc změnil, což v~konečném důsledku p
 
 Tab. \ref{tab:realisation:corpus:recording} přibližuje souhrnné parametry nahrávek pořízených v~2. etapě nahrávání.
 Celkem se podařilo získat přibližně 2 hodiny řeči (každá nahrávka obsahuje $0,5\ s$ ticha na začátku a konci).
-Z toho přibližně jen $10\ \%$ představují vybraná izolovaná slova.
+Z toho přibližně jen $10~\%$ představují vybraná izolovaná slova.
 Dohromady s~novými daty obsahuje korpus téměř $14$ hodin audio záznamů a jim odpovídajících přepisů.
 
 \begin{table}[htpb]
@@ -145,7 +145,7 @@ Proto je vhodné prvotní validaci nových dat provést na jednodušším modelu
 %Přestože vývoj výpočetních GPU postupuje závratnou rychlostí, tak natrénování standardního \textit{HMM-DNN} modelu trvá o poznání déle než \textit{HMM-GMM}. Pro ověření zda je možné vytvořit model ze všech dat, která jsou  k~dispozici, poslouží dobře i \textit{HMM-GMM} model, který stejně slouží jako startovní bod pro \textit{HMM-DNN}, tak by se vytvářel tak jako tak. Pokud tyto modely neposkytnou DNN  alespoň trochu \uv{dobré} počáteční podmínky, tak sofistikovanější DNN nemusí pomoci.
 
 Proces vytvoření akustického modelu vychází z předpřipravených Kaldi trénovacích skriptů pro vytvoření modelu pomocí Wall Street Journal korpusu.
-Tyto skripty jsou jen drobně upraveny tak, aby výsledný model mohl být natrénován z EL korpusu. Data jsou parametrizována pomocí PLP s~12 kepstrálními, delta a delta-delta koeficienty\footnote{V rámci úprav Kaldi skriptů se PLP parametrizace ukázala jako vhodnější pro EL řeč. Ověření proběhlo experimentálně. Byly vytvořeny dva identické HMM-GMM modely s~4096 stavy, ale každý byl natrénován na jinak parametrizovaných datech (MFCC a PLP). PLP model dosáhl o~$1,31\ \%$ absolutně vyšší přesnost rozpoznávání.}. Nejprve je vytvořen monofónový model, který slouží jako iniciační model pro trifónové  modely, viz obr. \ref{fig:construction:results:baseline:hmm:training}.
+Tyto skripty jsou jen drobně upraveny tak, aby výsledný model mohl být natrénován z EL korpusu. Data jsou parametrizována pomocí PLP s~12 kepstrálními, delta a delta-delta koeficienty\footnote{V rámci úprav Kaldi skriptů se PLP parametrizace ukázala jako vhodnější pro EL řeč. Ověření proběhlo experimentálně. Byly vytvořeny dva identické HMM-GMM modely s~4096 stavy, ale každý byl natrénován na jinak parametrizovaných datech (MFCC a PLP). PLP model dosáhl o~$1,31~\%$ absolutně vyšší přesnost rozpoznávání.}. Nejprve je vytvořen monofónový model, který slouží jako iniciační model pro trifónové  modely, viz obr. \ref{fig:construction:results:baseline:hmm:training}.
 
 %Tento monofónový model je speciální případ kontextově závislých modelů, bez levého a pravého (fonémového) kontextu. Následně jsou natrénovány trifónové modely. Stejně jako v~experimentech provedených v~části \ref{chap:realisation:analysis:experiment}, tak i zde jsou použity rozhodovací stromy, protože počet všech variant trifónů je příliš velký a dat nedostatek.
 
@@ -158,9 +158,9 @@ Ta tedy a priori mají sloužit  k~otestování nových modelů, a tedy i lepš�
 %Toto rozdělení je logické, protože důvodem rozšíření korpusu je snaha ověřit funkčnost ASR systémů na slovech, která mají rozdílný význam, ale liší se pouze znělostí jednoho fonému. Jelikož z výsledků v~části \ref{chap:realisation:analysis:reduction} vyplývá, že určité spektrum trifónů je možné reprezentovat pouze pomocí znělých variant, tak při použití nahraných slov bude teoreticky možné lépe prozkoumat tuto otázku.
 
 Jazykový model je opět fonémový zerogramový.
-Na kompletní testovací sadě bylo dosaženo přesnosti rozpoznávání $Acc_{p}^{GMM} = 54,96\ \%$\footnote{Celková délka nahrávek v~testovací sadě složené z vět a slov činila $1h16m42s$.}.
-V případě, že testovací sada obsahuje pouze nově nahraná slova, tak dokonce jen $Acc_{p}^{GMM} = 42,97\ \%$\footnote{Celková délka nahrávek v~testovací sadě složené pouze slov činila $15m44s$.}.
-To je významné zhoršení oproti výsledkům dosažených u baseline modelu ($Acc_{p}^{GMM} = 76,64\ \%$).
+Na kompletní testovací sadě bylo dosaženo přesnosti rozpoznávání $Acc_{p}^{GMM} = 54,96~\%$\footnote{Celková délka nahrávek v~testovací sadě složené z vět a slov činila $1h16m42s$.}.
+V případě, že testovací sada obsahuje pouze nově nahraná slova, tak dokonce jen $Acc_{p}^{GMM} = 42,97~\%$\footnote{Celková délka nahrávek v~testovací sadě složené pouze slov činila $15m44s$.}.
+To je významné zhoršení oproti výsledkům dosažených u baseline modelu ($Acc_{p}^{GMM} = 76,64~\%$).
 Pro výpočet přesnosti rozpoznávání je opětovně využit vztah (\ref{eq:asr:decoding:acc}).
 
 Jelikož došlo ke změně ASR frameworku je potřeba ověřit,že nevznikla chyba při vytváření akustického modelu.
@@ -318,7 +318,7 @@ Pokud byl model natrénován na datech z 1. etapy a otestován na datech z libov
 Nejhoršího výsledku bylo dosaženo pro případ, kdy byl model natrénován na datech z 2. etapy a otestován na těch z 1.
 V tomto případě se projevil velký vliv relativně malého množství dat (pouhé 2 hodiny).
 Pokud bylo CMN počítáno přes všechny nahrávky v~dané etapě, bylo dosaženo významného zlepšení a vliv kanálu byl v~podstatě eliminován.
-Pro doplnění je nutno zmínit, že pokud byl model natrénován na celé množině všech trénovacích dat (1. a 2. etapa) a otestován pomocí kompletní testovací sady, tak byla dosažena přesnost rozpoznávání fonémovým zerogramovým jazykovým modelem rovna $Acc_{p} = 77,69\ \%$.
+Pro doplnění je nutno zmínit, že pokud byl model natrénován na celé množině všech trénovacích dat (1. a 2. etapa) a otestován pomocí kompletní testovací sady, tak byla dosažena přesnost rozpoznávání fonémovým zerogramovým jazykovým modelem rovna $Acc_{p} = 77,69~\%$.
 
 %Tento výsledek je přibližující se hodnotám dosaženým v~prvotních experimentech v~části \ref{chap:realisation:analysis:experiment}.
 
@@ -347,10 +347,10 @@ Pro doplnění je nutno zmínit, že pokud byl model natrénován na celé množ
 \end{table}
 
 Z výsledků v~tab. \ref{tab:realisation:verification:cmn:file} plyne, že pokud by se CMN počítalo přes posuvné okénko fixní délky, tak by dosažené výsledky nebylo možné považovat za dobré.
-To se i experimentálně potvrdilo, protože výsledná přesnost rozpoznávání dosáhla hodnoty $Acc_{p} = 56,51\ \%$ na kompletní trénovací i testovací sadě.
+To se i experimentálně potvrdilo, protože výsledná přesnost rozpoznávání dosáhla hodnoty $Acc_{p} = 56,51~\%$ na kompletní trénovací i testovací sadě.
 Samotný framework Kaldi umožňuje aplikování CMVN, což je Cepstral mean and variance normalization.
 Jedná se o upravenou rovnici (\ref{eq:realisation:verification:cmn}), kde je kromě střední hodnoty počítána i variance.
-Kaldi CMVN je počítáno přes okénko fixní délky a výsledná přesnost rozpoznávání HMM-GMM modelu s~CMVN dosáhla hodnoty $Acc_{p} = 76,15\ \%$ na kompletní trénovací a testovací sadě.
+Kaldi CMVN je počítáno přes okénko fixní délky a výsledná přesnost rozpoznávání HMM-GMM modelu s~CMVN dosáhla hodnoty $Acc_{p} = 76,15~\%$ na kompletní trénovací a testovací sadě.
 Tento výsledek je srovnatelný s~modelem využívajícím výpočet CMN přes všechny nahrávky v~dané etapě.
 
 \subsubsection{Výsledky modelů po eliminaci vlivu kanálu}
@@ -365,8 +365,8 @@ Byl využit fonémový zerogramový model, který minimalizoval vliv jazykového
 Jazykový model je fonémový zerogramový tak, aby byl co nejvíce amplifikován vliv akustického modelu.
 V tab. \ref{tab:realisation:verification:dnn} jsou zapsány dosažené výsledky všech natrénovaných variant.
 Nejvyšší přesnosti dosáhl model s~4096 neurony v~každé vrstvě, ale rozdíl od ostatních variant s~menším počtem neuronů v~každé vrstvě nebyl významný.
-Nejlepší HMM-DNN model dosáhl $Acc_{p} = 84,66\ \%$.
-To je zlepšení o~$6,97\ \%$ absolutně oproti HMM-GMM na kompletní testovací sadě.
+Nejlepší HMM-DNN model dosáhl $Acc_{p} = 84,66~\%$.
+To je zlepšení o~$6,97~\%$ absolutně oproti HMM-GMM na kompletní testovací sadě.
 
 \begin{table}[htpb]
   \centering

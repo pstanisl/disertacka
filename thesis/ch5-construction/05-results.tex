@@ -13,14 +13,14 @@ Jazykový model je založen na trigramech slov a  k~jeho natrénování poslouž
 Slovník jazykového modelu čítá více než $1$ milion unikátních slov.
 
 Testovacím vstupem vytvořeného ASR systému jsou data z EL korpusu.
-Celková slovní přesnost, počítaná podle vzorce (\ref{eq:asr:decoding:acc}), dosáhla hodnoty $18,49\ \%$\footnote{Dosaženo na state-of-the-art ASR systému v~době psaní práce. V~době vytvoření EL korpusu (kolem roku 2011) převládaly HMM-GMM akustické modely. Tento systém dosáhl přesnosti na slovech $12,59\ \%$.}.
+Celková slovní přesnost, počítaná podle vzorce (\ref{eq:asr:decoding:acc}), dosáhla hodnoty $18,49~\%$\footnote{Dosaženo na state-of-the-art ASR systému v~době psaní práce. V~době vytvoření EL korpusu (kolem roku 2011) převládaly HMM-GMM akustické modely. Tento systém dosáhl přesnosti na slovech $12,59~\%$.}.
 Dosažený výsledek zřetelně ilustruje odlišnost EL domény, protože obecný na řečníkovi nezávislý systém není schopen obstojně rozpoznat EL promluvu.
 
-Pokud jsou  k~natrénování akustického modelu (taktéž využívajícího TDNN síť) použita pouze data\footnote{Korpus byl náhodně rozdělen na trénovací a testovací sadu v~poměru $90\ \%\ (10h41m44s)$ trénovací a $10\ \%\ (1h00m58s)$ testovací sada. Toto rozděleni je použito ve všech experimentech.} z EL korpusu, tak výsledná slovní přesnost dosáhla hodnoty $83,33\ \%$, opět počítáno podle vzorce (\ref{eq:asr:decoding:acc}).
+Pokud jsou  k~natrénování akustického modelu (taktéž využívajícího TDNN síť) použita pouze data\footnote{Korpus byl náhodně rozdělen na trénovací a testovací sadu v~poměru $90~\%\ (10h41m44s)$ trénovací a $10~\%\ (1h00m58s)$ testovací sada. Toto rozděleni je použito ve všech experimentech.} z EL korpusu, tak výsledná slovní přesnost dosáhla hodnoty $83,33~\%$, opět počítáno podle vzorce (\ref{eq:asr:decoding:acc}).
 Jazykový model je identický jako v~případě obecného systému.
 Dosažený výsledek demonstruje výhodu vytvoření individuálního modelu z EL nahrávek.
 Zároveň ukazuje schopnost akustického modelu přizpůsobit se specifikům EL řeči.
-Přestože je výstup individuálního modelu výrazně přesnější než obecného modelu zpracovávající EL promluvy, tak zdaleka nedosahuje výsledků srovnatelných s~nejlepšími ASR systémy, které jsou schopny v~ideálních podmínkách dosahovat na srovnatelné úloze více než $90\ \%$ slovní přesnosti.
+Přestože je výstup individuálního modelu výrazně přesnější než obecného modelu zpracovávající EL promluvy, tak zdaleka nedosahuje výsledků srovnatelných s~nejlepšími ASR systémy, které jsou schopny v~ideálních podmínkách dosahovat na srovnatelné úloze více než $90~\%$ slovní přesnosti.
 
 
 %Z dosaženého výsledku je patrné, že EL doména je diametrálně odlišná od běžné řeči, pro které jsou ASR systémy vytvářeny. Navíc, pokud se vezme v~potaz náročnost získání potřebných dat pro natrénování obecného modelu, tak se jako jediná schůdná varianta jeví vytváření individuálních modelů pro každého řečníka. To znamená, že model je trénovaný pouze z dat odpovídající konkrétnímu řečníkovi a často i účelu použití. K vytvoření takového modelu je zapotřebí řádově méně dat, při dosažení podobného výkonu. Stinnou stránkou je případná menší robustnost modelu. Čistě logicky tento model bude fungovat pouze s~konkrétním řečníkem a ještě jen v~situacích, které odpovídají trénovacím datům. U řečníků s~EL může navíc hrát velký vliv samotný EL. Již při nahrávání se ukázalo, že jeho pozice může nepříznivě ovlivnit kvalitu řeči. Tento problém by však neměl významně ovlivňovat kvalitu modelu, protože tento fenomém je obsažen v~datech.
@@ -84,13 +84,13 @@ Podrobněji je parametrizace popsána v~části \ref{chap:asr:parametrization:he
 
 V~tab. \ref{tab:construction:experiment:gmm} jsou uvedeny dosažené výsledky HMM-GMM modelů.
 Opět se potvrdilo, že individuální ASR systém s~EL daty může fungovat.
-Pokud dosažené výsledky porovnáme s~výsledky obecného modelu ($Acc_{word} = 18,49\ \%)$, tak i zde je vidět rapidní nárůst přesnosti ($78,63\ \%$ u nejhoršího individuálního GMM modelu).
+Pokud dosažené výsledky porovnáme s~výsledky obecného modelu ($Acc_{word} = 18,49~\%)$, tak i zde je vidět rapidní nárůst přesnosti ($78,63~\%$ u nejhoršího individuálního GMM modelu).
 Ze získaných výsledků je zřejmé, že volba vzorkovací frekvence má významný dopad na přesnost rozpoznávání.
-Při použití vyšší z uvařovaných vzorkovacích frekvencí, zde $16\ kHz$, je vhodnější, protože oproti $8\ kHz$ bylo dosaženo zlepšení přesnosti o~$1,41\ \%$ absolutně, tedy téměř $7\ \%$ relativně.
+Při použití vyšší z uvařovaných vzorkovacích frekvencí, zde $16\ kHz$, je vhodnější, protože oproti $8\ kHz$ bylo dosaženo zlepšení přesnosti o~$1,41~\%$ absolutně, tedy téměř $7~\%$ relativně.
 Dodatečné experimenty ukázaly, že použití vyšší vzorkovací frekvence než $16\ kHz$ přinese jen zanedbatelné zlepšení.
 
 Dále se ukázalo, že počet stavů nehraje tak zásadní roli při posuzování kvality akustického modelu, jako vzorkovací frekvence.
-Z testované množiny počtu stavů dosáhl nejlepšího výsledku model, který měl maximálně $4096$ stavů, nicméně oproti modelu s~$1024$ stavy je nárůst přesnosti pouze $0,4\ \%$ absolutně v~případě vzorkovací frekvence $16\ kHz$, což není tak významné.
+Z testované množiny počtu stavů dosáhl nejlepšího výsledku model, který měl maximálně $4096$ stavů, nicméně oproti modelu s~$1024$ stavy je nárůst přesnosti pouze $0,4~\%$ absolutně v~případě vzorkovací frekvence $16\ kHz$, což není tak významné.
 Logicky se nabízí otázka, proč nezkusit ještě více stavů.
 Odpověď se skrývá ve skutečném počtu stavů modelu s~maximálním počtem $4096$ stavů.
 Slovíčko \uv{maximálním} je zde podstatné.
@@ -101,7 +101,7 @@ V případě, že je  k~dispozici dostatek dat k~natrénování maximálního po
 Pokud není dostatek dat, může mít model méně stavů.
 U modelu s~maximálním počtem $4096$ stavů je skutečný počet stavů $3257$, tzn. i kdyby se trénoval model s~$8192$ stavy, tak by se tato hodnota změnila jen velmi málo.
 
-%Pro doplnění, fonémový akustický model dosáhl přesnosti $54,49\ \%$ pro $8\ kHz$ a $62,30\ \%$ pro $16\ kHz$.
+%Pro doplnění, fonémový akustický model dosáhl přesnosti $54,49~\%$ pro $8\ kHz$ a $62,30~\%$ pro $16\ kHz$.
 
 \begin{table}[htpb]
   \centering
@@ -139,7 +139,7 @@ Z nich je patrné, že nalezené optimální hyperparametry jsou shodné i při 
 Nicméně je zde i zřejmý důvod následné dominance HMM-DNN modelů.
 Fungují totiž výrazně lépe.
 Pouhou náhradou GMM za DNN bylo dosaženo zlepšení.
-Hodnoty přesnosti baseline modelu jsou tedy pro GMM $Acc_{p}^{GMM} = 81,20\ \%$ a pro DNN $Acc_{p}^{DNN} = 85,23\ \%$. To odpovídá zlepšení o~$4\ \%$ absolutně oproti nejlepšímu GMM výsledku, viz tab. \ref{tab:construction:experiment:gmm} a \ref{tab:construction:experiment:dnn}.
+Hodnoty přesnosti baseline modelu jsou tedy pro GMM $Acc_{p}^{GMM} = 81,20~\%$ a pro DNN $Acc_{p}^{DNN} = 85,23~\%$. To odpovídá zlepšení o~$4~\%$ absolutně oproti nejlepšímu GMM výsledku, viz tab. \ref{tab:construction:experiment:gmm} a \ref{tab:construction:experiment:dnn}.
 
 %experiment byl realizován na přelomu let $2013$ a $2014$, kdy ještě $ASR$ modelům dominovaly \textit{HMM-GMM} modely, byl později zopakován s~\textit{HMM-DNN} modely, které dosahují ještě vyšších přesností.
 
@@ -367,12 +367,12 @@ Zároveň také není možné říci, že náhrada např. dvojice $/s/$ a $/\che
 Při hlubší analýze se ukázalo, že velmi záleží na kontextu daného fónemu, ten totiž velmi ovlivňuje jeho podobu.
 Řeč představuje spojitou formu signálu a při vyslovování různých slov obsahujících stejný foném s~odlišným okolím  může dojít  k~odchylkám například v~artikulaci, příkladem může být dvojice slov \textit{hrad} a \textit{had}.
 Toto pozorování ověřil i dodatečný experiment, ve kterém nebyla provedena náhrada $/s/$ za $/z/$ pouze pro případ trifónu \textit{b-s+t}, který je například ve slově \textit{obstát}.
-Díky vynechání tohoto jediného trifónu byla výsledná nejlepší přesnost u trifónového akustického modelu $83,39\ \%$ (původně $83,28\ \%$) v~případě zerogramového jazykového modelu a $88,44\ \%$ (původně $88,31\ \%$) v~případě trigramového modelu.
+Díky vynechání tohoto jediného trifónu byla výsledná nejlepší přesnost u trifónového akustického modelu $83,39~\%$ (původně $83,28~\%$) v~případě zerogramového jazykového modelu a $88,44~\%$ (původně $88,31~\%$) v~případě trigramového modelu.
 Přestože se jedná o marginální zlepšení, tak ho bylo docíleno jedním trifónem.
 Bohužel určení toho, jaké trifóny vynechat z nahrazování není v~žádném případě triviální úloha.
 
 Zajímavý je také rozdíl mezi přesností modelu pro zdravého řečníka a EL řečníka.
-Přestože se v~obou případech jedná o individuální modely šité \uv{na míru} řečníkovi, tak průměrný rozdíl v~přesnosti rozpoznávání činí $6,24\ \%$ absolutně, resp. $40,38\ \%$ relativně.
+Přestože se v~obou případech jedná o individuální modely šité \uv{na míru} řečníkovi, tak průměrný rozdíl v~přesnosti rozpoznávání činí $6,24~\%$ absolutně, resp. $40,38~\%$ relativně.
 To značí, že je potřeba se zabývat myšlenkou úpravy akustického modelu za účelem dosažení lepších výsledků.
 V ideálním případě dokonce srovnatelných s~modely pro zdravé řečníky.
 
