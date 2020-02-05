@@ -69,7 +69,7 @@ Celá nahrávka je automaticky rozdělena na mikrosegmenty o konzistentní době
   E_{RMS}(n) = \sqrt{\frac{1}{N} \sum_{n=1}^{N} \left| x(n) \right|^2},
 \end{equation}
 
-\noindent kde $N$ představuje počet vzorků v~nahrávce a $x(n)$ představuje pravoúhlé okénko vzorku $n$ a následně určena průměrná energie nahrávky jako stř. hodnota energií všech mikrosegmentů.
+\noindent kde $N$ představuje počet vzorků v~nahrávce a $x(n)$ představuje pravoúhlé okénko vzorku $n$ a následně určena průměrná energie nahrávky jako střední hodnota energií všech mikrosegmentů.
 Její hodnota slouží pro nalezení úseků ticha, tj. míst, kde začíná a končí věta.
 Pokud energie nějakého úseku $x$ je $E_{RMS}(x) < avg(E_{RMS})$ a zároveň délka tohoto úseku $dur(x) \geq 1\ s$, tak je možné nahrávku v~tomto úseku rozdělit. Na začátku a konci každého úseku je vhodné mít minimálně $0.5\ s$ ticha, aby byla zajištěna správná funkce ASR systému, viz \ref{chap:asr:parametrization}.
 Na obr. \ref{fig:construction:el_speech} je zobrazena ukázka charakteru audio signálu a spektrogram promluvy \textit{\uv{Akcie Komerční banky}}.
