@@ -126,7 +126,7 @@ Přímé vyčíslení pravděpodobnosti $P\left(\boldsymbol{O}|\lambda\right)$ p
 \subsection{Trénování parametrů HMM s~Gaussovskými směsmi}
 \label{chap:asr:acoustic:GMM}
 
-Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovení hodnot parametrů modelu je provedeno na základě trénování (odhadem, estimací) na definované množině trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu, který je podrobněji popsáný např. v~\cite{Holmes2001}. Základem je vyčíslení hodnoty $\gamma_{j}\left(t\right)$, která vyjadřuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v~čase $t$ ve stavu $j$. Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
+Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu. Stanovení hodnot parametrů modelu je provedeno na základě trénování (odhadem, estimací) na definované množině trénovacích akustických dat a jejich textových anotací (tzv. korpus). Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu, který je podrobněji popsaný např. v~\cite{Holmes2001}. Základem je vyčíslení hodnoty $\gamma_{j}\left(t\right)$, která vyjadřuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v~čase $t$ ve stavu $j$. Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
 
 \begin{equation}
   \gamma_{j}\left(t\right) = \frac{P\left(\boldsymbol{O}, s\left(t\right)=j|\lambda\right)}{P\left(\boldsymbol{O}|\lambda\right)} = \frac{\alpha_{j}\left(t\right)\beta_{j}\left(t\right)}{P\left(\boldsymbol{O}|\lambda\right)} ,
@@ -143,7 +143,7 @@ Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu.
 \noindent Pro odhad střední hodnoty rozložení $\mu_{jm}$, tj. konkrétní složky $m$ Gaussovské směsi stavu $j$ slouží vztah
 
 \begin{equation}
-  \hat{\mu}_{jm} = \frac{\sum_{t=1}^{T}\gamma_{jm}\left(t\right)\boldsymbol{o}_t}{\sum_{t=1}^{T}\gamma_{jm}\left(t\right)},
+  \hat{\mu}_{jm} = \frac{\sum_{t=1}^{T}\gamma_{jm}\left(t\right)\boldsymbol{o}_t}{\sum_{t=1}^{T}\gamma_{jm}\left(t\right)}.
   \label{eq:asr:acoustic:structure:mu}
 \end{equation}
 

@@ -27,7 +27,7 @@ Odvození obecného diskrétního modelu hlasivkového traktu je založeno na zj
 \end{figure}
 
 
-Krátkodobý model produkce řeči lze aproximován celopólovým modelem charakteru filtru $H(z)$ ve tvaru
+Krátkodobý model produkce řeči lze aproximovat celopólovým modelem charakteru filtru $H(z)$ ve tvaru
 
 \begin{equation}
   H(z) = \frac{G}{1 + \sum_{i = 1}^{Q} a_{i} z^{-i}} = \frac{G}{A(z)},
@@ -67,7 +67,7 @@ Další zpřesnění popisu hlasového traktu lze provést pomocí \textbf{kepst
   \label{eq:asr:lpc:cepstrum:generic}
 \end{equation}
 
-\noindent kde $\mathcal{F}$ představuje operátor diskrétní Fourierovy transformace (DFT) a $\mathcal{F}^{-1}$ reprezentuje inverzní diskrétní Fourierovy transformace (IDFT). Postup výpočtu je znázorněn na obr. \ref{fig:asr:model:speech:cepstrum}.
+\noindent kde $\mathcal{F}$ představuje operátor diskrétní Fourierovy transformace (DFT) a $\mathcal{F}^{-1}$ reprezentuje inverzní diskrétní Fourierovu transformaci (IDFT). Postup výpočtu je znázorněn na obr. \ref{fig:asr:model:speech:cepstrum}.
 
 \begin{figure}[hbpt]
   \centering
@@ -83,7 +83,7 @@ Pro získání kepstrálních koeficientů lineární predikce lze využít vzta
   \label{eq:asr:lpc:cepstrum}
 \end{equation}
 
-\noindent Člen $A(z)$ je polynomem proměnné $z^{-1}$ řádu $Q$. Pokud všechny jeho kořeny leží uvnitř jednotkové kružnice, tak lze aplikovat Taylorův rozvoj a vztah (\ref{eq:asr:lpc:cepstrum}), tedy lze zapsat jako
+\noindent Člen $A(z)$ je polynomem proměnné $z^{-1}$ řádu $Q$. Pokud všechny jeho kořeny leží uvnitř jednotkové kružnice, tak lze aplikovat Taylorův rozvoj a vztah (\ref{eq:asr:lpc:cepstrum}) lze zapsat jako
 
 \begin{equation}
   \log \left( \frac{G}{A(z)} \right) = c(0) + c(1)z^{-1} + \dots = \sum_{k=0}^{\infty} c(k)z^{-k},
@@ -111,7 +111,7 @@ Pro získání kepstrálních koeficientů lineární predikce lze využít vzta
   \label{eq:asr:lpc:cepstrum:coef}
 \end{align}
 
-\noindent kde $k = 1, 2, \dots , Q^{*}$. $Q^{*}$ je počet kepstrálních koeficientů pro které musí platit $Q^{*} \geq Q$. Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegmentu řeči odvozené LPC analýzou.
+\noindent kde $k = 1, 2, \dots , Q^{*}$. $Q^{*}$ je počet kepstrálních koeficientů, pro které musí platit $Q^{*} \geq Q$. Kepstrální koeficienty LPC jsou vztaženy ke spektrální obálce mikrosegmentu řeči odvozené LPC analýzou.
 
 Spektrální obálku je následně možné získat z rovnice (\ref{eq:asr:lpc:generic}) dosazením $z = e^{j\omega}$. Pro uspokojivou reprezentaci se tradičně volí $Q$ v~rozmezí $7-15$ v~závislosti na spektrální šířce přenášeného pásma a požadované přesnosti aproximace. Z toho plyne, že pro popis mikrosegmentu řeči by mohl být dostačující příznakový vektor o~$15$ koeficientech.
 
@@ -148,7 +148,7 @@ Důležitým pojmem je pak \textbf{práh slyšitelnosti}, který představuje mi
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.75\textwidth]{./ch4-asr/img/listening_perception.pdf}
-  \caption[Charakteristické oblasti vnímání akustického signálu.]{Charakteristické oblasti vnímání akustického signálu lidským sluchem. $L_p = 20log(p/p_0),\ p_0 = 2\bullet10^{-5}\ Pa$.}
+  \caption[Charakteristické oblasti vnímání akustického signálu.]{Charakteristické oblasti vnímání akustického signálu lidským sluchem. $L_p = 20log(p/p_0),\ p_0 = 2\cdot10^{-5}\ Pa$.}
   \label{fig:asr:mfcc:acoustic:characteristic}
 \end{figure}
 
@@ -157,7 +157,7 @@ Hlasitost zvuku je závislost intenzity na frekvenci a je zcela subjektivní poc
 \begin{figure}[hbpt]
   \centering
   \includegraphics[width=0.75\textwidth]{./ch4-asr/img/listening_levels.pdf}
-  \caption[Křívky stejné hlasitosti.]{Křivky stejné hlasitosti. $L_p = 20log(p/p_0),\ p_0 = 2\bullet10^{-5}\ Pa$.}
+  \caption[Křívky stejné hlasitosti.]{Křivky stejné hlasitosti. $L_p = 20log(p/p_0),\ p_0 = 2\cdot10^{-5}\ Pa$.}
   \label{fig:asr:mfcc:acoustic:levels}
 \end{figure}
 
@@ -206,7 +206,7 @@ Základem MFCC je využití banky filtrů a lineárního rozložení frekvencí 
   \label{fig:asr:mfcc:bank:hz}
 \end{figure}
 
-Na vstup systému jsou postupně přivedeny mikrosegmenty řečového signálu\footnote{Jednotlivé mikrosegmenty byly nejprve předzpracovány , tj. prošly tzv. preemfází. Ta spočívá ve zdůraznění amplitud spektrálních složek řečového signálu s~jejich vzrůstající frekvencí \cite{Psutka2006}.} $s\left(k\right)$ o konstantní délce a pro ně jsou určeny odpovídající koeficienty $c\left(k\right)$. Pro jednotlivé mikrosegmenty je pomocí FFT vypočteno amplitudové spektrum $\left| S(f) \right|$ a následuje klíčová část celého procesu, melovská filtrace. Odezvy filtrů ve frekvenční oblasti lze stanovit pomocí vztahu
+Na vstup systému jsou postupně přivedeny mikrosegmenty řečového signálu\footnote{Jednotlivé mikrosegmenty byly nejprve předzpracovány, tj. prošly tzv. preemfází. Ta spočívá ve zdůraznění amplitud spektrálních složek řečového signálu s~jejich vzrůstající frekvencí \cite{Psutka2006}.} $s\left(k\right)$ o konstantní délce a pro ně jsou určeny odpovídající koeficienty $c\left(k\right)$. Pro jednotlivé mikrosegmenty je pomocí FFT vypočteno amplitudové spektrum $\left| S(f) \right|$ a následuje klíčová část celého procesu, melovská filtrace. Odezvy filtrů ve frekvenční oblasti lze stanovit pomocí vztahu
 
 \begin{equation}
   y_m(i) = \sum_{f=b_{i-1}}^{b_{i+1}} \left| S(f) \right| u\left(f, i\right),  \quad i = 1, 2,\ \dots\ ,M^{*},
