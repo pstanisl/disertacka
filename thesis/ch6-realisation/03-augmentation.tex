@@ -3,7 +3,7 @@
 \label{chap:realisation:augmentation}
 
 Poslechový test jasně ukázal, že správné rozpoznání pronesené EL promluvy není lehký úkol ani pro člověka.
-Naprosto markantní význam hraje kontext.
+Naprosto markantní význam má kontext.
 Ten pomáhá v~případě, že některým částem promluvy nebylo dobře rozumět.
 Navíc, ze zkušeností získaných při pořizování řečového korpusu (části \ref{chap:construction:corpus} a \ref{chap:realisation:corpus}) plyne, že EL řečník má tendenci mluvit ve spíše kratších dávkách slov, mezi kterými dělá drobné pauzy.
 Pro člověka není problém udržet v~povědomí kontext, ale stroji to může někdy způsobovat problémy.
@@ -166,7 +166,7 @@ Zhoršení přesnosti u vyšších hodnot míry protažení dozajista souvisí s
 \subsection{Protažení na zvuku}
 \label{chap:realisation:augmentation:audio}
 
-Protažení na příznacích vedlo sice  k~významnému zlepšení přesnosti rozpoznávání, ale tento přístup není bohužel reálně použitelný. Vhodnou alternativou může být model pracující s~fonémy protaženými přímo v~audiu signálu.
+Protažení na příznacích vedlo sice  k~významnému zlepšení přesnosti rozpoznávání, ale tento přístup není bohužel reálně použitelný. Vhodnou alternativou může být model pracující s~fonémy protaženými přímo v~audio signálu.
 Taková data budou teoreticky více odpovídat reálným datům získaným od řečníka.
 Stejně jako v~předchozím případě je  k~protažení potřeba zarovnání.
 To s~určitou mírou přesnosti určuje počáteční a koncové hranice jednotlivých fonémů.
@@ -179,7 +179,7 @@ S ohledem na stanovené hranice je možné určitý úsek protáhnout napříkla
   \item fázového vokodéru.
 \end{itemize}
 
-\noindent Asi nejednodušší metodou je převzorkování dat pro jehož realizaci, stačí načíst všechny vzorky odpovídající vybranému fonému a změnit jejich vzorkovací frekvenci.
+\noindent Asi nejjednodušší metodou je převzorkování dat, pro jehož realizaci stačí načíst všechny vzorky odpovídající vybranému fonému a změnit jejich vzorkovací frekvenci.
 Pokud je cílem tento úsek protáhnout, je nová vzorkovací frekvence menší než originální. Hlavním problémem této metody je tonální posun\footnote{Mění se fundamentální frekvence $F_0$. Pokud dojde ke zrychlení, frekvence se zvýší. Při zpomalení naopak sníží.}.
 Přestože protahovaný úsek tvoří jen malou část z celkové délky nahrávky, cílem je vygenerovat takové protaženín nahrávky, které co nejvíce odpovídá realitě.
 % Cílem je protáhnout konkrétní foném, který zabírá jen malou část. Proto by se dal tento nepříznivý jev ignorovat. Snaha je však vygenerovat co možná nejreálnější protažené nahrávky,
@@ -265,11 +265,14 @@ S libovolným protažením dochází  k~poklesu přesnosti.
 
 \subsubsection{Upravené zarovnání a time delay neural network}
 
-Při analýze výsledků se ukázalo, že zarovnání v~mnoha případech není zrovna nejpřesnější a to zvláště u inkriminovaných neznělých fonémů.
+Při analýze výsledků se ukázalo, že zarovnání v~mnoha případech není zrovna nejpřesnější, a to zvláště u inkriminovaných neznělých fonémů.
 Na obr. \ref{fig:realisation:augmentation:alignemnt:wrong} je ukázáno získané zarovnání slova \uv{kosa} společně s~vyznačenými hranicemi v~audiu signálu a spektru.
 Z obr. \ref{fig:realisation:augmentation:alignemnt:wrong:audio} je zřejmé, že počáteční hranice fonému $/s/$ zasahuje do předchozího fonému $/o/$.
 Tím pádem dochází  k~protažení nevhodné části signálu a model se tak učí na špatných datech.
 Pokud by všechny fonémy $/s/$ následovaly po fonému $/o/$, tak by se nejednalo o závažný problém, ale toto samozřejmě neplatí.
+V~době, kdy byly prováděny experimenty s~protažením konkrétních fonémů, se začaly stále více prosazovat time-delay neural networks (TDNN).
+Přestože patří do rodiny feed-forward sítí jako DNN, tak se oproti nim snaží vzít v~potaz i dynamickou složku řeči, podrobněji v~části \ref{chap:asr:acoustic:DNN}.
+
 
 \begin{figure}[htpb]
   \centering
@@ -290,8 +293,9 @@ Pokud by všechny fonémy $/s/$ následovaly po fonému $/o/$, tak by se nejedna
 
 %Pro lepší zarovnání je potřeba upravit model, který se o zarovnání stará. \todo{TBD}{Doplnit vysvětlení od Pepika.}
 
-\noindent v~době, kdy byly prováděny experimenty s~protažením konkrétních fonémů, se začaly stále více prosazovat time-delay neural networks (TDNN) .
-Přestože patří do rodiny feed-forward sítí jako DNN, tak se oproti nim snaží vzít v~potaz i dynamickou složku řeči, podrobněji v~části \ref{chap:asr:acoustic:DNN}.
+% \noindent V~době, kdy byly prováděny experimenty s~protažením konkrétních fonémů, se začaly stále více prosazovat time-delay neural networks (TDNN) .
+% Přestože patří do rodiny feed-forward sítí jako DNN, tak se oproti nim snaží vzít v~potaz i dynamickou složku řeči, podrobněji v~části \ref{chap:asr:acoustic:DNN}.
+
 %U DNN jsou všechny neurony v~jednotlivých vrstvách propojeny a tedy vstupní vektor je zpracováván všemi neurony v~následující vrstvě. U TDNN toto neplatí, neurony v~určité vrstvě jsou propojeny vždy jen s~určitým počtem neuronů ve vrstvě následující, viz obr. \ref{fig:experiments:augmentation:tdnn}. To v~důsledku znamená, že části sítě vykonávají rozhodnutí na základě jiných podmnožin vstupních dat. V~dalších vrstvách se pak tyto lokální rozhodnotí integrují, aby na výstupu sítě došlo ke globálnímu rozhodnutí. Tedy, aby byl výstupem sítě foném odpovídající času $t_c$ a jeho okolí $\langle t_{c-n}; t_{c+m} \rangle$.
 
 % S posunem okénka velikosti $m + n + 1$ postupně jednotlivé části sítě zpracují všechny části vstupního parametrizovaného signálu. Dynamika je zohledněna další množinou vah, která se mění podle toho jakou část vstupního vektoru ta část sítě zpracovává \cite{Waibel1989}. Tento přístup by se dal přirovnat ke konvoluční neuronové síti (\textit{CNN}), kde se také vstupní data (většinou obrázky) nezpracovávají najednou, ale pomocí filtrů vždy jen malá podmnožina. A v~dalších vrstvách dochází ke spojování výsledků z těchto podmnožin. Hlavní rozdíl mezi TDNN a CMN  je v~tom, že CMN  nepracuje s~konceptem času. Více množin vah lze považovat za určitý ekvivalent paměti u RNN sítí.

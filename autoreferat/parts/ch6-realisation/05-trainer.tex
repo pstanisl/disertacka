@@ -1,0 +1,34 @@
+% !TEX root = ../../autoreferat.tex
+\section{Trenažér}
+\label{chap:realisation:trainer}
+
+V předchozích částech (\ref{chap:realisation:augmentation} a \ref{chap:realisation:durationmodels}) byla rozvíjena a ověřována myšlenka doplnění chybějící informace, ke které došlo v~důsledku ztráty hlasivek, pomocí protahování určitých vybraných fonémů, zejména pak $/k/$, $/p/$, $/s/$, $/\check{s}/$, $/t/$, $/t'/$ a $/v/$ reprezentující neznělé fonémy. Prezentované výsledky (viz tab. \ref{tab:realisation:augmentation:influence:tdnn} a \ref{tab:realisation:duration:duration}) prokazují, že daný přístup poskytuje výrazné zlepšení přesnosti ASR systému, zejména u promluv s~minimálním kontextem.
+
+Hlavní problém tohoto přístupu spočívá v~protažení zájmových fonémů samotným řečníkem. Prezentovaný přístup totiž nepočítá s~protažením celého slova, ale pouze nezbytně nutné části, fonému. Nicméně s~trochou pomoci je řečník schopen protáhnout požadovanou část slova. Výsledky prezentované v~části \ref{chap:realisation:durationmodels:nn:softmax} demostrují, že model natrénovaný na uměle protažených datech je schopen lépe rozpoznávat i reálně protažené fonémy. V~případě rozpoznávání neprotažených dat pak přesnost modelu významně klesá. Tento výsledek je fundamentálním předpokladem pro myšlenku trenažéru. Jeho hlavní funkcí je pomoci řečníkovi naučit se automaticky protahovat inkriminované fonémy tak, aby přesnost rozpoznávání byla maximální. Zároveň je možné pomocí trenažéru postupně adaptovat akustický model na základě reálných dat. Postupem času by tak měly být eliminovány všechny chyby v~datech způsobené umělým protažením.
+
+Samotný trenažér si lze představit jako počítačový program, který řečníkovi zobrazuje jednotlivá slova/věty a ten je musí vyslovit. Primární funkcí trenažéru je pomoc řečníkovi s~učením automatického protahování. Z tohoto důvodu je jeho součástí ASR systém s~individuálním modelem, který slouží  k~rozpoznávání vyřčených promluv. O~výsledku rozpoznávání (správně/špatně) je uživatel srozuměn. V~případě úspěšného pokusu je promluva uložena a řečník může pokračovat v~další promluvě, pokud se ji nerozhodne přeskočit. U protahovaných fonémů je použito zdvojeného zápisu (např. \textit{\uv{kossa}}, viz \ref{chap:realisation:augmentation:real}). Ten se ukázal jako velmi názorný a podvědomě nutící řečníka vyslovit daný foném \uv{jinak}.
+
+Sekundární funkcí trenažéru je adaptace akustického modelu na základě reálně protažených dat. Originální duration model je vytvořen pomocí uměle protažených dat. Tím, jak řečník postupně více a více úspěšně reprodukuje požadované promluvy, je model postupně adaptován reálnými daty. Tím se všechny případné nedostatky, způsobené uměle protaženými daty, postupně odstraňují. Kompletní proces vytvoření adaptovaného duration modelu s~pomocí trenažéru je následující:
+
+\begin{enumerate}
+  \item Získání co možná největšího množství řečových dat (v řádech hodin).
+  \item Vytvoření ASR systému  k~získání co možná nejpřesnějšího zarovnání.
+  \item Umělé protažení dat na základě zarovnání.
+  \item Vytvoření akustického duration modelu, který je použit v~trenažéru.
+  \item Adaptace řečníka a modelu na základě úspěšně rozpoznaných promluv.
+  \item Použití adaptovaného modelu\footnote{V případě dostatečného množství reálně protažených dat, pak natrénování nového modelu na reálných datech.}.
+\end{enumerate}
+
+\noindent Adaptovaný model je pak možné použít, ve spojení s~TTS a původním hlasem řečníka, např. při telefonování. Což v~počátečních fázích života po TL může rapidně zvýšit kvalitu života i psychický stav pacienta. \cite{Mertl2018}
+
+Jednou z prerekvizit trenažéru je možnost individuálního použití doma. Zejména proto, že odpadá nutnost použití specializovaného HW  či zvukové komory. Nezanedbatelným benefitem je pak flexibilita, kterou řečník má. Může trenažér používat v~pro něj, ideální době a prostředí. Pilotní projekt pro získávání dat řečníků (pro účely TTS) pořízených v~domácím prostředí na vlastním HW je prezentován v~\cite{Juzova2015}, \cite{Juzova2017}.
+
+Při vytváření trenažéru je nepochybně ještě potřeba zodpovědět mnoho otázek,  např. jak často adaptovat akustické modely, z jakého množství dat, či zda to provádět na serveru či lokálně. A priori se však jedná spíše o implementační detaily, než nezbytné konceptuální otázky. I přesto, že v~současném stavu jsou duration modely vhodné pouze  k~offline zpracování, tak je de facto možné započít práce na vytváření trenažéru. Principiálně totiž není problém, pokud odpověď na otázku, zda je promluva správně/špatně, bude dostupná až po nezbytně nutné krátké době po skončení promluvy nebo ještě v~průběhu.
+
+Fundamentálním předpokladem funkčnosti trenažéru je schopnost určit správnost protažení, jinými slovy správně rozpoznat protažené slovo a neprotažené naopak označit jako špatné. Tento předpoklad podporují výsledky v~tab. \ref{tab:realisation:augmentation:influence:tdnn:robust}, kde je jasně vidět významný pokles přesnosti u neprotažených dat. Z analýz výsledků plyne, že většina chyb (oproti optimální situaci) je právě v~protažených fonémech. Vytvořený trenažér by tak měl být schopen ve většině případů určit zda bylo slovo správně protaženo či nikoliv.
+
+Samotný trenažér je samozřejmě jen prostředek  k~tomu, aby bylo dosaženo ASR systému, který bude schopen co možná nejlépe pracovat s~TL řečí, a tím pádem zlepšit kvalitu života řečníků postižených ztrátou hlasivek.
+
+% Augmentace dat pomocí protažení může posloužit  k~vytvoření prvotního modelu, který je použit v~trenažéru. Slouží  k~trénování řečníka.
+
+% Možnost trénování doma, pokud správně řekne slovo, tak ví, že se to má říct tak a tak, zároveň se dané slovo použije pro adaptaci modelu. Budou použita slova i věty, otázka je jestli by trenažér nutně vyžadoval shodu celé věty, nebo jen slova případně procentuální části věty, ale vždy včetně inkriminovaného slova. Toto je otázka, na kterou se musí teprve najít odpověď a dost to souvisí i s~uživatelskou přívětivostí nástroje. Protože záleží na funkci, bude funkce získat celé věty nebo zejména ty části co jsou důležité při reálném protažení?

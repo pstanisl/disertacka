@@ -2,7 +2,7 @@
 \section{Model akcentující protažení dat}
 \label{chap:realisation:durationmodels}
 
-Augmentace dat (viz část \ref{chap:realisation:augmentation}) ukázala, že ztracenou informaci EL řeči je částečné možné nahradit protažením inkriminovaných fonémů.
+Augmentace dat (viz část \ref{chap:realisation:augmentation}) ukázala, že ztracenou informaci EL řeči je částečně možné nahradit protažením inkriminovaných fonémů.
 Experimenty s~reálně protaženými daty (viz část \ref{chap:realisation:augmentation:real}) navíc prokázaly schopnost člověla toto protažení realizovat.
 Dalším krokem je tedy úprava modelu tak, aby tuto změnu co možná nejvíce reflektoval.
 
@@ -53,7 +53,7 @@ Druhou možností je stejně jako v~případě HMM-DNN akustického modelu odhad
 \subsection{Duration model se softmax vrstvou}
 \label{chap:realisation:durationmodels:nn:softmax}
 
-Neuronová síť mající na svém výstupu softmax vrstvu (viz rovnice \ref{eq:asr:acoustic:dnn:asr:softmax}) určuje diskrétní pseudo-pravděpodobnosti $m$ tříd. V~případě duration modelu, se jako vhodné jeví reprezentovat jednotlivé třídy jako počet mikrosegmentů ($d=1,2,3,\dots$), které odpovídají danému fonému. Čistě teoreticky může být těchto mikrosegmentů nekonečné množství, síť však na svém výstupu potřebuje konečný počet tříd (počet neuronů ve výstupní vrstvě). Jako vhodné řešení tohoto problému se ukázalo zvolit maximální délky fonému $D$. Pro všechny s~délkou $d \geq D$ platí, že $p\left(d\right) = p\left(D\right)$. \cite{Hadian2017} Volba $D$ závisí na konkrétní doméně a je vhodné ji určit experimentem.
+Neuronová síť mající na svém výstupu softmax vrstvu (viz rovnice \ref{eq:asr:acoustic:dnn:asr:softmax}) určuje diskrétní pseudo-pravděpodobnosti $m$ tříd. V~případě duration modelu se jako vhodné jeví reprezentovat jednotlivé třídy jako počet mikrosegmentů ($d=1,2,3,\dots$), které odpovídají danému fonému. Čistě teoreticky může být těchto mikrosegmentů nekonečné množství, síť však na svém výstupu potřebuje konečný počet tříd (počet neuronů ve výstupní vrstvě). Jako vhodné řešení tohoto problému se ukázalo zvolit maximální délky fonému $D$. Pro všechny s~délkou $d \geq D$ platí, že $p\left(d\right) = p\left(D\right)$. \cite{Hadian2017} Volba $D$ závisí na konkrétní doméně a je vhodné ji určit experimentem.
 
 Úlohou modelu je predikovat sekvenci délek na základě sekvence fonémů. To implikuje možnost použití levého kontextu ($L$) i pravého kontextu ($R$) fonému $i$. Do vstupního vektoru sítě ale mohou přijít pouze délky fonémů $L$ kontextu  nebo $R$ kontextu. Pokud by totiž byly použity oba kontexty, tak by délka fonému $i$ závisela na délce fonému $i+1$. Zároveň by ale délka fonému $i+1$ závisela na délce fonému $i$. Tím pádem by došlo ke kruhové závislosti, kterou není možné vyřešit. Jestliže je zvolen levý ($L$) kontext pro délky, pak příznakový vektor obsahuje následující položky:
 

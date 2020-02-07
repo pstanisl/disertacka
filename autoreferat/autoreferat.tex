@@ -4,16 +4,46 @@
 \usepackage[czech]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{argmax}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage[inline]{enumitem}
 \usepackage{graphicx}
+\usepackage{booktabs}
 \usepackage{longtable}
-\author{Jan Bartošek}
-\usepackage{cite}
+\usepackage{pgfplotstable, colortbl}
+\author{Petr Stanislav}
+% \usepackage{cite}
 \usepackage{lmodern}
 %\usepackage{url}
 \usepackage{subfig}
 \usepackage[hidelinks,unicode]{hyperref}
+
+\usepackage[
+  backend=biber,
+  % firstinits=true,
+  % style=iso-numeric, % iso-authoryear or iso-numeric for numeric citation method
+  sorting=none,
+  url=false,
+  defernumbers=true,
+  doi=true
+]{biblatex}
+
+% Fixing problem with cmidrule and babel
+\makeatletter
+\begingroup
+\toks0=\expandafter{\@cline{#1}-{#2}\@nil}
+\@ifpackageloaded{booktabs}{%
+  \toks2=\expandafter{\@@@cmidrule[{#1}-{#2}]{#3}{#4}}%
+}{}
+\catcode`-=\active
+\edef\x{\gdef\unexpanded{\@cline#1-#2\@nil}{\the\toks0}}\x
+\@ifpackageloaded{booktabs}{%
+  \edef\x{\gdef\unexpanded{\@@@cmidrule[#1-#2]#3#4}{\the\toks2}}\x
+}{}
+\endgroup
+\makeatother
+
 
 \def\refname{Výběr použité literatury}
 
@@ -34,6 +64,11 @@
 %\renewcommand\@biblabel[1]{[A#1]}
 %\makeatother
 
+\pgfplotsset{compat=1.14}
+
+\addbibresource{./parts/ch-bib/thesis.bib}
+\addbibresource{./parts/ch-bib/ssi.bib}
+\addbibresource{./parts/ch-bib/other.bib}
 
 \begin{document}
 
@@ -58,16 +93,18 @@
 \pagenumbering{arabic}
 
 \include{./parts/introduction}
-% \include{soucasny_stav}
+\include{./parts/ch5-construction/chapter}
+\include{./parts/ch6-realisation/chapter}
 % %\include{teorie}
 % \include{nosniky}
 % \include{skorepiny}
 % \include{kridlo}
 \include{./parts/conclusion}
 
-% \addcontentsline{toc}{chapter}{Výběr použité literatury}
-% \renewcommand{\bibname}{Výběr použité literatury}
-%\bibliographystyle{plain}
+\addcontentsline{toc}{chapter}{Výběr použité literatury}
+\renewcommand{\bibname}{Výběr použité literatury}
+% \bibliographystyle{plain}
+\printbibliography[heading=bibliography,title={Výběr použité literatury}]
 %\bibliography{literatura}
 
 \include{literatura}

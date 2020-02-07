@@ -1,0 +1,7 @@
+model;normal;el
+Baseline;\textbf{92,66};82,60
+\(/f/\) \(\rightarrow\) \(/v/\);92,41;82,23
+\(/k/\) \(\rightarrow\) \(/g/\);92,57;\textbf{83,30}
+\(/s/\)+\(/\check{s}/\) \(\rightarrow\) \(/z/\)+\(/\check{z}/\);92,28;83,28
+\(/t/\)+\(/\text{\textit{ť}}/\) \(\rightarrow\) \(/d/\)+\(/\text{\textit{ď}}/\);92,28;82,13
+Náhrada všech;91,03;82,18

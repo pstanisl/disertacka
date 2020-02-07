@@ -1,0 +1,4 @@
+type;onemil;reduced;bigrams
+\textit{člověk};\textit{70,47};\textit{70,47};\textit{66,24}
+\textit{stroj (baseline)};\textit{61,24};\textit{69,91};\textit{54,82}
+stroj (augmented);84,95;94,36;98,80
