@@ -35,7 +35,7 @@
 % Jak bylo řečeno výše, počet stavů modelu ovlivňuje množství modelovaných trifónů.
 % Čím více akustických jednotek je modelováno, tím více musí mít HMM model unikátních stavů.
 % Od počtu unikátních stavů se odvíjí rozsah množiny trénovacích dat potřebný pro  natrénování robustního modelu.
-Pro účely výběru optimální struktury modelu bylo uvažováno $1024,\ 2048$ a $4096$ stavů. Dále byly uvažovány dvě hodnoty vzorkovací frekvence $8\ kHz$ a $16\ kHz$. Celkem bylo natrénováno $6$ modelů.
+Pro účely výběru optimální struktury modelu bylo uvažováno $1024,\ 2048$ a $4096$ stavů HMM modelu. Dále byly uvažovány dvě hodnoty vzorkovací frekvence $8\ kHz$ a $16\ kHz$. Celkem bylo natrénováno $6$ modelů.
 % Jestliže byly uvažovány dvě hodnoty vzorkovací frekvence $8\ kHz$ a $16\ kHz$, bylo natrénováno $6$ modelů.
 % K vytvoření akustických modelů byl použit nástroj HTK-Toolkitu ve verzi v3.4., který je určen  k~vytváření HMM modelů.
 % Při trénování byl nejprve vytvořen monofónový akustický model s~jedním Gaussiánem pro každý stav.
@@ -144,20 +144,22 @@ Samotná síť se skládá z 6 vrstev, každá s~4096 neurony, výstupní vrstva
   \label{tab:construction:experiment:dnn}
 \end{table}
 
+\noindent Hodnoty přesnosti baseline modelu jsou tedy pro GMM $Acc_{p}^{GMM} = 81,20~\%$ a pro DNN $Acc_{p}^{DNN} = 85,23~\%$.
+
 \subsection{Redukce fonetické sady}
 \label{chap:construction:results:reduction}
 
 Při mluvení je elektrolarynx permanentně zapnutý, a to i v~případě neznělých fonémů.
 Toto má vliv na jejich průběh.
 % , podrobněji v~části v~\ref{chap:construction:analysis}.
-Nabízí se tak předpoklad, že všechny neznělé fonémy mají podobu znělých párových fonémů, a tím pádem je možné redukovat fonetickou sadu. Tento předpoklad byl experimentálně ověřen.
+Nabízí se tak předpoklad, že všechny neznělé fonémy mají podobu znělých párových fonémů, a tím pádem je možné redukovat fonetickou sadu. Tento předpoklad byl experimentálně ověřen. Konkrétně jsou uvažovány tyto případy:
 % V důsledku redukce fonetické sady by došlo ke snížení perplexity modelu.
 % Rozhodnutí, zda se jedná o variantu slova obsahující znělý nebo neznělý foném, je pak přenecháno jazykovému modelu.
 
 % K ověření tohoto předpokladu je potřeba provést experiment.
 % Myšlenka experimentu je jednoduchá.
 % Je potřeba natrénovat několik modelů lišících se pouze tím, jaký fonetický pár (viz tab. \ref{tab:construction:reduction:pairs}) je použit pro redukci fonetické sady.
-V rámci experimentu jsou uvažovány tyto případy:
+% V rámci experimentu jsou uvažovány tyto případy:
 
 \begin{itemize}
   \item \textit{Baseline} - standardní model s~plnou fonetickou sadou.
@@ -213,11 +215,13 @@ V rámci ověřování jsou uvažovány dva jazykové modely
   \item \textit{trigramový jazykový model} - u tohoto modelu odpovídá pravděpodobnost výskytu následujícího slova $P_r(w_n|w_1,\dots,w_{n-1})~=~P(w_n|w_{n-2}, w_{n-1})$. K získání $P(w_n|w_{n-2}, w_{n-1})$ posloužil SRILM Toolkit s~Kneser-Ney vyhlazováním\footnote{Vyhlazování slouží  k~vyřešení problému s~OOV, kdy trénovací data neobsahovala tato OOV, a proto není  k~dispozici $p(w_n|w_{n-2}, w_{n-1})$.} \cite{Stolcke2002}, které se podle \cite{Prazak2008} ukázalo jako optimální pro tyto typy modelů. Jako trénovací data byly použity texty z novinových článků, webových stránek a přepisů televizních pořadů. Celkem model obsahuje 360 tisíc nejvíce frekventovaných slov. OOV bylo $3,8 \%$ a perplexita $3380$.
 \end{enumerate}
 
-\noindent v~kombinaci s~vytvořenými akustickými modely to představuje 4 dílčí experimenty.
+\noindent V~kombinaci s~vytvořenými akustickými modely to představuje 4 dílčí experimenty.
 % Jen pro doplnění je nutné poznamenat, že přesnost modelů je vyhodnocována na slovech.
 
 V tab. \ref{tab:construction:reduction:01} a \ref{tab:construction:reduction:02} jsou shrnuty dosažené výsledky pro monofónový akustický model a zerogramový jazykový model, resp. trigramový jazykový model.
 V obou případech se potvrdilo očekávané chování přesnosti modelu u zdravého řečníka.
+U EL řečníka je vidět dílčí zlepšení u dvou modelů (tab. \ref{tab:construction:reduction:01}), resp. jednoho modelu v~případě trigramového modelu (tab. \ref{tab:construction:reduction:02}).
+Ve většině případů však redukce fonetické sady vedla ke zhoršení přesnosti.
 % Redukcí fonetické sady je omezena komplexita modelu, a tím pádem dochází ke zhoršení přesnosti.
 % Překvapivé mohou být horší dosažené výsledky jak u zdravého, tak i EL řečníka, viz tab. \ref{tab:construction:reduction:02}.
 % Toto chování může být vysvětleno vyšší perplexitou trigramového jazykového modelu v~kombinaci s~relativně jednoduchým monofónovým akustickým modelem.
@@ -274,9 +278,8 @@ V obou případech se potvrdilo očekávané chování přesnosti modelu u zdrav
   \label{tab:construction:reduction:02}
 \end{table}
 
-
 V tab. \ref{tab:construction:reduction:03} a \ref{tab:construction:reduction:04} jsou pak uvedeny výsledky pro trifónový akustický model se zerogramovým resp. trigramovým jazykovým modelem.
-% Stejně jako u předchozích dvou experimentů, tak i zde, je vidět, že redukce fonetické sady vede u zdravého řečníka vždy ke zhoršení přesnosti modelu.
+Stejně jako u předchozích dvou experimentů, tak i zde, je vidět, že redukce fonetické sady vede u zdravého řečníka vždy ke zhoršení přesnosti modelu.
 % Z uvedených výsledků je patrné, že trifónový akustický model dosahuje výrazně lepších výsledků než monofonový model.
 % Lze se domnívat, že zhoršení kvality rozpoznávání u EL řečníka v~tab. \ref{tab:construction:reduction:03} je s~nejvyšší pravděpodobností způsobeno využitím fonetických stromů v~AM, protože v~trénovací sadě není dostatek dat pro všechny možné varianty trifónů.
 % Tím pádem model pro určité trifóny vrací špatné sekvence znaků.
@@ -337,9 +340,10 @@ V tab. \ref{tab:construction:reduction:03} a \ref{tab:construction:reduction:04}
 
 Ze získaných výsledků je možné usoudit, že redukce fonetické sady může vést ke zlepšení přesnosti.
 Nicméně předpoklad, že všechny neznělé fonémy jsou shodné se svými znělými ekvivalenty se ukázala jako mylná.
-Zároveň také není možné říci, že náhrada např. dvojice $/s/$ a $/\check{s}/$  za každých okolností povede  k~lepším výsledkům.
+% Zároveň také není možné říci, že náhrada např. dvojice $/s/$ a $/\check{s}/$  za každých okolností povede  k~lepším výsledkům.
 Při hlubší analýze se ukázalo, že velmi záleží na kontextu daného fónemu, ten totiž velmi ovlivňuje jeho podobu.
-Řeč představuje spojitou formu signálu a při vyslovování různých slov obsahujících stejný foném s~odlišným okolím  může dojít  k~odchylkám například v~artikulaci, příkladem může být dvojice slov \textit{hrad} a \textit{had}.
+Řeč představuje spojitou formu signálu a při vyslovování různých slov obsahujících stejný foném s~odlišným okolím  může dojít  k~odchylkám například v~artikulaci.
+% , příkladem může být dvojice slov \textit{hrad} a \textit{had}.
 Toto pozorování ověřil i dodatečný experiment, ve kterém nebyla provedena náhrada $/s/$ za $/z/$ pouze pro případ trifónu \textit{b-s+t}, který je například ve slově \textit{obstát}.
 Díky vynechání tohoto jediného trifónu byla výsledná nejlepší přesnost u trifónového akustického modelu $83,39~\%$ (původně $83,28~\%$) v~případě zerogramového jazykového modelu a $88,44~\%$ (původně $88,31~\%$) v~případě trigramového modelu.
 % Přestože se jedná o marginální zlepšení, tak ho bylo docíleno jedním trifónem.

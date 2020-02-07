@@ -2,7 +2,7 @@
 \section{Jazykové modelování}
 \label{chap:asr:language}
 
-Jazykový model (LM) je po parametrizaci a akustickém modelu další důležitou částí systému rozpoznávání řeči viz obr. \ref{fig:asr:decoding}. Jeho úkolem je poskytnout dekodéru co nejrychleji co nejpřesnější odhad apriorní pravděpodobnosti $P\left(W\right)$ pro libovolnou posloupnost slov $W$.
+Jazykový model (LM) je po parametrizaci a akustickém modelu další důležitou částí systému rozpoznávání řeči, viz obr. \ref{fig:asr:decoding}. Jeho úkolem je poskytnout dekodéru co nejrychleji co nejpřesnější odhad apriorní pravděpodobnosti $P\left(W\right)$ pro libovolnou posloupnost slov $W$.
 % Tuto pravděpodobnost je možné vyjádřit vztahem
 
 % \begin{equation}
@@ -15,7 +15,7 @@ Jazykový model (LM) je po parametrizaci a akustickém modelu další důležito
 % Systémy rozpoznávání řeči pracují obvykle s~rozsáhlými slovníky, čítajícími stovky tisíc až jednotky milionů slov, proto nelze (obecně) předpokládat, že by bylo možné pravděpodobnosti v~(\ref{eq:asr:language:W_full}) dostatečně robustně odhadnout pro libovolnou délku posloupnosti $K$.
 % Obvykle se proto provádí aproximace vztahu (\ref{eq:asr:language:W_full}), při níž dochází k~redukci počtu odhadovaných parametrů.
 Nejčastějším postupem je stanovení ekvivalentních tříd slov na základě jejich slovní historie, tj. všechny historie $w_1\ \dots\ w_{i-2}w_{i-1}$, které se shodují v~posledních $n-1$ slovech, jsou zařazeny do stejné třídy. Uvedené modely se nazývají \textbf{n-gramové modely}, přičemž \textit{n}-gramem se rozumí posloupnost $n$ za sebou jdoucích slov v~pozorování jejich náhodného výběru, např. trénovacího korpusu obsahujícího textová data. Modely s~$n=0$ se nazývají \textbf{zerogramy}, $n=1$ pak \textbf{unigramy}. Nejpoužívanější jsou pak \textbf{bigramy} ($n=2$) a \textbf{trigramy} ($n=3$).
-Optimální model měl mít $n > 3$, ale v~praxi se tyto modely příliš často nevyužívají.
+% Optimální model měl mít $n > 3$, ale v~praxi se tyto modely příliš často nevyužívají.
 % Pravděpodobnost $P\left(W\right)$ u $n$-gramového modelu lze určit pomocí vztahu
 
 % \begin{equation}

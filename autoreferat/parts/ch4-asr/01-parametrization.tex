@@ -2,7 +2,7 @@
 \section{Parametrizace řečového signálu}
 \label{chap:asr:parametrization}
 
-Stejně jako v~mnoha jiných odvětvích, i při rozpoznávání řeči je v~mnoha případech inspirací člověk. Pro získání sekvence pozorování (příznaků) vycházíme z \textbf{modelování produkce řeči} a \textbf{modelování procesu slyšení}.
+Stejně jako v~mnoha jiných odvětvích, i při rozpoznávání řeči je inspirací člověk. Pro získání sekvence pozorování (příznaků) vycházíme z \textbf{modelování produkce řeči} a \textbf{modelování procesu slyšení}.
 
 \subsection{Modelování produkce řeči}
 \label{chap:asr:parametrization:production}
@@ -18,7 +18,7 @@ Cílem modelování produkce řeči je nalezení matematických vztahů, které 
 % Snahou je navrhnout takový model hlasového traktu, který bude dobře popisovat výše zmíněné řečové zvuky. Nesmí se však zapomenout na možnou přílišnou složitost~a nedostatečnou přesnost modelu. Jako ideální se může jevit lineárně časově invariantní model.
 Bohužel lidskou řeč lze klasifikovat jako kontinuální časově variantní a v~některých situacích dokonce nelineární proces, proto je téměř nemožné jej přesně namodelovat. Pokud však budeme předpokládat, že v~konkrétním krátkém časovém úseku zůstává buzení a parametry hlasivkového traktu přibližně konstantní, tak je možné navrhnout lineární časově invariantní model řeči, který je platný pro krátké časové úseky.
 % Tuto podmínku lze považovat za platnou
-Pro intervaly délky od $10$ do $30\ ms$ lze považovat podmínku za platnou.
+Pro intervaly o délce od $10$ do $30\ ms$ lze považovat podmínku za platnou.
 % Odtud také vychází uvažovaná perioda segmentů řeči, zmíněná v~úvodu této kapitoly.
 Pro tyto segmenty je možné proces vytváření řeči modelovat pomocí tzv. \textbf{krátkodobého modelu}, který má v~krátkých časových intervalech pevné parametry \cite{Holmes2001}.
 
@@ -128,7 +128,7 @@ To je takové, které je schopno vnímat sluchové ústrojí člověka. Zpravidl
 % S přibývajícím věkem a sluchovou zátěží klesá hlavně horní mezní kmitočet \cite{Psutka2006}.
 
 % To, zda je člověk schopen daný zvuk slyšet, však není závislé pouze na frekvenci zvuku.
-Velmi podstatná je i intenzita zvuku, která se rovná energii zvukového vlnění, která projde za jednotku času jednotkovou plochou kolmou ke směru šíření vln. Zároveň je úměrná akustickému tlaku zvukové vlny, tj. tlaku, kterým zvukové vlny působí na nějakou překážku.
+Velmi podstatná je i intenzita zvuku, která se rovná energii zvukového vlnění procházející za jednotku času jednotkovou plochou kolmou ke směru šíření vln. Zároveň je úměrná akustickému tlaku zvukové vlny, tj. tlaku, kterým zvukové vlny působí na nějakou překážku.
 % V~případě člověka lze překážkou chápat ušní bubínek.
 Závislost mezi intenzitou zvuku $I\ \left[Wm^{-2}\right]$ a akustickým tlakem $p\ \left[Pa\right]$ je vyjádřen vztahem
 
@@ -156,7 +156,9 @@ Závislost mezi intenzitou zvuku $I\ \left[Wm^{-2}\right]$ a akustickým tlakem 
 
 Důležitým pojmem je pak \textbf{práh slyšitelnosti}, který představuje minimální intenzitu zvuku potřebnou  k~tomu, aby jej šlověk mohl slyšet.
 % , viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}. Tento práh je zcela subjektivní a je závislý na frekvenci. Obecně je lidský sluch nejcitlivější na frekvence $3 - 4\ kHz$. Směrem  k~nižším i vyšším kmitočtům citlivost sluchu klesá.
-\textbf{Práh bolesti} představuje horní mez intenzity sluchového pole (viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}), při níž již posluchač pociťuje bolest. Překročení této meze může vést  k~poškození sluchu \cite{Holmes2001}.
+\textbf{Práh bolesti} představuje horní mez intenzity sluchového pole,
+% (viz obr. \ref{fig:asr:mfcc:acoustic:characteristic}),
+při níž již posluchač pociťuje bolest. Překročení této meze může vést  k~poškození sluchu \cite{Holmes2001}.
 
 % \begin{figure}[hbpt]
 %   \centering

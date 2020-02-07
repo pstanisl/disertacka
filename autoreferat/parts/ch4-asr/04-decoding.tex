@@ -2,14 +2,14 @@
 \section{Dekódování}
 \label{chap:asr:decoding}
 
-Hlavní funkcí dekodéru je nalézt jedné nebo více nejlepších výstupních posloupností slov $\hat{W}$.
+Hlavní funkcí dekodéru je nalwzení jedné nejlepší nebo více vhodných výstupních posloupností slov $\hat{W}$.
 % Matematicky lze tento proces popsat pomocí vztahu
 % \begin{equation}
 %   \hat{W} = \argmax_{W} P\left(\boldsymbol{O} | W\right)P\left(W\right),
 %   \label{eq:asr:decoding:decoder}
 % \end{equation}
 % \noindent kde $P\left(\boldsymbol{O}|W\right)$ představuje již popsaný akustický model, $P\left(W\right)$ opisuje jazykový model. V~některých případech je úloha dekódování zobecněna na nalezení více než jedné posloupnosti slov $\hat{W}$.
-Pokud je posloupností více, tak se mluví jako o hledání \textbf{\textit{N} nejlepších} (\textit{N}-best) posloupností slov $\hat{W}$.
+% Pokud je posloupností více, tak se mluví jako o hledání \textbf{\textit{N} nejlepších} (\textit{N}-best) posloupností slov $\hat{W}$.
 % Řešení této úlohy je netriviální, protože dekodér obvykle nemá informaci o počtu slov v~dané promluvě, protože ASR systémy nevyžadují vyslovování pauz mezi jednotlivými slovy. Navíc, i kdyby tato informace byla  k~dispozici, tak pro promluvu, která čítá $M$ slov, je se slovníkem čítajícím $N$ slov, potřeba prozkoumat $N^{M}$ různých slovních kombinací (hypotéz), tj. například $10^{50}$ vyhodnocení při $N=100000$ a $M=10$. Z toho jasně plyne, že aplikace metody vyčerpávajícího prohledávání je i pro úlohu s~malými slovníky a krátkými promluvami nerealizovatelná.
 % Naštěstí bylo navrženo několik účinných algoritmů, které řeší úlohu hledání maxima (\ref{eq:asr:decoding}) bez exponenciálního nárůstu počtu výpočtů.
 Mezi takové algoritmy patří dekódování podle \textbf{kritéria maximální aposteriorní pravděpodobnosti (MAP)}, nebo v~současnosti primárně používaného dekódování podle \textbf{Viterbiova kritéria}.
@@ -25,7 +25,7 @@ Mezi takové algoritmy patří dekódování podle \textbf{kritéria maximální
 
 % \noindent Tuto pravděpodobnost i optimální posloupnost stavů lze určit tzv. \textbf{Viterbiovým algoritmem} \cite{Holmes2001}. Ten řeší úlohu s~využitím heuristického prohledávání typu beam. Protože vždy expanduje pouze několik nejslibnějších uzlů, dochází  k~urychlení výpočtů časově synchronního prohledávání, a tedy i  k~prořezávání neperspektivních hypotéz.
 
-Pro další urychlení dekódování (zejména u systému pracujících v~reálném čase) bylo navrženo několik dalších sofistikovaných postupů, např. využití tzv. lexikálních stromů nebo jiných technik prořezávání, případně zjednodušení akustického modelu slova.
+% Pro další urychlení dekódování (zejména u systému pracujících v~reálném čase) bylo navrženo několik dalších sofistikovaných postupů, např. využití tzv. lexikálních stromů nebo jiných technik prořezávání, případně zjednodušení akustického modelu slova.
 % Více o této problematice v~\cite{Psutka2006}.
 
 % U reálného systému je často potřeba vyřešit nebo \uv{vybalancovat} poměr příspěvků pravděpodobností od akustického a jazykového modelu. Z principu fungování ASR systémů vyplývá, že upřednostňují při dekódování krátká slova, což způsobuje chybu typu vložení. Ta se kompenzuje tzv. penaltou vložení, která mění měřítko $P(\boldsymbol{O}|W)$ a $P(W)$ v~závislosti na počtu slovních hypotéz. Jinými slovy penalizuje vložení krátkého slova v~případě, že se jako \uv{lepší} jeví delší slovo. Pro vyvážení příspěvku jazykového modelu se ve většině systémů používá tzv. \uv{grammar scale factor}. S využitím výše uvedených poznatků lze vztah (\ref{eq:asr:decoding:decoder}) určující odhad obsahu promluvy, upravit do tvaru
