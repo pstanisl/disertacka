@@ -22,8 +22,8 @@
 % Zároveň ukazuje schopnost akustického modelu přizpůsobit se specifikům EL řeči.
 % Přestože je výstup individuálního modelu výrazně přesnější než obecného modelu zpracovávající EL promluvy, tak zdaleka nedosahuje výsledků srovnatelných s~nejlepšími ASR systémy, které jsou schopny v~ideálních podmínkách dosahovat na srovnatelné úloze více než $90~\%$ slovní přesnosti.
 
-% \subsection{Hledání optimálních parametrů baseline modelu}
-% \label{chap:construction:results:baseline}
+\subsection{Hledání optimálních parametrů baseline modelu}
+\label{chap:construction:results:baseline}
 
 % V rámci ověřování funkčnosti individuálního modelu je vhodné otestovat různé kombinace parametrů modelu za účelem nalezení optimálních hodnot.
 % Hlavními uvažovanými hyperparametry jsou vzorkovací frekvence audio nahrávek a počet HMM stavů.
@@ -35,7 +35,7 @@
 % Jak bylo řečeno výše, počet stavů modelu ovlivňuje množství modelovaných trifónů.
 % Čím více akustických jednotek je modelováno, tím více musí mít HMM model unikátních stavů.
 % Od počtu unikátních stavů se odvíjí rozsah množiny trénovacích dat potřebný pro  natrénování robustního modelu.
-% Pro účely výběru optimální struktury modelu bylo uvažováno $1024,\ 2048$ a $4096$ stavů.
+Pro účely výběru optimální struktury modelu bylo uvažováno $1024,\ 2048$ a $4096$ stavů. Dále byly uvažovány dvě hodnoty vzorkovací frekvence $8\ kHz$ a $16\ kHz$. Celkem bylo natrénováno $6$ modelů.
 % Jestliže byly uvažovány dvě hodnoty vzorkovací frekvence $8\ kHz$ a $16\ kHz$, bylo natrénováno $6$ modelů.
 % K vytvoření akustických modelů byl použit nástroj HTK-Toolkitu ve verzi v3.4., který je určen  k~vytváření HMM modelů.
 % Při trénování byl nejprve vytvořen monofónový akustický model s~jedním Gaussiánem pro každý stav.
@@ -64,13 +64,12 @@
 % Příznakový vektor obsahuje první i druhou derivaci těchto koeficientů.
 % Podrobněji je parametrizace popsána v~části \ref{chap:asr:parametrization:hearing}.
 
-% V~tab. \ref{tab:construction:experiment:gmm} jsou uvedeny dosažené výsledky HMM-GMM modelů.
+V~tab. \ref{tab:construction:experiment:gmm} jsou uvedeny dosažené výsledky HMM-GMM modelů.
 % Opět se potvrdilo, že individuální ASR systém s~EL daty může fungovat.
 % Pokud dosažené výsledky porovnáme s~výsledky obecného modelu ($Acc_{word} = 18,49~\%)$, tak i zde je vidět rapidní nárůst přesnosti ($78,63~\%$ u nejhoršího individuálního GMM modelu).
 % Ze získaných výsledků je zřejmé, že volba vzorkovací frekvence má významný dopad na přesnost rozpoznávání.
 % Při použití vyšší z uvařovaných vzorkovacích frekvencí, zde $16\ kHz$, je vhodnější, protože oproti $8\ kHz$ bylo dosaženo zlepšení přesnosti o~$1,41~\%$ absolutně, tedy téměř $7~\%$ relativně.
 % Dodatečné experimenty ukázaly, že použití vyšší vzorkovací frekvence než $16\ kHz$ přinese jen zanedbatelné zlepšení.
-
 % Dále se ukázalo, že počet stavů nehraje tak zásadní roli při posuzování kvality akustického modelu, jako vzorkovací frekvence.
 % Z testované množiny počtu stavů dosáhl nejlepšího výsledku model, který měl maximálně $4096$ stavů, nicméně oproti modelu s~$1024$ stavy je nárůst přesnosti pouze $0,4~\%$ absolutně v~případě vzorkovací frekvence $16\ kHz$, což není tak významné.
 % Logicky se nabízí otázka, proč nezkusit ještě více stavů.
@@ -81,39 +80,39 @@
 % Pokud je  k~dispozici dostatek dat  k~natrénování konkrétního shluku, je tento shluk akceptován, pokud jich není dostatečné množství, je tento shluk spojen s~jiným, který je svými parametry nejblíže.
 % V případě, že je  k~dispozici dostatek dat k~natrénování maximálního počtu stavů má model tento počet stavů.
 % Pokud není dostatek dat, může mít model méně stavů.
-% U modelu s~maximálním počtem $4096$ stavů je skutečný počet stavů $3257$, tzn. i kdyby se trénoval model s~$8192$ stavy, tak by se tato hodnota změnila jen velmi málo.
+U modelu s~maximálním počtem $4096$ stavů je skutečný počet stavů $3257$, tzn. i kdyby se trénoval model s~$8192$ stavy, tak by se tato hodnota změnila jen velmi málo.
 
-% \begin{table}[htpb]
-%   \centering
-%   \def\arraystretch{1.5}
-%   \pgfplotstabletypeset[
-%     col sep=semicolon,
-%     string type,
-%     columns/model/.style={column name={Počet HMM stavů}, column type={c}},
-%     columns/8k/.style={column name={8 kHz}, column type={r}},
-%     columns/16k/.style={column name={16 kHz}, column type={r}},
-%     every head row/.style={
-%       before row={
-%         \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
-%       },
-%       after row={
-%         \cmidrule(r){1-1}
-%         \cmidrule(l){2-3}
-%       }
-%     },
-%     every last row/.style={after row={\bottomrule}},
-%   ]{./ch5-construction/tabs/01-frequency.csv}
-%   \caption{Vliv frekvence na kvalitu modelu.}
-%   \label{tab:construction:experiment:gmm}
-% \end{table}
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name={Počet HMM stavů}, column type={c}},
+    columns/8k/.style={column name={8 kHz}, column type={r}},
+    columns/16k/.style={column name={16 kHz}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
+  ]{./parts/ch5-construction/tabs/01-frequency.csv}
+  \caption{Vliv frekvence na kvalitu modelu.}
+  \label{tab:construction:experiment:gmm}
+\end{table}
 
 % Hledání optimálních parametrů baseline modelu bylo realizováno na přelomu let $2013$ a $2014$.
 % V tuto dobu byly stále dominantní GMM modely.
 % Z tohoto důvodu byl později tento experiment zopakován s~HMM-DNN akustickým modelem.
-% Vstupem modelu byla stejná MFCC parametrizace s~26 filtry, 12 kepstrálními koeficienty plus energie, delta a delta-delta příznaky.
-% Tato parametrizace je provedena na mikrosegmentu $t$ a jeho okolí $t-5$ a $t+5$.
-% Každý mikrosegment má délku $10\ ms$.
-% Samotná síť se skládá z 6 vrstev, každá s~4096 neurony, výstupní vrstva je typu softmax s~dimenzí rovnou počtu HMM stavů.
+Při použití HMM-DNN akustického modelu, jehož vstupem byla stejná MFCC parametrizace s~26 filtry, 12 kepstrálními koeficienty plus energie, delta a delta-delta příznaky, jsou dosažené výsledky v~tab. \ref{tab:construction:experiment:dnn}.
+Parametrizace je provedena na mikrosegmentu $t$ a jeho okolí $t-5$ a $t+5$.
+Každý mikrosegment má délku $10\ ms$.
+Samotná síť se skládá z 6 vrstev, každá s~4096 neurony, výstupní vrstva je typu softmax s~dimenzí rovnou počtu HMM stavů.
 % Dosažené výsledky jsou v~tab. \ref{tab:construction:experiment:dnn}.
 % Z nich je patrné, že nalezené optimální hyperparametry jsou shodné i při použití DNN.
 % Nicméně je zde i zřejmý důvod následné dominance HMM-DNN modelů.
@@ -121,52 +120,53 @@
 % Pouhou náhradou GMM za DNN bylo dosaženo zlepšení.
 % Hodnoty přesnosti baseline modelu jsou tedy pro GMM $Acc_{p}^{GMM} = 81,20~\%$ a pro DNN $Acc_{p}^{DNN} = 85,23~\%$. To odpovídá zlepšení o~$4~\%$ absolutně oproti nejlepšímu GMM výsledku, viz tab. \ref{tab:construction:experiment:gmm} a \ref{tab:construction:experiment:dnn}.
 
-% \begin{table}[htpb]
-%   \centering
-%   \def\arraystretch{1.5}
-%   \pgfplotstabletypeset[
-%     col sep=semicolon,
-%     string type,
-%     columns/model/.style={column name={Počet HMM stavů}, column type={c}},
-%     columns/8k/.style={column name={8 kHz}, column type={r}},
-%     columns/16k/.style={column name={16 kHz}, column type={r}},
-%     every head row/.style={
-%       before row={
-%         \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
-%       },
-%       after row={
-%         \cmidrule(r){1-1}
-%         \cmidrule(l){2-3}
-%       }
-%     },
-%     every last row/.style={after row={\bottomrule}},
-%   ]{./ch5-construction/tabs/01-frequency_dnn.csv}
-%   \caption{Vliv frekvence na kvalitu modelu využívajícího DNN.}
-%   \label{tab:construction:experiment:dnn}
-% \end{table}
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name={Počet HMM stavů}, column type={c}},
+    columns/8k/.style={column name={8 kHz}, column type={r}},
+    columns/16k/.style={column name={16 kHz}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{p}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
+  ]{./parts/ch5-construction/tabs/01-frequency_dnn.csv}
+  \caption{Vliv frekvence na kvalitu modelu využívajícího DNN.}
+  \label{tab:construction:experiment:dnn}
+\end{table}
 
-% \subsection{Redukce fonetické sady}
-% \label{chap:construction:results:reduction}
+\subsection{Redukce fonetické sady}
+\label{chap:construction:results:reduction}
 
-% Při mluvení je elektrolarynx permanentně zapnutý, a to i v~případě neznělých fonémů.
-% Toto má vliv na jejich průběh, podrobněji v~části v~\ref{chap:construction:analysis}.
-% Nabízí se tak předpoklad, že všechny neznělé fonémy mají podobu znělých párových fonémů, a tím pádem je možné redukovat fonetickou sadu.
+Při mluvení je elektrolarynx permanentně zapnutý, a to i v~případě neznělých fonémů.
+Toto má vliv na jejich průběh.
+% , podrobněji v~části v~\ref{chap:construction:analysis}.
+Nabízí se tak předpoklad, že všechny neznělé fonémy mají podobu znělých párových fonémů, a tím pádem je možné redukovat fonetickou sadu. Tento předpoklad byl experimentálně ověřen.
 % V důsledku redukce fonetické sady by došlo ke snížení perplexity modelu.
 % Rozhodnutí, zda se jedná o variantu slova obsahující znělý nebo neznělý foném, je pak přenecháno jazykovému modelu.
 
 % K ověření tohoto předpokladu je potřeba provést experiment.
 % Myšlenka experimentu je jednoduchá.
 % Je potřeba natrénovat několik modelů lišících se pouze tím, jaký fonetický pár (viz tab. \ref{tab:construction:reduction:pairs}) je použit pro redukci fonetické sady.
-% V rámci experimentu jsou uvažovány tyto případy:
+V rámci experimentu jsou uvažovány tyto případy:
 
-% \begin{itemize}
-%   \item \textit{Baseline} - standardní model s~plnou fonetickou sadou.
-%   \item $/f/ \rightarrow /v/$ - foném $/f/$ je nahrazen fonémem $/v/$.
-%   \item $/k/ \rightarrow /g/$ - foném $/k/$ je nahrazen fonémem $/g/$.
-%   \item $/s/+/\check{s}/ \rightarrow /z/+/\check{z}/$ - foném $/s/$ $\left(/\check{s}/\right)$ je nahrazen fonémem $/z/$ $\left(/\check{z}/\right)$.
-%   \item $/t/+/\text{\textit{ť}}/ \rightarrow /d/+/\text{\textit{ď}}/$ - foném $/t/$ $\left(/\text{\textit{ť}}/\right)$ je nahrazen fonémem $/d/$ $\left(/\text{\textit{ď}}/\right)$.
-%   \item \textit{Náhrada všech} - všechny uvažované neznělé fonémy jsou nahrazeny znělým ekvivalentem.
-% \end{itemize}
+\begin{itemize}
+  \item \textit{Baseline} - standardní model s~plnou fonetickou sadou.
+  \item $/f/ \rightarrow /v/$ - foném $/f/$ je nahrazen fonémem $/v/$.
+  \item $/k/ \rightarrow /g/$ - foném $/k/$ je nahrazen fonémem $/g/$.
+  \item $/s/+/\check{s}/ \rightarrow /z/+/\check{z}/$ - foném $/s/$ $\left(/\check{s}/\right)$ je nahrazen fonémem $/z/$ $\left(/\check{z}/\right)$.
+  \item $/t/+/\text{\textit{ť}}/ \rightarrow /d/+/\text{\textit{ď}}/$ - foném $/t/$ $\left(/\text{\textit{ť}}/\right)$ je nahrazen fonémem $/d/$ $\left(/\text{\textit{ď}}/\right)$.
+  \item \textit{Náhrada všech} - všechny uvažované neznělé fonémy jsou nahrazeny znělým ekvivalentem.
+\end{itemize}
 
 % \begin{table}[htpb]
 %   \centering
@@ -189,14 +189,16 @@
 % \noindent Pro porovnání jsou stejné modely vytvořeny i pro zdravého řečníka.
 % U něj by při libovolné redukci fonetické sady mělo dojít ke zhoršení oproti \textit{baseline} modelu.
 
-% K natrénování akustických modelů byly použity korpusy čítající 5000 vět\footnote{Pro oba řečníky byly použity stejné věty pocházející z databáze popsané v~\cite{Radova2000}.}, což představuje více než 10 hodin řeči jak pro zdravého, tak i EL řečníka.
-% Akustická data byla parametrizována pomocí MFCC s~26 filtry a 12 kepstrálními koeficienty a energií.
+K natrénování akustických modelů byly použity korpusy čítající 5000 vět,
+% \footnote{Pro oba řečníky byly použity stejné věty pocházející z databáze popsané v~\cite{Radova2000}.},
+což představuje více než 10 hodin řeči jak pro zdravého, tak i EL řečníka.
+Akustická data byla parametrizována pomocí MFCC s~26 filtry a 12 kepstrálními koeficienty a energií.
 % Dále vektor parametrů obsahuje delta a delta-delta příznaky.
 % To dohromady tvoří vektor 39 příznaků pro každých 10 ms nahrávky \cite{Psutka2007}.
 
-% V rámci experimentu byly otestovány dva přístupy.
-% V prvním případě se jednalo o monofónový akustický model, v~druhém případě byl testován trifónový.
-% U obou přístupů je řečová jednotka reprezentována pětistavovým HMM-GMM modelem se spojitou výstupní pravděpodobnostní funkcí pro každý stav.
+V rámci experimentu byly otestovány dva přístupy.
+V prvním případě se jednalo o monofónový akustický model, v~druhém případě byl testován trifónový.
+U obou přístupů je řečová jednotka reprezentována pětistavovým HMM-GMM modelem se spojitou výstupní pravděpodobnostní funkcí pro každý stav.
 % Pro určení optimálních parametrů modelu pro EL byly využity poznatky uvedené v~ části \ref{chap:construction:results:baseline}.
 % Pro zdravého řečníka je pro každou část experimentu vytvořeno několik modelů lišících se počtem stavů a Gaussovských směsí.
 % Všechny akustické modely jsou natrénovány pomocí HTK-Toolkitu v3.4.
@@ -204,18 +206,18 @@
 
 % Pro otestování modelů byla vytvořena testovací sada čítající 500 vět náhodně vybraných z původních korpusů (pro oba řečníky stejná).
 % Testovací sada tak představuje přibližně 1 hodinu řeči pro každého řečníka.
-% V rámci tohoto experimentu jsou uvažovány dva jazykové modely
+V rámci ověřování jsou uvažovány dva jazykové modely
 
-% \begin{enumerate}
-%   \item \textit{zerogramový jazykový model} - v~tomto případě mají všechna slova v~modelu stejnou pravděpodobnost výskytu $P_r(w_n|w_1,\dots,w_{n-1}) = \frac{1}{N}$, kde $N$ je počet slov ve slovníku. Konkrétně pro $N = 2885$, odpovídá perplexita modelu hodnotě $2885$. Testovací slovník je vytvořen z testovací sady, model tedy neobsahuje OOV\footnote{Out-of-vocabulary (OOV) - slova, která nejsou obsažena ve slovníku jazykového modelu.}.
-%   \item \textit{trigramový jazykový model} - u tohoto modelu odpovídá pravděpodobnost výskytu následujícího slova $P_r(w_n|w_1,\dots,w_{n-1})~=~P(w_n|w_{n-2}, w_{n-1})$. K získání $P(w_n|w_{n-2}, w_{n-1})$ posloužil SRILM Toolkit s~Kneser-Ney vyhlazováním\footnote{Vyhlazování slouží  k~vyřešení problému s~OOV, kdy trénovací data neobsahovala tato OOV, a proto není  k~dispozici $p(w_n|w_{n-2}, w_{n-1})$.} \cite{Stolcke2002}, které se podle \cite{Prazak2008} ukázalo jako optimální pro tyto typy modelů. Jako trénovací data byly použity texty z novinových článků, webových stránek a přepisů televizních pořadů. Celkem model obsahuje 360 tisíc nejvíce frekventovaných slov. OOV bylo $3,8 \%$ a perplexita $3380$.
-% \end{enumerate}
+\begin{enumerate}
+  \item \textit{zerogramový jazykový model} - v~tomto případě mají všechna slova v~modelu stejnou pravděpodobnost výskytu $P_r(w_n|w_1,\dots,w_{n-1}) = \frac{1}{N}$, kde $N$ je počet slov ve slovníku. Konkrétně pro $N = 2885$, odpovídá perplexita modelu hodnotě $2885$. Testovací slovník je vytvořen z testovací sady, model tedy neobsahuje OOV\footnote{Out-of-vocabulary (OOV) - slova, která nejsou obsažena ve slovníku jazykového modelu.}.
+  \item \textit{trigramový jazykový model} - u tohoto modelu odpovídá pravděpodobnost výskytu následujícího slova $P_r(w_n|w_1,\dots,w_{n-1})~=~P(w_n|w_{n-2}, w_{n-1})$. K získání $P(w_n|w_{n-2}, w_{n-1})$ posloužil SRILM Toolkit s~Kneser-Ney vyhlazováním\footnote{Vyhlazování slouží  k~vyřešení problému s~OOV, kdy trénovací data neobsahovala tato OOV, a proto není  k~dispozici $p(w_n|w_{n-2}, w_{n-1})$.} \cite{Stolcke2002}, které se podle \cite{Prazak2008} ukázalo jako optimální pro tyto typy modelů. Jako trénovací data byly použity texty z novinových článků, webových stránek a přepisů televizních pořadů. Celkem model obsahuje 360 tisíc nejvíce frekventovaných slov. OOV bylo $3,8 \%$ a perplexita $3380$.
+\end{enumerate}
 
-% \noindent v~kombinaci s~vytvořenými akustickými modely to představuje 4 dílčí experimenty.
+\noindent v~kombinaci s~vytvořenými akustickými modely to představuje 4 dílčí experimenty.
 % Jen pro doplnění je nutné poznamenat, že přesnost modelů je vyhodnocována na slovech.
 
-% V tab. \ref{tab:construction:reduction:01} a \ref{tab:construction:reduction:02} jsou shrnuty dosažené výsledky pro monofónový akustický model a zerogramový jazykový model, resp. trigramový jazykový model.
-% V obou případech se potvrdilo očekávané chování přesnosti modelu u zdravého řečníka.
+V tab. \ref{tab:construction:reduction:01} a \ref{tab:construction:reduction:02} jsou shrnuty dosažené výsledky pro monofónový akustický model a zerogramový jazykový model, resp. trigramový jazykový model.
+V obou případech se potvrdilo očekávané chování přesnosti modelu u zdravého řečníka.
 % Redukcí fonetické sady je omezena komplexita modelu, a tím pádem dochází ke zhoršení přesnosti.
 % Překvapivé mohou být horší dosažené výsledky jak u zdravého, tak i EL řečníka, viz tab. \ref{tab:construction:reduction:02}.
 % Toto chování může být vysvětleno vyšší perplexitou trigramového jazykového modelu v~kombinaci s~relativně jednoduchým monofónovým akustickým modelem.
@@ -224,56 +226,56 @@
 % Ve většině případů však redukce fonetické sady vedla ke zhoršení přesnosti.
 % Při použití trigramového jazykového modelu došlo obecně ke zlepšení výkonu systému i přesto, že tento model má vyšší perplexitu.
 
-% \begin{table}[htpb]
-%   \centering
-%   \def\arraystretch{1.5}
-%   \pgfplotstabletypeset[
-%     col sep=semicolon,
-%     string type,
-%     columns/model/.style={column name=Model, column type={c}},
-%     columns/normal/.style={column name={Zdravý}, column type={r}},
-%     columns/el/.style={column name={EL}, column type={r}},
-%     every head row/.style={
-%       before row={
-%         \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
-%       },
-%       after row={
-%         \cmidrule(r){1-1}
-%         \cmidrule(l){2-3}
-%       }
-%     },
-%     every last row/.style={after row={\bottomrule}},
-%   ]{./ch5-construction/tabs/reduction_01.csv}
-%   \caption[Vliv redukce na přesnost ASR s~mono. AM. a zerogram LM.]{Vliv redukce fonetické sady na přesnost ASR systému s~monofoním akustickým a zerogramovým jazykovým modelem ($N=2885$) pro zdravého a EL řečníka.}
-%   \label{tab:construction:reduction:01}
-% \end{table}
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={c}},
+    columns/normal/.style={column name={Zdravý}, column type={r}},
+    columns/el/.style={column name={EL}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
+  ]{./parts/ch5-construction/tabs/reduction_01.csv}
+  \caption[Vliv redukce na přesnost ASR s~mono. AM. a zerogram LM.]{Vliv redukce fonetické sady na přesnost ASR systému s~monofoním akustickým a zerogramovým jazykovým modelem ($N=2885$) pro zdravého a EL řečníka.}
+  \label{tab:construction:reduction:01}
+\end{table}
 
-% \begin{table}[htpb]
-%   \centering
-%   \def\arraystretch{1.5}
-%   \pgfplotstabletypeset[
-%     col sep=semicolon,
-%     string type,
-%     columns/model/.style={column name=Model, column type={c}},
-%     columns/normal/.style={column name={Zdravý}, column type={r}},
-%     columns/el/.style={column name={EL}, column type={r}},
-%     every head row/.style={
-%       before row={
-%         \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
-%       },
-%       after row={
-%         \cmidrule(r){1-1}
-%         \cmidrule(l){2-3}
-%       }
-%     },
-%     every last row/.style={after row={\bottomrule}},
-%   ]{./ch5-construction/tabs/reduction_02.csv}
-%   \caption[Vliv redukce na přesnost ASR s~mono. AM. a 3-gram LM (N=360k).]{Vliv redukce fonetické sady na přesnost ASR systému s~monofonovým akustickým a trigramovým jazykovým modelem obsahujícím 360 tisíc slov pro zdravého a EL řečníka.}
-%   \label{tab:construction:reduction:02}
-% \end{table}
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={c}},
+    columns/normal/.style={column name={Zdravý}, column type={r}},
+    columns/el/.style={column name={EL}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
+  ]{./parts/ch5-construction/tabs/reduction_02.csv}
+  \caption[Vliv redukce na přesnost ASR s~mono. AM. a 3-gram LM (N=360k).]{Vliv redukce fonetické sady na přesnost ASR systému s~monofonovým akustickým a trigramovým jazykovým modelem obsahujícím 360 tisíc slov pro zdravého a EL řečníka.}
+  \label{tab:construction:reduction:02}
+\end{table}
 
 
-% V tab. \ref{tab:construction:reduction:03} a \ref{tab:construction:reduction:04} jsou pak uvedeny výsledky pro trifónový akustický model se zerogramovým resp. trigramovým jazykovým modelem.
+V tab. \ref{tab:construction:reduction:03} a \ref{tab:construction:reduction:04} jsou pak uvedeny výsledky pro trifónový akustický model se zerogramovým resp. trigramovým jazykovým modelem.
 % Stejně jako u předchozích dvou experimentů, tak i zde, je vidět, že redukce fonetické sady vede u zdravého řečníka vždy ke zhoršení přesnosti modelu.
 % Z uvedených výsledků je patrné, že trifónový akustický model dosahuje výrazně lepších výsledků než monofonový model.
 % Lze se domnívat, že zhoršení kvality rozpoznávání u EL řečníka v~tab. \ref{tab:construction:reduction:03} je s~nejvyšší pravděpodobností způsobeno využitím fonetických stromů v~AM, protože v~trénovací sadě není dostatek dat pro všechny možné varianty trifónů.
@@ -282,53 +284,53 @@
 % Tím pádem dochází  k~rozpoznání špatného slova, tedy ke snížení celkové přesnosti rozpoznávání.
 % Tuto domněnku potvrzuje rapidní zlepšení v~případě trigramového jazykového modelu (tab. \ref{tab:construction:reduction:04}), kde již jazykový model významně přispívá  k~přesnosti modelu.
 
-% \begin{table}[htpb]
-%   \centering
-%   \def\arraystretch{1.5}
-%   \pgfplotstabletypeset[
-%     col sep=semicolon,
-%     string type,
-%     columns/model/.style={column name=Model, column type={c}},
-%     columns/normal/.style={column name={Zdravý}, column type={r}},
-%     columns/el/.style={column name={EL}, column type={r}},
-%     every head row/.style={
-%       before row={
-%         \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
-%       },
-%       after row={
-%         \cmidrule(r){1-1}
-%         \cmidrule(l){2-3}
-%       }
-%     },
-%     every last row/.style={after row={\bottomrule}},
-%   ]{./ch5-construction/tabs/reduction_03.csv}
-%   \caption[Vliv redukce na přesnost ASR s~trif. AM. a zerogram. LM.]{Vliv redukce fonetické sady na přesnost ASR systému s~trifónovým akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
-%   \label{tab:construction:reduction:03}
-% \end{table}
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={c}},
+    columns/normal/.style={column name={Zdravý}, column type={r}},
+    columns/el/.style={column name={EL}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
+  ]{./parts/ch5-construction/tabs/reduction_03.csv}
+  \caption[Vliv redukce na přesnost ASR s~trif. AM. a zerogram. LM.]{Vliv redukce fonetické sady na přesnost ASR systému s~trifónovým akustickým a zerogramovým jazykovým modelem pro zdravého a EL řečníka.}
+  \label{tab:construction:reduction:03}
+\end{table}
 
-% \begin{table}[htpb]
-%   \centering
-%   \def\arraystretch{1.5}
-%   \pgfplotstabletypeset[
-%     col sep=semicolon,
-%     string type,
-%     columns/model/.style={column name=Model, column type={c}},
-%     columns/normal/.style={column name={Zdravý}, column type={r}},
-%     columns/el/.style={column name={EL}, column type={r}},
-%     every head row/.style={
-%       before row={
-%         \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
-%       },
-%       after row={
-%         \cmidrule(r){1-1}
-%         \cmidrule(l){2-3}
-%       }
-%     },
-%     every last row/.style={after row={\bottomrule}},
-%   ]{./ch5-construction/tabs/reduction_04.csv}
-%   \caption[Vliv redukce na přesnost ASR s~trif. AM. a 3-gram LM (N=360k).]{Vliv redukce fonetické sady na přesnost ASR systému s~trifónovým akustickým a trigramovým jazykovým modelem s~360 tisíc slov pro zdravého a EL řečníka.}
-%   \label{tab:construction:reduction:04}
-% \end{table}
+\begin{table}[htpb]
+  \centering
+  \def\arraystretch{1.5}
+  \pgfplotstabletypeset[
+    col sep=semicolon,
+    string type,
+    columns/model/.style={column name=Model, column type={c}},
+    columns/normal/.style={column name={Zdravý}, column type={r}},
+    columns/el/.style={column name={EL}, column type={r}},
+    every head row/.style={
+      before row={
+        \toprule & \multicolumn{2}{c}{$Acc_{w}\ [\%]$} \\
+      },
+      after row={
+        \cmidrule(r){1-1}
+        \cmidrule(l){2-3}
+      }
+    },
+    every last row/.style={after row={\bottomrule}},
+  ]{./parts/ch5-construction/tabs/reduction_04.csv}
+  \caption[Vliv redukce na přesnost ASR s~trif. AM. a 3-gram LM (N=360k).]{Vliv redukce fonetické sady na přesnost ASR systému s~trifónovým akustickým a trigramovým jazykovým modelem s~360 tisíc slov pro zdravého a EL řečníka.}
+  \label{tab:construction:reduction:04}
+\end{table}
 
 % U obou experimentů s~trifónovým akustickým modelem došlo ke zlepšení u dvou modelů (tab. \ref{tab:construction:reduction:03} a \ref{tab:construction:reduction:04}). Naproti tomu redukce fonetické sady vedla ve většině případů stejně jako v~případě monofónového modelu ke zhoršení přesnosti rozpoznávání.
 
