@@ -247,7 +247,7 @@ Redukcí fonetické sady je omezena komplexita modelu, a tím pádem dochází k
 Překvapivé mohou být horší dosažené výsledky jak u zdravého, tak i EL řečníka, viz tab. \ref{tab:construction:reduction:02}.
 Toto chování může být vysvětleno vyšší perplexitou trigramového jazykového modelu v~kombinaci s~relativně jednoduchým monofónovým akustickým modelem.
 
-U EL řečníka je vidět dílčí zlepšení u 2 modelů (tab. \ref{tab:construction:reduction:01}), resp. 1 modelu v~případě trigramového modelu (tab. \ref{tab:construction:reduction:02}).
+U EL řečníka je vidět dílčí zlepšení u dvou modelů (tab. \ref{tab:construction:reduction:01}), resp. jednoho modelu v~případě trigramového modelu (tab. \ref{tab:construction:reduction:02}).
 Ve většině případů však redukce fonetické sady vedla ke zhoršení přesnosti.
 Při použití trigramového jazykového modelu došlo obecně ke zlepšení výkonu systému i přesto, že tento model má vyšší perplexitu.
 % To nasvědčuje tomu, že pro tuto úlohu je monofónový akustický model příliš jednoduchý.
@@ -296,14 +296,14 @@ Při použití trigramového jazykového modelu došlo obecně ke zlepšení vý
     },
     every last row/.style={after row={\bottomrule}},
   ]{./ch5-construction/tabs/reduction_02.csv}
-  \caption[Vliv redukce na přesnost ASR s~mono. AM. a 3-gram LM (N=360k).]{Vliv redukce fonetické sady na přesnost ASR systému s~monofonním akustickým a trigramovým jazykovým modelem obsahujícím 360 tisíc slov pro zdravého a EL řečníka.}
+  \caption[Vliv redukce na přesnost ASR s~mono. AM. a 3-gram LM (N=360k).]{Vliv redukce fonetické sady na přesnost ASR systému s~monofonovým akustickým a trigramovým jazykovým modelem obsahujícím 360 tisíc slov pro zdravého a EL řečníka.}
   \label{tab:construction:reduction:02}
 \end{table}
 
 
 V tab. \ref{tab:construction:reduction:03} a \ref{tab:construction:reduction:04} jsou pak uvedeny výsledky pro trifónový akustický model se zerogramovým resp. trigramovým jazykovým modelem.
 Stejně jako u předchozích dvou experimentů, tak i zde, je vidět, že redukce fonetické sady vede u zdravého řečníka vždy ke zhoršení přesnosti modelu.
-Z uvedených výsledků je patrné, že trifónový akustický model dosahuje výrazně lepších výsledků než monofonní model.
+Z uvedených výsledků je patrné, že trifónový akustický model dosahuje výrazně lepších výsledků než monofonový model.
 Lze se domnívat, že zhoršení kvality rozpoznávání u EL řečníka v~tab. \ref{tab:construction:reduction:03} je s~nejvyšší pravděpodobností způsobeno využitím fonetických stromů v~AM, protože v~trénovací sadě není dostatek dat pro všechny možné varianty trifónů.
 Tím pádem model pro určité trifóny vrací špatné sekvence znaků.
 Zerogramový jazykový model pak nedokáže pomoci, protože všechna slova mají stejnou pravděpodobnost výskytu $P_r(w_n|w_1,\dots,w_{n-1}) = \frac{1}{2885}$.
