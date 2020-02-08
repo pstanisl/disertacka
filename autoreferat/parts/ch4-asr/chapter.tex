@@ -3,7 +3,7 @@
 \label{chap:asr}
 
 Úlohou systému automatického rozpoznávání řeči (ASR) je převedení mluvené řeči na posloupnost slov, která řečník vyslovil. První takovéto systémy se začaly objevovat v~první polovině 20. století. Jejich funkce spočívala v~analýze akustického signálu a jeho porovnávání se vzorem. Byly tak schopny rozpoznávat jen velmi omezené množství slov. Významný zlom nastal v~polovině 80. let minulého století, kdy se začaly používat systémy založené na statistickém přístupu, konkrétně na principu skrytých Markovových modelů (HMM) \cite{Holmes2001}.
-Princip fungování takového systému je znázorněn na obr. \ref{fig:asr:decoding}.
+Princip fungování takového systému je znázorněn na obr. \ref{fig:asr:decoding} a matematicky popsán rovnicí (\ref{chap:asr:decoding}).
 % Řečový signál obsahující posloupnost slov $W = \left\{ w_1\ w_2\ \dots\ w_N \right\}$ je analyzován a následně převeden na sekvenci vektorů pozorování $\boldsymbol{O} = \left\{\boldsymbol{o}_1\ \boldsymbol{o}_2\ \dots\ \boldsymbol{o}_T\right\}$. Tyto vektory jsou u většiny systémů získávány s~periodou $10\ ms$ pro segmenty řeči mající nejčastěji délku $20$ až $40\ ms$. Vlastní rozpoznávání pak probíhá v~dekodéru, který se snaží vybrat  k~vektorům pozorování $\boldsymbol{O}$ takovou posloupnost slov $\hat{W}$, která maximalizuje aposteriorní pravděpodobnost (MAP) určenou vztahem
 
 \begin{figure}[hbpt]
@@ -13,10 +13,10 @@ Princip fungování takového systému je znázorněn na obr. \ref{fig:asr:decod
   \label{fig:asr:decoding}
 \end{figure}
 
-% \begin{equation}
-%   \hat{W} = \argmax_W\ P\left(W | \boldsymbol{O}\right).
-%   \label{eq:asr:decoding}
-% \end{equation}
+\begin{equation}
+  \hat{W} = \argmax_W\ P\left(W | \boldsymbol{O}\right).
+  \label{eq:asr:decoding}
+\end{equation}
 
 % Pomocí Bayesova pravidla je možné podmíněnou pravděpodobnost $P\left(W | \boldsymbol{O}\right)$ vyjádřit jako
 

@@ -17,7 +17,9 @@ Další možností je vytvoření speciálního modelu pracujícího s~délkou j
 \subsection{Princip explicitních duration modelů}
 \label{chap:realisation:durationmodels:model}
 
-Další možností je vytvoření explicitního modelu pracujícího s~délkou fonémů. Aby bylo možno takový model využít, je často potřeba problém rozpoznávání přeformulovat na úlohu nalezení nejlepší sekvence slov $W^{*}$ a jim odpovídajících délek $D^{*}$ \cite{Alumae2014}. Za předpokladu, že je dána sekvence slov $W$ a vektory pozorování $\boldsymbol{O}$ lze považovat za nezávislé na délkách $D$, je možné rovnici \ref{eq:asr:decoding} upravit jako
+Jako perspektivnější se jeví možnost vytvoření explicitního modelu pracujícího s~délkou fonémů.
+Aby bylo možno takový model využít, je často potřeba problém rozpoznávání přeformulovat na úlohu nalezení nejlepší sekvence slov $W^{*}$ a jim odpovídajících délek $D^{*}$ \cite{Alumae2014}.
+Za předpokladu, že je dána sekvence slov $W$ a vektory pozorování $\boldsymbol{O}$ lze považovat za nezávislé na délkách $D$, je možné rovnici \ref{eq:asr:decoding} upravit jako
 
 \begin{align}
   W^{*}, D^{*} &= \argmax_{W, D} P\left(W, D| \boldsymbol{O}\right) \nonumber  \\
@@ -41,7 +43,7 @@ Další možností je vytvoření explicitního modelu pracujícího s~délkou f
   \label{eq:realisation:durationmodels:chain}
 \end{align}
 
-\noindent Model tedy odhaduje pravděpodobnost $P\left(D|W\right)$ na základě délek $n$ předchozích fonémů a předpokládaného slova $W$. Některé duration modely navíc pracují i s~tempem řeči \cite{Pylkkonen2004}, tento efekt je však u modelu využívajícího vztah \ref{eq:realisation:durationmodels:chain} zohledněn prostřednictvím délek $n$ předchozích fonémů. Ve skutečnosti je vhodné vytvořit model, který bere v~potaz nejen délky předchozích fonémů, ale i příznakové vektory těchto fonémů \cite{Alumae2014}. Zohlednění délek předchozích fonémů v~závislosti je provedeno prostřednictvím pravděpodobnosti  $P\left(d_{i}|x_{i}\right)$, kde $x_{i}$ představuje příznakový vektor obsahující délky $n$ předchozích fonémů, jejich vektory pozorování a případně další hodnoty. K~ odhadu této pravděpodobnosti se jako vhodné ukázaly neuronové sítě \cite{Alumae2014}, \cite{Hadian2017}.
+\noindent Model tedy odhaduje pravděpodobnost $P\left(D|W\right)$ na základě délek $n$ předchozích fonémů a předpokládaného slova $W$. Některé duration modely navíc pracují i s~tempem řeči \cite{Pylkkonen2004}, tento efekt je však u modelu využívajícího vztah \ref{eq:realisation:durationmodels:chain} zohledněn prostřednictvím délek $n$ předchozích fonémů. Ve skutečnosti je vhodné vytvořit model, který bere v~potaz nejen délky předchozích fonémů, ale i příznakové vektory těchto fonémů \cite{Alumae2014}. Zohlednění délek předchozích fonémů je provedeno prostřednictvím pravděpodobnosti $P\left(d_{i}|x_{i}\right)$, kde $x_{i}$ představuje příznakový vektor obsahující délky $n$ předchozích fonémů, jejich vektory pozorování a případně další hodnoty. K~ odhadu této pravděpodobnosti se jako vhodné ukázaly neuronové sítě \cite{Alumae2014}, \cite{Hadian2017}.
 
 Na odhad $P\left(d_{i}|x_{i}\right)$ je možné nahlížet ze dvou pohledů. V~prvním případě je cílem odhadnout parametry pravděpobnostní distribuce pomocí conditional density estimation network (CDEN) \cite{Alumae2014}. V~tomto případě se předpokládá, že délky fonémů odpovídají určitému pravděpodobnostnímu rozdělení, nejčastěji logaritmicko-normálnímu. Konkrétní hodnota pravděpodobnosti je pak stanovena s~využitím příslušného vztahu pro výpočet hustoty pravděpodobnosti.
 
@@ -52,7 +54,8 @@ Druhou možností je stejně jako v~případě HMM-DNN akustického modelu odhad
 
 % Neuronová síť mající na svém výstupu softmax vrstvu (viz rovnice \ref{eq:asr:acoustic:dnn:asr:softmax}) určuje diskrétní pseudo-pravděpodobnosti $m$ tříd. V~případě duration modelu se jako vhodné jeví reprezentovat jednotlivé třídy jako počet mikrosegmentů ($d=1,2,3,\dots$), které odpovídají danému fonému. Čistě teoreticky může být těchto mikrosegmentů nekonečné množství, síť však na svém výstupu potřebuje konečný počet tříd (počet neuronů ve výstupní vrstvě). Jako vhodné řešení tohoto problému se ukázalo zvolit maximální délky fonému $D$. Pro všechny s~délkou $d \geq D$ platí, že $p\left(d\right) = p\left(D\right)$. \cite{Hadian2017} Volba $D$ závisí na konkrétní doméně a je vhodné ji určit experimentem.
 
-Úlohou modelu je predikovat sekvenci délek na základě sekvence fonémů. To implikuje možnost použití levého kontextu ($L$) i pravého kontextu ($R$) fonému $i$. Do vstupního vektoru sítě ale mohou přijít pouze délky fonémů $L$ kontextu  nebo $R$ kontextu.
+Úlohou modelu je predikovat sekvenci délek na základě sekvence fonémů. To implikuje možnost použití levého kontextu ($L$) i pravého kontextu ($R$) fonému $i$. Do vstupního vektoru sítě ale mohou přijít pouze délky fonémů $L$ kontextu nebo $R$ kontextu.
+U modelu se softmax vrstvou je nutné definovat maximální délky fonému $D$. Pro všechny s~délkou $d \geq D$ platí, že $p\left(d\right) = p\left(D\right)$ \cite{Hadian2017}.
 % Pokud by totiž byly použity oba kontexty, tak by délka fonému $i$ závisela na délce fonému $i+1$.
 % Zároveň by ale délka fonému $i+1$ závisela na délce fonému $i$. Tím pádem by došlo ke kruhové závislosti, kterou není možné vyřešit.
 Jestliže je zvolen levý ($L$) kontext pro délky, pak příznakový vektor obsahuje následující položky:
@@ -77,7 +80,7 @@ Jestliže je zvolen levý ($L$) kontext pro délky, pak příznakový vektor obs
 \subsection{Dosažené výsledky}
 \label{chap:realisation:durationmodels:nn:softmax:results}
 
-Stejně jako v~případě augmentace dat (viz \ref{chap:realisation:augmentation:audio}) je potřeba  k~natrénování duration modelu kvalitní zarovnání. Jednou z hlavních částí příznakového vektoru modelu je totiž délka L kontextu modelu. K získání co možná nejpřesnějšího zarovnání je použit nejlepší TDNN model natrénovaný na uměle protažených datech\footnote{Natrénování TDNN modelu pomocí reálně protažených dat nebylo vhodné, protože nebylo  k~dispozici dostatečné množství reálně protažených dat.}, viz tab. \ref{tab:realisation:augmentation:influence:tdnn}.
+Stejně jako v~případě augmentace dat (viz \ref{chap:realisation:augmentation:audio}) je potřeba  k~natrénování duration modelu kvalitní zarovnání. Jednou z hlavních částí příznakového vektoru modelu je totiž délka $L$ kontextu modelu. K získání co možná nejpřesnějšího zarovnání je použit nejlepší TDNN model natrénovaný na uměle protažených datech\footnote{Natrénování TDNN modelu pomocí reálně protažených dat nebylo vhodné, protože nebylo k~dispozici dostatečné množství reálně protažených dat.}, viz tab. \ref{tab:realisation:augmentation:influence:tdnn}.
 
 Samotný duration model (popsaný v~předchozí části \ref{chap:realisation:durationmodels:nn:softmax}) je typu feedforward.  Počet skrytých vrstev sítě se odvíjí od konkrétní řešené domény, ale standardně se uvažují $2$ případně $3$, viz \cite{Hadian2017}. Velikost těchto skrytých vrstev je volena jako násobek dimenze příznakového vektoru, v~tomto případě byl zvolena hodnota $3I$. Aktivační funkce je typu RELU. Velikost výstupní vrstvy odpovídá maximálnímu počtu mikrosegmentů $D$, v~\cite{Hadian2017} bylo dosaženo nejlepších výsledků s~$D=50$. K vytvoření duration modelu posloužil framework Kaldi. Ten představuje obecný framework pro vytváření HMM a DNN řečových modelů.
 
@@ -206,7 +209,7 @@ Posledním hyperparametrem, který může mít vliv na přesnost modelu, je veli
   \label{tab:realisation:duration:context:asymetric}
 \end{table}
 
-Nejlepšího výsledku tedy dosahuje model mající $D = 189$, $2$ skryté vrstvy, kde poslední skrytá vrstva má pouze $10$ neuronů a $L + R = 6$. Výsledky však ukazují, že duration model není významně citlivý na změnu parametrů. V~případě rozpoznávání reálně protažených dat, dosáhl model přesnosti $Acc_{p} = 85,93~\%$. Pokud se trénovací sada modelu rozšířila o část reálně protažených dat ($10~\%$ a $25~\%$ vět) a natrénoval a otestoval se nový model (pomocí zbytku reálně protažených dat), tak výsledná přesnost dosáhla hodnoty $Acc_{p} = 87,02~\%$. Hodnoty přesnosti však nejsou úplně porovnatelné, protože testovací sada není identická, nicméně lze vyvozovat závěr, že pokud by byl model natrénován z dostatečného množství reálně protažených dat, tak by se jeho výsledky blížily výsledkům modelu na uměle protažených datech.
+Nejlepšího výsledku tedy dosahuje model mající $D = 189$, $2$ skryté vrstvy, kde poslední skrytá vrstva má pouze $10$ neuronů a $L + R = 6$. Výsledky však ukazují, že duration model není významně citlivý na změnu parametrů. V~případě rozpoznávání reálně protažených dat, dosáhl model přesnosti $Acc_{p} = 85,93~\%$. Pokud se trénovací sada modelu rozšířila o část reálně protažených dat ($10~\%$ slov a $25~\%$ vět) a natrénoval a otestoval se nový model (pomocí zbytku reálně protažených dat), tak výsledná přesnost dosáhla hodnoty $Acc_{p} = 87,02~\%$. Hodnoty přesnosti však nejsou úplně porovnatelné, protože testovací sada není identická, nicméně lze vyvozovat závěr, že pokud by byl model natrénován z dostatečného množství reálně protažených dat, tak by se jeho výsledky blížily výsledkům modelu na uměle protažených datech.
 
 
 \subsection{Aktualizace výsledků porovnání}

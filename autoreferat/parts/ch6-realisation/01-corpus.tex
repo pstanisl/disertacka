@@ -2,8 +2,8 @@
 \section{Doplnění řečového korpusu o specifická data - vliv nových dat na kvalitu akustického modelu}
 \label{chap:realisation:corpus}
 
-% Před samotným pořízením nahrávek promluv je nezbytné vybrat co možná nejvíce dvojic slov, které se liší významem a znělostí právě jednoho fonému.
-% Příkladem takovýchto slov může být dvojice slov \textit{kosa} + \textit{koza} nebo \textit{přibít} + \textit{připít}.
+Před samotným pořízením nahrávek promluv bylo nezbytné vybrat co možná nejvíce dvojic slov, které se liší významem a znělostí právě jednoho fonému.
+Příkladem takovýchto slov může být dvojice slov \textit{kosa} + \textit{koza} nebo \textit{přibít} + \textit{připít}.
 % Pro tento účel byl vyvinut algoritmus výběru slov, který provede výběr dílčích kroků pomocí
 
 % \begin{enumerate}
@@ -24,7 +24,9 @@
 %   Do basy nemusí, vlk žere, koza žije.
 % \end{verbatim}
 
-% Vybraná slova a věty se staly základem pro 2. etapu nahrávání.
+Vybraná slova a věty se staly základem pro 2. etapu nahrávání.
+Oproti 1. etapě nahrávání byla eliminována role anotátorů, v~důsledku mnohem širších možností nahrávacího softwaru, protože umožňoval větší možnosti automatické kontroly promluv v průběhu nahrávání.
+Celkem se podařilo získat přibližně 2 hodiny řeči (každá nahrávka obsahuje $0,5\ s$ ticha na začátku a konci).
 % Ta se uskutečnila během dvou sezení v~červenci roku 2016 se stejným řečníkem jako v~1. etapě.
 % Jde tedy o relativně velký časový odstup od 1. etapy.
 % Jednotlivá nahrávací sezení měla mezi sebou týdenní rozestup.
@@ -102,7 +104,11 @@
 \subsection{Vliv nových dat na kvalitu modelů}
 \label{chap:realisation:corpus:influence}
 
-% Rozšíření korpusu umožňuje vytvoření nových modelů, pomocí kterých lze ověřit konzistenci a vliv nových dat na přesnost rozpoznávání.
+Rozšíření korpusu umožňuje vytvoření nových modelů, pomocí kterých lze ověřit konzistenci a vliv nových dat na přesnost rozpoznávání.
+Na kompletní testovací sadě\footnote{Testovací sada z 1. etapy rozšířena o izolovaná slova z 2. etapy.} bylo dosaženo přesnosti rozpoznávání $Acc_{p}^{GMM} = 54,96~\%$.
+V případě, že testovací sada obsahuje pouze nově nahraná slova, tak dokonce jen $Acc_{p}^{GMM} = 42,97~\%$.
+To je významné zhoršení oproti výsledkům dosažených u baseline modelu.
+Po ověření správnosti trénovacího procesu se ukázalo, že na vině jsou data.
 % Oproti baseline modelu jsou všechny následující modely vytvořeny ve frameworku Kaldi.
 % Ten se po roce 2015 stal standardem pro vytváření akustických modelů, protože je velmi flexibilní a umožňuje snadné přidávání nových typů akustických modelů \cite{Kaldi2011}.
 
@@ -168,8 +174,10 @@
 % Tím byl pozměněn kanál a řeč zaznamenaná v~2. etapě  má jiné parametry než ta původní z 1. etapy.
 % Mezi další vlivy, které mohou způsobit změnu kanálu, je např. prostředí, ve kterém je řeč produkována, nebo přítomnost šumu na pozadí.
 
+Na zmíněný rozdíl v~datech je možné nahlížet jako na změnu kanálu.
+Řečník je totiž stejný.
 K tomu, aby bylo možné použít všechna dostupná data, je tedy potřeba eliminovat vliv kanálu.
-Standardně se  k~tomuto účelu používá Cepstral Mean Normalisation (CMN). Principem této metody je odstranění vlivu kanálu na základě střední hodnoty kepstrálních koeficientů.
+Standardně se k~tomuto účelu používá Cepstral Mean Normalisation (CMN). Principem této metody je odstranění vlivu kanálu na základě střední hodnoty kepstrálních koeficientů.
 
 % Předpokládejme, že zaznamenaný signál $y[n]$ je možné popsat jako konvoluci promluvy a vlivu kanálu, tedy
 
@@ -312,12 +320,11 @@ Dalším krokem bylo natrénování HMM-DNN modelu.
 Trénovaná neuronová FF síť měla 5 skrytých vrstev, výstupní vrstva byla typu softmax s~dimenzí rovnou počtu HMM stavů.
 Postupně byla natrénována síť s~1024, 2048 a 4096 neurony v~každé skryté vrstvě.
 Vstupní data byla parametrizována pomocí PLP s~12 kepstrálními, delta a delta-delta koeficienty a CMN počítané ze všech nahrávek dané etapy.
-Byl využit fonémový zerogramový model, který minimalizoval vliv jazykového modelu na přesnost rozpoznávání.
-Jazykový model je fonémový zerogramový tak, aby byl co nejvíce amplifikován vliv akustického modelu.
+Byl využit fonémový zerogramový model\footnote{U LM je většinou základní jednotkou slovo. V tomto případě se však jedná o foném, protože je snahou odhalit problémy AM s určitým typem fonémů.}, který minimalizoval vliv jazykového modelu na přesnost rozpoznávání, a tím byl co nejvíce amplifikován vliv akustického modelu.
 V tab. \ref{tab:realisation:verification:dnn} jsou zapsány dosažené výsledky všech natrénovaných variant.
 Nejvyšší přesnosti dosáhl model s~4096 neurony v~každé vrstvě, ale rozdíl od ostatních variant s~menším počtem neuronů v~každé vrstvě nebyl významný.
 Nejlepší HMM-DNN model dosáhl $Acc_{p} = 84,66~\%$.
-To je zlepšení o~$6,97~\%$ absolutně oproti HMM-GMM na kompletní testovací sadě.
+% To je zlepšení o~$6,97~\%$ absolutně oproti HMM-GMM na kompletní testovací sadě.
 
 \begin{table}[htpb]
   \centering

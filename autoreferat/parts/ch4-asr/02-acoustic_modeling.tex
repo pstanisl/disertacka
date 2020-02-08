@@ -122,7 +122,7 @@ Volba struktury skrytého Markovova modelu je spíše expertní úlohou návrhu.
 na definované množině trénovacích akustických dat a jejich textových anotací (tzv. korpus).
 Pro trénování parametrů se využívá tzv. Baum-Welchův iterativní algoritmus, což je speciální případ EM algoritmu, který je podrobněji popsaný např. v~\cite{Holmes2001}.
 Základem je vyčíslení hodnoty $\gamma_{j}\left(t\right)$, která vyjadřuje pravděpodobnost, že proces generování posloupnosti $\boldsymbol{O}$ je v~čase $t$ ve stavu $j$.
-Pomocí zmíněného algoritmu jsou tak určeny optimální parametry hustotních směsí.
+Pomocí zmíněného algoritmu jsou tak určeny optimální parametry směsí.
 % Pro její vyjádření je možné využít rovnice (\ref{eq:asr:acoustic:structure:forward-backward}), výsledný vztah má poté tvar
 
 % \begin{equation}
@@ -167,7 +167,7 @@ Pomocí zmíněného algoritmu jsou tak určeny optimální parametry hustotníc
 %    \label{eq:asr:acoustic:gmm:output}
 %  \end{equation}
 
-Celkový počet složek hustotních směsí se u modelů založených na kombinaci skrytých Markovových modelů a Gaussovských směsí nejčastěji pohybuje v~rozmezí od 10000 do 100000 směsí.
+Celkový počet složek směsí se u modelů založených na kombinaci skrytých Markovových modelů a Gaussovských směsí nejčastěji pohybuje v~rozmezí od 10000 do 100000 směsí.
 % Například pro dimenzi příznakového vektoru rovnou například $15$ je často nutné provést odhad až 10 miliónů parametrů.
 
 \subsection{Využití neuronových sítí}
@@ -268,12 +268,12 @@ Trénováním neuronové sítě je myšleno určení hodnot váhových matic $\m
 
 \noindent kde $m$ je dimenze výstupního vektoru.
 
-Samotná aktualizace parametrů sítě je realizována pomocí \textbf{backpropagation} algoritmem. Úlohou tohoto algoritmu je vypočtení parciálních derivací $\partial J / \partial \mathbf{W}^{[l]}$ a $\partial J/\partial \mathbf{b}^{[l]}$ pro všechny vrstvy sítě. Chyba predikce ve vrstvě $l$ je závislá na chybě v~předchozí vrstvě $l-1$, a tedy lze pro jejich vyjádření použít tzv. chain pravidlo. Parciální derivace pak mají následující podobu
+Samotná aktualizace parametrů sítě je realizována \textbf{backpropagation} algoritmem. Úlohou tohoto algoritmu je vypočtení parciálních derivací $\partial J / \partial \mathbf{W}^{[l]}$ a $\partial J/\partial \mathbf{b}^{[l]}$ pro všechny vrstvy sítě. Chyba predikce ve vrstvě $l$ je závislá na chybě v~předchozí vrstvě $l-1$, a tedy lze pro jejich vyjádření použít tzv. chain pravidlo. Parciální derivace pak mají následující podobu
 
 \begin{align}
   \begin{split}
     \frac{\partial J}{\partial \mathbf{W}^{[l]}} & = \frac{\partial J}{\partial \mathbf{a}^{[l]}} \frac{\partial \mathbf{a}^{[l]}}{\partial \mathbf{z}^{[l]}} \frac{\partial \mathbf{z}^{[l]}}{\partial \mathbf{W}^{[l]}}, \\
-    \frac{\partial J}{\partial \mathbf{b}^{[l]}} & = \frac{\partial J}{\partial \mathbf{a}^{[l]}} \frac{\partial \mathbf{a}^{[l]}}{\partial \mathbf{z}^{[l]}} \frac{\partial \mathbf{z}^{[l]}}{\partial \mathbf{b}^{[l]}}
+    \frac{\partial J}{\partial \mathbf{b}^{[l]}} & = \frac{\partial J}{\partial \mathbf{a}^{[l]}} \frac{\partial \mathbf{a}^{[l]}}{\partial \mathbf{z}^{[l]}} \frac{\partial \mathbf{z}^{[l]}}{\partial \mathbf{b}^{[l]}}.
   \end{split}
   \label{eq:asr:acoustic:dnn:partial}
 \end{align}
