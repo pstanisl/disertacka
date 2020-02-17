@@ -287,9 +287,13 @@
 
 \fi  % disable frontmatter
 
-\addbibresource{./ch-bib/thesis.bib}
-\addbibresource{./ch-bib/ssi.bib}
-\addbibresource{./ch-bib/other.bib}
+\addbibresource[label=theiss]{./ch-bib/thesis.bib}
+\addbibresource[label=ssi]{./ch-bib/ssi.bib}
+\addbibresource[label=other]{./ch-bib/other.bib}
+\addbibresource[label=author]{./ch-bib/author.bib}
+
+\defbibheading{author}{Publikace autora}
+
 % \addbibresource{chaps/literatura/lit_turba.bib}
 
 % ----- Definice dvou zpusobu citace literatury ----- %
@@ -363,7 +367,7 @@
 % \DeclareBibliographyCategory{lit_autor}
 
 % \addtocategory{lit_obecne}{Brepta:1994,Byrtus:2010,Nguyen:2012,Nguyen:2013,Slavik:1997,Zapomel:2007,Gasch:1980,Genta:2005,Kramer:1993,Tuma:2009,Szeri:2010,Nayfeh:1995,Brandlein:1999,Vins:1971,Rieger:1986,Kakoty:2000_HB_01,Hili:2010_HB_02,Sinhasan:1996_HB_03,Bannwart:2010_HB_04,Ju:1994_HB_05,JianPing:2004_HB_06,Stahl:2001_HB_07,Rho:2003_HB_08,Adiletta:1996_HB_09,Khonsari:1993_HB_10,Jang:2004_HB_11,Chen:1998_HB_12,Jiang:1999_HB_13,Lahmar:2000_HB_16,Lin:2001_HB_17,wu1995new, cavalca2005investigation, wang2010new, chooi2008design, jiang2000identification,lin2001linear,lahmar2000optimised,Genta:1999_ROT_01,Liu:2002_ROT_02,Rui:2005_ROT_03,Nelson:1976_ROT_04,Wu:2002_ROT_05,Bachschmid:2009_ROT_06,Heng:2009_TD_07,Lee:1993_ROT_08,Loparo:2000_ROT_09,Balda:1998_ROT_10,Chu:2001_ROT_11,Shad:2011_ROT_12,Dupal:1999_ROT_13,Lees:2009_ROT_14,Wang:2010_ROT_16,Lazarus:2010_ROT_17,Friswell:2000_ROT_18,Shaw:2013_ROT_19,Fox:XXXX,Fusek:2012,Bandstra:1983_TLUM_01,Adhikari:2001_TLUM_02,Adhikari:2006_TLUM_03,Adhikari:2001_TLUM_04,Adhikari:2001_TLUM_05,Adhikari:2003_TLUM_06,Bert:1973_TLUM_07,Sieber:2008_TLUM_08,Adhikari:2009_TLUM_09,Genta:2010_TLUM_10,Harsha:2003_REB_01,Kappaganthu:2011_REB_02,Lioulios:2006_REB_03,Tiwari:2006_REB_04,Wu:2011_REB_05,Adamkiewicz:2013_TD_14,Ashterkar:XXXX_TD_27,Bayomi:2012_TD_15,Boyaci:2007_TD_02,Busch:2011_TD_26,Dakel:2014_TD_31,Daniel:2013_TD_30,Deligant:2012_TD_01,Fryscok:2012_TD_11,Kirk:2011_TD_17,Chen:2012_TD_05,Li:1982_TD_06,Li:1981_TD_20,Robin:XXXX_TD_12,Rohde:1980_TD_08,Romagnoli:2012_TD_27Serrano:2013_TD_03,Schilder:2008_TD_24,Schweizer:2009_TD_04,Schweizer:2009_TD_23,Schweizer:2009_TD_18,Tian:2012_TD_19,Tian:2011_TD_13,Tian:2013_TD_25,Wang:2015_TD_30,Ying:2008_TD_07,Zhao:2008_TD_21,Zhao:2009_TD_16,Bonello:2009_TD_09,Andres:2007_TD_10,Ashtekar:XXXX_TD_28,Hajzman:diz,MTK:2007,VMM:1998,DSO:,Polach:2012}
-% \addtocategory{lit_autor}{ZR:Wisla2011,Rendlova:teze,zprava:2013,zprava:2013a,zprava:2015}
+% \addtocategory{lit_autor}{vsvec2010vyzkumna}
 
 
 \begin{document}
@@ -386,6 +390,7 @@
 % \addcontentsline{toc}{chapter}{Úvod}
 % \include lets us split up the document (and each include starts a new page):
 %\setcounter{page}{5}
+\begin{refsection}
 \include{ch1-introduction/chapter}
 \include{ch2-motivation/chapter}
 \include{ch3-cause/chapter}
@@ -411,12 +416,29 @@
 
 % ----- Seznamy literatury ----- %
 \addcontentsline{toc}{chapter}{Seznam použité literatury}
-\printbibliography[heading=bibliography,title={Seznam použité literatury}]
+
+  \printbibliography[heading=bibliography,title={Seznam pou\v{z}it\'{e} literatury}]
+\end{refsection}
+
 
 \makelot\clearpage\makelof\clearpage
 
-% \addcontentsline{toc}{chapter}{Publikace autora }
+% \addtocounter{\@listctr}{0}
+% \nocite{svec2014general}
+% \nocite{stanislav2016automatic}
+% \nocite{svec2017interactive}
+
 % \printbibliography[heading=bibliography,category=lit_autor,title={Publikace autora spojené s~tématem práce},prefixnumbers={A}]
+% \printbibliography[heading=bibliography,category=lit_autor,title={Publikace autora},prefixnumbers={A}]
+% \printbibliography[keyword=author,title={Publikace autora},prefixnumbers={A}]
+% \nocite{vsvec2010vyzkumna}
+
+\begin{refsection}[author]
+  \nocite{*}
+  % \printbibliography[keyword=author,title={Publikace autora},prefixnumbers={A}]
+  \addcontentsline{toc}{chapter}{Publikace autora}
+  \printbibliography[heading=bibliography,title={Publikace autora}]
+\end{refsection}
 
 % ----- Dodatky ----- %
 % \appendix
