@@ -292,7 +292,9 @@
 \addbibresource[label=other]{./ch-bib/other.bib}
 \addbibresource[label=author]{./ch-bib/author.bib}
 
-\defbibheading{author}{Publikace autora}
+\defbibheading{impact}{\section*{Impaktované články}}
+\defbibheading{proceedings}{\section*{Příspěvky na konferencích}}
+\defbibheading{sw}{\section*{Aplikační výsledky}}
 
 % \addbibresource{chaps/literatura/lit_turba.bib}
 
@@ -390,7 +392,7 @@
 % \addcontentsline{toc}{chapter}{Úvod}
 % \include lets us split up the document (and each include starts a new page):
 %\setcounter{page}{5}
-\begin{refsection}
+% \begin{refsection}
 \include{ch1-introduction/chapter}
 \include{ch2-motivation/chapter}
 \include{ch3-cause/chapter}
@@ -417,8 +419,8 @@
 % ----- Seznamy literatury ----- %
 \addcontentsline{toc}{chapter}{Seznam použité literatury}
 
-  \printbibliography[heading=bibliography,title={Seznam pou\v{z}it\'{e} literatury}]
-\end{refsection}
+\printbibliography[heading=bibliography,title={Seznam pou\v{z}it\'{e} literatury}]
+% \end{refsection}
 
 
 \makelot\clearpage\makelof\clearpage
@@ -433,11 +435,24 @@
 % \printbibliography[keyword=author,title={Publikace autora},prefixnumbers={A}]
 % \nocite{vsvec2010vyzkumna}
 
+\chapter*{Seznam publikovaných prací}
+\addcontentsline{toc}{chapter}{Seznam publikovaných prací}
+
 \begin{refsection}[author]
   \nocite{*}
   % \printbibliography[keyword=author,title={Publikace autora},prefixnumbers={A}]
-  \addcontentsline{toc}{chapter}{Publikace autora}
-  \printbibliography[heading=bibliography,title={Publikace autora}]
+  % \addcontentsline{toc}{chapter}{Publikace autora}
+  \printbibliography[heading=impact,keyword=impact,title={Publikace autora}]
+\end{refsection}
+
+\begin{refsection}[author]
+  \nocite{*}
+  \printbibliography[heading=proceedings,keyword=proceedings]
+\end{refsection}
+
+\begin{refsection}[author]
+  \nocite{*}
+  \printbibliography[heading=sw,keyword=sw]
 \end{refsection}
 
 % ----- Dodatky ----- %
